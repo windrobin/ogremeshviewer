@@ -40,6 +40,8 @@ public:
 
 	void	AddActorName(const CString& str);
 
+	void	OnReset();
+
 protected:
 
 	CCheckListBox	_actorsList;

@@ -361,7 +361,6 @@ void MeshPanel::OnOpenMeshFile()
 		if( pDoc->LoadMeshFile(mesh, (LPCTSTR)dlg.GetPathName(), (LPCTSTR)dlg.GetFileName()) )
 		{
 			HTREEITEM hMesh = m_wndItemTree.InsertItem(dlg.GetFileName(), 1, 1, _hRoot);
-			OgreFramework::getSingleton()._meshes[mesh->getName()] = mesh;
 			m_wndItemTree.Expand(_hRoot, TVE_EXPAND);
 
 			BuildSharedGeometryInfo(hMesh, mesh);
@@ -717,6 +716,10 @@ void MeshPanel::BuildMaterialInfo(HTREEITEM hMaterial, const Ogre::MaterialPtr& 
 			}
 		}
 	}
+}
 
 
+void MeshPanel::OnReset()
+{
+	m_wndItemTree.DeleteAllItems();
 }

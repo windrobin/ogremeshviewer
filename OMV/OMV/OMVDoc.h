@@ -50,7 +50,10 @@ public:
 	bool	LoadMeshFile(Ogre::MeshPtr& outMesh, const Ogre::String& strPathName, const Ogre::String& strName);
 
 	virtual BOOL OnNewDocument();
+	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 	virtual void Serialize(CArchive& ar);
+
+	Ogre::MeshPtr	GetMesh(const Ogre::String& meshName);
 
 
 protected:

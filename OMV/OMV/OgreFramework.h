@@ -49,6 +49,8 @@ public:
 	bool initOgre(Ogre::String wndTitle, HWND hwnd = 0);
 	bool update();
 
+	void	OnReset();
+
 	CameraController*	GetCameraController(){ return _pCameraController; }
 
 	Ogre::Vector3		GetLookAt();
@@ -99,10 +101,6 @@ public:
 	bool					_bRenderWndHasMouse;
 
 	//-------------------------------
-	typedef Ogre::map<Ogre::String, Ogre::MeshPtr>::type	MeshMapType;
-	MeshMapType				_meshes;
-
-
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
 

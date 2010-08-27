@@ -52,6 +52,8 @@ public:
 	MeshPanel();
 	virtual ~MeshPanel();
 
+	void	OnReset();
+
 protected:
 	CClassToolBar	m_wndToolBar;
 	CViewTree		m_wndItemTree;

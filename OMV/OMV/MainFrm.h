@@ -64,6 +64,8 @@ public:
 
 	ActorPanel&				GetActorPanel(){ return _ActorPanel; }
 
+	void					OnResetAllViews();
+
 // Implementation
 public:
 	virtual ~CMainFrame();

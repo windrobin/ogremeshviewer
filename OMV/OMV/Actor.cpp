@@ -50,22 +50,25 @@ Actor::Actor(const Ogre::String& name)
 	_bShowBone			= false;
 	_bShowBoundingBox	= false;
 
-	_tagAxesBone		= 0;
+	_axesBoneTagPoint		= 0;
 
-	_pEntity	= OgreFramework::getSingletonPtr()->m_pSceneMgr->createEntity(_strName, _strName);
-	_pSceneNode	= OgreFramework::getSingletonPtr()->m_pSceneMgr->getRootSceneNode()->createChildSceneNode(_strName);
-	_pSceneNode->attachObject(_pEntity);
+	//the body
+	_pBodyEntity	= OgreFramework::getSingletonPtr()->m_pSceneMgr->createEntity(_strName, _strName);
+	_pBodySceneNode	= OgreFramework::getSingletonPtr()->m_pSceneMgr->getRootSceneNode()->createChildSceneNode(_strName);
+	_pBodySceneNode->attachObject(_pBodyEntity);
 
+	//the body axes
 	String axesName = _strName + "_" + "axes";
 	_axesEntity = OgreFramework::getSingletonPtr()->m_pSceneMgr->createEntity(axesName, "axes.mesh");
-	SceneNode* pAxesNode = _pSceneNode->createChildSceneNode(axesName);
+	SceneNode* pAxesNode = _pBodySceneNode->createChildSceneNode(axesName);
 	pAxesNode->attachObject(_axesEntity);
 	_axesEntity->setVisible(_bShowAxes);
 
+	//the bone axes
 	axesName = _strName + "_Bone_" + "axes";
-	_axesBone = OgreFramework::getSingletonPtr()->m_pSceneMgr->createEntity(axesName, "axes.mesh");
+	_axesBoneEntity = OgreFramework::getSingletonPtr()->m_pSceneMgr->createEntity(axesName, "axes.mesh");
 
-	AxisAlignedBox aabb = _pEntity->getBoundingBox();
+	AxisAlignedBox aabb = _pBodyEntity->getBoundingBox();
 	_vInitCenter = aabb.getCenter();
 	_fVolumeSize = aabb.getSize().length();
 
@@ -88,13 +91,14 @@ Actor::~Actor()
 	_axesEntity->detachFromParent();
 	OgreFramework::getSingletonPtr()->m_pSceneMgr->destroyEntity(_axesEntity);
 
-	_axesBone->detachFromParent();
-	OgreFramework::getSingletonPtr()->m_pSceneMgr->destroyEntity(_axesBone);
+	_axesBoneEntity->detachFromParent();
+	OgreFramework::getSingletonPtr()->m_pSceneMgr->destroyEntity(_axesBoneEntity);
 
-	_pEntity->detachFromParent();
-	OgreFramework::getSingletonPtr()->m_pSceneMgr->destroyEntity(_pEntity);
+	_pBodyEntity->detachFromParent();
+	OgreFramework::getSingletonPtr()->m_pSceneMgr->destroyEntity(_pBodyEntity);
 
-	OgreFramework::getSingletonPtr()->m_pSceneMgr->destroySceneNode(_pSceneNode);
+	_pBodySceneNode->removeAndDestroyAllChildren();
+	OgreFramework::getSingletonPtr()->m_pSceneMgr->destroySceneNode(_pBodySceneNode);
 }
 
 void Actor::Update(double deltaTime)
@@ -109,15 +113,15 @@ void Actor::Update(double deltaTime)
 
 void Actor::SetVisible(bool b/* = true*/)
 {
-	_pSceneNode->setVisible(b);
+	_pBodySceneNode->setVisible(b);
 
-	if (_tagAxesBone)
-		_axesBone->setVisible(b);
+	if (_axesBoneTagPoint)
+		_axesBoneEntity->setVisible(b);
 	
 	if (!b)
 	{
 		_bShowBoundingBox = false;
-		_pSceneNode->showBoundingBox(_bShowBoundingBox);
+		_pBodySceneNode->showBoundingBox(_bShowBoundingBox);
 
 		StopAnim();
 	}
@@ -130,7 +134,7 @@ void Actor::PlayAnim(const Ogre::String& anim)
 		_pCurAnim->setEnabled(false);
 	}
 
-	_pCurAnim = _pEntity->getAnimationState(anim);
+	_pCurAnim = _pBodyEntity->getAnimationState(anim);
 	_pCurAnim->setEnabled(true);
 	_pCurAnim->setTimePosition(0);
 }
@@ -155,7 +159,7 @@ void Actor::TogglePlayAnim()
 
 bool Actor::IsAnimPlaying(const Ogre::String& anim)
 {
-	AnimationState* pState = _pEntity->getAnimationState(anim);
+	AnimationState* pState = _pBodyEntity->getAnimationState(anim);
 
 	if (pState == _pCurAnim)
 	{
@@ -191,7 +195,7 @@ void Actor::SetAnimLoop(bool b/* = true*/)
 
 void Actor::AddBoneVisualizer()
 {
-	SkeletonInstance* pSkeletonInstance = _pEntity->getSkeleton();
+	SkeletonInstance* pSkeletonInstance = _pBodyEntity->getSkeleton();
 
 	if (!pSkeletonInstance)
 	{
@@ -212,7 +216,7 @@ void Actor::AddBoneVisualizer()
 
 			String strName = pBone->getName() + "_" + pChild->getName();
 			Ogre::Entity* ent = OgreFramework::getSingletonPtr()->m_pSceneMgr->createEntity(strName, "bone.mesh");
-			TagPoint* pTag	= _pEntity->attachObjectToBone(pBone->getName(), ent);
+			TagPoint* pTag	= _pBodyEntity->attachObjectToBone(pBone->getName(), ent);
 
 			ent->setVisible(_bShowBone);
 
@@ -224,7 +228,7 @@ void Actor::AddBoneVisualizer()
 		if (iCount == 0)
 		{
 			Ogre::Entity* ent = OgreFramework::getSingletonPtr()->m_pSceneMgr->createEntity(pBone->getName(), "bone.mesh");
-			TagPoint* pTag	= _pEntity->attachObjectToBone(pBone->getName(), ent);
+			TagPoint* pTag	= _pBodyEntity->attachObjectToBone(pBone->getName(), ent);
 
 			ent->setVisible(_bShowBone);
 
@@ -308,7 +312,7 @@ void Actor::ToggleBoundingBox()
 {
 	_bShowBoundingBox = !_bShowBoundingBox;
 
-	_pSceneNode->showBoundingBox(_bShowBoundingBox);
+	_pBodySceneNode->showBoundingBox(_bShowBoundingBox);
 }
 
 void Actor::ShowCertainBone(const Ogre::String& strBone)
@@ -318,7 +322,7 @@ void Actor::ShowCertainBone(const Ogre::String& strBone)
 		return;
 	}
 
-	SkeletonInstance* pSkeletonInstance = _pEntity->getSkeleton();
+	SkeletonInstance* pSkeletonInstance = _pBodyEntity->getSkeleton();
 
 	if (!pSkeletonInstance)
 	{
@@ -331,11 +335,11 @@ void Actor::ShowCertainBone(const Ogre::String& strBone)
 		return;
 	}
 
-	if (_tagAxesBone)
-		_pEntity->detachObjectFromBone(_axesBone);
+	if (_axesBoneTagPoint)
+		_pBodyEntity->detachObjectFromBone(_axesBoneEntity);
 
-	_tagAxesBone = _pEntity->attachObjectToBone(pBone->getName(), _axesBone);
-	_tagAxesBone->setScale(_scaleAxes, _scaleAxes, _scaleAxes);
+	_axesBoneTagPoint = _pBodyEntity->attachObjectToBone(pBone->getName(), _axesBoneEntity);
+	_axesBoneTagPoint->setScale(_scaleAxes, _scaleAxes, _scaleAxes);
 
 	//OgreFramework::getSingleton().m_pLog->logMessage(strBone);
 }

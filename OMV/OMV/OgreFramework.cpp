@@ -95,11 +95,6 @@ OgreFramework::~OgreFramework()
 		delete it->second;
 	}
 
-	for (MeshMapType::iterator it = _meshes.begin(); it != _meshes.end(); ++it)
-	{
-		it->second.setNull();
-	}
-
 	if(m_pInputMgr)
 		OIS::InputManager::destroyInputSystem(m_pInputMgr);
 
@@ -657,6 +652,17 @@ Ogre::Real OgreFramework::GetVolumeLength()
 	return 100;
 }
 
+void OgreFramework::OnReset()
+{
+	//_Actors
+	for (NameActorMapType::iterator it = _Actors.begin(); it != _Actors.end(); ++it)
+	{
+		delete it->second;
+	}
+	_Actors.clear();
+
+	_strCurActorName = "";
+}
 
 void OgreFramework::RegisterReflection()
 {
@@ -727,3 +733,4 @@ void OgreFramework::OnPropertyChanged(const std::string& propName)
 		}
 	}
 }
+

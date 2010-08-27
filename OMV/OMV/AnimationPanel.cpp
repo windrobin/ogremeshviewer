@@ -117,3 +117,9 @@ BOOL AnimationPanel::OnEraseBkgnd(CDC* pDC)
 
 	return CWnd::OnEraseBkgnd(pDC);
 }
+
+
+void AnimationPanel::OnReset()
+{
+	_SkeletonDlg.OnReset();
+}
