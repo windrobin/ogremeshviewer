@@ -92,6 +92,12 @@ BOOL COMVDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	return TRUE;
 }
 
+BOOL COMVDoc::OnSaveDocument(LPCTSTR lpszPathName)
+{
+	// need not it
+
+	return TRUE;
+}
 
 // COMVDoc serialization
 
