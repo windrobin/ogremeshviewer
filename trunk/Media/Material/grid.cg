@@ -1,0 +1,36 @@
+void main_vp (
+		float4 position : POSITION,
+		float4 normal : NORMAL,
+		
+		uniform float4x4 worldviewproj,
+		
+		out float4 oPos : TEXCOORD0,
+		out float4 oNorm : TEXCOORD1,
+		out float4 oClipPos : POSITION
+)
+{
+	oClipPos = mul(worldviewproj, position); 
+	oPos = position;
+	oNorm = normal;
+}
+
+void main_fp (
+		float3 pos : TEXCOORD0,
+		float4 norm : TEXCOORD1,
+		uniform float4 ambientCol,
+		uniform float4 eyePosition,
+		
+		out float4 oCol : COLOR
+		//out float4 oPos : POSITION
+)
+{
+	float3 vec2cam = eyePosition.xyz -pos;	
+	float dist = length(vec2cam);
+	normalize(vec2cam);
+	oCol = ambientCol;
+	float angle = dot(vec2cam,norm.xyz);
+	angle = abs(angle);
+	angle = angle/(dist*2);
+	oCol.a = angle;
+}
+

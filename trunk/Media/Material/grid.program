@@ -1,0 +1,25 @@
+vertex_program Internal_GridShader_VP cg
+{
+	source grid.cg
+	entry_point main_vp
+	profiles vs_1_1 arbvp1
+
+	default_params
+	{
+		param_named_auto worldviewproj worldviewproj_matrix 
+	}
+}
+
+fragment_program Internal_GridShader_FP cg
+{
+	source grid.cg
+	entry_point main_fp
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named ambientCol float4 1 1 1 1
+		param_named_auto eyePosition camera_position_object_space 
+	}
+}
+ 
