@@ -602,12 +602,11 @@ void MeshPanel::BuildGeometryInfo(HTREEITEM hMesh, const Ogre::MeshPtr& mesh)
 	}
 
 	int iSubMeshCount = 0;
+	bool bIgnoreMaterial = false;
 	Mesh::SubMeshIterator it = mesh->getSubMeshIterator();
 	while (it.hasMoreElements())
 	{
 		SubMesh* pSubMesh = it.getNext();
-
-		bool bIgnoreMaterial = false;
 
 		if(!bIgnoreMaterial && !MaterialManager::getSingleton().resourceExists(pSubMesh->getMaterialName()))
 		{
@@ -784,4 +783,7 @@ void MeshPanel::BuildMaterialInfo(HTREEITEM hMaterial, const Ogre::MaterialPtr& 
 void MeshPanel::OnReset()
 {
 	m_wndItemTree.DeleteAllItems();
+
+	_hRoot = m_wndItemTree.InsertItem(_T("Root"), 0, 0);
+	m_wndItemTree.SetItemState(_hRoot, TVIS_BOLD, TVIS_BOLD);
 }
