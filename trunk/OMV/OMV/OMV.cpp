@@ -195,6 +195,18 @@ BOOL COMVApp::InitInstance()
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
+	//enum { FileNew, FileOpen, FilePrint, FilePrintTo, FileDDE, AppRegister,
+	//	AppUnregister, FileNothing = -1 } m_nShellCommand;
+
+	bool bPostProcessShellCommand = false;
+	if (cmdInfo.m_nShellCommand != CCommandLineInfo::FileNew)
+	{
+		if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileOpen)
+		{
+			bPostProcessShellCommand = true;
+		}
+		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNew;
+	}
 
 	// Dispatch commands specified on the command line.  Will return FALSE if
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
@@ -205,10 +217,12 @@ BOOL COMVApp::InitInstance()
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
 
-	// call DragAcceptFiles only if there's a suffix
-	//  In an SDI app, this should occur after ProcessShellCommand
-	// Enable drag/drop open
-	m_pMainWnd->DragAcceptFiles();
+	char buffer[MAX_PATH];
+	::GetModuleFileName(0, buffer, MAX_PATH);
+	std::string strModulePath = buffer;
+
+	strModulePath.erase(strModulePath.find_last_of('\\') + 1);
+	SetCurrentDirectory(strModulePath.c_str());
 
 	try
 	{
@@ -223,13 +237,28 @@ BOOL COMVApp::InitInstance()
 				pView = pDoc->GetNextView(posView);
 		}
 
-		startDemo(pView ? pView->GetSafeHwnd() : 0);
+		initDemo(pView ? pView->GetSafeHwnd() : 0);
 	}
 	catch(std::exception& e)
 	{
 		MessageBoxA(NULL, e.what(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 	}
 
+	//Handle FileOpen here, after Ogre initialized OK
+	if (bPostProcessShellCommand )
+	{
+		cmdInfo.m_nShellCommand = CCommandLineInfo::FileOpen;
+		if(!ProcessShellCommand(cmdInfo))
+			return FALSE;
+	}
+
+	// call DragAcceptFiles only if there's a suffix
+	//  In an SDI app, this should occur after ProcessShellCommand
+	// Enable drag/drop open
+	m_pMainWnd->DragAcceptFiles();
+
+
+	runDemo();
 
 	return TRUE;
 }
@@ -241,7 +270,7 @@ int COMVApp::ExitInstance()
 	return CWinAppEx::ExitInstance();
 }
 
-void COMVApp::startDemo(HWND hwnd)
+void COMVApp::initDemo(HWND hwnd)
 {
 	if(!OgreFramework::getSingletonPtr()->initOgre("DemoApp v1.0", hwnd))
 		return;
@@ -249,8 +278,6 @@ void COMVApp::startDemo(HWND hwnd)
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Demo initialized!");
 
 	OgreFramework::getSingletonPtr()->setupDemoScene();
-
-	runDemo();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

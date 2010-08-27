@@ -52,6 +52,7 @@ public:
 	MeshPanel();
 	virtual ~MeshPanel();
 
+	void	OnLoadMeshFile(Ogre::MeshPtr& mesh, const Ogre::String& strName);
 	void	OnReset();
 
 protected:
