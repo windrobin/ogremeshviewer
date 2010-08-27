@@ -1,0 +1,14 @@
+material Internal/Grid_Axes_Material
+{
+	technique
+	{
+		pass
+		{
+			emissive 1.0 1.0 1.0 1.0
+			ambient 0 0 0 1.0
+			scene_blend alpha_blend
+			lighting off
+			
+		}
+	}
+}
