@@ -77,14 +77,14 @@ public:
 	Ogre::Real		GetVolumeLength();
 
 protected:
-	Ogre::Entity*		_pEntity;
-	Ogre::SceneNode*	_pSceneNode;
+	Ogre::Entity*		_pBodyEntity;
+	Ogre::SceneNode*	_pBodySceneNode;
 	Ogre::String		_strName;
 
 	Ogre::Entity*		_axesEntity;
 	
-	Ogre::Entity*		_axesBone;
-	Ogre::TagPoint*		_tagAxesBone;
+	Ogre::Entity*		_axesBoneEntity;
+	Ogre::TagPoint*		_axesBoneTagPoint;
 
 	Ogre::Real			_scaleAxes;
 

@@ -36,6 +36,7 @@ like Office.
 #include "stdafx.h"
 #include "OMV.h"
 #include "OMVDoc.h"
+#include "MainFrm.h"
 
 #include "OgreFramework.h"
 
@@ -66,8 +67,22 @@ BOOL COMVDoc::OnNewDocument()
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
-	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
+	for (NameMeshMapType::iterator it = _Meshes.begin(); it != _Meshes.end(); ++it)
+	{
+		it->second.setNull();
+	}
+	_Meshes.clear();
+
+	//Notify all views
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	pMainFrame->OnResetAllViews();
+
+	return TRUE;
+}
+
+BOOL COMVDoc::OnOpenDocument(LPCTSTR lpszPathName)
+{
 
 	return TRUE;
 }
@@ -121,6 +136,10 @@ bool COMVDoc::LoadMeshFile(Ogre::MeshPtr& outMesh, const Ogre::String& strPathNa
 	return true;
 }
 
+Ogre::MeshPtr COMVDoc::GetMesh(const Ogre::String& meshName)
+{
+	return _Meshes[meshName];
+}
 
 
 

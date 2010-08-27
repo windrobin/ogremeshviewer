@@ -32,6 +32,8 @@ like Office.
 
 #include "stdafx.h"
 #include "OMV.h"
+#include "MainFrm.h"
+#include "OMVDoc.h"
 #include "SkeletonControlPanel.h"
 
 #include "OgreFramework.h"
@@ -164,7 +166,10 @@ void SkeletonControlPanel::BuildSkeletonAnimInfo(const Ogre::String& strActorNam
 
 	_bAnimPlaying	= false;
 	_strActorName	= strActorName;
-	_mesh			= OgreFramework::getSingleton()._meshes[_strActorName];
+
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	COMVDoc* pDoc = DYNAMIC_DOWNCAST(COMVDoc, pMainFrame->GetActiveView()->GetDocument());
+	_mesh			= pDoc->GetMesh(_strActorName);
 
 	_comboAnims.ResetContent();
 	_treeDetails.DeleteAllItems();
@@ -329,4 +334,15 @@ void SkeletonControlPanel::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrol
 	int iPos = _sliderPos.GetPos();
 
 	CDialog::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+void SkeletonControlPanel::OnReset()
+{
+	_mesh.setNull();
+	_bAnimPlaying	= false;
+	_strActorName	= "";
+
+	_comboAnims.ResetContent();
+	_treeDetails.DeleteAllItems();
+	_editSelectedBone.SetWindowText("");
 }

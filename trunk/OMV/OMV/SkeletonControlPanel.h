@@ -47,6 +47,7 @@ public:
 	virtual ~SkeletonControlPanel();
 
 	void	BuildSkeletonAnimInfo(const Ogre::String& strActorName);
+	void	OnReset();
 
 // Dialog Data
 	enum { IDD = IDD_DIALOG_ANIMATION };

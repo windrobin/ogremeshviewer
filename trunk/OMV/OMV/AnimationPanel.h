@@ -40,6 +40,8 @@ public:
 	AnimationPanel();
 	virtual ~AnimationPanel();
 
+	void	OnReset();
+
 	SkeletonControlPanel	_SkeletonDlg;
 
 protected:

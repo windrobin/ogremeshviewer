@@ -182,3 +182,8 @@ void ActorPanel::OnCheckListCheckChange()
 		}
 	}
 }
+
+void ActorPanel::OnReset()
+{
+	_actorsList.ResetContent();
+}

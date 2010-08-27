@@ -737,3 +737,18 @@ void CMainFrame::OnUpdateSceneOptions(CCmdUI* pCmdUI)
 		pCmdUI->SetCheck( pActor->IsShowBone() );
 	}
 }
+
+void CMainFrame::OnResetAllViews()
+{
+	//MeshPanel
+	_MeshPanel.OnReset();
+
+	//AnimationPanel
+	_AnimationPanel.OnReset();
+
+	//ActorPanel
+	_ActorPanel.OnReset();
+
+	//
+	OgreFramework::getSingleton().OnReset();
+}
