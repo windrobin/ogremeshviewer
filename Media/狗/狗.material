@@ -1,0 +1,24 @@
+material NPCnMonsterNoAlphaTemplate
+{
+	technique
+	{
+		pass
+		{
+			emissive 0.4 0.4 0.4
+			texture_unit
+			{
+				texture <baseTex>.jpg
+				texture_alias <baseTexture>
+				
+				// 防止纹理采样越界
+				tex_address_mode clamp clamp
+			}
+		}
+	}
+}
+
+material 灰色狗 : NPCnMonsterNoAlphaTemplate
+{
+	set_texture_alias <baseTexture> jpg_dog.dds
+}
+
