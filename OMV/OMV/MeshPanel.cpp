@@ -339,8 +339,70 @@ Ogre::String MeshPanel::GetDlgDir(const CString& strDlgPathName)
 	return (LPCTSTR)(strDlgPathName.Left(iIndex));
 }
 
+void MeshPanel::OnLoadMeshFile(Ogre::MeshPtr& mesh, const Ogre::String& strName)
+{
+	HTREEITEM hMesh = m_wndItemTree.InsertItem(strName.c_str(), 1, 1, _hRoot);
+	m_wndItemTree.Expand(_hRoot, TVE_EXPAND);
+
+	BuildSharedGeometryInfo(hMesh, mesh);
+
+	_hMaterialGroup = 0;
+	BuildGeometryInfo(hMesh, mesh);
+
+	_pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	COMVDoc* pDoc = DYNAMIC_DOWNCAST(COMVDoc, _pMainFrame->GetActiveView()->GetDocument());
+
+#pragma region Skeleton
+
+	if (mesh->hasSkeleton())
+	{
+		HTREEITEM hSkeleton = m_wndItemTree.InsertItem("Skeleton", 2, 2, hMesh);
+
+		std::ostringstream os;
+		os << "Skeleton: " << mesh->getSkeletonName();
+		m_wndItemTree.InsertItem(os.str().c_str(), 7, 7, hSkeleton);
+
+		_pMainFrame->GetAnimationPanel().ShowWindow(SW_SHOW);
+		_pMainFrame->GetSkeletonControlPanel().BuildSkeletonAnimInfo(mesh->getName());
+	}
+
+#pragma endregion
+
+
+#pragma region Bounds
+
+	HTREEITEM hBounds = m_wndItemTree.InsertItem("Bounds", 2, 2, hMesh);
+	{
+		std::ostringstream os;
+		const AxisAlignedBox AABB = mesh->getBounds();
+		os << "Maximum: (" << AABB.getMaximum().x << ", " << AABB.getMaximum().y << ", " << AABB.getMaximum().z << ")";
+		m_wndItemTree.InsertItem(os.str().c_str(), 7, 7, hBounds);
+
+		os.str("");
+		os << "Minimum: (" << AABB.getMinimum().x << ", " << AABB.getMinimum().y << ", " << AABB.getMinimum().z << ")";
+		m_wndItemTree.InsertItem(os.str().c_str(), 7, 7, hBounds);
+
+		os.str("");
+		os << "BoundingSphereRadius: " << mesh->getBoundingSphereRadius();
+		m_wndItemTree.InsertItem(os.str().c_str(), 7, 7, hBounds);
+	}
+
+#pragma endregion
+
+	new Actor(mesh->getName());
+	OgreFramework::getSingleton().SetCurrentActor( mesh->getName() );
+
+	_pMainFrame->GetActorPanel().AddActorName(mesh->getName().c_str());
+
+	m_wndItemTree.Expand(hMesh, TVE_EXPAND);
+
+}
+
 void MeshPanel::OnOpenMeshFile()
 {
+	return;
+
+	/*
 	CFileDialog dlg(TRUE, "mesh", 0
 		, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT
 		, "Ogre Binary Mesh Files (*.mesh)|*.mesh|All Files (*.*)|*.*||"
@@ -417,7 +479,7 @@ void MeshPanel::OnOpenMeshFile()
 	{
 		RestoreCurrentDir();
 	}
-
+	*/
 
 }
 

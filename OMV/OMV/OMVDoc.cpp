@@ -68,21 +68,26 @@ BOOL COMVDoc::OnNewDocument()
 		return FALSE;
 
 	// (SDI documents will reuse this document)
-	for (NameMeshMapType::iterator it = _Meshes.begin(); it != _Meshes.end(); ++it)
-	{
-		it->second.setNull();
-	}
-	_Meshes.clear();
-
-	//Notify all views
-	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
-	pMainFrame->OnResetAllViews();
+	_ResetDoc();
 
 	return TRUE;
 }
 
 BOOL COMVDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
+	std::string strPathName = lpszPathName;
+
+	std::string strPath = strPathName.substr(0, strPathName.rfind("\\") + 1);
+	std::string strName = strPathName.substr(strPathName.rfind("\\") + 1);
+
+	Ogre::MeshPtr outMesh;
+	if (LoadMeshFile(outMesh, strPathName, strName))
+	{
+		Ogre::ResourceGroupManager::getSingleton().addResourceLocation(strPath, "FileSystem", "MeshData");
+
+		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+		pMainFrame->GetMeshPanel().OnLoadMeshFile(outMesh, strName);
+	}
 
 	return TRUE;
 }
@@ -106,8 +111,6 @@ void COMVDoc::Serialize(CArchive& ar)
 
 bool COMVDoc::LoadMeshFile(Ogre::MeshPtr& outMesh, const Ogre::String& strPathName, const Ogre::String& strName)
 {
-	Mesh* pMesh = 0;
-
 	if (_Meshes.find(strName) != _Meshes.end())
 	{
 		AfxMessageBox("Mesh already exist!", MB_OK | MB_ICONERROR);
@@ -139,6 +142,19 @@ bool COMVDoc::LoadMeshFile(Ogre::MeshPtr& outMesh, const Ogre::String& strPathNa
 Ogre::MeshPtr COMVDoc::GetMesh(const Ogre::String& meshName)
 {
 	return _Meshes[meshName];
+}
+
+void COMVDoc::_ResetDoc()
+{
+	for (NameMeshMapType::iterator it = _Meshes.begin(); it != _Meshes.end(); ++it)
+	{
+		it->second.setNull();
+	}
+	_Meshes.clear();
+
+	//Notify all views
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	pMainFrame->OnResetAllViews();
 }
 
 

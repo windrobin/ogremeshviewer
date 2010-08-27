@@ -63,6 +63,7 @@ public:
 	AnimationPanel&			GetAnimationPanel(){ return _AnimationPanel; }
 
 	ActorPanel&				GetActorPanel(){ return _ActorPanel; }
+	MeshPanel&				GetMeshPanel(){ return _MeshPanel; }
 
 	void					OnResetAllViews();
 

@@ -62,6 +62,8 @@ protected:
 	typedef Ogre::map<Ogre::String, Ogre::MeshPtr>::type	NameMeshMapType;
 	NameMeshMapType			_Meshes;
 
+	void	_ResetDoc();
+
 // Generated message map functions
 protected:
 	DECLARE_MESSAGE_MAP()

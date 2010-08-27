@@ -102,7 +102,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)\..\Bin"
-			IntermediateDirectory="$(SolutionDir)\..\tmp\$(ConfigurationName)\$(ParentName)"
+			IntermediateDirectory="$(SolutionDir)\..\tmp\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
 			CharacterSet="2"

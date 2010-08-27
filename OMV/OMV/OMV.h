@@ -67,7 +67,7 @@ public:
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
 
-	void startDemo(HWND hwnd = 0);
+	void initDemo(HWND hwnd = 0);
 
 private:
 	void setupDemoScene();
