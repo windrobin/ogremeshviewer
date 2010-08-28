@@ -82,7 +82,7 @@ OgreFramework::OgreFramework()
 
 
 	Ogre::LogManager* logMgr = new Ogre::LogManager();
-	m_pLog = Ogre::LogManager::getSingleton().createLog("OgreLogfile.log", true, true, false);
+	m_pLog = Ogre::LogManager::getSingleton().createLog("OMV.log", true, true, false);
 	m_pLog->setDebugOutputEnabled(true);
 
 }
@@ -104,53 +104,63 @@ OgreFramework::~OgreFramework()
 
 bool OgreFramework::initOgre(Ogre::String wndTitle, HWND hwnd)
 {
-	m_pRoot = new Ogre::Root("");
-
-#if _DEBUG
-
-	m_pRoot->loadPlugin("RenderSystem_Direct3D9_d");
-	m_pRoot->loadPlugin("Plugin_ParticleFX_d");
-	//m_pRoot->loadPlugin("Plugin_CgProgramManager_d");
-
-#else 
-
-	m_pRoot->loadPlugin("RenderSystem_Direct3D9");
-	m_pRoot->loadPlugin("Plugin_ParticleFX");
-	//m_pRoot->loadPlugin("Plugin_CgProgramManager");
-
-#endif
-
-	RenderSystemList rList = m_pRoot->getAvailableRenderers();
-	if (rList.size() == 0)
+	if (!hwnd)
+	{
 		return false;
-
-	m_pRoot->setRenderSystem( *(rList.begin()) );
-
-	//if(!m_pRoot->showConfigDialog())
-	//	return false;
-
+	}
 
 	_hWnd = hwnd;
-	if (_hWnd != 0)
-	{
-		m_pRenderWnd = m_pRoot->initialise(false, wndTitle);
 
-		NameValuePairList opts;
-		opts["externalWindowHandle"] = StringConverter::toString((Ogre::uint)_hWnd);
-		opts["vsync"]	= "true"; 
-		opts["FSAA"]	= _strFSAA; 
+#if _DEBUG
+	m_pRoot = new Ogre::Root("plugins_d.cfg", "Ogre.cfg");
+#else
+	m_pRoot = new Ogre::Root("plugins.cfg", "Ogre.cfg");
+#endif
 
-		//everything but "opts" is somewhat irrelevant in the context of an explicitly parented window
-		m_pRenderWnd = m_pRoot->createRenderWindow(
-			wndTitle,
-			800, 600,
-			false, &opts
-			);
-	}
-	else
+//#if _DEBUG
+//
+//	m_pRoot->loadPlugin("RenderSystem_Direct3D9_d");
+//	m_pRoot->loadPlugin("Plugin_ParticleFX_d");
+//	//m_pRoot->loadPlugin("Plugin_CgProgramManager_d");
+//
+//#else 
+//
+//	m_pRoot->loadPlugin("RenderSystem_Direct3D9");
+//	m_pRoot->loadPlugin("Plugin_ParticleFX");
+//	//m_pRoot->loadPlugin("Plugin_CgProgramManager");
+//
+//#endif
+
+	if (!m_pRoot->restoreConfig())
 	{
-		m_pRenderWnd = m_pRoot->initialise(true, wndTitle);
+		//m_pRoot->showConfigDialog();
+
+		RenderSystemList rList = m_pRoot->getAvailableRenderers();
+		if (rList.size() == 0)
+			return false;
+
+		m_pRoot->setRenderSystem( *(rList.begin()) );
+		//m_pRoot->saveConfig();	//crash on windows vista or above if no administrator right
 	}
+
+	m_pRenderWnd = m_pRoot->initialise(false, wndTitle);
+
+	Ogre::ConfigOptionMap	optionMap = m_pRoot->getRenderSystem()->getConfigOptions();
+	if (optionMap.find("FSAA") != optionMap.end())
+	{
+		_strFSAA = optionMap["FSAA"].currentValue;
+	}
+
+	NameValuePairList opts;
+	opts["externalWindowHandle"] = StringConverter::toString((Ogre::uint)_hWnd);
+	//opts["vsync"]	= "true"; 
+	opts["FSAA"]	= _strFSAA; 
+
+	m_pRenderWnd = m_pRoot->createRenderWindow(
+		wndTitle,
+		800, 600,
+		false, &opts
+		);
 
 
 	m_pSceneMgr = m_pRoot->createSceneManager(ST_GENERIC, "SceneManager");
@@ -222,6 +232,7 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, HWND hwnd)
 	m_pRenderWnd->setActive(true);
 
 
+	/*
 	BaseProperty *pProp = GetClassRTTI()->GetPropertyByName("FSAA");
 	Ogre::ConfigOptionMap	optionMap = m_pRoot->getRenderSystem()->getConfigOptions();
 	Ogre::StringVector		fsaaVector = optionMap["FSAA"].possibleValues;
@@ -236,6 +247,7 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, HWND hwnd)
 		}
 	}
 	pProp->SetValueSpecify(eValueList, strOpts);
+	*/
 
 
 	return true;
@@ -705,7 +717,7 @@ void OgreFramework::RegisterReflection()
 	pProp = M_RegisterPropertySimple(Ogre::String, TextureFiltering, OgreFramework, Rendering, "Texture filtering mode.", BaseProperty::eDefault, _textureFiltering);
 	pProp->SetValueSpecify(eValueList, "None;Bilinear;Trilinear;Anisotropic");
 
-	pProp = M_RegisterPropertySimple(Ogre::String, FSAA, OgreFramework, Rendering, "Full screen anti aliasing.", BaseProperty::eDefault, _strFSAA);
+	//pProp = M_RegisterPropertySimple(Ogre::String, FSAA, OgreFramework, Rendering, "Full screen anti aliasing.", BaseProperty::eDefault, _strFSAA);
 	//pProp->SetValueSpecify(eValueList, "0;2;4;8;16");
 }
 
