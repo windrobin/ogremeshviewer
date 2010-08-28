@@ -4,7 +4,7 @@ REGEDIT
 ;   registered in your InitInstance automatically with a call to
 ;   CWinApp::RegisterShellFileTypes and COleObjectFactory::UpdateRegistryAll.
 
-HKEY_CLASSES_ROOT\.omc = OMV.Document
+HKEY_CLASSES_ROOT\.mesh = OMV.Document
 HKEY_CLASSES_ROOT\OMV.Document\shell\open\command = OMV.EXE %1
 HKEY_CLASSES_ROOT\OMV.Document\shell\open\ddeexec = [open("%1")]
 HKEY_CLASSES_ROOT\OMV.Document\shell\open\ddeexec\application = OMV
