@@ -21,25 +21,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_07348C04526A40C9A22E20D696845F63"
-        "OwnerKey" = "8:_9D7A6848436940949D004BF229A2D419"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_07348C04526A40C9A22E20D696845F63"
-        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1658ED601E3445BB953B2168682C6449"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1A91C337689541AF8403050DD699762A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -57,14 +39,32 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_28AF53DBD1D344DBA6ED270FA2595907"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2FAD0C27F13C40B3B0B4E12176FBAE2F"
+        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_353692EC8CED44D9AE6D2F48B16D336F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_41E44EC5A1334EF08E3065390DAC1F41"
+        "MsmKey" = "8:_354F6FF6517744CFBC4414BFC97B3428"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3CBCBCC0CF5848C6A9F3F8A0169BBE92"
+        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -75,13 +75,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5107FCD551A34787A8237D061142B5A2"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_4D1F982F21EA49FA902EAF333AF7E288"
+        "OwnerKey" = "8:_2FAD0C27F13C40B3B0B4E12176FBAE2F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_52DD64A4D44D411FB8916A8824C4694C"
+        "MsmKey" = "8:_5107FCD551A34787A8237D061142B5A2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -99,20 +99,14 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_66303D677EA84022B7F4B3232916B0F3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_677C183069A44F04AB85E3E5B24053D2"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7601690CF6CF4A49952E7DF262015ED8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7901A351D96B4A35821A0339494A4B04"
-        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -141,19 +135,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9D7A6848436940949D004BF229A2D419"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A1A2F8573F93118CC0E7D1C627FA61C6"
         "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_AF0A04EAEAA6412591F6C68CCF1739C0"
+        "MsmKey" = "8:_B04576D6CD1E44B1B9C3DA5343D59B54"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -171,13 +159,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C98DF64D50494C558A59F3FFBEE4FCFA"
+        "OwnerKey" = "8:_3CBCBCC0CF5848C6A9F3F8A0169BBE92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CF2C889D1CEF44A3BD36572A5E57ED77"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_D66F5977CD4D4586BC28F97FFDC6D002"
+        "MsmKey" = "8:_D14BCBF36C9E47DDB5EAA07CB7A8D19A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -189,8 +183,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_DE3769B0F1AD43719CC66A4C6CD7264C"
-        "OwnerKey" = "8:_07348C04526A40C9A22E20D696845F63"
+        "MsmKey" = "8:_E6B977925B3E4D5B8C110C4A62918B3C"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -207,12 +201,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F23C29ED173949449F5BAC8B358E46AC"
-        "OwnerKey" = "8:_7901A351D96B4A35821A0339494A4B04"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F316954AB21B4A548CD3D4806C1B7F6A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -220,18 +208,6 @@
         "Entry"
         {
         "MsmKey" = "8:_F703FA4888A54EAE8EC8D7995F87B735"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FA667435A8514762871BE149CB3F4729"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE2DD8B6C8DA43E0ADEF1DF7C98D1C81"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -362,12 +338,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1A91C337689541AF8403050DD699762A"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1D073240E9C641F88ECA2612D9257DA7"
             {
-            "SourcePath" = "8:..\\..\\Bin\\cg.dll"
-            "TargetName" = "8:cg.dll"
+            "SourcePath" = "8:..\\..\\Media\\Material\\grid.cg"
+            "TargetName" = "8:grid.cg"
             "Tag" = "8:"
-            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
+            "Folder" = "8:_A6AFA7EDA59F41D18D21F697777782B5"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -382,12 +358,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1D073240E9C641F88ECA2612D9257DA7"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_28AF53DBD1D344DBA6ED270FA2595907"
             {
-            "SourcePath" = "8:..\\..\\Media\\Material\\grid.cg"
-            "TargetName" = "8:grid.cg"
+            "SourcePath" = "8:..\\..\\Bin\\OgreRTShaderSystem.dll"
+            "TargetName" = "8:OgreRTShaderSystem.dll"
             "Tag" = "8:"
-            "Folder" = "8:_A6AFA7EDA59F41D18D21F697777782B5"
+            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -422,10 +398,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_41E44EC5A1334EF08E3065390DAC1F41"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_354F6FF6517744CFBC4414BFC97B3428"
             {
-            "SourcePath" = "8:..\\..\\Bin\\Plugin_ParticleFX.dll"
-            "TargetName" = "8:Plugin_ParticleFX.dll"
+            "SourcePath" = "8:..\\..\\Bin\\plugins.cfg"
+            "TargetName" = "8:plugins.cfg"
             "Tag" = "8:"
             "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
             "Condition" = "8:"
@@ -482,26 +458,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_52DD64A4D44D411FB8916A8824C4694C"
-            {
-            "SourcePath" = "8:..\\..\\Bin\\RenderSystem_Direct3D9.dll"
-            "TargetName" = "8:RenderSystem_Direct3D9.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5BE0AEC40C0041F09483ED82F131BB2C"
             {
             "SourcePath" = "8:..\\..\\Media\\particle\\P1.material"
@@ -542,12 +498,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_677C183069A44F04AB85E3E5B24053D2"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_66303D677EA84022B7F4B3232916B0F3"
             {
-            "SourcePath" = "8:..\\..\\Media\\狗\\jpg_dog.dds"
-            "TargetName" = "8:jpg_dog.dds"
+            "SourcePath" = "8:..\\..\\Bin\\Plugin_CgProgramManager.dll"
+            "TargetName" = "8:Plugin_CgProgramManager.dll"
             "Tag" = "8:"
-            "Folder" = "8:_71BCFEE7A0CB42B4B019D8B5425C031C"
+            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -562,12 +518,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7601690CF6CF4A49952E7DF262015ED8"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_677C183069A44F04AB85E3E5B24053D2"
             {
-            "SourcePath" = "8:..\\..\\Bin\\Plugin_ParticleFX.dll"
-            "TargetName" = "8:Plugin_ParticleFX.dll"
+            "SourcePath" = "8:..\\..\\Media\\狗\\jpg_dog.dds"
+            "TargetName" = "8:jpg_dog.dds"
             "Tag" = "8:"
-            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
+            "Folder" = "8:_71BCFEE7A0CB42B4B019D8B5425C031C"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -682,10 +638,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AF0A04EAEAA6412591F6C68CCF1739C0"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B04576D6CD1E44B1B9C3DA5343D59B54"
             {
-            "SourcePath" = "8:..\\..\\Bin\\OgreMain.dll"
-            "TargetName" = "8:OgreMain.dll"
+            "SourcePath" = "8:..\\..\\Bin\\Plugin_ParticleFX.dll"
+            "TargetName" = "8:Plugin_ParticleFX.dll"
             "Tag" = "8:"
             "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
             "Condition" = "8:"
@@ -762,10 +718,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D66F5977CD4D4586BC28F97FFDC6D002"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D14BCBF36C9E47DDB5EAA07CB7A8D19A"
             {
-            "SourcePath" = "8:..\\..\\Bin\\Plugin_CgProgramManager.dll"
-            "TargetName" = "8:Plugin_CgProgramManager.dll"
+            "SourcePath" = "8:..\\..\\Bin\\RenderSystem_Direct3D9.dll"
+            "TargetName" = "8:RenderSystem_Direct3D9.dll"
             "Tag" = "8:"
             "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
             "Condition" = "8:"
@@ -788,6 +744,26 @@
             "TargetName" = "8:SdkTrays.zip"
             "Tag" = "8:"
             "Folder" = "8:_686E5AC19E9D4DC3914ABEE471F45F59"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E6B977925B3E4D5B8C110C4A62918B3C"
+            {
+            "SourcePath" = "8:..\\..\\Bin\\cg.dll"
+            "TargetName" = "8:cg.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -868,46 +844,6 @@
             "TargetName" = "8:grid.material"
             "Tag" = "8:"
             "Folder" = "8:_A6AFA7EDA59F41D18D21F697777782B5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FA667435A8514762871BE149CB3F4729"
-            {
-            "SourcePath" = "8:..\\..\\Bin\\RenderSystem_Direct3D9.dll"
-            "TargetName" = "8:RenderSystem_Direct3D9.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FE2DD8B6C8DA43E0ADEF1DF7C98D1C81"
-            {
-            "SourcePath" = "8:..\\..\\Bin\\OgreRTShaderSystem.dll"
-            "TargetName" = "8:OgreRTShaderSystem.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1067,7 +1003,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OgreMeshViewer"
         "ProductCode" = "8:{A534D418-CC14-4358-B440-B5B99AC4B50E}"
-        "PackageCode" = "8:{8463CE4E-1EE2-4CAF-B556-7E831B868757}"
+        "PackageCode" = "8:{1888A5EF-2D6B-4A81-A23A-E9EE9460F7FF}"
         "UpgradeCode" = "8:{AFCEBEDA-DB1F-408F-8A58-CCC8EE2A4FCA}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -1610,7 +1546,7 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_07348C04526A40C9A22E20D696845F63"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_2FAD0C27F13C40B3B0B4E12176FBAE2F"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -1624,7 +1560,7 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_7901A351D96B4A35821A0339494A4B04"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_3CBCBCC0CF5848C6A9F3F8A0169BBE92"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -1638,7 +1574,7 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_DE3769B0F1AD43719CC66A4C6CD7264C"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_4D1F982F21EA49FA902EAF333AF7E288"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -1652,7 +1588,7 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_F23C29ED173949449F5BAC8B358E46AC"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_C98DF64D50494C558A59F3FFBEE4FCFA"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -1692,34 +1628,6 @@
             "OutputConfiguration" = "8:Release|Win32"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{5B6C51F9-66BF-4E93-97E8-8E57ADD66885}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9D7A6848436940949D004BF229A2D419"
-            {
-            "SourcePath" = "8:..\\..\\Bin\\PropertySystem.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release|Win32"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{D4A4DED6-4671-4507-B5F8-115D4B32DC8E}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
