@@ -75,6 +75,7 @@ OgreFramework::OgreFramework()
 	_bShowGrid			= true;
 
 	_textureFiltering	= "Bilinear";
+	_strFSAA			= "8";
 
 	_gridEntity			= 0;
 	_pGridNode			= 0;
@@ -136,7 +137,8 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, HWND hwnd)
 
 		NameValuePairList opts;
 		opts["externalWindowHandle"] = StringConverter::toString((Ogre::uint)_hWnd);
-		opts["vsync"] = "true"; 
+		opts["vsync"]	= "true"; 
+		opts["FSAA"]	= _strFSAA; 
 
 		//everything but "opts" is somewhat irrelevant in the context of an explicitly parented window
 		m_pRenderWnd = m_pRoot->createRenderWindow(
@@ -218,6 +220,23 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, HWND hwnd)
 	m_pTrayMgr->hideCursor();
 
 	m_pRenderWnd->setActive(true);
+
+
+	BaseProperty *pProp = GetClassRTTI()->GetPropertyByName("FSAA");
+	Ogre::ConfigOptionMap	optionMap = m_pRoot->getRenderSystem()->getConfigOptions();
+	Ogre::StringVector		fsaaVector = optionMap["FSAA"].possibleValues;
+	Ogre::String			strOpts;
+	for (size_t t = 0; t < fsaaVector.size(); ++t)
+	{
+		strOpts += fsaaVector[t];
+
+		if (t != fsaaVector.size() - 1)
+		{
+			strOpts += ";";
+		}
+	}
+	pProp->SetValueSpecify(eValueList, strOpts);
+
 
 	return true;
 }
@@ -685,6 +704,9 @@ void OgreFramework::RegisterReflection()
 	
 	pProp = M_RegisterPropertySimple(Ogre::String, TextureFiltering, OgreFramework, Rendering, "Texture filtering mode.", BaseProperty::eDefault, _textureFiltering);
 	pProp->SetValueSpecify(eValueList, "None;Bilinear;Trilinear;Anisotropic");
+
+	pProp = M_RegisterPropertySimple(Ogre::String, FSAA, OgreFramework, Rendering, "Full screen anti aliasing.", BaseProperty::eDefault, _strFSAA);
+	//pProp->SetValueSpecify(eValueList, "0;2;4;8;16");
 }
 
 void OgreFramework::OnPropertyChanged(const std::string& propName)
@@ -730,6 +752,18 @@ void OgreFramework::OnPropertyChanged(const std::string& propName)
 		{
 			MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);
 			MaterialManager::getSingleton().setDefaultAnisotropy(8);
+		}
+	}
+	else if ("FSAA" == propName)
+	{
+		Ogre::ConfigOptionMap	optionMap = m_pRoot->getRenderSystem()->getConfigOptions();
+		if (optionMap["FSAA"].currentValue != _strFSAA)
+		{
+			optionMap["FSAA"].currentValue = _strFSAA;
+			for (Ogre::ConfigOptionMap::iterator it = optionMap.begin(); it != optionMap.end(); ++it)
+			{
+				m_pRoot->getRenderSystem()->setConfigOption(it->first, it->second.currentValue);
+			}
 		}
 	}
 }

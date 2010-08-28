@@ -64,6 +64,7 @@ public:
 
 	ActorPanel&				GetActorPanel(){ return _ActorPanel; }
 	MeshPanel&				GetMeshPanel(){ return _MeshPanel; }
+	CPropertiesWnd&			GetPropertyPanel(){ return _wndProperties; }
 
 	void					OnResetAllViews();
 

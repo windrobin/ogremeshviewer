@@ -193,6 +193,11 @@ void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
 	// TODO: Add your command update UI handler code here
 }
 
+void CPropertiesWnd::AddPropertyData()
+{
+	_reflectiveUI.BuildUIForObject(0, OgreFramework::getSingleton().getSingletonPtr(), "Configs");
+}
+
 void CPropertiesWnd::InitPropList()
 {
 	SetPropListFont();
@@ -205,8 +210,6 @@ void CPropertiesWnd::InitPropList()
 
 	_reflectiveUI.SetGrid(&m_wndPropList);
 	m_wndPropList.SetPropertyChangeManager(&_reflectiveUI);
-
-	_reflectiveUI.BuildUIForObject(0, OgreFramework::getSingleton().getSingletonPtr(), "Configs");
 
 
 #if 0

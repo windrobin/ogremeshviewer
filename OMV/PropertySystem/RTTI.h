@@ -67,6 +67,8 @@ namespace PropertySys
 		inline std::list<BaseProperty*>::iterator	GetLastProperty();
 		inline std::list<BaseProperty*>*			GetProperties();
 
+		BaseProperty*				GetPropertyByName(const std::string& strPropName);
+
 	private:
 
 		std::string					_szClassName;			// Class name

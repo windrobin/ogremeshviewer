@@ -78,7 +78,10 @@ bool CameraController::mouseMoved(const OIS::MouseEvent &evt)
 			Vector3 vCamDir			= vCamPos - OgreFramework::getSingleton().GetLookAt();
 			Real	dirLength		= vCamDir.length();
 
-			Vector3 vOffset			= _pCamera->getOrientation() * Vector3(evt.state.X.rel * -1.0f, evt.state.Y.rel * 1.0f, 0);
+			//Real fVolumeLength		= OgreFramework::getSingleton().GetVolumeLength();
+			//Real fAdjust			= dirLength / fVolumeLength;
+
+			Vector3 vOffset			= /*fAdjust * */_pCamera->getOrientation() * Vector3(evt.state.X.rel * -1.0f, evt.state.Y.rel * 1.0f, 0);
 			Vector3 vNewDir			= vOffset + vCamDir;
 			vNewDir.normalise();
 			

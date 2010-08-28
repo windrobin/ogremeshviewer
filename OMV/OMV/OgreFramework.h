@@ -157,6 +157,7 @@ private:
 	bool				_bShowGrid;
 
 	Ogre::String		_textureFiltering;
+	Ogre::String		_strFSAA;
 };
 
 

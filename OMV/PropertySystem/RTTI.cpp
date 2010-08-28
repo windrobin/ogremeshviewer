@@ -59,3 +59,17 @@ void RTTI::EnumProperties( vector<BaseProperty*>& outResult )
 	for ( list<BaseProperty*>::iterator it = _Properties.begin(); it != _Properties.end(); ++it )
 		outResult.push_back( *it );
 }
+
+BaseProperty* RTTI::GetPropertyByName(const std::string& strPropName)
+{
+	for ( list<BaseProperty*>::iterator it = _Properties.begin(); it != _Properties.end(); ++it )
+		if ((*it)->GetName() == strPropName)
+		{
+			return *it;
+		}
+
+	if ( _pBaseRTTI )
+		_pBaseRTTI->GetPropertyByName( strPropName );
+
+	return 0;
+}
