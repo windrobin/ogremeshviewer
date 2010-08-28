@@ -75,7 +75,7 @@ OgreFramework::OgreFramework()
 	_bShowGrid			= true;
 
 	_textureFiltering	= "Bilinear";
-	_strFSAA			= "8";
+	_strFSAA			= "0";
 
 	_gridEntity			= 0;
 	_pGridNode			= 0;
@@ -756,15 +756,17 @@ void OgreFramework::OnPropertyChanged(const std::string& propName)
 	}
 	else if ("FSAA" == propName)
 	{
-		Ogre::ConfigOptionMap	optionMap = m_pRoot->getRenderSystem()->getConfigOptions();
-		if (optionMap["FSAA"].currentValue != _strFSAA)
-		{
-			optionMap["FSAA"].currentValue = _strFSAA;
-			for (Ogre::ConfigOptionMap::iterator it = optionMap.begin(); it != optionMap.end(); ++it)
-			{
-				m_pRoot->getRenderSystem()->setConfigOption(it->first, it->second.currentValue);
-			}
-		}
+		// does not work
+
+		//Ogre::ConfigOptionMap	optionMap = m_pRoot->getRenderSystem()->getConfigOptions();
+		//if (optionMap["FSAA"].currentValue != _strFSAA)
+		//{
+		//	optionMap["FSAA"].currentValue = _strFSAA;
+		//	for (Ogre::ConfigOptionMap::iterator it = optionMap.begin(); it != optionMap.end(); ++it)
+		//	{
+		//		m_pRoot->getRenderSystem()->setConfigOption(it->first, it->second.currentValue);
+		//	}
+		//}
 	}
 }
 
