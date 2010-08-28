@@ -925,29 +925,6 @@
         }
         "FileType"
         {
-            "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_B856B56B92D441E4B7743E0D255B9736"
-            {
-            "Name" = "8:Ogre Mesh File"
-            "Description" = "8:"
-            "Extensions" = "8:.mesh"
-            "MIME" = "8:"
-            "Icon" = "8:"
-            "IconIndex" = "3:0"
-                "Command"
-                {
-                "Command" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
-                }
-                "Verbs"
-                {
-                    "{95C0C507-CBF0-42B8-B119-07219E384A4A}:_74194B03A6564E0399FDA86AD6B611F1"
-                    {
-                    "Command" = "8:&Open"
-                    "Verb" = "8:open"
-                    "Arguments" = "8:\"%1\""
-                    "Order" = "3:0"
-                    }
-                }
-            }
         }
         "Folder"
         {
@@ -1090,7 +1067,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OgreMeshViewer"
         "ProductCode" = "8:{A534D418-CC14-4358-B440-B5B99AC4B50E}"
-        "PackageCode" = "8:{3F798A02-4C2A-4953-969E-157EC020A11A}"
+        "PackageCode" = "8:{8463CE4E-1EE2-4CAF-B556-7E831B868757}"
         "UpgradeCode" = "8:{AFCEBEDA-DB1F-408F-8A58-CCC8EE2A4FCA}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
