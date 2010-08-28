@@ -53,6 +53,8 @@ public:
 
 	void AdjustLayout();
 
+	void AddPropertyData();
+
 // Attributes
 public:
 	void SetVSDotNetLook(BOOL bSet)

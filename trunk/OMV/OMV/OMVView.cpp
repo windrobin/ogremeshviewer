@@ -78,6 +78,7 @@ BEGIN_MESSAGE_MAP(COMVView, CView)
 	ON_WM_MOUSEMOVE()
 	ON_WM_SIZE()
 	ON_WM_MOUSELEAVE()
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 // COMVView construction/destruction
@@ -205,4 +206,12 @@ void COMVView::OnMouseLeave()
 	OgreFramework::getSingletonPtr()->_bRenderWndHasMouse = false;
 
 	CView::OnMouseLeave();
+}
+
+int COMVView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	return 0;
 }

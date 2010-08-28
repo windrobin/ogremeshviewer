@@ -277,6 +277,11 @@ void COMVApp::initDemo(HWND hwnd)
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Demo initialized!");
 
 	OgreFramework::getSingletonPtr()->setupDemoScene();
+
+
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	pMainFrame->GetPropertyPanel().AddPropertyData();
+
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
