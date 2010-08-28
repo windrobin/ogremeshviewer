@@ -38,6 +38,7 @@ like Office.
 
 
 class COMVDoc : public CDocument
+	, public Ogre::MeshSerializerListener
 {
 protected: // create from serialization only
 	COMVDoc();
@@ -62,6 +63,9 @@ protected:
 
 	typedef Ogre::map<Ogre::String, Ogre::MeshPtr>::type	NameMeshMapType;
 	NameMeshMapType			_Meshes;
+
+	void processMaterialName(Ogre::Mesh *mesh, Ogre::String *name);
+	void processSkeletonName(Ogre::Mesh *mesh, Ogre::String *name){};
 
 	void	_ResetDoc();
 

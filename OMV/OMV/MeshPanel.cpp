@@ -602,46 +602,20 @@ void MeshPanel::BuildGeometryInfo(HTREEITEM hMesh, const Ogre::MeshPtr& mesh)
 	}
 
 	int iSubMeshCount = 0;
-	bool bIgnoreMaterial = false;
 	Mesh::SubMeshIterator it = mesh->getSubMeshIterator();
 	while (it.hasMoreElements())
 	{
 		SubMesh* pSubMesh = it.getNext();
 
-		if(!bIgnoreMaterial && !MaterialManager::getSingleton().resourceExists(pSubMesh->getMaterialName()))
+		Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().getByName(pSubMesh->getMaterialName(), "Material");
+		if (material.get())
 		{
-			CFileDialog dlg(TRUE, "material", 0
-				, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT
-				, "Ogre Material Files (*.material)|*.material|All Files (*.*)|*.*||"
-				);
+			material->load();
 
-			SaveCurrentDir();
-			if( dlg.DoModal() == IDOK )
-			{
-				Ogre::ResourceGroupManager::getSingleton().addResourceLocation(GetDlgDir(dlg.GetPathName()).c_str(), "FileSystem", "Material");
-				RestoreCurrentDir();
+			if (_hMaterialGroup == 0)
+				_hMaterialGroup = m_wndItemTree.InsertItem("Material", 2, 2, hMesh);
+			HTREEITEM hMaterial = m_wndItemTree.InsertItem(pSubMesh->getMaterialName().c_str(), 3, 3, _hMaterialGroup);
 
-				DataStreamPtr data = Ogre::ResourceGroupManager::getSingleton().openResource((LPCTSTR)dlg.GetPathName(), "Material");
-				MaterialManager::getSingleton().parseScript(data, "Material");
-
-				Ogre::MaterialPtr newMaterial = Ogre::MaterialManager::getSingleton().getByName(pSubMesh->getMaterialName(), "Material");
-				newMaterial->load();
-			}
-			else
-			{
-				bIgnoreMaterial = true;
-				RestoreCurrentDir();
-			}
-
-		}
-
-		if (_hMaterialGroup == 0)
-			_hMaterialGroup = m_wndItemTree.InsertItem("Material", 2, 2, hMesh);
-		HTREEITEM hMaterial = m_wndItemTree.InsertItem(pSubMesh->getMaterialName().c_str(), 3, 3, _hMaterialGroup);
-
-		Ogre::MaterialPtr material = MaterialManager::getSingleton().getByName(pSubMesh->getMaterialName());
-		if (material.getPointer())
-		{
 			BuildMaterialInfo(hMaterial, material);
 		}
 

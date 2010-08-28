@@ -55,12 +55,65 @@ END_MESSAGE_MAP()
 COMVDoc::COMVDoc()
 {
 	_meshSerializer = new MeshSerializer();
+	_meshSerializer->setListener(this);
 }
 
 COMVDoc::~COMVDoc()
 {
 	delete _meshSerializer;
 }
+
+void COMVDoc::processMaterialName(Ogre::Mesh *mesh, Ogre::String *name)
+{
+	Ogre::MaterialPtr material = MaterialManager::getSingleton().getByName(*name);
+	if (!material.getPointer())
+	{
+		Ogre::String	strMeshName = mesh->getName();
+		Ogre::String	strMaterialName = strMeshName.substr(0, strMeshName.rfind(".") + 1);
+
+		if (strMaterialName.length() == 0)
+		{
+			return;
+		}
+		strMaterialName += "material";
+
+		try
+		{
+			DataStreamPtr data = Ogre::ResourceGroupManager::getSingleton().openResource(strMaterialName, "Material");
+			MaterialManager::getSingleton().parseScript(data, "Material");
+		}
+		catch (Ogre::Exception& e)
+		{
+			CFileDialog dlg(TRUE, "material", 0
+				, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT
+				, "Ogre Material Files (*.material)|*.material|All Files (*.*)|*.*||"
+				);
+
+			char curDir[MAX_PATH];
+			::GetCurrentDirectory(MAX_PATH, curDir);
+
+			if( dlg.DoModal() == IDOK )
+			{
+				::SetCurrentDirectory(curDir);
+
+				Ogre::String strDlgPathName = dlg.GetPathName();
+				Ogre::String strDlgPath = strDlgPathName.substr(0, strDlgPathName.rfind("\\") + 1);
+
+				Ogre::ResourceGroupManager::getSingleton().addResourceLocation(strDlgPath, "FileSystem", "Material");
+
+				try
+				{
+					DataStreamPtr data = Ogre::ResourceGroupManager::getSingleton().openResource(strDlgPathName, "Material");
+					MaterialManager::getSingleton().parseScript(data, "Material");
+				}
+				catch (...)
+				{
+				}
+			}
+		}
+	}
+}
+
 
 BOOL COMVDoc::OnNewDocument()
 {
@@ -80,11 +133,12 @@ BOOL COMVDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	std::string strPath = strPathName.substr(0, strPathName.rfind("\\") + 1);
 	std::string strName = strPathName.substr(strPathName.rfind("\\") + 1);
 
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(strPath, "FileSystem", "MeshData");
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(strPath, "FileSystem", "Material");
+
 	Ogre::MeshPtr outMesh;
 	if (LoadMeshFile(outMesh, strPathName, strName))
 	{
-		Ogre::ResourceGroupManager::getSingleton().addResourceLocation(strPath, "FileSystem", "MeshData");
-
 		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 		pMainFrame->GetMeshPanel().OnLoadMeshFile(outMesh, strName);
 	}
