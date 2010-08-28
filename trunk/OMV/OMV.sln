@@ -8,6 +8,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OMV", "OMV\OMV.vcproj", "{5
 		{D4A4DED6-4671-4507-B5F8-115D4B32DC8E} = {D4A4DED6-4671-4507-B5F8-115D4B32DC8E}
 	EndProjectSection
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{222958FB-460D-44B9-B485-BFE7A875FBE3}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -36,6 +38,14 @@ Global
 		{5B6C51F9-66BF-4E93-97E8-8E57ADD66885}.StaticDebug|Win32.Build.0 = Debug|Win32
 		{5B6C51F9-66BF-4E93-97E8-8E57ADD66885}.StaticRelease|Win32.ActiveCfg = Release|Win32
 		{5B6C51F9-66BF-4E93-97E8-8E57ADD66885}.StaticRelease|Win32.Build.0 = Release|Win32
+		{222958FB-460D-44B9-B485-BFE7A875FBE3}.Debug|Win32.ActiveCfg = Debug
+		{222958FB-460D-44B9-B485-BFE7A875FBE3}.Debug|Win32.Build.0 = Debug
+		{222958FB-460D-44B9-B485-BFE7A875FBE3}.Release|Win32.ActiveCfg = Release
+		{222958FB-460D-44B9-B485-BFE7A875FBE3}.Release|Win32.Build.0 = Release
+		{222958FB-460D-44B9-B485-BFE7A875FBE3}.StaticDebug|Win32.ActiveCfg = Debug
+		{222958FB-460D-44B9-B485-BFE7A875FBE3}.StaticDebug|Win32.Build.0 = Debug
+		{222958FB-460D-44B9-B485-BFE7A875FBE3}.StaticRelease|Win32.ActiveCfg = Release
+		{222958FB-460D-44B9-B485-BFE7A875FBE3}.StaticRelease|Win32.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
