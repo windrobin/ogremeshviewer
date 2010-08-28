@@ -15,8 +15,20 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_01030B3B0E5694F7BA9DA9DA092663B9"
+        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_07348C04526A40C9A22E20D696845F63"
         "OwnerKey" = "8:_9D7A6848436940949D004BF229A2D419"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_07348C04526A40C9A22E20D696845F63"
+        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -81,6 +93,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_61BCCA293EAFD3E13ECBC1B0D98661AB"
+        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_677C183069A44F04AB85E3E5B24053D2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -89,6 +107,12 @@
         {
         "MsmKey" = "8:_7601690CF6CF4A49952E7DF262015ED8"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7901A351D96B4A35821A0339494A4B04"
+        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -119,6 +143,12 @@
         {
         "MsmKey" = "8:_9D7A6848436940949D004BF229A2D419"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A1A2F8573F93118CC0E7D1C627FA61C6"
+        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -177,6 +207,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F23C29ED173949449F5BAC8B358E46AC"
+        "OwnerKey" = "8:_7901A351D96B4A35821A0339494A4B04"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F316954AB21B4A548CD3D4806C1B7F6A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -207,7 +243,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\Setup.msi"
+        "OutputFilename" = "8:..\\..\\setup\\Debug\\Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -244,7 +280,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Setup.msi"
+        "OutputFilename" = "8:..\\..\\setup\\Release\\Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -286,6 +322,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_01030B3B0E5694F7BA9DA9DA092663B9"
+            {
+            "SourcePath" = "8:PropertySystem.dll"
+            "TargetName" = "8:PropertySystem.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1658ED601E3445BB953B2168682C6449"
             {
             "SourcePath" = "8:..\\..\\Media\\狗\\狗.mesh"
@@ -466,6 +522,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_61BCCA293EAFD3E13ECBC1B0D98661AB"
+            {
+            "SourcePath" = "8:OIS.dll"
+            "TargetName" = "8:OIS.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_677C183069A44F04AB85E3E5B24053D2"
             {
             "SourcePath" = "8:..\\..\\Media\\狗\\jpg_dog.dds"
@@ -584,6 +660,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1A2F8573F93118CC0E7D1C627FA61C6"
+            {
+            "SourcePath" = "8:OgreMain.dll"
+            "TargetName" = "8:OgreMain.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AF0A04EAEAA6412591F6C68CCF1739C0"
@@ -932,7 +1028,7 @@
                 {
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_8F6FB860A7BE488C96FD4EC99AD3C5CB"
                     {
-                    "Name" = "8:Ogre Model Configurator"
+                    "Name" = "8:Ogre Mesh Viewer"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
@@ -969,10 +1065,10 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Ogre Model Configurator"
-        "ProductCode" = "8:{A534D418-CC14-4350-B440-B5B99AC4B50E}"
+        "ProductName" = "8:Ogre Mesh Viewer"
+        "ProductCode" = "8:{A534D418-CC14-4358-B440-B5B99AC4B50E}"
         "PackageCode" = "8:{85F789A2-9A5E-4F21-B0BE-F7D8AA0AE980}"
-        "UpgradeCode" = "8:{AFCEBEDA-DB1F-408F-8A54-CCC8EE2A4FCA}"
+        "UpgradeCode" = "8:{AFCEBEDA-DB1F-408F-8A58-CCC8EE2A4FCA}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
@@ -981,7 +1077,7 @@
         "Manufacturer" = "8:ZHKSoft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Ogre Model Configurator"
+        "Title" = "8:Ogre Mesh Viewer"
         "Subject" = "8:"
         "ARPCONTACT" = "8:zhk.tiger"
         "Keywords" = "8:"
@@ -1092,30 +1188,30 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E063ECA7A91846F7A816EB98444F01CA"
             {
-            "Name" = "8:Ogre Model Configurator"
+            "Name" = "8:Ogre Mesh Viewer"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:"
+            "Target" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
             "Folder" = "8:_EB4BFA3FCD7F4EB3946FF496C68F63AE"
             "WorkingFolder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
-            "Icon" = "8:"
+            "Icon" = "8:_C4BD303036624D2CA8E03C802E3807F3"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F2A6795DE5A1488EB7F2BABB514A53D0"
             {
-            "Name" = "8:Ogre Model Configurator"
+            "Name" = "8:Ogre Mesh Viewer"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:"
+            "Target" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
             "Folder" = "8:_8F6FB860A7BE488C96FD4EC99AD3C5CB"
             "WorkingFolder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
-            "Icon" = "8:"
+            "Icon" = "8:_C4BD303036624D2CA8E03C802E3807F3"
             "Feature" = "8:"
             }
         }
@@ -1528,11 +1624,39 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_7901A351D96B4A35821A0339494A4B04"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:policy_9_0_Microsoft_VC90_MFC_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
             "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_DE3769B0F1AD43719CC66A4C6CD7264C"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "SourcePath" = "8:microsoft_vc90_crt_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_F23C29ED173949449F5BAC8B358E46AC"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:microsoft_vc90_mfc_x86.msm"
                 "Properties"
                 {
                 }
