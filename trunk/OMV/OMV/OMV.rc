@@ -15,16 +15,8 @@
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
-/////////////////////////////////////////////////////////////////////////////
-// Chinese (P.R.C.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
-#ifdef _WIN32
-LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
-#pragma code_page(936)
-#endif //_WIN32
-
 #ifdef APSTUDIO_INVOKED
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // TEXTINCLUDE
@@ -65,18 +57,6 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Chinese (P.R.C.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -85,11 +65,16 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_CLASS_VIEW          ICON                    "res\\class_view.ico"
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
 IDR_MAINFRAME           ICON                    "res\\OMV.ico"
-IDR_OgreModelConfigTYPE ICON                    "res\\OMVDoc.ico"
+IDR_OgreMeshTYPE         ICON         "res\\OMVDoc.ico"
+#endif
 IDI_FILE_VIEW           ICON                    "res\\file_view.ico"
 IDI_FILE_VIEW_HC        ICON                    "res\\file_view_hc.ico"
+IDI_CLASS_VIEW          ICON         "res\\class_view.ico"
 IDI_CLASS_VIEW_HC       ICON                    "res\\class_view_hc.ico"
 IDI_OUTPUT_WND          ICON                    "res\\output_wnd.ico"
 IDI_OUTPUT_WND_HC       ICON                    "res\\output_wnd_hc.ico"
@@ -103,12 +88,12 @@ IDI_PROPERTIES_WND_HC   ICON                    "res\\properties_wnd_hc.ico"
 
 IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
 IDR_MAINFRAME_256       BITMAP                  "res\\Toolbar256.bmp"
-IDB_MAIN                BITMAP                  "res\\main.bmp"
-IDB_FILELARGE           BITMAP                  "res\\filelarge.bmp"
-IDB_FILESMALL           BITMAP                  "res\\filesmall.bmp"
-IDB_WRITELARGE          BITMAP                  "res\\writelarge.bmp"
-IDB_WRITESMALL          BITMAP                  "res\\writesmall.bmp"
-IDB_BUTTONS             BITMAP                  "res\\buttons.bmp"
+IDB_MAIN                BITMAP  DISCARDABLE     "res\\main.bmp"
+IDB_FILELARGE           BITMAP  DISCARDABLE     "res\\filelarge.bmp"
+IDB_FILESMALL           BITMAP  DISCARDABLE     "res\\filesmall.bmp"
+IDB_WRITELARGE          BITMAP  DISCARDABLE     "res\\writelarge.bmp"
+IDB_WRITESMALL          BITMAP  DISCARDABLE     "res\\writesmall.bmp"
+IDB_BUTTONS             BITMAP  DISCARDABLE     "res\\buttons.bmp"
 IDR_SORT                BITMAP                  "res\\sort.bmp"
 IDB_SORT_24             BITMAP                  "res\\sort_hc.bmp"
 IDB_FILE_VIEW           BITMAP                  "res\\fileview.bmp"
@@ -121,12 +106,6 @@ IDR_MENU_IMAGES         BITMAP                  "res\\menuimages.bmp"
 IDB_MENU_IMAGES_24      BITMAP                  "res\\menuimages_hc.bmp"
 IDR_PROPERTIES          BITMAP                  "res\\properties.bmp"
 IDB_PROPERTIES_HC       BITMAP                  "res\\properties_hc.bmp"
-IDB_NAVIGATION_LARGE    BITMAP                  "res\\nav_large.bmp"
-IDB_NAVIGATION_LARGE_HC BITMAP                  "res\\nav_large_hc.bmp"
-IDB_PAGES               BITMAP                  "res\\pages.bmp"
-IDB_PAGES_HC            BITMAP                  "res\\pages_hc.bmp"
-IDB_PAGES_SMALL         BITMAP                  "res\\pages_small.bmp"
-IDB_PAGES_SMALL_HC      BITMAP                  "res\\pages_small_hc.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -161,6 +140,7 @@ BEGIN
     BUTTON      ID_APP_ABOUT
 END
 
+
 IDR_SORT TOOLBAR  16, 16
 BEGIN
     BUTTON      ID_MESH_OPEN
@@ -192,7 +172,9 @@ BEGIN
     BUTTON      ID_PROPERTIES1
     BUTTON      ID_PROPERTIES2
 END
-
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -208,7 +190,7 @@ BEGIN
         MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
         MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
         MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
+		MENUITEM "Recent File",                 ID_FILE_MRU_FILE1,GRAYED
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
@@ -258,6 +240,8 @@ BEGIN
         MENUITEM "&About OMV...",               ID_APP_ABOUT
     END
 END
+
+
 
 IDR_POPUP_EDIT MENU 
 BEGIN
@@ -311,14 +295,13 @@ BEGIN
     END
 END
 
-IDR_THEME_MENU MENU 
+IDR_THEME_MENU MENU DISCARDABLE
 BEGIN
     MENUITEM "Office 2007 (&Blue Style)",   ID_VIEW_APPLOOK_OFF_2007_BLUE
     MENUITEM "Office 2007 (B&lack Style)",  ID_VIEW_APPLOOK_OFF_2007_BLACK
     MENUITEM "Office 2007 (&Silver Style)", ID_VIEW_APPLOOK_OFF_2007_SILVER
     MENUITEM "Office 2007 (&Aqua Style)",   ID_VIEW_APPLOOK_OFF_2007_AQUA
 END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -343,6 +326,8 @@ BEGIN
 END
 
 
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
@@ -351,9 +336,9 @@ END
 IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About OMV"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
+FONT 8, "MS Shell Dlg"
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,20,20
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
     LTEXT           "OMV, Version 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2010",IDC_STATIC,42,26,114,8
     DEFPUSHBUTTON   "OK",IDOK,113,41,50,14,WS_GROUP
@@ -408,16 +393,15 @@ BEGIN
             VALUE "InternalName", "OMV.exe"
             VALUE "LegalCopyright", "ZHKSoft.  All rights reserved."
             VALUE "OriginalFilename", "OMV.exe"
-            VALUE "ProductName", "OMV"
+            VALUE "ProductName", "Ogre Mesh Viewer"
             VALUE "ProductVersion", "1.0.0.1"
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x409, 1252
+		VALUE "Translation", 0x0409, 1252
     END
 END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -453,7 +437,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDR_MAINFRAME           "OMV\n\nOgreMeshViewer\nOgre Mesh Files (*.mesh)\n.mesh\nOMV.Document\nOMV.Document"
+	IDR_MAINFRAME           "Ogre Mesh Viewer\n\nOMV\nOMV Files (*.mesh)\n.mesh\nOMV.Document\nOMV.Document"
 END
 
 STRINGTABLE 
@@ -478,7 +462,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    AFX_IDS_APP_TITLE       "OMV"
+    AFX_IDS_APP_TITLE       "Ogre Mesh Viewer"
     AFX_IDS_IDLEMESSAGE     "Ready"
 END
 
@@ -628,11 +612,7 @@ BEGIN
     IDS_RIBBON_PRINT_SETUP  "Print Set&up"
     IDS_RIBBON_RECENT_DOCS  "Recent Documents"
 END
-
-#endif    // English (U.S.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
+#endif
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -646,7 +626,7 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE 9, 1
 #pragma code_page(1252)
-#include "res\OMV.rc2"  // non-Microsoft Visual C++ edited resources
+#include "res\\OMV.rc2"  // non-Microsoft Visual C++ edited resources
 #include "afxres.rc"         // Standard components
 #if !defined(_AFXDLL)
 #include "afxprint.rc"               // printing/print preview resources

@@ -32,11 +32,11 @@
 #define IDI_OUTPUT_WND_HC               127
 #define IDR_MAINFRAME                   128
 #define IDI_PROPERTIES_WND              129
-#define IDI_PROPERTIES_WND_HC           130
-#define IDR_EXPLORER                    131
-#define IDR_MAINFRAME_256               132
-#define IDR_MENU_IMAGES                 133
-#define IDR_OgreModelConfigTYPE         134
+#define IDR_OgreMeshViewerTYPE          130
+#define IDI_PROPERTIES_WND_HC           131
+#define IDR_EXPLORER                    132
+#define IDR_MAINFRAME_256               133
+#define IDR_MENU_IMAGES                 134
 #define IDR_OUTPUT_POPUP                135
 #define IDR_PASTE_MENU                  136
 #define IDR_POPUP_EDIT                  137
@@ -167,7 +167,7 @@
 #define ID_WRITE_PASTEASHYPERLINK       32818
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        202
