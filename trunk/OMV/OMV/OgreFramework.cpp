@@ -140,7 +140,15 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, HWND hwnd)
 			return false;
 
 		m_pRoot->setRenderSystem( *(rList.begin()) );
-		//m_pRoot->saveConfig();	//crash on windows vista or above if no administrator right
+
+		try
+		{
+			m_pRoot->saveConfig();	//crash on windows vista or above if no administrator right
+		}
+		catch (...)
+		{
+			
+		}
 	}
 
 	m_pRenderWnd = m_pRoot->initialise(false, wndTitle);
