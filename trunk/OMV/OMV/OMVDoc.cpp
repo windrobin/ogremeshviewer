@@ -128,6 +128,14 @@ BOOL COMVDoc::OnNewDocument()
 
 BOOL COMVDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
+	char buffer[MAX_PATH];
+	::GetModuleFileName(0, buffer, MAX_PATH);
+	std::string strModulePath = buffer;
+
+	strModulePath.erase(strModulePath.find_last_of('\\') + 1);
+	SetCurrentDirectory(strModulePath.c_str());
+
+
 	std::string strPathName = lpszPathName;
 
 	std::string strPath = strPathName.substr(0, strPathName.rfind("\\") + 1);
