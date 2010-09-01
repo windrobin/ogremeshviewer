@@ -156,7 +156,15 @@ BOOL COMVDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 BOOL COMVDoc::OnSaveDocument(LPCTSTR lpszPathName)
 {
-	// need not it
+	// need not it, but have to restore working dir
+
+	char buffer[MAX_PATH];
+	::GetModuleFileName(0, buffer, MAX_PATH);
+	std::string strModulePath = buffer;
+
+	strModulePath.erase(strModulePath.find_last_of('\\') + 1);
+	SetCurrentDirectory(strModulePath.c_str());
+
 
 	return TRUE;
 }
