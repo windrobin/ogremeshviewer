@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------------------------------------
-This source file is part of OMV(Ogre Mesh Viewer)
+This source file is part of Tiger Viewer(An Ogre Mesh Viewer)
 For the latest info, see http://code.google.com/p/ogremeshviewer/
 
 Copyright (c) 2010 Zhang Kun(zhk.tiger@gmail.com)

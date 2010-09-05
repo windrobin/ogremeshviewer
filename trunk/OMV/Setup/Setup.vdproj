@@ -15,14 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_01030B3B0E5694F7BA9DA9DA092663B9"
-        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
+        "MsmKey" = "8:_0087CA64B71043768D81BAF66BA7C341"
+        "OwnerKey" = "8:_3250E5443E094952879D13FB70C941B3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_1658ED601E3445BB953B2168682C6449"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_01030B3B0E5694F7BA9DA9DA092663B9"
+        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -39,14 +39,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_20C176477ADC456EBF9E49408DEB9486"
-        "OwnerKey" = "8:_CE222B29E1AC4CC2BB9AF165FBF079D2"
+        "MsmKey" = "8:_28AF53DBD1D344DBA6ED270FA2595907"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_28AF53DBD1D344DBA6ED270FA2595907"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_3250E5443E094952879D13FB70C941B3"
+        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -58,12 +58,6 @@
         "Entry"
         {
         "MsmKey" = "8:_354F6FF6517744CFBC4414BFC97B3428"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_47C6635E7B7B4D389F96D5AD3C5F9985"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -81,12 +75,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5ED63DCFE14C4A5AB1229E42F8ACCDE8"
-        "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_61BCCA293EAFD3E13ECBC1B0D98661AB"
         "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
         "MsmSig" = "8:_UNDEFINED"
@@ -94,12 +82,6 @@
         "Entry"
         {
         "MsmKey" = "8:_66303D677EA84022B7F4B3232916B0F3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_677C183069A44F04AB85E3E5B24053D2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -147,20 +129,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CBE72C400AC84601A5016E261CE78363"
-        "OwnerKey" = "8:_5ED63DCFE14C4A5AB1229E42F8ACCDE8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CE222B29E1AC4CC2BB9AF165FBF079D2"
+        "MsmKey" = "8:_CB473399BC3147A7886626A23C569A11"
         "OwnerKey" = "8:_1EBFA0A31B114D8B9FD27F699C1EB37B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CF2C889D1CEF44A3BD36572A5E57ED77"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -173,6 +143,12 @@
         {
         "MsmKey" = "8:_D8C9AA2B3CA74EC48FD2709158EE9914"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E37A2FC8C6E14626883A0C37333335E4"
+        "OwnerKey" = "8:_CB473399BC3147A7886626A23C569A11"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -190,12 +166,6 @@
         "Entry"
         {
         "MsmKey" = "8:_F1DF3185C3784517BCD78BE582E5C2BE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F316954AB21B4A548CD3D4806C1B7F6A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -312,26 +282,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1658ED601E3445BB953B2168682C6449"
-            {
-            "SourcePath" = "8:..\\..\\Media\\狗\\狗.mesh"
-            "TargetName" = "8:狗.mesh"
-            "Tag" = "8:"
-            "Folder" = "8:_71BCFEE7A0CB42B4B019D8B5425C031C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1D073240E9C641F88ECA2612D9257DA7"
             {
             "SourcePath" = "8:..\\..\\Media\\Material\\grid.cg"
@@ -412,26 +362,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_47C6635E7B7B4D389F96D5AD3C5F9985"
-            {
-            "SourcePath" = "8:..\\..\\Media\\狗\\readme.txt"
-            "TargetName" = "8:readme.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_71BCFEE7A0CB42B4B019D8B5425C031C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5107FCD551A34787A8237D061142B5A2"
             {
             "SourcePath" = "8:..\\..\\Media\\Material\\axes.png"
@@ -498,26 +428,6 @@
             "TargetName" = "8:Plugin_CgProgramManager.dll"
             "Tag" = "8:"
             "Folder" = "8:_FBA62ACFFAC842E9A6823DE8D36856E4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_677C183069A44F04AB85E3E5B24053D2"
-            {
-            "SourcePath" = "8:..\\..\\Media\\狗\\jpg_dog.dds"
-            "TargetName" = "8:jpg_dog.dds"
-            "Tag" = "8:"
-            "Folder" = "8:_71BCFEE7A0CB42B4B019D8B5425C031C"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -672,26 +582,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CF2C889D1CEF44A3BD36572A5E57ED77"
-            {
-            "SourcePath" = "8:..\\..\\Media\\狗\\狗.skeleton"
-            "TargetName" = "8:狗.skeleton"
-            "Tag" = "8:"
-            "Folder" = "8:_71BCFEE7A0CB42B4B019D8B5425C031C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D14BCBF36C9E47DDB5EAA07CB7A8D19A"
             {
             "SourcePath" = "8:..\\..\\Bin\\RenderSystem_Direct3D9.dll"
@@ -792,26 +682,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F316954AB21B4A548CD3D4806C1B7F6A"
-            {
-            "SourcePath" = "8:..\\..\\Media\\狗\\狗.material"
-            "TargetName" = "8:狗.material"
-            "Tag" = "8:"
-            "Folder" = "8:_71BCFEE7A0CB42B4B019D8B5425C031C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F703FA4888A54EAE8EC8D7995F87B735"
             {
             "SourcePath" = "8:..\\..\\Media\\Material\\grid.material"
@@ -879,17 +749,6 @@
                                 {
                                 }
                             }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_71BCFEE7A0CB42B4B019D8B5425C031C"
-                            {
-                            "Name" = "8:DogMesh"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_463B64A4117749E39397D536F84726BC"
-                                "Folders"
-                                {
-                                }
-                            }
                             "{9EF0B969-E518-4E46-987F-47570745A589}:_75B22523DDD94C2CBF448358058BBFEB"
                             {
                             "Name" = "8:Model"
@@ -938,7 +797,7 @@
                 {
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_8F6FB860A7BE488C96FD4EC99AD3C5CB"
                     {
-                    "Name" = "8:Ogre Mesh Viewer"
+                    "Name" = "8:Tiger Viewer"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
@@ -975,19 +834,19 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:OgreMeshViewer"
-        "ProductCode" = "8:{A534D418-CC14-4358-B440-B5B99AC4B50E}"
-        "PackageCode" = "8:{1888A5EF-2D6B-4A81-A23A-E9EE9460F7FF}"
-        "UpgradeCode" = "8:{AFCEBEDA-DB1F-408F-8A58-CCC8EE2A4FCA}"
+        "ProductName" = "8:TigerViewer"
+        "ProductCode" = "8:{AD8F0272-93FC-49F0-AE72-6BE4998F1A67}"
+        "PackageCode" = "8:{E97F6316-EA38-47E7-8EAC-8B0CA250D92A}"
+        "UpgradeCode" = "8:{AFCEBEDA-DB1F-408F-8A58-C998EE2A4FCA}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:0.5.0"
+        "ProductVersion" = "8:1.0"
         "Manufacturer" = "8:ZHKSoft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Ogre Mesh Viewer"
+        "Title" = "8:Tiger Viewer"
         "Subject" = "8:"
         "ARPCONTACT" = "8:zhk.tiger"
         "Keywords" = "8:"
@@ -1098,7 +957,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E063ECA7A91846F7A816EB98444F01CA"
             {
-            "Name" = "8:Ogre Mesh Viewer"
+            "Name" = "8:Tiger Viewer"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1112,7 +971,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F2A6795DE5A1488EB7F2BABB514A53D0"
             {
-            "Name" = "8:Ogre Mesh Viewer"
+            "Name" = "8:Tiger Viewer"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1520,7 +1379,7 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_20C176477ADC456EBF9E49408DEB9486"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_0087CA64B71043768D81BAF66BA7C341"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -1534,7 +1393,21 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_5ED63DCFE14C4A5AB1229E42F8ACCDE8"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_3250E5443E094952879D13FB70C941B3"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:policy_9_0_Microsoft_VC90_CRT_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_CB473399BC3147A7886626A23C569A11"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -1548,25 +1421,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_CBE72C400AC84601A5016E261CE78363"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_E37A2FC8C6E14626883A0C37333335E4"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "SourcePath" = "8:microsoft_vc90_mfc_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_CE222B29E1AC4CC2BB9AF165FBF079D2"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:policy_9_0_Microsoft_VC90_CRT_x86.msm"
                 "Properties"
                 {
                 }
