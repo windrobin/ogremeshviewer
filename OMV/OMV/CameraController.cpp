@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------------------------------------
-This source file is part of OMV(Ogre Mesh Viewer)
+This source file is part of Tiger Viewer(An Ogre Mesh Viewer)
 For the latest info, see http://code.google.com/p/ogremeshviewer/
 
 Copyright (c) 2010 Zhang Kun(zhk.tiger@gmail.com)
@@ -78,10 +78,9 @@ bool CameraController::mouseMoved(const OIS::MouseEvent &evt)
 			Vector3 vCamDir			= vCamPos - OgreFramework::getSingleton().GetLookAt();
 			Real	dirLength		= vCamDir.length();
 
-			//Real fVolumeLength		= OgreFramework::getSingleton().GetVolumeLength();
-			//Real fAdjust			= dirLength / fVolumeLength;
+			Real fAdjust			= 0.01 * vCamDir.length();
 
-			Vector3 vOffset			= /*fAdjust * */_pCamera->getOrientation() * Vector3(evt.state.X.rel * -1.0f, evt.state.Y.rel * 1.0f, 0);
+			Vector3 vOffset			= _pCamera->getOrientation() * Vector3(fAdjust * evt.state.X.rel * -1.0f, fAdjust * evt.state.Y.rel * 1.0f, 0);
 			Vector3 vNewDir			= vOffset + vCamDir;
 			vNewDir.normalise();
 			
@@ -110,7 +109,7 @@ bool CameraController::mouseMoved(const OIS::MouseEvent &evt)
 		Real delta;
 		if (vDistance.length() > fVolumeLength)
 		{
-			delta = __max(fVolumeLength * 0.25, fabs(evt.state.Z.rel * 0.05f));
+			delta = __max(fVolumeLength * 0.45, fabs(evt.state.Z.rel * 0.05f));
 		}
 		else
 		{
