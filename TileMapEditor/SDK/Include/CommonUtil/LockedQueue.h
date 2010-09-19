@@ -1,0 +1,57 @@
+#pragma once
+
+#include "Mutex.h"
+
+namespace Cactus
+{
+	template <class T, class LockType = ThreadMutex, typename StorageType=Cactus::deque<T>::type>
+	class LockedQueue
+	{
+		//! Lock access to the queue.
+		LockType	_lock;
+
+		//! Storage backing the queue.
+		StorageType _queue;
+
+	public:
+
+		//! Create a LockedQueue.
+		LockedQueue() { }
+
+		//! Destroy a LockedQueue.
+		virtual ~LockedQueue() { }
+
+		//! Adds an item to the queue.
+		void Add(const T& item)
+		{
+			MutexAutoLock<LockType> g(_lock);
+
+			_queue.push_back(item);
+		}
+
+		//! Gets the next result in the queue, if any.
+		bool Next(T& result)
+		{
+			MutexAutoLock<LockType> g(_lock);
+
+			if (_queue.empty())
+				return false;
+
+			result = _queue.front();
+			_queue.pop_front();
+
+			return true;
+		}
+
+		size_t Size()
+		{
+			size_t sz;
+			{
+				MutexAutoLock<LockType> g(_lock);
+				sz = _queue.size();
+			}
+			return sz;
+		}
+	};
+}
+
