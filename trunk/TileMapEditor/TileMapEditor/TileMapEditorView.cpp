@@ -1,0 +1,98 @@
+
+// TileMapEditorView.cpp : CTileMapEditorView 类的实现
+//
+
+#include "stdafx.h"
+#include "TileMapEditor.h"
+
+#include "TileMapEditorDoc.h"
+#include "TileMapEditorView.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
+// CTileMapEditorView
+
+IMPLEMENT_DYNCREATE(CTileMapEditorView, CScrollView)
+
+BEGIN_MESSAGE_MAP(CTileMapEditorView, CScrollView)
+END_MESSAGE_MAP()
+
+// CTileMapEditorView 构造/析构
+
+CTileMapEditorView::CTileMapEditorView()
+{
+	// TODO: 在此处添加构造代码
+
+}
+
+CTileMapEditorView::~CTileMapEditorView()
+{
+}
+
+BOOL CTileMapEditorView::PreCreateWindow(CREATESTRUCT& cs)
+{
+	// TODO: 在此处通过修改
+	//  CREATESTRUCT cs 来修改窗口类或样式
+
+	return CScrollView::PreCreateWindow(cs);
+}
+
+// CTileMapEditorView 绘制
+
+void CTileMapEditorView::OnDraw(CDC* /*pDC*/)
+{
+	CTileMapEditorDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	// TODO: 在此处为本机数据添加绘制代码
+}
+
+void CTileMapEditorView::OnInitialUpdate()
+{
+	CScrollView::OnInitialUpdate();
+
+	CSize sizeTotal;
+	// TODO: 计算此视图的合计大小
+	sizeTotal.cx = sizeTotal.cy = 100;
+	SetScrollSizes(MM_TEXT, sizeTotal);
+}
+
+void CTileMapEditorView::OnRButtonUp(UINT nFlags, CPoint point)
+{
+	ClientToScreen(&point);
+	OnContextMenu(this, point);
+}
+
+void CTileMapEditorView::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
+}
+
+
+// CTileMapEditorView 诊断
+
+#ifdef _DEBUG
+void CTileMapEditorView::AssertValid() const
+{
+	CScrollView::AssertValid();
+}
+
+void CTileMapEditorView::Dump(CDumpContext& dc) const
+{
+	CScrollView::Dump(dc);
+}
+
+CTileMapEditorDoc* CTileMapEditorView::GetDocument() const // 非调试版本是内联的
+{
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CTileMapEditorDoc)));
+	return (CTileMapEditorDoc*)m_pDocument;
+}
+#endif //_DEBUG
+
+
+// CTileMapEditorView 消息处理程序
