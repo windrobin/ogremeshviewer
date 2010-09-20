@@ -1,13 +1,13 @@
 
 #include "stdafx.h"
 #include "MainFrm.h"
-#include "ClassView.h"
+#include "MapView.h"
 #include "Resource.h"
 #include "TileMapEditor.h"
 
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {
-	friend class CClassView;
+	friend class MapView;
 
 	DECLARE_SERIAL(CClassViewMenuButton)
 
@@ -36,16 +36,16 @@ IMPLEMENT_SERIAL(CClassViewMenuButton, CMFCToolBarMenuButton, 1)
 // 构造/析构
 //////////////////////////////////////////////////////////////////////
 
-CClassView::CClassView()
+MapView::MapView()
 {
 	m_nCurrSort = ID_SORTING_GROUPBYTYPE;
 }
 
-CClassView::~CClassView()
+MapView::~MapView()
 {
 }
 
-BEGIN_MESSAGE_MAP(CClassView, CDockablePane)
+BEGIN_MESSAGE_MAP(MapView, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
@@ -63,7 +63,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CClassView 消息处理程序
 
-int CClassView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int MapView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -115,51 +115,36 @@ int CClassView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void CClassView::OnSize(UINT nType, int cx, int cy)
+void MapView::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 	AdjustLayout();
 }
 
-void CClassView::FillClassView()
+void MapView::FillClassView()
 {
-	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("FakeApp 类"), 0, 0);
+	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("地图名称"), 0, 0);
 	m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hClass = m_wndClassView.InsertItem(_T("CFakeAboutDlg"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("CFakeAboutDlg()"), 3, 3, hClass);
-
+	HTREEITEM hClass = m_wndClassView.InsertItem(_T("背景"), 1, 1, hRoot);
 	m_wndClassView.Expand(hRoot, TVE_EXPAND);
 
-	hClass = m_wndClassView.InsertItem(_T("CFakeApp"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("CFakeApp()"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("InitInstance()"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("OnAppAbout()"), 3, 3, hClass);
-
-	hClass = m_wndClassView.InsertItem(_T("CFakeAppDoc"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("CFakeAppDoc()"), 4, 4, hClass);
-	m_wndClassView.InsertItem(_T("~CFakeAppDoc()"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("OnNewDocument()"), 3, 3, hClass);
-
-	hClass = m_wndClassView.InsertItem(_T("CFakeAppView"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("CFakeAppView()"), 4, 4, hClass);
-	m_wndClassView.InsertItem(_T("~CFakeAppView()"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("GetDocument()"), 3, 3, hClass);
+	hClass = m_wndClassView.InsertItem(_T("视觉层"), 1, 1, hRoot);
+	m_wndClassView.InsertItem(_T("Layer0"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("Layer1"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("Layer2"), 3, 3, hClass);
+	m_wndClassView.Expand(hClass, TVE_EXPAND);
+	
+	hClass = m_wndClassView.InsertItem(_T("逻辑层"), 1, 1, hRoot);
+	m_wndClassView.InsertItem(_T("Layer0"), 4, 4, hClass);
+	m_wndClassView.InsertItem(_T("Layer1"), 4, 4, hClass);
 	m_wndClassView.Expand(hClass, TVE_EXPAND);
 
-	hClass = m_wndClassView.InsertItem(_T("CFakeAppFrame"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("CFakeAppFrame()"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("~CFakeAppFrame()"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("m_wndMenuBar"), 6, 6, hClass);
-	m_wndClassView.InsertItem(_T("m_wndToolBar"), 6, 6, hClass);
-	m_wndClassView.InsertItem(_T("m_wndStatusBar"), 6, 6, hClass);
+	//可用Icon : 2, 5, 6
 
-	hClass = m_wndClassView.InsertItem(_T("Globals"), 2, 2, hRoot);
-	m_wndClassView.InsertItem(_T("theFakeApp"), 5, 5, hClass);
-	m_wndClassView.Expand(hClass, TVE_EXPAND);
 }
 
-void CClassView::OnContextMenu(CWnd* pWnd, CPoint point)
+void MapView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	CTreeCtrl* pWndTree = (CTreeCtrl*)&m_wndClassView;
 	ASSERT_VALID(pWndTree);
@@ -202,7 +187,7 @@ void CClassView::OnContextMenu(CWnd* pWnd, CPoint point)
 	}
 }
 
-void CClassView::AdjustLayout()
+void MapView::AdjustLayout()
 {
 	if (GetSafeHwnd() == NULL)
 	{
@@ -218,12 +203,12 @@ void CClassView::AdjustLayout()
 	m_wndClassView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-BOOL CClassView::PreTranslateMessage(MSG* pMsg)
+BOOL MapView::PreTranslateMessage(MSG* pMsg)
 {
 	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
-void CClassView::OnSort(UINT id)
+void MapView::OnSort(UINT id)
 {
 	if (m_nCurrSort == id)
 	{
@@ -242,37 +227,37 @@ void CClassView::OnSort(UINT id)
 	}
 }
 
-void CClassView::OnUpdateSort(CCmdUI* pCmdUI)
+void MapView::OnUpdateSort(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(pCmdUI->m_nID == m_nCurrSort);
 }
 
-void CClassView::OnClassAddMemberFunction()
+void MapView::OnClassAddMemberFunction()
 {
 	AfxMessageBox(_T("添加成员函数..."));
 }
 
-void CClassView::OnClassAddMemberVariable()
+void MapView::OnClassAddMemberVariable()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CClassView::OnClassDefinition()
+void MapView::OnClassDefinition()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CClassView::OnClassProperties()
+void MapView::OnClassProperties()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CClassView::OnNewFolder()
+void MapView::OnNewFolder()
 {
 	AfxMessageBox(_T("新建文件夹..."));
 }
 
-void CClassView::OnPaint()
+void MapView::OnPaint()
 {
 	CPaintDC dc(this); // 用于绘制的设备上下文
 
@@ -284,14 +269,14 @@ void CClassView::OnPaint()
 	dc.Draw3dRect(rectTree, ::GetSysColor(COLOR_3DSHADOW), ::GetSysColor(COLOR_3DSHADOW));
 }
 
-void CClassView::OnSetFocus(CWnd* pOldWnd)
+void MapView::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
 
 	m_wndClassView.SetFocus();
 }
 
-void CClassView::OnChangeVisualStyle()
+void MapView::OnChangeVisualStyle()
 {
 	m_ClassViewImages.DeleteImageList();
 
