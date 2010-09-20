@@ -1,7 +1,7 @@
 
 #include "stdafx.h"
 #include "mainfrm.h"
-#include "FileView.h"
+#include "ResourceTreeView.h"
 #include "Resource.h"
 #include "TileMapEditor.h"
 
@@ -12,17 +12,17 @@ static char THIS_FILE[]=__FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// CFileView
+// ArtSourceTreeView
 
-CFileView::CFileView()
+ResourceTreeView::ResourceTreeView()
 {
 }
 
-CFileView::~CFileView()
+ResourceTreeView::~ResourceTreeView()
 {
 }
 
-BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
+BEGIN_MESSAGE_MAP(ResourceTreeView, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
@@ -40,7 +40,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CWorkspaceBar 消息处理程序
 
-int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int ResourceTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -82,48 +82,40 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void CFileView::OnSize(UINT nType, int cx, int cy)
+void ResourceTreeView::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 	AdjustLayout();
 }
 
-void CFileView::FillFileView()
+void ResourceTreeView::FillFileView()
 {
-	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("FakeApp 文件"), 0, 0);
+	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Root"), 0, 0);
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hSrc = m_wndFileView.InsertItem(_T("FakeApp 源文件"), 0, 0, hRoot);
+	HTREEITEM hSrc = m_wndFileView.InsertItem(_T("美术"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppView.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("MainFrm.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("StdAfx.cpp"), 1, 1, hSrc);
+	m_wndFileView.InsertItem(_T("背景资源"), 1, 1, hSrc);
+	m_wndFileView.InsertItem(_T("Tile资源"), 1, 1, hSrc);
 
-	HTREEITEM hInc = m_wndFileView.InsertItem(_T("FakeApp 头文件"), 0, 0, hRoot);
+	HTREEITEM hInc = m_wndFileView.InsertItem(_T("游戏对象"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppView.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("Resource.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("MainFrm.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("StdAfx.h"), 2, 2, hInc);
+	m_wndFileView.InsertItem(_T("NPC"), 2, 2, hInc);
+	m_wndFileView.InsertItem(_T("Monster"), 2, 2, hInc);
+	m_wndFileView.InsertItem(_T("Function Point"), 2, 2, hInc);
 
-	HTREEITEM hRes = m_wndFileView.InsertItem(_T("FakeApp 资源文件"), 0, 0, hRoot);
+	HTREEITEM hRes = m_wndFileView.InsertItem(_T("游戏事件"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeApp.rc2"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeToolbar.bmp"), 2, 2, hRes);
+	m_wndFileView.InsertItem(_T("通用"), 2, 2, hRes);
+	m_wndFileView.InsertItem(_T("单人"), 2, 2, hRes);
+	m_wndFileView.InsertItem(_T("多人"), 2, 2, hRes);
 
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
 	m_wndFileView.Expand(hSrc, TVE_EXPAND);
 	m_wndFileView.Expand(hInc, TVE_EXPAND);
 }
 
-void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
+void ResourceTreeView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	CTreeCtrl* pWndTree = (CTreeCtrl*) &m_wndFileView;
 	ASSERT_VALID(pWndTree);
@@ -152,7 +144,7 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
 }
 
-void CFileView::AdjustLayout()
+void ResourceTreeView::AdjustLayout()
 {
 	if (GetSafeHwnd() == NULL)
 	{
@@ -168,43 +160,43 @@ void CFileView::AdjustLayout()
 	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-void CFileView::OnProperties()
+void ResourceTreeView::OnProperties()
 {
 	AfxMessageBox(_T("属性...."));
 
 }
 
-void CFileView::OnFileOpen()
+void ResourceTreeView::OnFileOpen()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnFileOpenWith()
+void ResourceTreeView::OnFileOpenWith()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnDummyCompile()
+void ResourceTreeView::OnDummyCompile()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnEditCut()
+void ResourceTreeView::OnEditCut()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnEditCopy()
+void ResourceTreeView::OnEditCopy()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnEditClear()
+void ResourceTreeView::OnEditClear()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnPaint()
+void ResourceTreeView::OnPaint()
 {
 	CPaintDC dc(this); // 用于绘制的设备上下文
 
@@ -216,14 +208,14 @@ void CFileView::OnPaint()
 	dc.Draw3dRect(rectTree, ::GetSysColor(COLOR_3DSHADOW), ::GetSysColor(COLOR_3DSHADOW));
 }
 
-void CFileView::OnSetFocus(CWnd* pOldWnd)
+void ResourceTreeView::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
 
 	m_wndFileView.SetFocus();
 }
 
-void CFileView::OnChangeVisualStyle()
+void ResourceTreeView::OnChangeVisualStyle()
 {
 	m_wndToolBar.CleanUpLockedImages();
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_EXPLORER_24 : IDR_EXPLORER, 0, 0, TRUE /* 锁定 */);
