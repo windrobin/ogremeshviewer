@@ -184,6 +184,8 @@ BEGIN
         MENUITEM "保存(&S)\tCtrl+S",              ID_FILE_SAVE
         MENUITEM "另存为(&A)...",                  ID_FILE_SAVE_AS
         MENUITEM SEPARATOR
+        MENUITEM "导出(&E)\tCtrl+E",              ID_EXPORT_GAMESCENE
+        MENUITEM SEPARATOR
         MENUITEM "最近的文件",                       ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "退出(&X)",                      ID_APP_EXIT
@@ -191,6 +193,7 @@ BEGIN
     POPUP "编辑(&E)"
     BEGIN
         MENUITEM "撤消(&U)\tCtrl+Z",              ID_EDIT_UNDO
+        MENUITEM "重做(&R)\tCtrl+R",              ID_EDIT_REDO
         MENUITEM SEPARATOR
         MENUITEM "剪切(&T)\tCtrl+X",              ID_EDIT_CUT
         MENUITEM "复制(&C)\tCtrl+C",              ID_EDIT_COPY
@@ -496,11 +499,13 @@ BEGIN
     IDS_STATUS_PANE2        "窗格 2"
     IDS_TOOLBAR_STANDARD    "标准"
     IDS_TOOLBAR_CUSTOMIZE   "自定义..."
+    IDS_PANEL_TILERES       "Tile资源窗口"
+    IDS_PANEL_GAMEOBJECT    "游戏对象资源窗口"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_FILE_VIEW           "资源树视图"
+    IDS_FILE_VIEW           "资源"
     IDS_CLASS_VIEW          "地图"
     IDS_OUTPUT_WND          "日志信息"
     IDS_PROPERTIES_WND      "属性"
@@ -517,6 +522,11 @@ BEGIN
     IDS_BUILD_TAB           "日志"
     IDS_DEBUG_TAB           "调试"
     IDS_FIND_TAB            "查找"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EXPORT_GAMESCENE     "导出为游戏用的场景文件\n导出"
 END
 
 #endif    // Chinese (P.R.C.) resources
