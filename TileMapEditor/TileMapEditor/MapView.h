@@ -2,16 +2,7 @@
 #pragma once
 
 #include "ViewTree.h"
-
-class CClassToolBar : public CMFCToolBar
-{
-	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
-	{
-		CMFCToolBar::OnUpdateCmdUI((CFrameWnd*) GetOwner(), bDisableIfNoHndler);
-	}
-
-	virtual BOOL AllowShowOnList() const { return FALSE; }
-};
+#include "PanelToolBar.h"
 
 class MapView : public CDockablePane
 {

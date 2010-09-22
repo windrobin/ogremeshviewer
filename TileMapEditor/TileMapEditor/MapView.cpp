@@ -136,8 +136,13 @@ void MapView::FillClassView()
 	m_wndClassView.Expand(hClass, TVE_EXPAND);
 	
 	hClass = m_wndClassView.InsertItem(_T("Âß¼­²ã"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("Layer0"), 4, 4, hClass);
-	m_wndClassView.InsertItem(_T("Layer1"), 4, 4, hClass);
+	m_wndClassView.InsertItem(_T("Layer0"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("Layer1"), 3, 3, hClass);
+	m_wndClassView.Expand(hClass, TVE_EXPAND);
+
+	hClass = m_wndClassView.InsertItem(_T("»­Ë¢"), 1, 1, hRoot);
+	m_wndClassView.InsertItem(_T("Brush0"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("Brush1"), 3, 3, hClass);
 	m_wndClassView.Expand(hClass, TVE_EXPAND);
 
 	//¿ÉÓÃIcon : 2, 5, 6

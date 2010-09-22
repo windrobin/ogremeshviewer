@@ -7,6 +7,8 @@
 #include "ResourceTreeView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
+#include "GameObjectResView.h"
+#include "TileResView.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -14,12 +16,6 @@ class CMainFrame : public CFrameWndEx
 protected: // 仅从序列化创建
 	CMainFrame();
 	DECLARE_DYNCREATE(CMainFrame)
-
-// 属性
-public:
-
-// 操作
-public:
 
 // 重写
 public:
@@ -43,6 +39,9 @@ protected:  // 控件条嵌入成员
 	MapView        m_wndClassView;
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
+
+	GameObjectResView	_GameObjectResView;
+	TileResView			_TileResView;
 
 // 生成的消息映射函数
 protected:

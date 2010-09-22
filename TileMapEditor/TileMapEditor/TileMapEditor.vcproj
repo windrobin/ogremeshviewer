@@ -276,10 +276,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\TileMapEditor.rc"
-				>
-			</File>
-			<File
 				RelativePath=".\res\TileMapEditor.rc2"
 				>
 			</File>
@@ -336,6 +332,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TileMapEditor.rc"
+				>
+			</File>
+			<File
 				RelativePath=".\TileMapEditor.reg"
 				>
 			</File>
@@ -377,8 +377,16 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="UIs"
+			Name="UI"
 			>
+			<File
+				RelativePath=".\GameObjectResView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObjectResView.h"
+				>
+			</File>
 			<File
 				RelativePath=".\MapView.cpp"
 				>
@@ -393,6 +401,10 @@
 			</File>
 			<File
 				RelativePath=".\OutputWnd.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PanelToolBar.h"
 				>
 			</File>
 			<File
@@ -412,6 +424,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TileResView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TileResView.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ViewTree.cpp"
 				>
 			</File>
@@ -419,6 +439,10 @@
 				RelativePath=".\ViewTree.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Object"
+			>
 		</Filter>
 	</Files>
 	<Globals>

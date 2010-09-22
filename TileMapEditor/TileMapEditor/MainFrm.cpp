@@ -117,15 +117,32 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
+	//Left
 	m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndClassView.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndFileView);
+
 	CDockablePane* pTabbedBar = NULL;
 	m_wndClassView.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
+	
+
+	//Bottom
 	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndOutput);
-	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
+	
+
+	//Right
+	m_wndProperties.EnableDocking(CBRS_ALIGN_RIGHT);
 	DockPane(&m_wndProperties);
+
+	_TileResView.EnableDocking(CBRS_ALIGN_RIGHT);
+	DockPane(&_TileResView);
+	_TileResView.AttachToTabWnd(&m_wndProperties, DM_SHOW, FALSE, &pTabbedBar);
+
+	_GameObjectResView.EnableDocking(CBRS_ALIGN_RIGHT);
+	DockPane(&_GameObjectResView);
+	_GameObjectResView.AttachToTabWnd(&m_wndProperties, DM_SHOW, FALSE, &pTabbedBar);
+
 
 
 	// 启用工具栏和停靠窗口菜单替换
@@ -152,10 +169,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	lstBasicCommands.AddTail(ID_FILE_OPEN);
 	lstBasicCommands.AddTail(ID_FILE_SAVE);
 	lstBasicCommands.AddTail(ID_FILE_PRINT);
+	lstBasicCommands.AddTail(ID_EXPORT_GAMESCENE);
 	lstBasicCommands.AddTail(ID_APP_EXIT);
 	lstBasicCommands.AddTail(ID_EDIT_CUT);
 	lstBasicCommands.AddTail(ID_EDIT_PASTE);
 	lstBasicCommands.AddTail(ID_EDIT_UNDO);
+	lstBasicCommands.AddTail(ID_EDIT_REDO);
 	lstBasicCommands.AddTail(ID_APP_ABOUT);
 	lstBasicCommands.AddTail(ID_VIEW_STATUS_BAR);
 	lstBasicCommands.AddTail(ID_VIEW_TOOLBAR);
@@ -229,6 +248,25 @@ BOOL CMainFrame::CreateDockingWindows()
 	if (!m_wndProperties.Create(strPropertiesWnd, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("未能创建“属性”窗口\n");
+		return FALSE; // 未能创建
+	}
+
+	// 创建TileResView窗口
+	CString strTmp;
+	bNameValid = strTmp.LoadString(IDS_PANEL_TILERES);
+	ASSERT(bNameValid);
+	if (!_TileResView.Create(strTmp, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("未能创建“TileResView”窗口\n");
+		return FALSE; // 未能创建
+	}
+
+	// 创建GameObjectResView窗口
+	bNameValid = strTmp.LoadString(IDS_PANEL_GAMEOBJECT);
+	ASSERT(bNameValid);
+	if (!_GameObjectResView.Create(strTmp, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("未能创建“GameObjectResView”窗口\n");
 		return FALSE; // 未能创建
 	}
 
