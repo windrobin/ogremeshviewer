@@ -29,6 +29,11 @@ protected:
 	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;
 
+	HTREEITEM	_treeArtBackgroundRes;
+	HTREEITEM	_treeArtTileRes;
+	HTREEITEM	_treeGameObjectRes;
+	HTREEITEM	_treeGameEventRes;
+
 protected:
 	void FillFileView();
 
