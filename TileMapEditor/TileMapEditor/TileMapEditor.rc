@@ -499,8 +499,8 @@ BEGIN
     IDS_STATUS_PANE2        "窗格 2"
     IDS_TOOLBAR_STANDARD    "标准"
     IDS_TOOLBAR_CUSTOMIZE   "自定义..."
-    IDS_PANEL_TILERES       "Tile资源窗口"
-    IDS_PANEL_GAMEOBJECT    "游戏对象资源窗口"
+    IDS_PANEL_TILERES       "Tile资源"
+    IDS_PANEL_GAMEOBJECT    "游戏对象资源"
 END
 
 STRINGTABLE 

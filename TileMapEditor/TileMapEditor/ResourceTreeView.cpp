@@ -93,26 +93,27 @@ void ResourceTreeView::FillFileView()
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Root"), 0, 0);
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hSrc = m_wndFileView.InsertItem(_T("美术"), 0, 0, hRoot);
+	HTREEITEM hArtSrc = m_wndFileView.InsertItem(_T("美术"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("背景资源"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("Tile资源"), 1, 1, hSrc);
+	_treeArtBackgroundRes	= m_wndFileView.InsertItem(_T("背景资源"), 0, 0, hArtSrc);
+	_treeArtTileRes			= m_wndFileView.InsertItem(_T("Tile资源"), 0, 0, hArtSrc);
 
-	HTREEITEM hInc = m_wndFileView.InsertItem(_T("游戏对象"), 0, 0, hRoot);
+	_treeGameObjectRes	= m_wndFileView.InsertItem(_T("游戏对象"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("NPC"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("Monster"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("Function Point"), 2, 2, hInc);
+	//m_wndFileView.InsertItem(_T("NPC"), 2, 2, hInc);
+	//m_wndFileView.InsertItem(_T("Monster"), 2, 2, hInc);
+	//m_wndFileView.InsertItem(_T("Function Point"), 2, 2, hInc);
 
-	HTREEITEM hRes = m_wndFileView.InsertItem(_T("游戏事件"), 0, 0, hRoot);
+	_treeGameEventRes	= m_wndFileView.InsertItem(_T("游戏事件"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("通用"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("单人"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("多人"), 2, 2, hRes);
+	//m_wndFileView.InsertItem(_T("通用"), 2, 2, hRes);
+	//m_wndFileView.InsertItem(_T("单人"), 2, 2, hRes);
+	//m_wndFileView.InsertItem(_T("多人"), 2, 2, hRes);
 
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
-	m_wndFileView.Expand(hSrc, TVE_EXPAND);
-	m_wndFileView.Expand(hInc, TVE_EXPAND);
+	m_wndFileView.Expand(hArtSrc, TVE_EXPAND);
+	m_wndFileView.Expand(_treeGameObjectRes, TVE_EXPAND);
+	m_wndFileView.Expand(_treeGameEventRes, TVE_EXPAND);
 }
 
 void ResourceTreeView::OnContextMenu(CWnd* pWnd, CPoint point)

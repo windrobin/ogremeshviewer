@@ -443,6 +443,62 @@
 		<Filter
 			Name="Object"
 			>
+			<File
+				RelativePath=".\ResourceManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ResourceManager.h"
+				>
+			</File>
+			<Filter
+				Name="Resource"
+				>
+				<File
+					RelativePath=".\ResourceBackground.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceBackground.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceGameObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceGameObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceTile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceTile.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Map"
+				>
+				<File
+					RelativePath=".\Map.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Map.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MapBackground.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MapBackground.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
