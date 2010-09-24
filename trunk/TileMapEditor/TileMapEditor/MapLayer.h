@@ -25,6 +25,7 @@ protected:
 	int					_iHeight;
 	int					_iTileWidth;
 	int					_iTileHeight;
+	bool				_bEnable;
 
 	typedef Cactus::map<Cactus::String, TileVectorType>::type	TileGroupMapType;	//ResourceTile key
 	TileGroupMapType	_GroupTiles;
