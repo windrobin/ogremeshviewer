@@ -1,0 +1,31 @@
+#pragma once
+
+struct STile 
+{
+	int		_posX;
+	int		_posY;
+	int		_ID;
+};
+
+typedef Cactus::vector<STile>::type		TileVectorType;
+
+class MapLayer : public PropertySys::SupportRTTI<MapLayer, PropertySys::RTTIObject>
+{
+	friend class Map;
+public:
+	MapLayer();
+	~MapLayer();
+
+	static void			RegisterReflection();
+	virtual void		OnPropertyChanged(const std::string& propName);
+
+protected:
+	Cactus::String		_strName;
+	int					_iWidth;
+	int					_iHeight;
+	int					_iTileWidth;
+	int					_iTileHeight;
+
+	typedef Cactus::map<Cactus::String, TileVectorType>::type	TileGroupMapType;	//ResourceTile key
+	TileGroupMapType	_GroupTiles;
+};
