@@ -54,10 +54,18 @@ namespace Cactus
 	//----------------------------------------------------------------------------------------------
 	class COMMONUTIL_API XMLHandler : public Cactus::Object
 	{
+		friend class XMLParser;
 	public:
 		virtual void elementStart(const Cactus::String& element, const XMLAttributes& attributes) = 0;
 		virtual void elementEnd(const Cactus::String& element) = 0;
 		virtual void text(const Cactus::String& content) = 0;
+
+		// root/childElement/childElement/
+		bool	currentElementMatch(const Cactus::String& path);
+
+	protected:
+		typedef Cactus::vector<Cactus::String>::type	ElementKeyVectorType;
+		ElementKeyVectorType	_elements;
 	};
 
 	//----------------------------------------------------------------------------------------------
