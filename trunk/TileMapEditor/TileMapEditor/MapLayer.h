@@ -12,6 +12,7 @@ typedef Cactus::vector<STile>::type		TileVectorType;
 class MapLayer : public PropertySys::SupportRTTI<MapLayer, PropertySys::RTTIObject>
 {
 	friend class Map;
+	friend class Map_xmlHandler;
 public:
 	MapLayer();
 	~MapLayer();

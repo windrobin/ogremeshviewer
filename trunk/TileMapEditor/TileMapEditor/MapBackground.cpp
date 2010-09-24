@@ -24,8 +24,7 @@ void MapBackground::RegisterReflection()
 	pProp = M_RegisterPropertySimple(int, ImageWidth, MapBackground, Map, "绘制模式.", BaseProperty::eDefault, _ePaintMode);
 	pProp->SetValueSpecify(eValueList, "0;1;2");
 
-	//pProp = M_RegisterPropertySimple(Ogre::String, FSAA, OgreFramework, Rendering, "Full screen anti aliasing.", BaseProperty::eDefault, _strFSAA);
-	//pProp->SetValueSpecify(eValueList, "0;2;4;8;16");
+	pProp = M_RegisterPropertySimple(bool, Enable, MapBackground, Map, "是否激活，不激活将不会显示和导出.", BaseProperty::eDefault, _bEnable);
 }
 
 void MapBackground::OnPropertyChanged(const std::string& propName)

@@ -1,5 +1,7 @@
 #include "StdAfx.h"
 #include "Map.h"
+#include "MapBackground.h"
+#include "MapLayer.h"
 
 using namespace Cactus;
 using namespace PropertySys;
@@ -14,27 +16,118 @@ public:
 
 	virtual void elementStart(const Cactus::String& element, const Cactus::XMLAttributes& attributes)
 	{
+		if ( currentElementMatch("tilemap/") )
+		{
+			//<tilemap version="1" name="test001" width="1024" height="1024" tilew="64" tileh="64" footnotes="这是一个测试地图文件。">
+			_map._iVersion				= attributes.getValueAsInteger("version");
+			_map._strName				= attributes.getValueAsString("name");
+			_map._iWidth				= attributes.getValueAsInteger("width");
+			_map._iHeight				= attributes.getValueAsInteger("height");
+			_map._iTileWidthDefault		= attributes.getValueAsInteger("tilew");
+			_map._iTileHeightDefault	= attributes.getValueAsInteger("tileh");
+			_map._strFootnotes			= attributes.getValueAsString("footnotes");
+		}
+		else if ( currentElementMatch("tilemap/background/") )
+		{
+			//<background enable="true" reskey="bg01" paintmode="default"/>
+			_map._pMapBackground = new MapBackground;
+			_map._pMapBackground->_bEnable		= attributes.getValueAsBool("enable");
+			_map._pMapBackground->_strResKey	= attributes.getValueAsString("reskey");
 
+			String strTmp = attributes.getValueAsString("paintmode");
+			if (strTmp == "default")
+				_map._pMapBackground->_ePaintMode	= ePaintModeNormal;
+			else if (strTmp == "tiled")
+				_map._pMapBackground->_ePaintMode	= ePaintModeTiled;
+			else if (strTmp == "stretch")
+				_map._pMapBackground->_ePaintMode	= ePaintModeStrench;
+		}
+		else if ( currentElementMatch("tilemap/background/layers/") )
+		{
+		}
+		else if ( currentElementMatch("tilemap/background/layers/layer") )
+		{
+			//<layer name="layer0" enable="true" width="1024" height="1024" tilew="64" tileh="64">
+
+			_pCurLayer = new MapLayer;
+			_pCurLayer->_strName		= attributes.getValueAsString("name");
+			_pCurLayer->_bEnable		= attributes.getValueAsBool("enable");
+			_pCurLayer->_iWidth			= attributes.getValueAsInteger("width");
+			_pCurLayer->_iHeight		= attributes.getValueAsInteger("height");
+			_pCurLayer->_iTileWidth		= attributes.getValueAsInteger("tilew");
+			_pCurLayer->_iTileHeight	= attributes.getValueAsInteger("tileh");
+
+			_map._layers.push_back(_pCurLayer);
+		}
+		else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup") )
+		{
+			//<tilegroup reskey="tileres01">
+			_strCurGroupTile	= attributes.getValueAsString("reskey");
+		}
+		else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup/tile") )
+		{
+			//<tile posx="0" posy="0" id="0"/>
+			STile tile;
+			tile._posX	= attributes.getValueAsInteger("posx");
+			tile._posY	= attributes.getValueAsInteger("posy");
+			tile._ID	= attributes.getValueAsInteger("id");
+			_tiles.push_back(tile);
+		}
 	}
 
 	virtual void elementEnd(const Cactus::String& element)
 	{
-
+		if ( currentElementMatch("tilemap/") )
+		{
+		}
+		else if ( currentElementMatch("tilemap/background/") )
+		{
+		}
+		else if ( currentElementMatch("tilemap/background/layers/") )
+		{
+		}
+		else if ( currentElementMatch("tilemap/background/layers/layer") )
+		{
+			_pCurLayer = 0;
+		}
+		else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup") )
+		{
+			if (_strCurGroupTile.size())
+			{
+				_pCurLayer->_GroupTiles[_strCurGroupTile] = _tiles;
+				_tiles.clear();
+				_strCurGroupTile = "";
+			}
+		}
+		else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup/tile") )
+		{
+		}
 	}
 
 	virtual void text(const Cactus::String& content){}
 
-	Map&	_map;
+protected:
+
+	Map&			_map;
+
+	MapLayer*		_pCurLayer;
+	String			_strCurGroupTile;
+	TileVectorType	_tiles;
 };
 
 //---------------------------------------------------------------------------------------------------------
 
 Map::Map()
+: _pMapBackground(0)
 {
 }
 
 Map::~Map()
 {
+	if (_pMapBackground)
+	{
+		delete _pMapBackground;
+	}
 }
 
 void Map::RegisterReflection()
@@ -44,6 +137,8 @@ void Map::RegisterReflection()
 	M_ReflectionInit(0);
 
 	pProp = M_RegisterPropertySimple(Cactus::String, Name, Map, Map, "地图名.", BaseProperty::eDefault, _strName);
+
+	pProp = M_RegisterPropertySimple(int, Version, Map, Map, "地图版本.", BaseProperty::eReadOnly, _iVersion);
 	pProp = M_RegisterPropertySimple(Cactus::String, Footnotes, Map, Map, "地图备注.", BaseProperty::eDefault, _strFootnotes);
 
 	pProp = M_RegisterPropertySimple(int, Width, Map, Map, "地图宽度.", BaseProperty::eDefault, _iWidth);
