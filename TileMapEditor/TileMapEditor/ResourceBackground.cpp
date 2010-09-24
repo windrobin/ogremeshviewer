@@ -28,8 +28,6 @@ void ResourceBackground::RegisterReflection()
 	pProp = M_RegisterPropertySimple(int, ImageWidth, ResourceBackground, Resource, "Í¼Ïñ¿í¶È.", BaseProperty::eReadOnly, _iWidth);
 	pProp = M_RegisterPropertySimple(int, ImageHeight, ResourceBackground, Resource, "Í¼Ïñ¸ß¶È.", BaseProperty::eReadOnly, _iHeight);
 
-	//pProp = M_RegisterPropertySimple(Ogre::String, FSAA, OgreFramework, Rendering, "Full screen anti aliasing.", BaseProperty::eDefault, _strFSAA);
-	//pProp->SetValueSpecify(eValueList, "0;2;4;8;16");
 }
 
 void ResourceBackground::OnPropertyChanged(const std::string& propName)
