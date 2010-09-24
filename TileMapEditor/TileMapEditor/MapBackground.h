@@ -11,6 +11,7 @@ enum EPaintMode
 class MapBackground : public PropertySys::SupportRTTI<MapBackground, PropertySys::RTTIObject>
 {
 	friend class Map;
+	friend class Map_xmlHandler;
 public:
 	MapBackground();
 	~MapBackground();
@@ -21,4 +22,5 @@ public:
 protected:
 	Cactus::String		_strResKey;
 	EPaintMode			_ePaintMode;
+	bool				_bEnable;
 };
