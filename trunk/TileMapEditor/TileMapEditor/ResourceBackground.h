@@ -3,6 +3,7 @@
 class ResourceBackground : public PropertySys::SupportRTTI<ResourceBackground, PropertySys::RTTIObject>
 {
 	friend class ResourceManager;
+	friend class ResourceArt_xmlHandler;
 public:
 	ResourceBackground();
 	~ResourceBackground();

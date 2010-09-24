@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ResourceType.h"
+
 class ResourceBackground;
 class ResourceTile;
 
@@ -25,10 +27,7 @@ protected:
 	ResTileType			_ResTiles;
 
 	typedef	Cactus::map<Cactus::String, ResourceGameObject*>::type	ResGameObjectType;
-	ResGameObjectType	_ResGameObjectNPC;
-	ResGameObjectType	_ResGameObjectMonster;
-	ResGameObjectType	_ResGameObjectFunctionPoint;
-	ResGameObjectType	_ResGameObjectEvent;
+	ResGameObjectType	_ResGameObject[eGameObjectMax];
 
 	bool	_LoadResourceArt(const Cactus::String& strPathName);
 	bool	_LoadResourceGameObject(const Cactus::String& strPathName);

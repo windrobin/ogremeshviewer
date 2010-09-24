@@ -3,7 +3,6 @@
 
 #include "ResourceBackground.h"
 #include "ResourceTile.h"
-
 #include "ResourceGameObject.h"
 
 using namespace Cactus;
@@ -15,20 +14,85 @@ ResourceManager* Cactus::Singleton<ResourceManager>::s_pSingleton = 0;
 class ResourceArt_xmlHandler : public Cactus::XMLHandler
 {
 public:
-	ResourceArt_xmlHandler(ResourceManager& resMan) : _resManager(resMan){}
+	ResourceArt_xmlHandler(ResourceManager& resMan) : _resManager(resMan)
+	{
+		_bInBackground	= false;
+		_bInTiles		= false;
+	}
 	virtual ~ResourceArt_xmlHandler(){}
 
 	virtual void elementStart(const Cactus::String& element, const Cactus::XMLAttributes& attributes)
 	{
+		if (element == "background")
+		{
+			_bInBackground	= true;
+		}
+		else if (element == "tiles")
+		{
+			_bInTiles		= true;
+		}
+		else if (element == "item")
+		{
+			if (_bInBackground)
+			{
+				//<item name="bg1" res="art/background/bg1.png"/>
+				ResourceBackground* p = new ResourceBackground;
+				p->_strName				= attributes.getValueAsString("name");
+				p->_strImagePathName	= attributes.getValueAsString("res");
+
+				_resManager._ResBackgrounds[p->_strName] = p;
+			}
+			else if (_bInTiles)
+			{
+				String strType	= attributes.getValueAsString("type");
+				if (strType == "image")
+				{
+					//<item type="image" name="tile1" res="art/tiles/tile1.png" tilew="32" tileh="32" count="80"/>
+					ResourceTileSingleImage* p = new ResourceTileSingleImage;
+					p->_strName			= attributes.getValueAsString("name");
+					p->_tileWidth		= attributes.getValueAsInteger("tilew");
+					p->_tileHeight		= attributes.getValueAsInteger("tileh");
+					p->_tilesCount		= attributes.getValueAsInteger("count");
+					p->_strImageName	= attributes.getValueAsString("res");
+					_resManager._ResTiles[p->_strName] = p;
+				}
+				else if (strType == "folder")
+				{
+					//<item type="folder" name="tile2" res="art/tiles/tile2/" tilew="32" tileh="32" count="80" ext="png" />
+					ResourceTileFolder* p = new ResourceTileFolder;
+					p->_strName			= attributes.getValueAsString("name");
+					p->_tileWidth		= attributes.getValueAsInteger("tilew");
+					p->_tileHeight		= attributes.getValueAsInteger("tileh");
+					p->_tilesCount		= attributes.getValueAsInteger("count");
+					p->_strFolderName	= attributes.getValueAsString("res");
+					p->_strFileExt		= attributes.getValueAsString("ext");
+					_resManager._ResTiles[p->_strName] = p;
+				}
+				else
+				{
+				}
+			}
+		}
 	}
 
 	virtual void elementEnd(const Cactus::String& element)
 	{
+		if (element == "background")
+		{
+			_bInBackground	= false;
+		}
+		else if (element == "tiles")
+		{
+			_bInTiles		= false;
+		}
 	}
 
 	virtual void text(const Cactus::String& content){}
 
+private:
 	ResourceManager&	_resManager;
+	bool				_bInBackground;
+	bool				_bInTiles;
 };
 
 //---------------------------------------------------------------------------------------------------------
@@ -36,22 +100,62 @@ public:
 class ResourceGameObject_xmlHandler : public Cactus::XMLHandler
 {
 public:
-	ResourceGameObject_xmlHandler(ResourceManager& resMan) : _resManager(resMan){}
+	ResourceGameObject_xmlHandler(ResourceManager& resMan) : _resManager(resMan)
+	{
+		_eType	= eGameObjectMax;
+	}
 	virtual ~ResourceGameObject_xmlHandler(){}
 
 	virtual void elementStart(const Cactus::String& element, const Cactus::XMLAttributes& attributes)
 	{
+		if (element == "npc")
+		{
+			_eType	= eGameObjectNPC;
+		}
+		else if (element == "monster")
+		{
+			_eType	= eGameObjectMonster;
+		}
+		else if (element == "funcpoint")
+		{
+			_eType	= eGameObjectFunctionPoint;
+		}
+		else if (element == "item" && _eType != eGameObjectMax)
+		{
+			//<item name="npc01" iconres="tile1" iconid="15" />
+			ResourceGameObject* p = new ResourceGameObject;
+			p->_strName			= attributes.getValueAsString("name");
+			p->_strArtResKey	= attributes.getValueAsString("iconres");
+			p->_ArtResID		= attributes.getValueAsInteger("iconid");
+		
+			p->_eType			= _eType;
 
+			_resManager._ResGameObject[_eType][p->_strName] = p;
+		}
 	}
 
 	virtual void elementEnd(const Cactus::String& element)
 	{
-
+		if (element == "npc")
+		{
+			_eType	= eGameObjectMax;
+		}
+		else if (element == "monster")
+		{
+			_eType	= eGameObjectMax;
+		}
+		else if (element == "funcpoint")
+		{
+			_eType	= eGameObjectMax;
+		}
 	}
 
 	virtual void text(const Cactus::String& content){}
 
+private:
+
 	ResourceManager&	_resManager;
+	GameObjectType		_eType;
 };
 
 //---------------------------------------------------------------------------------------------------------
@@ -85,6 +189,7 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
+	Reset();
 }
 
 bool ResourceManager::_LoadResourceArt(const Cactus::String& strPathName)
@@ -137,7 +242,6 @@ bool ResourceManager::_LoadResourceGameEvent(const Cactus::String& strPathName)
 
 	return true;
 }
-
 
 bool ResourceManager::Load(const Cactus::String& strRootPath)
 {
@@ -194,15 +298,9 @@ void ResourceManager::Reset()
 	_ResTiles.clear();
 
 
-	for_each(_ResGameObjectNPC.begin(), _ResGameObjectNPC.end(), delete_resourceGameObject);
-	_ResGameObjectNPC.clear();
-
-	for_each(_ResGameObjectMonster.begin(), _ResGameObjectMonster.end(), delete_resourceGameObject);
-	_ResGameObjectMonster.clear();
-
-	for_each(_ResGameObjectFunctionPoint.begin(), _ResGameObjectFunctionPoint.end(), delete_resourceGameObject);
-	_ResGameObjectFunctionPoint.clear();
-
-	for_each(_ResGameObjectEvent.begin(), _ResGameObjectEvent.end(), delete_resourceGameObject);
-	_ResGameObjectEvent.clear();
+	for(int i = 0; i < eGameObjectMax; ++i)
+	{
+		for_each(_ResGameObject[i].begin(), _ResGameObject[i].end(), delete_resourceGameObject);
+		_ResGameObject[i].clear();
+	}
 }
