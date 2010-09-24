@@ -4,6 +4,31 @@
 using namespace Cactus;
 using namespace PropertySys;
 
+//---------------------------------------------------------------------------------------------------------
+
+class Map_xmlHandler : public Cactus::XMLHandler
+{
+public:
+	Map_xmlHandler(Map& map) : _map(map){}
+	virtual ~Map_xmlHandler(){}
+
+	virtual void elementStart(const Cactus::String& element, const Cactus::XMLAttributes& attributes)
+	{
+
+	}
+
+	virtual void elementEnd(const Cactus::String& element)
+	{
+
+	}
+
+	virtual void text(const Cactus::String& content){}
+
+	Map&	_map;
+};
+
+//---------------------------------------------------------------------------------------------------------
+
 Map::Map()
 {
 }
@@ -32,4 +57,21 @@ void Map::RegisterReflection()
 
 void Map::OnPropertyChanged(const std::string& propName)
 {
+}
+
+bool Map::Load(const Cactus::String& strPathName)
+{
+	Map_xmlHandler handler(*this);
+
+	try
+	{
+		XMLParser xmlParser(handler, strPathName, "");
+	}
+	catch (std::exception e)
+	{
+		LogN_Error( Logic, "Map::Load, Load failed! File : " << strPathName );
+		return false;
+	}
+
+	return true;
 }
