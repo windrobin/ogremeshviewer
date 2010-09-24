@@ -18,7 +18,9 @@
 
 #if defined(WIN32)
 #	define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-#	define _WIN32_WINNT 0x0400
+#	ifndef _WIN32_WINNT
+#		define _WIN32_WINNT 0x403
+#	endif
 #	include <windows.h>
 #endif
 

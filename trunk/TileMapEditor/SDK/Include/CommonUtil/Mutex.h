@@ -58,6 +58,12 @@ namespace Cactus
 
 #ifdef WIN32
 
+#	define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+#	ifndef _WIN32_WINNT
+#		define _WIN32_WINNT 0x403
+#	endif
+#	include <windows.h>
+
 	class COMMONUTIL_API ThreadMutex
 	{
 	public:

@@ -16,9 +16,8 @@
 #include "CommonUtilExports.h"
 #include "OgreMemAlloc.h"
 
-#ifndef WIN32
-#	include "Mutex.h"
-#endif
+#include "Mutex.h"
+
 
 namespace Cactus
 {
@@ -36,11 +35,8 @@ namespace Cactus
 
 	class COMMONUTIL_API RefObject : public IRefObject, public Object
 	{
-
-#ifndef WIN32
 	protected:
 		ThreadMutex _objMutex;
-#endif
 
 	public:
 		RefObject();
@@ -48,22 +44,15 @@ namespace Cactus
 
 		void AddRef()
 		{
-#ifdef WIN32
-			InterlockedIncrement(&_lRefCount);
-#else
-			MutexAutoLock<><> lock(_objMutex);
+			MutexAutoLock<> lock(_objMutex);
 			++_lRefCount;
-#endif
 		}
 
 		void Release()
 		{
-#ifdef WIN32
-			long result = InterlockedDecrement(&_lRefCount);
-#else
-			MutexAutoLock<><> lock(_objMutex);
+			MutexAutoLock<> lock(_objMutex);
 			long result = --_lRefCount;
-#endif
+
 			if(result == 0)
 			{
 				Mem_Delete this;
