@@ -25,8 +25,6 @@ void ResourceGameObject::RegisterReflection()
 
 	pProp = M_RegisterPropertySimple(int, ArtResID, ResourceGameObject, Resource, "图像资源中的ID.", BaseProperty::eDefault, _ArtResID);
 
-	//pProp = M_RegisterPropertySimple(Ogre::String, FSAA, OgreFramework, Rendering, "Full screen anti aliasing.", BaseProperty::eDefault, _strFSAA);
-	//pProp->SetValueSpecify(eValueList, "0;2;4;8;16");
 }
 
 void ResourceGameObject::OnPropertyChanged(const std::string& propName)
