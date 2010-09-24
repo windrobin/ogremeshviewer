@@ -126,7 +126,7 @@ void MapView::FillClassView()
 	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("µØÍ¼Ãû³Æ"), 0, 0);
 	m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hClass = m_wndClassView.InsertItem(_T("±³¾°"), 1, 1, hRoot);
+	HTREEITEM hClass = m_wndClassView.InsertItem(_T("±³¾°"), 3, 3, hRoot);
 	m_wndClassView.Expand(hRoot, TVE_EXPAND);
 
 	hClass = m_wndClassView.InsertItem(_T("ÊÓ¾õ²ã"), 1, 1, hRoot);

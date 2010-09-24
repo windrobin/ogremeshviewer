@@ -498,6 +498,14 @@
 					RelativePath=".\MapBackground.h"
 					>
 				</File>
+				<File
+					RelativePath=".\MapLayer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MapLayer.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>
