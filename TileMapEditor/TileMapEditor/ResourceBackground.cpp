@@ -5,6 +5,8 @@ using namespace Cactus;
 using namespace PropertySys;
 
 ResourceBackground::ResourceBackground()
+: _iWidth(0)
+, _iHeight(0)
 {
 }
 

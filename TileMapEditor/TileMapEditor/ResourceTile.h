@@ -5,6 +5,7 @@
 class ResourceTile : public PropertySys::SupportRTTI<ResourceTile, PropertySys::RTTIObject>
 {
 	friend class ResourceManager;
+	friend class ResourceArt_xmlHandler;
 public:
 	ResourceTile();
 	~ResourceTile();
@@ -24,6 +25,7 @@ protected:
 class ResourceTileSingleImage : public PropertySys::SupportRTTI<ResourceTileSingleImage, ResourceTile>
 {
 	friend class ResourceManager;
+	friend class ResourceArt_xmlHandler;
 public:
 	ResourceTileSingleImage();
 	~ResourceTileSingleImage();
@@ -42,6 +44,7 @@ protected:
 class ResourceTileFolder : public PropertySys::SupportRTTI<ResourceTileFolder, ResourceTile>
 {
 	friend class ResourceManager;
+	friend class ResourceArt_xmlHandler;
 public:
 	ResourceTileFolder();
 	~ResourceTileFolder();

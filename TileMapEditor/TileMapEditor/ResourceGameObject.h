@@ -1,17 +1,11 @@
 #pragma once
 
-enum GameObjectType
-{
-	eGameObjectNPC,
-	eGameObjectMonster,
-	eGameObjectFunctionPoint,
-	eGameObjectEvent,
-	eGameObjectMax
-};
+#include "ResourceType.h"
 
 class ResourceGameObject : public PropertySys::SupportRTTI<ResourceGameObject, PropertySys::RTTIObject>
 {
 	friend class ResourceManager;
+	friend class ResourceGameObject_xmlHandler;
 public:
 	ResourceGameObject();
 	~ResourceGameObject();

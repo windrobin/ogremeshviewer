@@ -478,6 +478,10 @@
 					RelativePath=".\ResourceTile.h"
 					>
 				</File>
+				<File
+					RelativePath=".\ResourceType.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Map"
