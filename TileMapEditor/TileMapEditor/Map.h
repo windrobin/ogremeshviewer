@@ -11,6 +11,7 @@ public:
 	~Map();
 
 	bool				Load(const Cactus::String& strPathName);
+	void				Reset();
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);

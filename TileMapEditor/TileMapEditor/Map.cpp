@@ -167,3 +167,17 @@ bool Map::Load(const Cactus::String& strPathName)
 
 	return true;
 }
+
+void Map::Reset()
+{
+	if (_pMapBackground)
+	{
+		delete _pMapBackground;
+		_pMapBackground = 0;
+	}
+
+	for (MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
+	{
+		delete *it;
+	}
+}
