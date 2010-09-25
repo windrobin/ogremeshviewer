@@ -5,6 +5,9 @@
 #include "Resource.h"
 #include "TileMapEditor.h"
 
+#include "ResourceManager.h"
+
+
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -96,13 +99,25 @@ void ResourceTreeView::FillFileView()
 	HTREEITEM hArtSrc = m_wndFileView.InsertItem(_T("美术"), 0, 0, hRoot);
 
 	_treeArtBackgroundRes	= m_wndFileView.InsertItem(_T("背景资源"), 0, 0, hArtSrc);
+	for (ResourceManager::ResBackgroundType::iterator it = ResourceManager::getSingleton()._ResBackgrounds.begin(); 
+		it != ResourceManager::getSingleton()._ResBackgrounds.end(); ++it)
+	{
+		HTREEITEM hItem = m_wndFileView.InsertItem(it->first.c_str(), 2, 2, _treeArtBackgroundRes);
+		m_wndFileView.SetItemData(hItem, (DWORD_PTR)it->second);
+	}
+
 	_treeArtTileRes			= m_wndFileView.InsertItem(_T("Tile资源"), 0, 0, hArtSrc);
+	for (ResourceManager::ResTileType::iterator it = ResourceManager::getSingleton()._ResTiles.begin(); 
+		it != ResourceManager::getSingleton()._ResTiles.end(); ++it)
+	{
+		HTREEITEM hItem = m_wndFileView.InsertItem(it->first.c_str(), 2, 2, _treeArtTileRes);
+		m_wndFileView.SetItemData(hItem, (DWORD_PTR)it->second);
+	}
 
 	_treeGameObjectRes	= m_wndFileView.InsertItem(_T("游戏对象"), 0, 0, hRoot);
-
-	//m_wndFileView.InsertItem(_T("NPC"), 2, 2, hInc);
-	//m_wndFileView.InsertItem(_T("Monster"), 2, 2, hInc);
-	//m_wndFileView.InsertItem(_T("Function Point"), 2, 2, hInc);
+	m_wndFileView.InsertItem(_T("NPC"), 2, 2, _treeGameObjectRes);
+	m_wndFileView.InsertItem(_T("Monster"), 2, 2, _treeGameObjectRes);
+	m_wndFileView.InsertItem(_T("Function Point"), 2, 2, _treeGameObjectRes);
 
 	_treeGameEventRes	= m_wndFileView.InsertItem(_T("游戏事件"), 0, 0, hRoot);
 

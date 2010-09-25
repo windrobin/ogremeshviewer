@@ -10,11 +10,57 @@
 #include "TileMapEditorDoc.h"
 #include "TileMapEditorView.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
+#include "ResourceManager.h"
+
+//#ifdef _DEBUG
+//#define new DEBUG_NEW
+//#endif
 
 
+
+
+//-------------------------------------------------------------------------
+// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
+
+class CAboutDlg : public CDialog
+{
+public:
+	CAboutDlg();
+
+	// 对话框数据
+	enum { IDD = IDD_ABOUTBOX };
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+
+	// 实现
+protected:
+	DECLARE_MESSAGE_MAP()
+};
+
+CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
+{
+}
+
+void CAboutDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialog::DoDataExchange(pDX);
+}
+
+BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
+END_MESSAGE_MAP()
+
+// 用于运行对话框的应用程序命令
+void CTileMapEditorApp::OnAppAbout()
+{
+	CAboutDlg aboutDlg;
+	aboutDlg.DoModal();
+}
+
+
+
+
+//-------------------------------------------------------------------------
 // CTileMapEditorApp
 
 BEGIN_MESSAGE_MAP(CTileMapEditorApp, CWinAppEx)
@@ -56,6 +102,21 @@ BOOL CTileMapEditorApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinAppEx::InitInstance();
+
+	setlocale(LC_CTYPE, "");
+
+#if _DEBUG
+	Mem_New Cactus::LogManager(Cactus::eLogLevelDebug, "TileMapEditor.log");
+#else
+	Mem_New Cactus::LogManager(Cactus::eLogLevelInfo, "TileMapEditor");
+#endif
+
+	new ResourceManager;
+	if( !ResourceManager::getSingleton().Load("./Data/") )
+	{
+		AfxMessageBox("加载资源失败！", MB_OK | MB_ICONHAND);
+		return FALSE;
+	}
 
 	// 标准初始化
 	// 如果未使用这些功能并希望减小
@@ -105,7 +166,7 @@ BOOL CTileMapEditorApp::InitInstance()
 		return FALSE;
 
 	// 唯一的一个窗口已初始化，因此显示它并对其进行更新
-	m_pMainWnd->ShowWindow(SW_SHOWMAXIMIZED);
+	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
 	// 仅当具有后缀时才调用 DragAcceptFiles
 	//  在 SDI 应用程序中，这应在 ProcessShellCommand 之后发生
@@ -114,44 +175,6 @@ BOOL CTileMapEditorApp::InitInstance()
 	return TRUE;
 }
 
-
-
-// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
-
-class CAboutDlg : public CDialog
-{
-public:
-	CAboutDlg();
-
-// 对话框数据
-	enum { IDD = IDD_ABOUTBOX };
-
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
-
-// 实现
-protected:
-	DECLARE_MESSAGE_MAP()
-};
-
-CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
-{
-}
-
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
-}
-
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
-END_MESSAGE_MAP()
-
-// 用于运行对话框的应用程序命令
-void CTileMapEditorApp::OnAppAbout()
-{
-	CAboutDlg aboutDlg;
-	aboutDlg.DoModal();
-}
 
 // CTileMapEditorApp 自定义加载/保存方法
 
@@ -179,3 +202,18 @@ void CTileMapEditorApp::SaveCustomState()
 
 
 
+
+int CTileMapEditorApp::ExitInstance()
+{
+	if( ResourceManager::getSingletonPtr() )
+		delete ResourceManager::getSingletonPtr();
+
+	if( Cactus::LogManager::getSingletonPtr() )
+	{
+		Cactus::LogManager::getSingleton().Flush();
+		Mem_Delete Cactus::LogManager::getSingletonPtr();
+	}
+
+
+	return CWinAppEx::ExitInstance();
+}

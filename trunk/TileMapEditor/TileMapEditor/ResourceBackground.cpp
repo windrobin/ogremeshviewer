@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "ResourceBackground.h"
+#include "ResourceManager.h"
 
 using namespace Cactus;
 using namespace PropertySys;
@@ -32,4 +33,20 @@ void ResourceBackground::RegisterReflection()
 
 void ResourceBackground::OnPropertyChanged(const std::string& propName)
 {
+}
+
+
+bool ResourceBackground::Load()
+{
+	String strFull = ResourceManager::getSingleton().GetRootFolder() + _strImagePathName;
+
+	if( _image.Load(_strImagePathName.c_str()) )
+	{
+		_iWidth		= _image.GetWidth();
+		_iHeight	= _image.GetHeight();
+
+		return true;
+	}
+
+	return true;
 }

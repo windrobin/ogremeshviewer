@@ -10,6 +10,8 @@ public:
 	ResourceGameObject();
 	~ResourceGameObject();
 
+	bool				Load();
+
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
 

@@ -40,33 +40,60 @@ public:
 				p->_strName				= attributes.getValueAsString("name");
 				p->_strImagePathName	= attributes.getValueAsString("res");
 
-				_resManager._ResBackgrounds[p->_strName] = p;
+				if( p->Load() && _resManager._ResBackgrounds.find(p->_strName) == _resManager._ResBackgrounds.end() )
+				{
+					_resManager._ResBackgrounds[p->_strName] = p;
+				}
+				else
+				{
+					Log_Error("ResourceArt_xmlHandler::elementStart, ResourceBackground load failed! " << p->_strImagePathName);
+					delete p;
+				}
 			}
 			else if (_bInTiles)
 			{
 				String strType	= attributes.getValueAsString("type");
 				if (strType == "image")
 				{
-					//<item type="image" name="tile1" res="art/tiles/tile1.png" tilew="32" tileh="32" count="80"/>
+					//<item type="image" name="tile1" file="art/tiles/tile1.png" tilew="32" tileh="32" count="80"/>
 					ResourceTileSingleImage* p = new ResourceTileSingleImage;
 					p->_strName			= attributes.getValueAsString("name");
 					p->_tileWidth		= attributes.getValueAsInteger("tilew");
 					p->_tileHeight		= attributes.getValueAsInteger("tileh");
 					p->_tilesCount		= attributes.getValueAsInteger("count");
-					p->_strImageName	= attributes.getValueAsString("res");
-					_resManager._ResTiles[p->_strName] = p;
+					p->_strImageName	= attributes.getValueAsString("file");
+
+					if( p->Load() && _resManager._ResTiles.find(p->_strName) == _resManager._ResTiles.end() )
+					{
+						_resManager._ResTiles[p->_strName] = p;
+					}
+					else
+					{
+						Log_Error("ResourceArt_xmlHandler::elementStart, ResourceTileSingleImage load failed! " << p->_strName);
+						delete p;
+					}
 				}
 				else if (strType == "folder")
 				{
-					//<item type="folder" name="tile2" res="art/tiles/tile2/" tilew="32" tileh="32" count="80" ext="png" />
+					//<item type="folder" name="tile2" folder="art/tiles/tile2/" tilew="32" tileh="32" count="8" bits="2" ext=".png" />
 					ResourceTileFolder* p = new ResourceTileFolder;
 					p->_strName			= attributes.getValueAsString("name");
 					p->_tileWidth		= attributes.getValueAsInteger("tilew");
 					p->_tileHeight		= attributes.getValueAsInteger("tileh");
 					p->_tilesCount		= attributes.getValueAsInteger("count");
-					p->_strFolderName	= attributes.getValueAsString("res");
+					p->_strFolderName	= attributes.getValueAsString("folder");
 					p->_strFileExt		= attributes.getValueAsString("ext");
-					_resManager._ResTiles[p->_strName] = p;
+					p->_iBits			= attributes.getValueAsInteger("bits");
+
+					if( p->Load() && _resManager._ResTiles.find(p->_strName) == _resManager._ResTiles.end() )
+					{
+						_resManager._ResTiles[p->_strName] = p;
+					}
+					else
+					{
+						Log_Error("ResourceArt_xmlHandler::elementStart, ResourceTileFolder load failed! " << p->_strName);
+						delete p;
+					}
 				}
 				else
 				{
@@ -130,7 +157,14 @@ public:
 		
 			p->_eType			= _eType;
 
-			_resManager._ResGameObject[_eType][p->_strName] = p;
+			if (p->Load())
+			{
+				_resManager._ResGameObjects[_eType].push_back(p);
+			}
+			else
+			{
+				delete p;
+			}
 		}
 	}
 
@@ -202,9 +236,11 @@ bool ResourceManager::_LoadResourceArt(const Cactus::String& strPathName)
 	}
 	catch (std::exception e)
 	{
-		LogN_Error( Logic, "ResourceManager::_LoadResourceArt, Load failed! File : " << strPathName );
+		Log_Error("ResourceManager::_LoadResourceArt, Load failed! File : " << strPathName );
 		return false;
 	}
+
+	Log_Info("ResourceManager::_LoadResourceArt, Load OK.");
 
 	return true;
 }
@@ -219,9 +255,11 @@ bool ResourceManager::_LoadResourceGameObject(const Cactus::String& strPathName)
 	}
 	catch (std::exception e)
 	{
-		LogN_Error( Logic, "ResourceManager::_LoadResourceGameObject, Load failed! File : " << strPathName );
+		Log_Error("ResourceManager::_LoadResourceGameObject, Load failed! File : " << strPathName );
 		return false;
 	}
+
+	Log_Info("ResourceManager::_LoadResourceGameObject, Load OK.");
 
 	return true;
 }
@@ -236,15 +274,19 @@ bool ResourceManager::_LoadResourceGameEvent(const Cactus::String& strPathName)
 	}
 	catch (std::exception e)
 	{
-		LogN_Error( Logic, "ResourceManager::_LoadResourceGameEvent, Load failed! File : " << strPathName );
+		Log_Error( "ResourceManager::_LoadResourceGameEvent, Load failed! File : " << strPathName );
 		return false;
 	}
+
+	Log_Info("ResourceManager::_LoadResourceGameEvent, Load OK.");
 
 	return true;
 }
 
 bool ResourceManager::Load(const Cactus::String& strRootPath)
 {
+	_strRootFolder	= strRootPath;
+
 	Cactus::String strPathName;
 
 	strPathName = strRootPath + "Editor/ResourceArt.xml";
@@ -284,9 +326,9 @@ void delete_resourceTile(std::pair<Cactus::String, ResourceTile*> p)
 	delete p.second;
 }
 
-void delete_resourceGameObject(std::pair<Cactus::String, ResourceGameObject*> p)
+void delete_resourceGameObject(ResourceGameObject* p)
 {
-	delete p.second;
+	delete p;
 }
 
 void ResourceManager::Reset()
@@ -300,7 +342,19 @@ void ResourceManager::Reset()
 
 	for(int i = 0; i < eGameObjectMax; ++i)
 	{
-		for_each(_ResGameObject[i].begin(), _ResGameObject[i].end(), delete_resourceGameObject);
-		_ResGameObject[i].clear();
+		for_each(_ResGameObjects[i].begin(), _ResGameObjects[i].end(), delete_resourceGameObject);
+		_ResGameObjects[i].clear();
 	}
+}
+
+bool ResourceManager::IsResTileIDValid(const Cactus::String& tile, int ID)
+{
+	ResTileType::iterator it = _ResTiles.find(tile);
+	if (it != _ResTiles.end())
+	{
+		ResourceTile* pTile = it->second;
+		return ID < pTile->_tilesCount;
+	}
+
+	return false;
 }

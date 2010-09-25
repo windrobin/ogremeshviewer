@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "ResourceGameObject.h"
+#include "ResourceManager.h"
 
+using namespace Cactus;
 using namespace PropertySys;
 
 ResourceGameObject::ResourceGameObject()
@@ -29,4 +31,9 @@ void ResourceGameObject::RegisterReflection()
 
 void ResourceGameObject::OnPropertyChanged(const std::string& propName)
 {
+}
+
+bool ResourceGameObject::Load()
+{
+	return ResourceManager::getSingleton().IsResTileIDValid(_strArtResKey, _ArtResID);
 }

@@ -8,6 +8,8 @@ public:
 	ResourceBackground();
 	~ResourceBackground();
 
+	bool				Load();
+
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
 
@@ -16,4 +18,6 @@ protected:
 	Cactus::String		_strImagePathName;
 	int					_iWidth;
 	int					_iHeight;
+
+	CxImage				_image;
 };
