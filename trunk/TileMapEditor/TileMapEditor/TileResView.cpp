@@ -5,6 +5,8 @@
 #include "Resource.h"
 #include "TileMapEditor.h"
 
+#define M_ListCtrl_ID	(WM_USER + 100)
+
 //////////////////////////////////////////////////////////////////////
 // 构造/析构
 //////////////////////////////////////////////////////////////////////
@@ -39,8 +41,6 @@ int TileResView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
 
-	// 创建视图:
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
 	// 加载图像:
 	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_SORT);
@@ -52,6 +52,9 @@ int TileResView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 所有命令将通过此控件路由，而不是通过主框架路由:
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
+	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_ICON;
+	_listImages.Create(dwViewStyle, CRect(0, 0, 100, 100), this, M_ListCtrl_ID);
+	//_listImages.SetBkColor(0);
 
 	return 0;
 }
@@ -71,6 +74,9 @@ void TileResView::OnSize(UINT nType, int cx, int cy)
 	int cyTlb = m_wndToolBar.CalcFixedLayout(FALSE, TRUE).cy;
 
 	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
+
+	rectClient.top += cyTlb;
+	_listImages.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height() - cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
 BOOL TileResView::PreTranslateMessage(MSG* pMsg)

@@ -9,7 +9,8 @@ public:
 	virtual ~TileResView();
 
 protected:
-	CClassToolBar m_wndToolBar;
+	CClassToolBar	m_wndToolBar;
+	CListCtrl		_listImages;
 
 // ÖØÐ´
 public:

@@ -42,9 +42,9 @@ public:
 			else if (strTmp == "stretch")
 				_map._pMapBackground->_ePaintMode	= ePaintModeStrench;
 		}
-		else if ( currentElementMatch("tilemap/background/layers/") )
-		{
-		}
+		//else if ( currentElementMatch("tilemap/background/layers/") )
+		//{
+		//}
 		else if ( currentElementMatch("tilemap/background/layers/layer") )
 		{
 			//<layer name="layer0" enable="true" width="1024" height="1024" tilew="64" tileh="64">
@@ -77,16 +77,17 @@ public:
 
 	virtual void elementEnd(const Cactus::String& element)
 	{
-		if ( currentElementMatch("tilemap/") )
-		{
-		}
-		else if ( currentElementMatch("tilemap/background/") )
-		{
-		}
-		else if ( currentElementMatch("tilemap/background/layers/") )
-		{
-		}
-		else if ( currentElementMatch("tilemap/background/layers/layer") )
+		//if ( currentElementMatch("tilemap/") )
+		//{
+		//}
+		//else if ( currentElementMatch("tilemap/background/") )
+		//{
+		//}
+		//else if ( currentElementMatch("tilemap/background/layers/") )
+		//{
+		//}
+		//else 
+		if ( currentElementMatch("tilemap/background/layers/layer") )
 		{
 			_pCurLayer = 0;
 		}
@@ -99,9 +100,9 @@ public:
 				_strCurGroupTile = "";
 			}
 		}
-		else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup/tile") )
-		{
-		}
+		//else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup/tile") )
+		//{
+		//}
 	}
 
 	virtual void text(const Cactus::String& content){}
