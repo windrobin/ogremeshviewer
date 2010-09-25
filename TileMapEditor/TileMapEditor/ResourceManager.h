@@ -12,6 +12,7 @@ class ResourceManager : public Cactus::Singleton<ResourceManager>
 	friend class ResourceArt_xmlHandler;
 	friend class ResourceGameObject_xmlHandler;
 	friend class ResourceGameEvent_xmlHandler;
+	friend class ResourceTreeView;
 public:
 	ResourceManager();
 	~ResourceManager();
@@ -19,15 +20,21 @@ public:
 	bool	Load(const Cactus::String& strRootPath);
 	void	Reset();
 
+	Cactus::String	GetRootFolder(){ return _strRootFolder; }
+
+	bool	IsResTileIDValid(const Cactus::String& tile, int ID);
+
 protected:
+	Cactus::String			_strRootFolder;
+
 	typedef	Cactus::map<Cactus::String, ResourceBackground*>::type	ResBackgroundType;
-	ResBackgroundType	_ResBackgrounds;
+	ResBackgroundType		_ResBackgrounds;
 
 	typedef	Cactus::map<Cactus::String, ResourceTile*>::type		ResTileType;
-	ResTileType			_ResTiles;
+	ResTileType				_ResTiles;
 
-	typedef	Cactus::map<Cactus::String, ResourceGameObject*>::type	ResGameObjectType;
-	ResGameObjectType	_ResGameObject[eGameObjectMax];
+	typedef Cactus::list<ResourceGameObject*>::type					ResGameObjectListType;
+	ResGameObjectListType	_ResGameObjects[eGameObjectMax];
 
 	bool	_LoadResourceArt(const Cactus::String& strPathName);
 	bool	_LoadResourceGameObject(const Cactus::String& strPathName);

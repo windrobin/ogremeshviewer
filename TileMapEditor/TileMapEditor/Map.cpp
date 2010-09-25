@@ -161,7 +161,7 @@ bool Map::Load(const Cactus::String& strPathName)
 	}
 	catch (std::exception e)
 	{
-		LogN_Error( Logic, "Map::Load, Load failed! File : " << strPathName );
+		Log_Error( "Map::Load, Load failed! File : " << strPathName );
 		return false;
 	}
 

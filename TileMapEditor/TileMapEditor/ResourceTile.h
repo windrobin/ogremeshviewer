@@ -30,6 +30,8 @@ public:
 	ResourceTileSingleImage();
 	~ResourceTileSingleImage();
 
+	bool				Load();
+
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
 
@@ -37,6 +39,8 @@ protected:
 	Cactus::String		_strImageName;
 	int					_imageWidth;
 	int					_imageHeight;
+
+	CxImage				_image;
 };
 
 //---------------------------------------------------------------------------------------------------------
@@ -49,10 +53,16 @@ public:
 	ResourceTileFolder();
 	~ResourceTileFolder();
 
+	bool				Load();
+
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
 
 protected:
 	Cactus::String		_strFolderName;
 	Cactus::String		_strFileExt;
+	int					_iBits;
+
+	typedef Cactus::map<int, CxImage*>::type	IDImageMapType;
+	IDImageMapType		_images;
 };
