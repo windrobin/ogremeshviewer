@@ -13,11 +13,20 @@ public:
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
 
+	virtual void		CreateImageList(){}
+	CImageList*			GetImageList(){ return &_imageList; }
+
 protected:
 	Cactus::String		_strName;
 	int					_tileWidth;
 	int					_tileHeight;
 	int					_tilesCount;
+
+	CImageList			_imageList;
+	bool				_bHasImageList;
+
+	typedef Cactus::list<CBitmap*>::type	BitmapListType;
+	BitmapListType		_BitmapTiles;
 };
 
 //---------------------------------------------------------------------------------------------------------
@@ -31,6 +40,7 @@ public:
 	~ResourceTileSingleImage();
 
 	bool				Load();
+	virtual void		CreateImageList();
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
@@ -54,6 +64,7 @@ public:
 	~ResourceTileFolder();
 
 	bool				Load();
+	virtual void		CreateImageList();
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);

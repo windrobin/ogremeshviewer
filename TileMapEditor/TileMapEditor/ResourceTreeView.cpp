@@ -38,6 +38,7 @@ BEGIN_MESSAGE_MAP(ResourceTreeView, CDockablePane)
 	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
+	ON_NOTIFY(TVN_SELCHANGED, IDB_FILE_VIEW, &ResourceTreeView::OnTvnSelchangedTreeDetails)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -261,4 +262,12 @@ void ResourceTreeView::OnChangeVisualStyle()
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 }
 
+void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
 
+	CString strText = m_wndFileView.GetItemText(pNMTreeView->itemNew.hItem);
+
+
+	*pResult = 0;
+}
