@@ -7,10 +7,16 @@ using namespace PropertySys;
 
 ResourceTile::ResourceTile()
 {
+	_bHasImageList = false;
 }
 
 ResourceTile::~ResourceTile()
 {
+	for (BitmapListType::iterator it = _BitmapTiles.begin(); it != _BitmapTiles.end(); ++it)
+	{
+		(*it)->DeleteObject();
+		delete *it;
+	}
 }
 
 void ResourceTile::RegisterReflection()
@@ -72,6 +78,42 @@ bool ResourceTileSingleImage::Load()
 	return true;
 }
 
+void ResourceTileSingleImage::CreateImageList()
+{
+	if (_bHasImageList)
+		return;
+
+	//_image.GetColorType()
+
+	_imageList.Create(_tileWidth, _tileHeight, ILC_COLOR32, 4);
+
+	CDC dcMem;
+	dcMem.CreateCompatibleDC(0);
+
+	int iLineCount = _imageWidth/_tileWidth;
+
+	for (int i = 0; i < _tilesCount; ++i)
+	{
+		CBitmap* bmpTile = new CBitmap;
+		CBitmap* bmpOld;
+		bmpOld = dcMem.SelectObject(bmpTile);
+
+		_image.Draw(dcMem.GetSafeHdc()
+			, (i % iLineCount) * _tileWidth, (i / iLineCount) * iLineCount * _tileHeight
+			, _tileWidth, _tileHeight
+			);
+
+		dcMem.SelectObject(bmpOld);
+
+		_imageList.Add(bmpTile, (CBitmap*)0);
+
+		_BitmapTiles.push_back(bmpTile);
+	}
+
+	_bHasImageList = true;
+}
+
+
 //---------------------------------------------------------------------------------------------------------
 ResourceTileFolder::ResourceTileFolder()
 {
@@ -125,6 +167,34 @@ bool ResourceTileFolder::Load()
 	}
 
 	return (_images.size() != 0);
+}
+
+void ResourceTileFolder::CreateImageList()
+{
+	if (_bHasImageList)
+		return;
+
+	_imageList.Create(_tileWidth, _tileHeight, ILC_COLOR32, 4);
+
+	CDC dcMem;
+	dcMem.CreateCompatibleDC(0);
+
+	for (IDImageMapType::iterator it = _images.begin(); it != _images.end(); ++it)
+	{
+		CBitmap* bmpTile = new CBitmap;
+		CBitmap* bmpOld;
+		bmpOld = dcMem.SelectObject(bmpTile);
+
+		it->second->Draw(dcMem.GetSafeHdc());
+
+		dcMem.SelectObject(bmpOld);
+
+		_imageList.Add(bmpTile, (CBitmap*)0);
+
+		_BitmapTiles.push_back(bmpTile);
+	}
+
+	_bHasImageList = true;
 }
 
 //---------------------------------------------------------------------------------------------------------
