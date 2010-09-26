@@ -2,24 +2,45 @@
 
 #include "ResourceType.h"
 
-class ResourceGameObject : public PropertySys::SupportRTTI<ResourceGameObject, PropertySys::RTTIObject>
+class ResourceGameObject
 {
-	friend class ResourceManager;
 	friend class ResourceGameObject_xmlHandler;
+	friend class ResourceGameObjectGroup;
 public:
 	ResourceGameObject();
 	~ResourceGameObject();
 
-	bool				Load();
+	virtual bool		Load(const Cactus::String& strTile);
+
+protected:
+	Cactus::String		_strName;
+	int					_ArtResID;
+
+	GameObjectType		_eType;
+};
+
+//--------------------------------------------------------------------------------------------------------
+
+class ResourceGameObjectGroup : public PropertySys::SupportRTTI<ResourceGameObjectGroup, Resource>
+{
+	friend class ResourceManager;
+	friend class ResourceGameObject_xmlHandler;
+public:
+	ResourceGameObjectGroup();
+	~ResourceGameObjectGroup();
+
+	virtual bool		Load(){ return _ResGameObjects.size() != 0; }
+	virtual void		CreateImageList();
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
 
 protected:
-	Cactus::String		_strName;
-	Cactus::String		_strArtResKey;
-	int					_ArtResID;
+	typedef Cactus::list<ResourceGameObject*>::type		ResGameObjectListType;
+	ResGameObjectListType	_ResGameObjects;
 
-	GameObjectType		_eType;
+	Cactus::String			_strGroupName;
+	Cactus::String			_strArtResKey;
 };
+
 
