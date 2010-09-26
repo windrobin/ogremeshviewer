@@ -85,13 +85,14 @@ void ResourceTileSingleImage::CreateImageList()
 
 	//_image.GetColorType()
 
-	_imageList.Create(_tileWidth, _tileHeight, ILC_COLOR32, 4);
+	BOOL b = _imageList.Create(_tileWidth, _tileHeight, ILC_COLOR32, 0, 4);
 
 	CDC dcMem;
 	dcMem.CreateCompatibleDC(0);
 
 	int iLineCount = _imageWidth/_tileWidth;
 
+	Cactus::ostringstream osCap;
 	for (int i = 0; i < _tilesCount; ++i)
 	{
 		CBitmap* bmpTile = new CBitmap;
@@ -108,11 +109,14 @@ void ResourceTileSingleImage::CreateImageList()
 		_imageList.Add(bmpTile, (CBitmap*)0);
 
 		_BitmapTiles.push_back(bmpTile);
+
+		osCap.str("");
+		osCap << i;
+		_captions.push_back(osCap.str());
 	}
 
 	_bHasImageList = true;
 }
-
 
 //---------------------------------------------------------------------------------------------------------
 ResourceTileFolder::ResourceTileFolder()
@@ -147,18 +151,24 @@ bool ResourceTileFolder::Load()
 {
 	String strFull = ResourceManager::getSingleton().GetRootFolder() + _strFolderName;
 
-	Cactus::ostringstream os;
+	Cactus::ostringstream osFile;
+	Cactus::ostringstream osCap;
 	for (int i = 0; i < _tilesCount; ++i)
 	{
-		os.str("");
-		os << strFull << std::setw(_iBits) << std::setfill('0') << i << _strFileExt;
+		osFile.str("");
+		osFile << strFull << std::setw(_iBits) << std::setfill('0') << i << _strFileExt;
 
 		CxImage* pImage = new CxImage;
-		if ( pImage->Load( os.str().c_str() ) )
+		if ( pImage->Load( osFile.str().c_str() ) )
 		{
 			if (pImage->GetWidth() == _tileWidth && pImage->GetHeight() == _tileHeight)
 			{
 				_images[i] = pImage;
+
+				osCap.str("");
+				osCap << i;
+				_captions.push_back(osCap.str());
+
 				continue;
 			}
 		}
@@ -174,7 +184,7 @@ void ResourceTileFolder::CreateImageList()
 	if (_bHasImageList)
 		return;
 
-	_imageList.Create(_tileWidth, _tileHeight, ILC_COLOR32, 4);
+	_imageList.Create(_tileWidth, _tileHeight, ILC_COLOR32, 0, 4);
 
 	CDC dcMem;
 	dcMem.CreateCompatibleDC(0);

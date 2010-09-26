@@ -64,6 +64,8 @@ void ResourceGameObjectGroup::CreateImageList()
 		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
 		{
 			_imageList.Copy(_imageList.GetImageCount(), pImageList, (*it)->_ArtResID, ILCF_MOVE);
+
+			_captions.push_back( (*it)->_strName );
 		}
 	}
 

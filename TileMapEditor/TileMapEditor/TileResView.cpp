@@ -5,6 +5,8 @@
 #include "Resource.h"
 #include "TileMapEditor.h"
 
+using namespace Cactus;
+
 #define M_ListCtrl_ID	(WM_USER + 100)
 
 //////////////////////////////////////////////////////////////////////
@@ -100,4 +102,17 @@ void TileResView::OnSetFocus(CWnd* pOldWnd)
 void TileResView::OnClassAddMemberFunction()
 {
 	AfxMessageBox(_T("添加成员函数..."));
+}
+
+void TileResView::BuildImageAndInfoes(CImageList* pImage, const Cactus::StringVector& captions)
+{
+	_listImages.DeleteAllItems();
+
+	_listImages.SetImageList(pImage, LVSIL_NORMAL);
+
+	for (size_t t = 0; t < captions.size(); ++t)
+	{
+		_listImages.InsertItem(t, captions[t].c_str(), t);
+	}
+
 }

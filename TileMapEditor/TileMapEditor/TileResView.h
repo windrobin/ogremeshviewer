@@ -8,6 +8,8 @@ public:
 	TileResView();
 	virtual ~TileResView();
 
+	void			BuildImageAndInfoes(CImageList* pImage, const Cactus::StringVector& captions);
+
 protected:
 	CClassToolBar	m_wndToolBar;
 	CListCtrl		_listImages;

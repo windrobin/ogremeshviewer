@@ -18,13 +18,15 @@ public:
 	}
 	virtual ~Resource(){}
 
-	virtual	bool		Load(){ return false; }
-	virtual void		CreateImageList(){}
+	virtual	bool			Load(){ return false; }
+	virtual void			CreateImageList(){}
 
-	CImageList*			GetImageList(){ return &_imageList; }
+	CImageList*				GetImageList(){ return &_imageList; }
+
+	Cactus::StringVector*	GetCaptions(){ return &_captions; }
 
 protected:
-	CImageList			_imageList;
-	bool				_bHasImageList;
-
+	CImageList				_imageList;
+	bool					_bHasImageList;
+	Cactus::StringVector	_captions;
 };

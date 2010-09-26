@@ -30,6 +30,9 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
+	TileResView*	GetTileResView(){ return &_TileResView; }
+
+
 protected:  // 控件条嵌入成员
 	CMFCMenuBar       m_wndMenuBar;
 	CMFCToolBar       m_wndToolBar;
