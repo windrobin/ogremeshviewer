@@ -130,6 +130,7 @@ public:
 	ResourceGameObject_xmlHandler(ResourceManager& resMan) : _resManager(resMan)
 	{
 		_eType	= eGameObjectMax;
+		pGameObjectGroup = 0;
 	}
 	virtual ~ResourceGameObject_xmlHandler(){}
 
@@ -137,29 +138,37 @@ public:
 	{
 		if (element == "npc")
 		{
-			_eType	= eGameObjectNPC;
+			_eType		= eGameObjectNPC;
+			_strType	= element;
+			pGameObjectGroup = new ResourceGameObjectGroup;
+			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
 		}
 		else if (element == "monster")
 		{
-			_eType	= eGameObjectMonster;
+			_eType		= eGameObjectMonster;
+			_strType	= element;
+			pGameObjectGroup = new ResourceGameObjectGroup;
+			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
 		}
 		else if (element == "funcpoint")
 		{
-			_eType	= eGameObjectFunctionPoint;
+			_eType		= eGameObjectFunctionPoint;
+			_strType	= element;
+			pGameObjectGroup = new ResourceGameObjectGroup;
+			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
 		}
 		else if (element == "item" && _eType != eGameObjectMax)
 		{
 			//<item name="npc01" iconres="tile1" iconid="15" />
 			ResourceGameObject* p = new ResourceGameObject;
 			p->_strName			= attributes.getValueAsString("name");
-			p->_strArtResKey	= attributes.getValueAsString("iconres");
 			p->_ArtResID		= attributes.getValueAsInteger("iconid");
 		
 			p->_eType			= _eType;
 
-			if (p->Load())
+			if (p->Load(pGameObjectGroup->_strArtResKey))
 			{
-				_resManager._ResGameObjects[_eType].push_back(p);
+				pGameObjectGroup->_ResGameObjects.push_back(p);
 			}
 			else
 			{
@@ -170,16 +179,17 @@ public:
 
 	virtual void elementEnd(const Cactus::String& element)
 	{
-		if (element == "npc")
+		if (element == "npc"
+			|| element == "monster"
+			|| element == "funcpoint"
+			)
 		{
-			_eType	= eGameObjectMax;
-		}
-		else if (element == "monster")
-		{
-			_eType	= eGameObjectMax;
-		}
-		else if (element == "funcpoint")
-		{
+			if (pGameObjectGroup->Load())
+				_resManager._ResGameObjectGroups[_strType] = pGameObjectGroup;
+			else
+				delete pGameObjectGroup;
+
+			pGameObjectGroup = 0;
 			_eType	= eGameObjectMax;
 		}
 	}
@@ -190,6 +200,8 @@ private:
 
 	ResourceManager&	_resManager;
 	GameObjectType		_eType;
+	String				_strType;
+	ResourceGameObjectGroup*	pGameObjectGroup;
 };
 
 //---------------------------------------------------------------------------------------------------------
@@ -326,9 +338,9 @@ void delete_resourceTile(std::pair<Cactus::String, ResourceTile*> p)
 	delete p.second;
 }
 
-void delete_resourceGameObject(ResourceGameObject* p)
+void delete_resourceGameObjectGroup(std::pair<Cactus::String, ResourceGameObjectGroup*> p)
 {
-	delete p;
+	delete p.second;
 }
 
 void ResourceManager::Reset()
@@ -339,12 +351,8 @@ void ResourceManager::Reset()
 	for_each(_ResTiles.begin(), _ResTiles.end(), delete_resourceTile);
 	_ResTiles.clear();
 
-
-	for(int i = 0; i < eGameObjectMax; ++i)
-	{
-		for_each(_ResGameObjects[i].begin(), _ResGameObjects[i].end(), delete_resourceGameObject);
-		_ResGameObjects[i].clear();
-	}
+	for_each(_ResGameObjectGroups.begin(), _ResGameObjectGroups.end(), delete_resourceGameObjectGroup);
+	_ResGameObjectGroups.clear();
 }
 
 bool ResourceManager::IsResTileIDValid(const Cactus::String& tile, int ID)
@@ -357,4 +365,15 @@ bool ResourceManager::IsResTileIDValid(const Cactus::String& tile, int ID)
 	}
 
 	return false;
+}
+
+ResourceTile* ResourceManager::GetResourceTile(const Cactus::String& tile)
+{
+	ResTileType::iterator it = _ResTiles.find(tile);
+	if (it != _ResTiles.end())
+	{
+		return it->second;
+	}
+
+	return 0;
 }

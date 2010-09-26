@@ -1,8 +1,10 @@
 #pragma once
 
+#include "ResourceType.h"
+
 //---------------------------------------------------------------------------------------------------------
 
-class ResourceTile : public PropertySys::SupportRTTI<ResourceTile, PropertySys::RTTIObject>
+class ResourceTile: public PropertySys::SupportRTTI<ResourceTile, Resource>
 {
 	friend class ResourceManager;
 	friend class ResourceArt_xmlHandler;
@@ -13,17 +15,11 @@ public:
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
 
-	virtual void		CreateImageList(){}
-	CImageList*			GetImageList(){ return &_imageList; }
-
 protected:
 	Cactus::String		_strName;
 	int					_tileWidth;
 	int					_tileHeight;
 	int					_tilesCount;
-
-	CImageList			_imageList;
-	bool				_bHasImageList;
 
 	typedef Cactus::list<CBitmap*>::type	BitmapListType;
 	BitmapListType		_BitmapTiles;
@@ -39,7 +35,7 @@ public:
 	ResourceTileSingleImage();
 	~ResourceTileSingleImage();
 
-	bool				Load();
+	virtual bool		Load();
 	virtual void		CreateImageList();
 
 	static void			RegisterReflection();
@@ -63,7 +59,7 @@ public:
 	ResourceTileFolder();
 	~ResourceTileFolder();
 
-	bool				Load();
+	virtual bool		Load();
 	virtual void		CreateImageList();
 
 	static void			RegisterReflection();

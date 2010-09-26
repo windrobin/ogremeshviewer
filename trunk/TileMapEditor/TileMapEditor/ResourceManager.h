@@ -4,8 +4,7 @@
 
 class ResourceBackground;
 class ResourceTile;
-
-class ResourceGameObject;
+class ResourceGameObjectGroup;
 
 class ResourceManager : public Cactus::Singleton<ResourceManager>
 {
@@ -24,17 +23,19 @@ public:
 
 	bool	IsResTileIDValid(const Cactus::String& tile, int ID);
 
+	ResourceTile*	GetResourceTile(const Cactus::String& tile);
+
 protected:
-	Cactus::String			_strRootFolder;
+	Cactus::String				_strRootFolder;
 
-	typedef	Cactus::map<Cactus::String, ResourceBackground*>::type	ResBackgroundType;
-	ResBackgroundType		_ResBackgrounds;
+	typedef	Cactus::map<Cactus::String, ResourceBackground*>::type		ResBackgroundType;
+	ResBackgroundType			_ResBackgrounds;
 
-	typedef	Cactus::map<Cactus::String, ResourceTile*>::type		ResTileType;
-	ResTileType				_ResTiles;
+	typedef	Cactus::map<Cactus::String, ResourceTile*>::type			ResTileType;
+	ResTileType					_ResTiles;
 
-	typedef Cactus::list<ResourceGameObject*>::type					ResGameObjectListType;
-	ResGameObjectListType	_ResGameObjects[eGameObjectMax];
+	typedef Cactus::map<Cactus::String, ResourceGameObjectGroup*>::type	ResGameObjectGroupMapType;
+	ResGameObjectGroupMapType	_ResGameObjectGroups;
 
 	bool	_LoadResourceArt(const Cactus::String& strPathName);
 	bool	_LoadResourceGameObject(const Cactus::String& strPathName);
