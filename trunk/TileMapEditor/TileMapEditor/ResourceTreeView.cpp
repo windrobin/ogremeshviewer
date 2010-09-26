@@ -7,6 +7,10 @@
 
 #include "ResourceManager.h"
 
+#include "TileResView.h"
+
+#define M_TreeID	(WM_USER + 100)
+
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -38,11 +42,12 @@ BEGIN_MESSAGE_MAP(ResourceTreeView, CDockablePane)
 	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
-	ON_NOTIFY(TVN_SELCHANGED, IDB_FILE_VIEW, &ResourceTreeView::OnTvnSelchangedTreeDetails)
+	ON_NOTIFY(TVN_SELCHANGED, M_TreeID, &ResourceTreeView::OnTvnSelchangedTreeDetails)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CWorkspaceBar 消息处理程序
+
 
 int ResourceTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -53,9 +58,9 @@ int ResourceTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 	// 创建视图:
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
+	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_TRACKSELECT;
 
-	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, 4))
+	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, M_TreeID))
 	{
 		TRACE0("未能创建文件视图\n");
 		return -1;      // 未能创建
@@ -116,9 +121,15 @@ void ResourceTreeView::FillFileView()
 	}
 
 	_treeGameObjectRes	= m_wndFileView.InsertItem(_T("游戏对象"), 0, 0, hRoot);
-	m_wndFileView.InsertItem(_T("NPC"), 2, 2, _treeGameObjectRes);
-	m_wndFileView.InsertItem(_T("Monster"), 2, 2, _treeGameObjectRes);
-	m_wndFileView.InsertItem(_T("Function Point"), 2, 2, _treeGameObjectRes);
+
+	HTREEITEM hItem = m_wndFileView.InsertItem(_T("NPC"), 2, 2, _treeGameObjectRes);
+	m_wndFileView.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["npc"]);
+	
+	hItem = m_wndFileView.InsertItem(_T("Monster"), 2, 2, _treeGameObjectRes);
+	m_wndFileView.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["monster"]);
+	
+	hItem = m_wndFileView.InsertItem(_T("Function Point"), 2, 2, _treeGameObjectRes);
+	m_wndFileView.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["funcpoint"]);
 
 	_treeGameEventRes	= m_wndFileView.InsertItem(_T("游戏事件"), 0, 0, hRoot);
 
@@ -268,6 +279,19 @@ void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResul
 
 	CString strText = m_wndFileView.GetItemText(pNMTreeView->itemNew.hItem);
 
+	DWORD_PTR ptr = m_wndFileView.GetItemData(pNMTreeView->itemNew.hItem);
+	if (ptr)
+	{
+		Resource* pRes = (Resource*)ptr;
+		pRes->CreateImageList();
+
+		//insert image into TileResView
+
+		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+
+		pMainFrame->GetTileResView()->BuildImageAndInfoes(pRes->GetImageList(), *pRes->GetCaptions());
+
+	}
 
 	*pResult = 0;
 }
