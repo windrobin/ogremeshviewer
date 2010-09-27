@@ -377,3 +377,21 @@ ResourceTile* ResourceManager::GetResourceTile(const Cactus::String& tile)
 
 	return 0;
 }
+
+Resource* ResourceManager::GetResource(const Cactus::String& key)
+{
+	if (_ResBackgrounds.find(key) != _ResBackgrounds.end())
+	{
+		return _ResBackgrounds[key];
+	}
+
+	if (_ResTiles.find(key) != _ResTiles.end())
+	{
+		return _ResTiles[key];
+	}
+
+	if (_ResGameObjectGroups.find(key) != _ResGameObjectGroups.end())
+	{
+		return _ResGameObjectGroups[key];
+	}
+}

@@ -20,6 +20,8 @@ public:
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
 
+	void				Draw(CDC* pDC);
+
 protected:
 	Cactus::String		_strName;
 	int					_iWidth;

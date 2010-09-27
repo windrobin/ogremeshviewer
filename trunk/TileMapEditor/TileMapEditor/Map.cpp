@@ -186,3 +186,11 @@ void Map::Reset()
 		delete *it;
 	}
 }
+
+void Map::Draw(CDC* pDC)
+{
+	for(MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
+	{
+		(*it)->Draw(pDC);
+	}
+}

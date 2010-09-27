@@ -12,6 +12,7 @@ public:
 	Map();
 	~Map();
 
+	void				Draw(CDC* pDC);
 	bool				Load(const Cactus::String& strPathName);
 	void				Reset();
 
