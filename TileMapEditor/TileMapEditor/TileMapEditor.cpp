@@ -129,6 +129,7 @@ BOOL CTileMapEditorApp::InitInstance()
 	LoadStdProfileSettings(4);  // 加载标准 INI 文件选项(包括 MRU)
 
 	InitContextMenuManager();
+	InitShellManager();
 
 	InitKeyboardManager();
 
@@ -168,10 +169,13 @@ BOOL CTileMapEditorApp::InitInstance()
 	// 唯一的一个窗口已初始化，因此显示它并对其进行更新
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
+
+
 	// 仅当具有后缀时才调用 DragAcceptFiles
 	//  在 SDI 应用程序中，这应在 ProcessShellCommand 之后发生
 	// 启用拖/放
 	m_pMainWnd->DragAcceptFiles();
+
 	return TRUE;
 }
 
