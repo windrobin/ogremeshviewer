@@ -63,7 +63,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	BOOL bNameValid;
 
 	// 将列表窗口附加到选项卡:
-	bNameValid = strTabName.LoadString(IDS_BUILD_TAB);
+	bNameValid = strTabName.LoadString(IDS_OUTPUT_LOG_TAB);
 	ASSERT(bNameValid);
 	m_wndTabs.AddTab(&m_wndOutputBuild, strTabName, (UINT)0);
 
