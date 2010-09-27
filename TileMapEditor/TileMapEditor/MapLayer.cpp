@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "MapLayer.h"
+#include "ResourceManager.h"
 
 using namespace Cactus;
 using namespace PropertySys;
@@ -31,4 +32,19 @@ void MapLayer::RegisterReflection()
 
 void MapLayer::OnPropertyChanged(const std::string& propName)
 {
+}
+
+void MapLayer::Draw(CDC* pDC)
+{
+	if (!_bEnable)
+		return;
+
+	for (TileGroupMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	{
+		Resource* pRes = ResourceManager::getSingleton().GetResource(it->first);
+		if (pRes)
+		{
+			//pRes->Draw();
+		}
+	}
 }

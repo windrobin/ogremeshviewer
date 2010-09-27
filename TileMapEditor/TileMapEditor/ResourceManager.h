@@ -25,6 +25,8 @@ public:
 
 	ResourceTile*	GetResourceTile(const Cactus::String& tile);
 
+	Resource*		GetResource(const Cactus::String& key);
+
 protected:
 	Cactus::String				_strRootFolder;
 
