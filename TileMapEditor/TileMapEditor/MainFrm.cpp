@@ -139,9 +139,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	DockPane(&_TileResView);
 	_TileResView.AttachToTabWnd(&m_wndProperties, DM_SHOW, FALSE, &pTabbedBar);
 
-	_GameObjectResView.EnableDocking(CBRS_ALIGN_RIGHT);
-	DockPane(&_GameObjectResView);
-	_GameObjectResView.AttachToTabWnd(&m_wndProperties, DM_SHOW, FALSE, &pTabbedBar);
+	//_GameObjectResView.EnableDocking(CBRS_ALIGN_RIGHT);
+	//DockPane(&_GameObjectResView);
+	//_GameObjectResView.AttachToTabWnd(&m_wndProperties, DM_SHOW, FALSE, &pTabbedBar);
 
 
 
@@ -262,13 +262,13 @@ BOOL CMainFrame::CreateDockingWindows()
 	}
 
 	// 创建GameObjectResView窗口
-	bNameValid = strTmp.LoadString(IDS_PANEL_GAMEOBJECT);
-	ASSERT(bNameValid);
-	if (!_GameObjectResView.Create(strTmp, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
-	{
-		TRACE0("未能创建“GameObjectResView”窗口\n");
-		return FALSE; // 未能创建
-	}
+	//bNameValid = strTmp.LoadString(IDS_PANEL_GAMEOBJECT);
+	//ASSERT(bNameValid);
+	//if (!_GameObjectResView.Create(strTmp, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	//{
+	//	TRACE0("未能创建“GameObjectResView”窗口\n");
+	//	return FALSE; // 未能创建
+	//}
 
 	SetDockingWindowIcons(theApp.m_bHiColorIcons);
 	return TRUE;
