@@ -96,3 +96,12 @@ CTileMapEditorDoc* CTileMapEditorView::GetDocument() const // 非调试版本是内联的
 
 
 // CTileMapEditorView 消息处理程序
+
+void CTileMapEditorView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
+{
+	CSize sizeTotal;
+	sizeTotal.cx = sizeTotal.cy = 100;
+	SetScrollSizes(MM_TEXT, sizeTotal);
+
+	CScrollView::OnPrepareDC(pDC, pInfo);
+}

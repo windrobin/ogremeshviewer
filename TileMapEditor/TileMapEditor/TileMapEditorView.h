@@ -42,6 +42,8 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
 };
 
 #ifndef _DEBUG  // TileMapEditorView.cpp 中的调试版本

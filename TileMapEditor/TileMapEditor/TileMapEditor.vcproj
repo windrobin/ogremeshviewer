@@ -292,10 +292,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\TileMapEditor.rc"
-				>
-			</File>
-			<File
 				RelativePath=".\res\TileMapEditor.rc2"
 				>
 			</File>
