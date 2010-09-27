@@ -1,6 +1,8 @@
 #pragma once
 
-class ResourceBackground : public PropertySys::SupportRTTI<ResourceBackground, PropertySys::RTTIObject>
+#include "ResourceType.h"
+
+class ResourceBackground : public PropertySys::SupportRTTI<ResourceBackground, Resource>
 {
 	friend class ResourceManager;
 	friend class ResourceArt_xmlHandler;
@@ -8,7 +10,8 @@ public:
 	ResourceBackground();
 	~ResourceBackground();
 
-	bool				Load();
+	virtual bool		Load();
+	virtual void		CreateImageList(CDC* pDC);
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
@@ -20,4 +23,6 @@ protected:
 	int					_iHeight;
 
 	CxImage				_image;
+
+	CBitmap*			_pBmp;
 };
