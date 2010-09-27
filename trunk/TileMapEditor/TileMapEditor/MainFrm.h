@@ -37,7 +37,7 @@ protected:  // 控件条嵌入成员
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
 	ResourceTreeView	m_wndFileView;
-	MapView				m_wndClassView;
+	MapView				_MapViewView;
 	COutputWnd			m_wndOutput;
 	CPropertiesWnd		m_wndProperties;
 

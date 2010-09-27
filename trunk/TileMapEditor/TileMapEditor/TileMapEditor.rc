@@ -477,8 +477,8 @@ STRINGTABLE
 BEGIN
 	IDS_STATUS_PANE1        "窗格 1"
 	IDS_STATUS_PANE2        "窗格 2"
-	IDS_FILE_VIEW           "文件视图"
-	IDS_CLASS_VIEW          "类视图"
+	IDS_RES_PANEL           "资源"
+	IDS_MAP_PANEL            "地图"
 	IDS_EXPLORER            "资源管理器"
 	IDS_OUTPUT_WND          "输出"
 	IDS_BUILD_TAB           "生成"

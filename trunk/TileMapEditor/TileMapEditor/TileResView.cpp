@@ -80,6 +80,7 @@ void TileResView::OnSize(UINT nType, int cx, int cy)
 
 	rectClient.top += cyTlb;
 	_listImages.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_NOACTIVATE | SWP_NOZORDER);
+	_listImages.Arrange(LVA_DEFAULT);
 }
 
 BOOL TileResView::PreTranslateMessage(MSG* pMsg)
