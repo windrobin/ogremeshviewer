@@ -287,9 +287,9 @@ BOOL CMainFrame::CreateDockingWindows()
 
 	// 创建TileResView窗口
 	CString strTmp;
-	bNameValid = strTmp.LoadString(IDS_PROPERTIES_WND);	//IDS_PANEL_TILERES
+	bNameValid = strTmp.LoadString(IDS_RES_DETAIL);	//IDS_PANEL_TILERES
 	ASSERT(bNameValid);
-	if (!_TileResView.Create(strTmp, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	if (!_TileResView.Create(strTmp, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_RES_DETAIL_PANEL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("未能创建“TileResView”窗口\n");
 		return FALSE; // 未能创建
