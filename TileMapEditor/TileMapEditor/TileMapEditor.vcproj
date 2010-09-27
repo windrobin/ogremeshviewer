@@ -463,14 +463,6 @@
 		<Filter
 			Name="Object"
 			>
-			<File
-				RelativePath=".\ResourceManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ResourceManager.h"
-				>
-			</File>
 			<Filter
 				Name="Resource"
 				>
@@ -488,6 +480,14 @@
 				</File>
 				<File
 					RelativePath=".\ResourceGameObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceManager.h"
 					>
 				</File>
 				<File
@@ -528,6 +528,42 @@
 				</File>
 				<File
 					RelativePath=".\MapLayer.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Tool"
+				>
+				<File
+					RelativePath=".\ToolBase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolBase.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolBrush.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolBrush.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolDelete.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolDelete.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolSelect.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolSelect.h"
 					>
 				</File>
 			</Filter>
