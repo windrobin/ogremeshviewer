@@ -44,7 +44,7 @@
 #define IDS_RIBBON_STYLE_DESC           139
 #define IDS_RIBBON_STATUSBAR            140
 #define IDS_RIBBON_VIEW                 141
-#define IDS_OUTPUT_LOG_TAB                   142
+#define IDS_OUTPUT_LOG_TAB              142
 #define IDS_DEBUG_TAB                   143
 #define IDS_FIND_TAB                    144
 #define IDS_EXPLORER                    145
@@ -78,6 +78,12 @@
 #define IDR_PROPERTIES                  183
 #define IDB_PROPERTIES_HC               184
 #define IDR_THEME_MENU                  200
+#define IDD_DIALOG_FILE_NEW             201
+#define IDC_EDIT_WIDTH                  1000
+#define IDC_EDIT_HEIGHT                 1001
+#define IDC_EDIT_FOOTNOTES                       1002
+#define IDC_EDIT_HEIGHT2                1003
+#define IDC_EDIT_TILE_SIZE              1003
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771
 #define ID_STATUSBAR_PANE2              32772
@@ -118,12 +124,12 @@
 #define ID_VIEW_APPLOOK_OFF_2007_AQUA   32808
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        201
+#define _APS_NEXT_RESOURCE_VALUE        202
 #define _APS_NEXT_COMMAND_VALUE         32809
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           301
 #endif
 #endif

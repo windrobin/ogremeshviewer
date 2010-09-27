@@ -6,6 +6,8 @@ class MapBackground;
 class Map : public PropertySys::SupportRTTI<Map, PropertySys::RTTIObject>
 {
 	friend class Map_xmlHandler;
+	friend class CTileMapEditorView;
+	friend class CTileMapEditorDoc;
 public:
 	Map();
 	~Map();
