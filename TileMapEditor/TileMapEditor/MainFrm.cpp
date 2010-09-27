@@ -19,6 +19,22 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_CREATE()
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_OFF_2007_AQUA, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_OFF_2007_AQUA, &CMainFrame::OnUpdateApplicationLook)
+
+	ON_COMMAND(ID_VIEW_RES_PANEL, &CMainFrame::OnView_ResTreePanel)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_RES_PANEL, &CMainFrame::OnUpdateView_ResTreePanel)
+
+	ON_COMMAND(ID_VIEW_MAP_PANEL, &CMainFrame::OnView_MapPanel)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_MAP_PANEL, &CMainFrame::OnUpdateView_MapPanel)
+
+	ON_COMMAND(ID_VIEW_RES_DETAIL_PANEL, &CMainFrame::OnView_ResDetailPanel)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_RES_DETAIL_PANEL, &CMainFrame::OnUpdateView_ResDetailPanel)
+
+	ON_COMMAND(ID_VIEW_OUTPUTWND, &CMainFrame::OnView_OutputPanel)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_OUTPUTWND, &CMainFrame::OnUpdateView_OutputPanel)
+
+	ON_COMMAND(ID_VIEW_PROPERTIESWND, &CMainFrame::OnView_PropertyPanel)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_PROPERTIESWND, &CMainFrame::OnUpdateView_PropertyPanel)
+
 END_MESSAGE_MAP()
 
 // CMainFrame 构造/析构
@@ -76,12 +92,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	//Left
-	m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);
-	_MapViewView.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndFileView);
+	_ResTreePanel.EnableDocking(CBRS_ALIGN_ANY);
+	_MapPanel.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&_ResTreePanel);
 
 	CDockablePane* pTabbedBar = NULL;
-	_MapViewView.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
+	_MapPanel.AttachToTabWnd(&_ResTreePanel, DM_SHOW, TRUE, &pTabbedBar);
 	
 
 	//Bottom
@@ -203,15 +219,25 @@ void CMainFrame::InitializeRibbon()
 	ASSERT(bNameValid);
 	pPanelClipboard->Add(new CMFCRibbonButton(ID_EDIT_SELECT_ALL, strTemp, -1));
 
+#define M_Add_Ribbon_CheckBox(Panel, IDS, ID) \
+	{ \
+		bNameValid = strTemp.LoadString(IDS); \
+		ASSERT(bNameValid); \
+		CMFCRibbonButton* pTmp = new CMFCRibbonCheckBox(ID, strTemp); \
+		Panel->Add(pTmp); \
+	}
+
 	// 创建和添加“视图”面板:
 	bNameValid = strTemp.LoadString(IDS_RIBBON_VIEW);
 	ASSERT(bNameValid);
 	CMFCRibbonPanel* pPanelView = pCategoryHome->AddPanel(strTemp, m_PanelImages.ExtractIcon (7));
 
-	bNameValid = strTemp.LoadString(IDS_RIBBON_STATUSBAR);
-	ASSERT(bNameValid);
-	CMFCRibbonButton* pBtnStatusBar = new CMFCRibbonCheckBox(ID_VIEW_STATUS_BAR, strTemp);
-	pPanelView->Add(pBtnStatusBar);
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_RES_PANEL, ID_VIEW_RES_PANEL);
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_MAP_PANEL, ID_VIEW_MAP_PANEL);
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_RES_DETAIL, ID_VIEW_RES_DETAIL_PANEL);
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_PROPERTIES_WND, ID_VIEW_PROPERTIESWND);
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_OUTPUT_WND, ID_VIEW_OUTPUTWND);
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_RIBBON_STATUSBAR, ID_VIEW_STATUS_BAR);
 
 	// 将元素添加到选项卡右侧:
 	bNameValid = strTemp.LoadString(IDS_RIBBON_STYLE);
@@ -249,7 +275,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	CString strClassView;
 	bNameValid = strClassView.LoadString(IDS_MAP_PANEL);
 	ASSERT(bNameValid);
-	if (!_MapViewView.Create(strClassView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_MAP_PANEL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	if (!_MapPanel.Create(strClassView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_MAP_PANEL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("未能创建“地图”窗口\n");
 		return FALSE; // 未能创建
@@ -259,7 +285,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	CString strFileView;
 	bNameValid = strFileView.LoadString(IDS_RES_PANEL);
 	ASSERT(bNameValid);
-	if (!m_wndFileView.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_RES_PANEL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
+	if (!_ResTreePanel.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_RES_PANEL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
 	{
 		TRACE0("未能创建“资源”窗口\n");
 		return FALSE; // 未能创建
@@ -311,10 +337,10 @@ BOOL CMainFrame::CreateDockingWindows()
 void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 {
 	HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	m_wndFileView.SetIcon(hFileViewIcon, FALSE);
+	_ResTreePanel.SetIcon(hFileViewIcon, FALSE);
 
 	HICON hClassViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_CLASS_VIEW_HC : IDI_CLASS_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	_MapViewView.SetIcon(hClassViewIcon, FALSE);
+	_MapPanel.SetIcon(hClassViewIcon, FALSE);
 
 	HICON hOutputBarIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_OUTPUT_WND_HC : IDI_OUTPUT_WND), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
 	m_wndOutput.SetIcon(hOutputBarIcon, FALSE);
@@ -404,4 +430,49 @@ void CMainFrame::OnApplicationLook(UINT id)
 void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetRadio(theApp.m_nAppLook == pCmdUI->m_nID);
+}
+
+void CMainFrame::OnView_ResTreePanel()
+{
+	_ResTreePanel.ShowPane(!_ResTreePanel.IsVisible(), FALSE, !_ResTreePanel.IsVisible());
+}
+void CMainFrame::OnUpdateView_ResTreePanel(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(_ResTreePanel.IsVisible());
+}
+
+void CMainFrame::OnView_MapPanel()
+{
+	_MapPanel.ShowPane(!_MapPanel.IsVisible(), FALSE, !_MapPanel.IsVisible());
+}
+void CMainFrame::OnUpdateView_MapPanel(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(_MapPanel.IsVisible());
+}
+
+void CMainFrame::OnView_ResDetailPanel()
+{
+	_TileResView.ShowPane(!_TileResView.IsVisible(), FALSE, !_TileResView.IsVisible());
+}
+void CMainFrame::OnUpdateView_ResDetailPanel(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(_TileResView.IsVisible());
+}
+
+void CMainFrame::OnView_OutputPanel()
+{
+	m_wndOutput.ShowPane(!m_wndOutput.IsVisible(), FALSE, !m_wndOutput.IsVisible());
+}
+void CMainFrame::OnUpdateView_OutputPanel(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(m_wndOutput.IsVisible());
+}
+
+void CMainFrame::OnView_PropertyPanel()
+{
+	m_wndProperties.ShowPane(!m_wndProperties.IsVisible(), FALSE, !m_wndProperties.IsVisible());
+}
+void CMainFrame::OnUpdateView_PropertyPanel(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(m_wndProperties.IsVisible());
 }

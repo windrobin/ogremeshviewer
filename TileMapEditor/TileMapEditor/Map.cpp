@@ -120,6 +120,10 @@ protected:
 
 Map::Map()
 : _pMapBackground(0)
+, _iWidth(1024)
+, _iHeight(1024)
+, _iTileHeightDefault(64)
+, _iTileWidthDefault(64)
 {
 }
 

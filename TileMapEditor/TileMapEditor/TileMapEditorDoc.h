@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "Map.h"
+
 
 class CTileMapEditorDoc : public CDocument
 {
@@ -17,6 +19,8 @@ public:
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
 
+	Map&	GetMap(){ return _theMap; }
+
 
 public:
 	virtual ~CTileMapEditorDoc();
@@ -26,6 +30,8 @@ public:
 #endif
 
 protected:
+
+	Map		_theMap;
 
 
 protected:

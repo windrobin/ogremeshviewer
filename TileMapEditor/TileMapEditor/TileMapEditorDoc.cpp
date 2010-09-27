@@ -4,8 +4,9 @@
 
 #include "stdafx.h"
 #include "TileMapEditor.h"
-
 #include "TileMapEditorDoc.h"
+
+#include "DialogFileNew.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -40,10 +41,17 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	// TODO: 在此添加重新初始化代码
 	// (SDI 文档将重用该文档)
 
+	DialogFileNew dlg;
+	if( dlg.DoModal() != IDOK)
+		return FALSE;
+
+	_theMap._iWidth				= dlg._iMapWidth;
+	_theMap._iHeight			= dlg._iMapHeight;
+	_theMap._iTileWidthDefault	= dlg._iTileSize;
+	_theMap._iTileHeightDefault	= dlg._iTileSize;
+	
 	return TRUE;
 }
-
-
 
 
 // CTileMapEditorDoc 序列化

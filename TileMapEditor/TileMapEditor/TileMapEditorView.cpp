@@ -57,8 +57,8 @@ void CTileMapEditorView::OnInitialUpdate()
 	CScrollView::OnInitialUpdate();
 
 	CSize sizeTotal;
-	// TODO: 计算此视图的合计大小
-	sizeTotal.cx = sizeTotal.cy = 100;
+	sizeTotal.cx	= GetDocument()->GetMap()._iWidth;
+	sizeTotal.cy	= GetDocument()->GetMap()._iHeight;
 	SetScrollSizes(MM_TEXT, sizeTotal);
 }
 
@@ -100,7 +100,8 @@ CTileMapEditorDoc* CTileMapEditorView::GetDocument() const // 非调试版本是内联的
 void CTileMapEditorView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 {
 	CSize sizeTotal;
-	sizeTotal.cx = sizeTotal.cy = 100;
+	sizeTotal.cx	= GetDocument()->GetMap()._iWidth;
+	sizeTotal.cy	= GetDocument()->GetMap()._iHeight;
 	SetScrollSizes(MM_TEXT, sizeTotal);
 
 	CScrollView::OnPrepareDC(pDC, pInfo);

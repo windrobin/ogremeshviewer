@@ -400,6 +400,14 @@
 			Name="UI"
 			>
 			<File
+				RelativePath=".\DialogFileNew.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DialogFileNew.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MapView.cpp"
 				>
 			</File>
@@ -526,5 +534,9 @@
 		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="TileMapEditor.rc"
+		/>
 	</Globals>
 </VisualStudioProject>
