@@ -18,6 +18,9 @@
 IMPLEMENT_DYNCREATE(CTileMapEditorView, CScrollView)
 
 BEGIN_MESSAGE_MAP(CTileMapEditorView, CScrollView)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // CTileMapEditorView ¹¹Ôì/Îö¹¹
@@ -105,4 +108,25 @@ void CTileMapEditorView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 	SetScrollSizes(MM_TEXT, sizeTotal);
 
 	CScrollView::OnPrepareDC(pDC, pInfo);
+}
+
+void CTileMapEditorView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CScrollView::OnLButtonDown(nFlags, point);
+}
+
+void CTileMapEditorView::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CScrollView::OnLButtonUp(nFlags, point);
+}
+
+void CTileMapEditorView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CScrollView::OnMouseMove(nFlags, point);
 }
