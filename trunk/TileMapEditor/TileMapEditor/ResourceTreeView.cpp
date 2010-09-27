@@ -284,6 +284,7 @@ void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResul
 	{
 		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 		TileResView* pTileResView = pMainFrame->GetTileResView();
+		pTileResView->ShowPane(TRUE, FALSE, TRUE);
 
 		Resource* pRes = (Resource*)ptr;
 		pRes->CreateImageList(pTileResView->GetDC());
