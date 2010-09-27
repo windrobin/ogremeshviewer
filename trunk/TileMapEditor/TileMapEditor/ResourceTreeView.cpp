@@ -133,12 +133,12 @@ void ResourceTreeView::FillFileView()
 
 	_treeGameEventRes	= m_wndFileView.InsertItem(_T("游戏事件"), 0, 0, hRoot);
 
-	//m_wndFileView.InsertItem(_T("通用"), 2, 2, hRes);
-	//m_wndFileView.InsertItem(_T("单人"), 2, 2, hRes);
-	//m_wndFileView.InsertItem(_T("多人"), 2, 2, hRes);
-
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
+
 	m_wndFileView.Expand(hArtSrc, TVE_EXPAND);
+	m_wndFileView.Expand(_treeArtBackgroundRes, TVE_EXPAND);
+	m_wndFileView.Expand(_treeArtTileRes, TVE_EXPAND);
+	
 	m_wndFileView.Expand(_treeGameObjectRes, TVE_EXPAND);
 	m_wndFileView.Expand(_treeGameEventRes, TVE_EXPAND);
 }

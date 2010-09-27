@@ -8,11 +8,17 @@ using namespace PropertySys;
 ResourceBackground::ResourceBackground()
 : _iWidth(0)
 , _iHeight(0)
+, _pBmp(0)
 {
 }
 
 ResourceBackground::~ResourceBackground()
 {
+	if (_pBmp)
+	{
+		_pBmp->DeleteObject();
+		delete _pBmp;
+	}
 }
 
 void ResourceBackground::RegisterReflection()
@@ -35,12 +41,11 @@ void ResourceBackground::OnPropertyChanged(const std::string& propName)
 {
 }
 
-
 bool ResourceBackground::Load()
 {
 	String strFull = ResourceManager::getSingleton().GetRootFolder() + _strImagePathName;
 
-	if( _image.Load(_strImagePathName.c_str()) )
+	if( _image.Load(strFull.c_str()) )
 	{
 		_iWidth		= _image.GetWidth();
 		_iHeight	= _image.GetHeight();
@@ -48,5 +53,24 @@ bool ResourceBackground::Load()
 		return true;
 	}
 
-	return true;
+	return false;
+}
+
+void ResourceBackground::CreateImageList(CDC* pDC)
+{
+	if (_bHasImageList)
+		return;
+
+	//_image.GetColorType()
+
+	BOOL b = _imageList.Create(_iWidth, _iHeight, ILC_COLOR32, 0, 4);
+
+	HBITMAP hBmp = _image.MakeBitmap(pDC->GetSafeHdc());
+	_pBmp = new CBitmap;
+	_pBmp->Attach(hBmp);
+
+	_imageList.Add(_pBmp, (CBitmap*)0);
+	_captions.push_back(_strName);
+
+	_bHasImageList = true;
 }
