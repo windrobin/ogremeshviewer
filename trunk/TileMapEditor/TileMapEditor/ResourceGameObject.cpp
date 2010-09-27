@@ -59,13 +59,31 @@ void ResourceGameObjectGroup::CreateImageList(CDC* pDC)
 		CImageList* pImageList = pResTile->GetImageList();
 
 		_imageList.Create(pImageList);
-		_imageList.SetImageCount(0);
 
+		Cactus::map<int, ResourceGameObject*>::type IDGamObject;
 		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
 		{
-			_imageList.Copy(_imageList.GetImageCount(), pImageList, (*it)->_ArtResID, ILCF_MOVE);
+			IDGamObject[(*it)->_ArtResID] = *it;
+		}
 
-			_captions.push_back( (*it)->_strName );
+		int iIndex = 0;
+		for (Cactus::map<int, ResourceGameObject*>::type::iterator it = IDGamObject.begin(); it != IDGamObject.end(); ++it)
+		{
+			if (it->first != iIndex)
+			{
+				_imageList.Copy(iIndex, it->first, ILCF_SWAP);
+			}
+
+			iIndex++;
+
+			_captions.push_back( it->second->_strName );
+		}
+
+		int iCount = _imageList.GetImageCount();
+
+		for (int i = iIndex; i < iCount; ++i)
+		{
+			_imageList.Remove(i);
 		}
 	}
 

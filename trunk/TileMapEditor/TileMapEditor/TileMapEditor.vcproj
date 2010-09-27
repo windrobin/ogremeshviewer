@@ -380,14 +380,6 @@
 			Name="UI"
 			>
 			<File
-				RelativePath=".\GameObjectResView.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\GameObjectResView.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MapView.cpp"
 				>
 			</File>

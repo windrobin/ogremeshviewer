@@ -7,7 +7,6 @@
 #include "ResourceTreeView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
-#include "GameObjectResView.h"
 #include "TileResView.h"
 
 class CMainFrame : public CFrameWndEx
@@ -34,16 +33,15 @@ public:
 
 
 protected:  // 控件条嵌入成员
-	CMFCMenuBar       m_wndMenuBar;
-	CMFCToolBar       m_wndToolBar;
-	CMFCStatusBar     m_wndStatusBar;
-	CMFCToolBarImages m_UserImages;
-	ResourceTreeView         m_wndFileView;
-	MapView        m_wndClassView;
-	COutputWnd        m_wndOutput;
-	CPropertiesWnd    m_wndProperties;
+	CMFCMenuBar			m_wndMenuBar;
+	CMFCToolBar			m_wndToolBar;
+	CMFCStatusBar		m_wndStatusBar;
+	CMFCToolBarImages	m_UserImages;
+	ResourceTreeView	m_wndFileView;
+	MapView				m_wndClassView;
+	COutputWnd			m_wndOutput;
+	CPropertiesWnd		m_wndProperties;
 
-	GameObjectResView	_GameObjectResView;
 	TileResView			_TileResView;
 
 // 生成的消息映射函数
