@@ -192,6 +192,10 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
+				RelativePath=".\res\buttons.bmp"
+				>
+			</File>
+			<File
 				RelativePath=".\res\class_view.ico"
 				>
 			</File>
@@ -224,11 +228,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\filelarge.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\filesmall.bmp"
+				>
+			</File>
+			<File
 				RelativePath=".\res\fileview.bmp"
 				>
 			</File>
 			<File
 				RelativePath=".\res\fileview_hc.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\main.bmp"
 				>
 			</File>
 			<File
@@ -276,6 +292,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TileMapEditor.rc"
+				>
+			</File>
+			<File
 				RelativePath=".\res\TileMapEditor.rc2"
 				>
 			</File>
@@ -292,7 +312,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\UserImages.bmp"
+				RelativePath=".\res\writelarge.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\writesmall.bmp"
 				>
 			</File>
 		</Filter>

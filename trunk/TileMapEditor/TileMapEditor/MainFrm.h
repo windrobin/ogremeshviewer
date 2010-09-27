@@ -19,7 +19,6 @@ protected: // 仅从序列化创建
 // 重写
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = NULL, CCreateContext* pContext = NULL);
 
 // 实现
 public:
@@ -33,10 +32,10 @@ public:
 
 
 protected:  // 控件条嵌入成员
-	CMFCMenuBar			m_wndMenuBar;
-	CMFCToolBar			m_wndToolBar;
-	CMFCStatusBar		m_wndStatusBar;
-	CMFCToolBarImages	m_UserImages;
+	CMFCRibbonBar     m_wndRibbonBar;
+	CMFCRibbonApplicationButton m_MainButton;
+	CMFCToolBarImages m_PanelImages;
+	CMFCRibbonStatusBar  m_wndStatusBar;
 	ResourceTreeView	m_wndFileView;
 	MapView				m_wndClassView;
 	COutputWnd			m_wndOutput;
@@ -47,12 +46,11 @@ protected:  // 控件条嵌入成员
 // 生成的消息映射函数
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnViewCustomize();
-	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
 	afx_msg void OnApplicationLook(UINT id);
 	afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
 
+	void InitializeRibbon();
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 };

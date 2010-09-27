@@ -126,7 +126,7 @@ BOOL CTileMapEditorApp::InitInstance()
 	// TODO: 应适当修改该字符串，
 	// 例如修改为公司或组织名
 	SetRegistryKey(_T("ZHKSoft"));
-	LoadStdProfileSettings(4);  // 加载标准 INI 文件选项(包括 MRU)
+	LoadStdProfileSettings(0);  // 加载标准 INI 文件选项(包括 MRU)
 
 	InitContextMenuManager();
 	InitShellManager();
