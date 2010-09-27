@@ -67,7 +67,7 @@ bool ResourceTileSingleImage::Load()
 {
 	String strFull = ResourceManager::getSingleton().GetRootFolder() + _strImageName;
 
-	if( _image.Load(_strImageName.c_str()) )
+	if( _image.Load(strFull.c_str()) )
 	{
 		_imageWidth		= _image.GetWidth();
 		_imageHeight	= _image.GetHeight();
@@ -75,10 +75,10 @@ bool ResourceTileSingleImage::Load()
 		return true;
 	}
 
-	return true;
+	return false;
 }
 
-void ResourceTileSingleImage::CreateImageList()
+void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 {
 	if (_bHasImageList)
 		return;
@@ -87,8 +87,16 @@ void ResourceTileSingleImage::CreateImageList()
 
 	BOOL b = _imageList.Create(_tileWidth, _tileHeight, ILC_COLOR32, 0, 4);
 
+	HBITMAP hBmp = _image.MakeBitmap(pDC->GetSafeHdc());
+	CBitmap bmp;
+	bmp.Attach(hBmp);
+
+	CDC dcBmp;
+	dcBmp.CreateCompatibleDC(pDC);
+	dcBmp.SelectObject(&bmp);
+
 	CDC dcMem;
-	dcMem.CreateCompatibleDC(0);
+	dcMem.CreateCompatibleDC(pDC);
 
 	int iLineCount = _imageWidth/_tileWidth;
 
@@ -97,13 +105,10 @@ void ResourceTileSingleImage::CreateImageList()
 	{
 		CBitmap* bmpTile = new CBitmap;
 		CBitmap* bmpOld;
+		bmpTile->CreateCompatibleBitmap(pDC, _tileWidth, _tileHeight);
 		bmpOld = dcMem.SelectObject(bmpTile);
 
-		_image.Draw(dcMem.GetSafeHdc()
-			, (i % iLineCount) * _tileWidth, (i / iLineCount) * iLineCount * _tileHeight
-			, _tileWidth, _tileHeight
-			);
-
+		dcMem.BitBlt(0, 0, _tileWidth, _tileHeight, &dcBmp, (i % iLineCount) * _tileWidth, (i / iLineCount) * _tileHeight, SRCCOPY);
 		dcMem.SelectObject(bmpOld);
 
 		_imageList.Add(bmpTile, (CBitmap*)0);
@@ -114,6 +119,8 @@ void ResourceTileSingleImage::CreateImageList()
 		osCap << i;
 		_captions.push_back(osCap.str());
 	}
+
+	bmp.DeleteObject();
 
 	_bHasImageList = true;
 }
@@ -179,7 +186,7 @@ bool ResourceTileFolder::Load()
 	return (_images.size() != 0);
 }
 
-void ResourceTileFolder::CreateImageList()
+void ResourceTileFolder::CreateImageList(CDC* pDC)
 {
 	if (_bHasImageList)
 		return;
@@ -187,12 +194,14 @@ void ResourceTileFolder::CreateImageList()
 	_imageList.Create(_tileWidth, _tileHeight, ILC_COLOR32, 0, 4);
 
 	CDC dcMem;
-	dcMem.CreateCompatibleDC(0);
+	dcMem.CreateCompatibleDC(pDC);
 
 	for (IDImageMapType::iterator it = _images.begin(); it != _images.end(); ++it)
 	{
 		CBitmap* bmpTile = new CBitmap;
 		CBitmap* bmpOld;
+
+		bmpTile->CreateCompatibleBitmap(pDC, _tileWidth, _tileHeight);
 		bmpOld = dcMem.SelectObject(bmpTile);
 
 		it->second->Draw(dcMem.GetSafeHdc());

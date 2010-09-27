@@ -47,7 +47,7 @@ void ResourceGameObjectGroup::OnPropertyChanged(const std::string& propName)
 {
 }
 
-void ResourceGameObjectGroup::CreateImageList()
+void ResourceGameObjectGroup::CreateImageList(CDC* pDC)
 {
 	if (_bHasImageList)
 		return;
@@ -55,7 +55,7 @@ void ResourceGameObjectGroup::CreateImageList()
 	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTile(_strArtResKey);
 	if (pResTile)
 	{
-		pResTile->CreateImageList();
+		pResTile->CreateImageList(pDC);
 		CImageList* pImageList = pResTile->GetImageList();
 
 		_imageList.Create(pImageList);

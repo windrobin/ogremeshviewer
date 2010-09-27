@@ -19,7 +19,7 @@ public:
 	virtual ~Resource(){}
 
 	virtual	bool			Load(){ return false; }
-	virtual void			CreateImageList(){}
+	virtual void			CreateImageList(CDC* pDC){}
 
 	CImageList*				GetImageList(){ return &_imageList; }
 

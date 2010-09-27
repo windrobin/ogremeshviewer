@@ -57,7 +57,7 @@ int TileResView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_ICON;
 	_listImages.Create(dwViewStyle, CRect(0, 0, 100, 100), this, M_ListCtrl_ID);
-	_listImages.SetBkColor(0);
+	//_listImages.SetBkColor(0);
 
 	return 0;
 }

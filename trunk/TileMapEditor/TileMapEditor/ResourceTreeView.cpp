@@ -282,14 +282,14 @@ void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResul
 	DWORD_PTR ptr = m_wndFileView.GetItemData(pNMTreeView->itemNew.hItem);
 	if (ptr)
 	{
+		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+		TileResView* pTileResView = pMainFrame->GetTileResView();
+
 		Resource* pRes = (Resource*)ptr;
-		pRes->CreateImageList();
+		pRes->CreateImageList(pTileResView->GetDC());
 
 		//insert image into TileResView
-
-		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
-
-		pMainFrame->GetTileResView()->BuildImageAndInfoes(pRes->GetImageList(), *pRes->GetCaptions());
+		pTileResView->BuildImageAndInfoes(pRes->GetImageList(), *pRes->GetCaptions());
 
 	}
 

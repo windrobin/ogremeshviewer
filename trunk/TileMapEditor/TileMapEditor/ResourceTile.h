@@ -36,7 +36,7 @@ public:
 	~ResourceTileSingleImage();
 
 	virtual bool		Load();
-	virtual void		CreateImageList();
+	virtual void		CreateImageList(CDC* pDC);
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
@@ -60,7 +60,7 @@ public:
 	~ResourceTileFolder();
 
 	virtual bool		Load();
-	virtual void		CreateImageList();
+	virtual void		CreateImageList(CDC* pDC);
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
