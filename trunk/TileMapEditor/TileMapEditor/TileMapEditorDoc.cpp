@@ -10,6 +10,8 @@
 #include "MainFrm.h"
 #include "MapView.h"
 
+#include "ToolManager.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -40,9 +42,6 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
-	// TODO: 在此添加重新初始化代码
-	// (SDI 文档将重用该文档)
-
 	DialogFileNew dlg;
 	if( dlg.DoModal() != IDOK)
 		return FALSE;
@@ -51,6 +50,8 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	_theMap._iHeight			= dlg._iMapHeight;
 	_theMap._iTileWidthDefault	= dlg._iTileSize;
 	_theMap._iTileHeightDefault	= dlg._iTileSize;
+
+	ToolManager::getSingleton().SetDocument(this);
 	
 	return TRUE;
 }

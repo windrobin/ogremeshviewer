@@ -12,4 +12,10 @@ public:
 	virtual void OnLButtonDown(UINT nFlags, CPoint point);
 	virtual void OnLButtonUp(UINT nFlags, CPoint point);
 	virtual void OnMouseMove(UINT nFlags, CPoint point);
+
+	void		SetResource(const Cactus::String& strRes, const Cactus::String& strID);
+
+protected:
+	Cactus::String		_strResKey;
+	Cactus::String		_strResID;
 };

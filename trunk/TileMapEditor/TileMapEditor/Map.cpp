@@ -195,6 +195,26 @@ void Map::Reset()
 
 void Map::Draw(CDC* pDC)
 {
+	pDC->FillSolidRect(0, 0, _iWidth, _iHeight, 0);
+
+	CPen pen(PS_SOLID, 1, RGB(128, 128, 128));
+	CPen* pOldPen = pDC->SelectObject(&pen);
+
+	int iGridWidth	= _iWidth / _iTileWidthDefault;
+	int iGridHeight	= _iHeight / _iTileHeightDefault;
+	for (int i = 0; i <= iGridWidth; i++)
+	{
+		pDC->MoveTo(0, i * _iTileWidthDefault);
+		pDC->LineTo(_iHeight, i * _iTileWidthDefault);
+	}
+	for (int i = 0; i <= iGridHeight; i++)
+	{
+		pDC->MoveTo(i * _iTileHeightDefault, 0);
+		pDC->LineTo(i * _iTileHeightDefault, _iWidth);
+	}
+
+	pDC->SelectObject(pOldPen);
+
 	for(MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
 	{
 		(*it)->Draw(pDC);
