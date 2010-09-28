@@ -14,6 +14,7 @@ public:
 
 	void				Draw(CDC* pDC);
 	bool				Load(const Cactus::String& strPathName);
+	void				Save(const Cactus::String& strPathName);
 	void				Reset();
 
 	static void			RegisterReflection();

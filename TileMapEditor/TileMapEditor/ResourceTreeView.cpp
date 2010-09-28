@@ -34,12 +34,12 @@ BEGIN_MESSAGE_MAP(ResourceTreeView, CDockablePane)
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
 	ON_COMMAND(ID_PROPERTIES, OnProperties)
-	ON_COMMAND(ID_OPEN, OnFileOpen)
-	ON_COMMAND(ID_OPEN_WITH, OnFileOpenWith)
-	ON_COMMAND(ID_DUMMY_COMPILE, OnDummyCompile)
-	ON_COMMAND(ID_EDIT_CUT, OnEditCut)
-	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
+	//ON_COMMAND(ID_OPEN, OnFileOpen)
+	//ON_COMMAND(ID_OPEN_WITH, OnFileOpenWith)
+	//ON_COMMAND(ID_DUMMY_COMPILE, OnDummyCompile)
+	//ON_COMMAND(ID_EDIT_CUT, OnEditCut)
+	//ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
+	//ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 	ON_NOTIFY(TVN_SELCHANGED, M_TreeID, &ResourceTreeView::OnTvnSelchangedTreeDetails)
@@ -76,9 +76,7 @@ int ResourceTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	OnChangeVisualStyle();
 
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() | CBRS_TOOLTIPS | CBRS_FLYBY);
-
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC | CBRS_BORDER_TOP | CBRS_BORDER_BOTTOM | CBRS_BORDER_LEFT | CBRS_BORDER_RIGHT));
-
 	m_wndToolBar.SetOwner(this);
 
 	// 所有命令将通过此控件路由，而不是通过主框架路由:
@@ -169,7 +167,7 @@ void ResourceTreeView::OnContextMenu(CWnd* pWnd, CPoint point)
 	}
 
 	pWndTree->SetFocus();
-	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
+	//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
 }
 
 void ResourceTreeView::AdjustLayout()
@@ -194,35 +192,26 @@ void ResourceTreeView::OnProperties()
 
 }
 
+/*
 void ResourceTreeView::OnFileOpen()
 {
-	// TODO: 在此处添加命令处理程序代码
 }
-
 void ResourceTreeView::OnFileOpenWith()
 {
-	// TODO: 在此处添加命令处理程序代码
 }
-
 void ResourceTreeView::OnDummyCompile()
 {
-	// TODO: 在此处添加命令处理程序代码
 }
-
 void ResourceTreeView::OnEditCut()
 {
-	// TODO: 在此处添加命令处理程序代码
 }
-
 void ResourceTreeView::OnEditCopy()
 {
-	// TODO: 在此处添加命令处理程序代码
 }
-
 void ResourceTreeView::OnEditClear()
 {
-	// TODO: 在此处添加命令处理程序代码
 }
+*/
 
 void ResourceTreeView::OnPaint()
 {

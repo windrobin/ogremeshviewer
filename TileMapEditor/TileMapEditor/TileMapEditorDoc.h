@@ -14,10 +14,8 @@ protected: // 仅从序列化创建
 	CTileMapEditorDoc();
 	DECLARE_DYNCREATE(CTileMapEditorDoc)
 
-
 public:
 	virtual BOOL OnNewDocument();
-	virtual void Serialize(CArchive& ar);
 
 	Map&	GetMap(){ return _theMap; }
 
@@ -36,6 +34,9 @@ protected:
 
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
+	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
 };
 
 
