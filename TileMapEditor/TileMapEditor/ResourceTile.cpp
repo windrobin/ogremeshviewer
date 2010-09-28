@@ -14,8 +14,11 @@ ResourceTile::~ResourceTile()
 {
 	for (IDBitmapMapType::iterator it = _BitmapTiles.begin(); it != _BitmapTiles.end(); ++it)
 	{
-		it->second->DeleteObject();
-		delete it->second;
+		if (it->second)
+		{
+			it->second->DeleteObject();
+			delete it->second;
+		}
 	}
 }
 
