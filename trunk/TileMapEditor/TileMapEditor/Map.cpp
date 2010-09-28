@@ -45,7 +45,7 @@ public:
 		//else if ( currentElementMatch("tilemap/background/layers/") )
 		//{
 		//}
-		else if ( currentElementMatch("tilemap/background/layers/layer") )
+		else if ( currentElementMatch("tilemap/layers/layer/") )
 		{
 			//<layer name="layer0" enable="true" width="1024" height="1024" tilew="64" tileh="64">
 
@@ -59,18 +59,18 @@ public:
 
 			_map._layers.push_back(_pCurLayer);
 		}
-		else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup") )
+		else if ( currentElementMatch("tilemap/layers/layer/tilegroup/") )
 		{
 			//<tilegroup reskey="tileres01">
 			_strCurGroupTile	= attributes.getValueAsString("reskey");
 		}
-		else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup/tile") )
+		else if ( currentElementMatch("tilemap/layers/layer/tilegroup/tile/") )
 		{
 			//<tile posx="0" posy="0" id="0"/>
 			STile tile;
 			tile._posX	= attributes.getValueAsInteger("posx");
 			tile._posY	= attributes.getValueAsInteger("posy");
-			tile._ID	= attributes.getValueAsInteger("id");
+			tile._strID	= attributes.getValueAsString("id");
 			_tiles.push_back(tile);
 		}
 	}
@@ -83,15 +83,15 @@ public:
 		//else if ( currentElementMatch("tilemap/background/") )
 		//{
 		//}
-		//else if ( currentElementMatch("tilemap/background/layers/") )
+		//else if ( currentElementMatch("tilemap/layers/") )
 		//{
 		//}
 		//else 
-		if ( currentElementMatch("tilemap/background/layers/layer") )
+		if ( currentElementMatch("tilemap/layers/layer/") )
 		{
 			_pCurLayer = 0;
 		}
-		else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup") )
+		else if ( currentElementMatch("tilemap/layers/layer/tilegroup/") )
 		{
 			if (_strCurGroupTile.size())
 			{
@@ -100,7 +100,7 @@ public:
 				_strCurGroupTile = "";
 			}
 		}
-		//else if ( currentElementMatch("tilemap/background/layers/layer/tilegroup/tile") )
+		//else if ( currentElementMatch("tilemap/layers/layer/tilegroup/tile/") )
 		//{
 		//}
 	}

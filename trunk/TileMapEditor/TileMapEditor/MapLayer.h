@@ -2,9 +2,9 @@
 
 struct STile 
 {
-	int		_posX;
-	int		_posY;
-	int		_ID;
+	int				_posX;
+	int				_posY;
+	Cactus::String	_strID;
 };
 
 typedef Cactus::vector<STile>::type		TileVectorType;

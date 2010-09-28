@@ -21,8 +21,8 @@ protected:
 	int					_tileHeight;
 	int					_tilesCount;
 
-	typedef Cactus::list<CBitmap*>::type	BitmapListType;
-	BitmapListType		_BitmapTiles;
+	typedef Cactus::map<Cactus::String, CBitmap*>::type		IDBitmapMapType;
+	IDBitmapMapType		_BitmapTiles;
 };
 
 //---------------------------------------------------------------------------------------------------------
@@ -37,6 +37,7 @@ public:
 
 	virtual bool		Load();
 	virtual void		CreateImageList(CDC* pDC);
+	virtual void		Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID);
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);
@@ -61,6 +62,7 @@ public:
 
 	virtual bool		Load();
 	virtual void		CreateImageList(CDC* pDC);
+	virtual void		Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID);
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);

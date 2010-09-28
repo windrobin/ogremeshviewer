@@ -11,6 +11,7 @@
 #include "TileMapEditorView.h"
 
 #include "ResourceManager.h"
+#include "ToolManager.h"
 
 //#ifdef _DEBUG
 //#define new DEBUG_NEW
@@ -117,6 +118,7 @@ BOOL CTileMapEditorApp::InitInstance()
 		AfxMessageBox("加载资源失败！", MB_OK | MB_ICONHAND);
 		return FALSE;
 	}
+	new ToolManager;
 
 	// 标准初始化
 	// 如果未使用这些功能并希望减小
@@ -209,6 +211,9 @@ void CTileMapEditorApp::SaveCustomState()
 
 int CTileMapEditorApp::ExitInstance()
 {
+	if( ToolManager::getSingletonPtr() )
+		delete ToolManager::getSingletonPtr();
+
 	if( ResourceManager::getSingletonPtr() )
 		delete ResourceManager::getSingletonPtr();
 
@@ -217,7 +222,6 @@ int CTileMapEditorApp::ExitInstance()
 		Cactus::LogManager::getSingleton().Flush();
 		Mem_Delete Cactus::LogManager::getSingletonPtr();
 	}
-
 
 	return CWinAppEx::ExitInstance();
 }

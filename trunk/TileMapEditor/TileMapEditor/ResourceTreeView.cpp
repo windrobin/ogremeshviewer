@@ -60,15 +60,15 @@ int ResourceTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 创建视图:
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_TRACKSELECT;
 
-	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, M_TreeID))
+	if (!_ResourceTree.Create(dwViewStyle, rectDummy, this, M_TreeID))
 	{
 		TRACE0("未能创建文件视图\n");
 		return -1;      // 未能创建
 	}
 
 	// 加载视图图像:
-	m_FileViewImages.Create(IDB_FILE_VIEW, 16, 0, RGB(255, 0, 255));
-	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
+	_TreeImageList.Create(IDB_FILE_VIEW, 16, 0, RGB(255, 0, 255));
+	_ResourceTree.SetImageList(&_TreeImageList, TVSIL_NORMAL);
 
 	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_EXPLORER);
 	m_wndToolBar.LoadToolBar(IDR_EXPLORER, 0, 0, TRUE /* 已锁定*/);
@@ -97,53 +97,53 @@ void ResourceTreeView::OnSize(UINT nType, int cx, int cy)
 
 void ResourceTreeView::FillFileView()
 {
-	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Root"), 0, 0);
-	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
+	HTREEITEM hRoot = _ResourceTree.InsertItem(_T("Root"), 0, 0);
+	_ResourceTree.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hArtSrc = m_wndFileView.InsertItem(_T("美术"), 0, 0, hRoot);
+	HTREEITEM hArtSrc = _ResourceTree.InsertItem(_T("美术"), 0, 0, hRoot);
 
-	_treeArtBackgroundRes	= m_wndFileView.InsertItem(_T("背景资源"), 0, 0, hArtSrc);
+	_treeArtBackgroundRes	= _ResourceTree.InsertItem(_T("背景资源"), 0, 0, hArtSrc);
 	for (ResourceManager::ResBackgroundType::iterator it = ResourceManager::getSingleton()._ResBackgrounds.begin(); 
 		it != ResourceManager::getSingleton()._ResBackgrounds.end(); ++it)
 	{
-		HTREEITEM hItem = m_wndFileView.InsertItem(it->first.c_str(), 2, 2, _treeArtBackgroundRes);
-		m_wndFileView.SetItemData(hItem, (DWORD_PTR)it->second);
+		HTREEITEM hItem = _ResourceTree.InsertItem(it->first.c_str(), 2, 2, _treeArtBackgroundRes);
+		_ResourceTree.SetItemData(hItem, (DWORD_PTR)it->second);
 	}
 
-	_treeArtTileRes			= m_wndFileView.InsertItem(_T("Tile资源"), 0, 0, hArtSrc);
+	_treeArtTileRes			= _ResourceTree.InsertItem(_T("Tile资源"), 0, 0, hArtSrc);
 	for (ResourceManager::ResTileType::iterator it = ResourceManager::getSingleton()._ResTiles.begin(); 
 		it != ResourceManager::getSingleton()._ResTiles.end(); ++it)
 	{
-		HTREEITEM hItem = m_wndFileView.InsertItem(it->first.c_str(), 2, 2, _treeArtTileRes);
-		m_wndFileView.SetItemData(hItem, (DWORD_PTR)it->second);
+		HTREEITEM hItem = _ResourceTree.InsertItem(it->first.c_str(), 2, 2, _treeArtTileRes);
+		_ResourceTree.SetItemData(hItem, (DWORD_PTR)it->second);
 	}
 
-	_treeGameObjectRes	= m_wndFileView.InsertItem(_T("游戏对象"), 0, 0, hRoot);
+	_treeGameObjectRes	= _ResourceTree.InsertItem(_T("游戏对象"), 0, 0, hRoot);
 
-	HTREEITEM hItem = m_wndFileView.InsertItem(_T("NPC"), 2, 2, _treeGameObjectRes);
-	m_wndFileView.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["npc"]);
+	HTREEITEM hItem = _ResourceTree.InsertItem(_T("NPC"), 2, 2, _treeGameObjectRes);
+	_ResourceTree.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["npc"]);
 	
-	hItem = m_wndFileView.InsertItem(_T("Monster"), 2, 2, _treeGameObjectRes);
-	m_wndFileView.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["monster"]);
+	hItem = _ResourceTree.InsertItem(_T("Monster"), 2, 2, _treeGameObjectRes);
+	_ResourceTree.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["monster"]);
 	
-	hItem = m_wndFileView.InsertItem(_T("Function Point"), 2, 2, _treeGameObjectRes);
-	m_wndFileView.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["funcpoint"]);
+	hItem = _ResourceTree.InsertItem(_T("Function Point"), 2, 2, _treeGameObjectRes);
+	_ResourceTree.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["funcpoint"]);
 
-	_treeGameEventRes	= m_wndFileView.InsertItem(_T("游戏事件"), 0, 0, hRoot);
+	_treeGameEventRes	= _ResourceTree.InsertItem(_T("游戏事件"), 0, 0, hRoot);
 
-	m_wndFileView.Expand(hRoot, TVE_EXPAND);
+	_ResourceTree.Expand(hRoot, TVE_EXPAND);
 
-	m_wndFileView.Expand(hArtSrc, TVE_EXPAND);
-	m_wndFileView.Expand(_treeArtBackgroundRes, TVE_EXPAND);
-	m_wndFileView.Expand(_treeArtTileRes, TVE_EXPAND);
+	_ResourceTree.Expand(hArtSrc, TVE_EXPAND);
+	_ResourceTree.Expand(_treeArtBackgroundRes, TVE_EXPAND);
+	_ResourceTree.Expand(_treeArtTileRes, TVE_EXPAND);
 	
-	m_wndFileView.Expand(_treeGameObjectRes, TVE_EXPAND);
-	m_wndFileView.Expand(_treeGameEventRes, TVE_EXPAND);
+	_ResourceTree.Expand(_treeGameObjectRes, TVE_EXPAND);
+	_ResourceTree.Expand(_treeGameEventRes, TVE_EXPAND);
 }
 
 void ResourceTreeView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-	CTreeCtrl* pWndTree = (CTreeCtrl*) &m_wndFileView;
+	CTreeCtrl* pWndTree = (CTreeCtrl*) &_ResourceTree;
 	ASSERT_VALID(pWndTree);
 
 	if (pWnd != pWndTree)
@@ -183,7 +183,7 @@ void ResourceTreeView::AdjustLayout()
 	int cyTlb = m_wndToolBar.CalcFixedLayout(FALSE, TRUE).cy;
 
 	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
-	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
+	_ResourceTree.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
 void ResourceTreeView::OnProperties()
@@ -218,7 +218,7 @@ void ResourceTreeView::OnPaint()
 	CPaintDC dc(this); // 用于绘制的设备上下文
 
 	CRect rectTree;
-	m_wndFileView.GetWindowRect(rectTree);
+	_ResourceTree.GetWindowRect(rectTree);
 	ScreenToClient(rectTree);
 
 	rectTree.InflateRect(1, 1);
@@ -229,7 +229,7 @@ void ResourceTreeView::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
 
-	m_wndFileView.SetFocus();
+	_ResourceTree.SetFocus();
 }
 
 void ResourceTreeView::OnChangeVisualStyle()
@@ -237,7 +237,7 @@ void ResourceTreeView::OnChangeVisualStyle()
 	m_wndToolBar.CleanUpLockedImages();
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_EXPLORER_24 : IDR_EXPLORER, 0, 0, TRUE /* 锁定 */);
 
-	m_FileViewImages.DeleteImageList();
+	_TreeImageList.DeleteImageList();
 
 	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_FILE_VIEW_24 : IDB_FILE_VIEW;
 
@@ -256,19 +256,19 @@ void ResourceTreeView::OnChangeVisualStyle()
 
 	nFlags |= (theApp.m_bHiColorIcons) ? ILC_COLOR24 : ILC_COLOR4;
 
-	m_FileViewImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
-	m_FileViewImages.Add(&bmp, RGB(255, 0, 255));
+	_TreeImageList.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
+	_TreeImageList.Add(&bmp, RGB(255, 0, 255));
 
-	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
+	_ResourceTree.SetImageList(&_TreeImageList, TVSIL_NORMAL);
 }
 
 void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
 
-	CString strText = m_wndFileView.GetItemText(pNMTreeView->itemNew.hItem);
+	CString strText = _ResourceTree.GetItemText(pNMTreeView->itemNew.hItem);
 
-	DWORD_PTR ptr = m_wndFileView.GetItemData(pNMTreeView->itemNew.hItem);
+	DWORD_PTR ptr = _ResourceTree.GetItemData(pNMTreeView->itemNew.hItem);
 	if (ptr)
 	{
 		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
