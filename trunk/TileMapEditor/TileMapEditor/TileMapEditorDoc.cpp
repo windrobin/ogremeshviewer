@@ -87,6 +87,10 @@ BOOL CTileMapEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 	MapView* pMapView = pMainFrame->GetMapView();
 
+	for(Map::MapLayerListType::iterator it = _theMap._layers.begin(); it != _theMap._layers.end(); ++it)
+	{
+		pMapView->AddMapLayer(*it);
+	}
 
 	return TRUE;
 }

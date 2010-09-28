@@ -22,6 +22,11 @@ public:
 
 	void				Draw(CDC* pDC);
 
+	bool				IsVisible(){ return _bVisible; }
+	void				SetVisible(bool b){ _bVisible = b; }
+
+	Cactus::String		GetLayerName(){ return _strName; }
+
 protected:
 	Cactus::String		_strName;
 	int					_iWidth;
@@ -32,4 +37,6 @@ protected:
 
 	typedef Cactus::map<Cactus::String, TileVectorType>::type	TileGroupMapType;	//ResourceTile key
 	TileGroupMapType	_GroupTiles;
+
+	bool				_bVisible;
 };

@@ -197,7 +197,7 @@ void Map::Draw(CDC* pDC)
 {
 	pDC->FillSolidRect(0, 0, _iWidth, _iHeight, 0);
 
-	CPen pen(PS_SOLID, 1, RGB(128, 128, 128));
+	CPen pen(PS_DOT, 1, RGB(128, 128, 128));
 	CPen* pOldPen = pDC->SelectObject(&pen);
 
 	int iGridWidth	= _iWidth / _iTileWidthDefault;
