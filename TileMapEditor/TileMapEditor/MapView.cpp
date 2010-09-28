@@ -66,7 +66,6 @@ int MapView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// 创建视图:
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
-
 	if (!_TreeMapItem.Create(dwViewStyle, rectDummy, this, 2))
 	{
 		TRACE0("未能创建类视图\n");
@@ -107,16 +106,16 @@ void MapView::FillClassView()
 	HTREEITEM hClass = _TreeMapItem.InsertItem(_T("背景"), 3, 3, hRoot);
 	_TreeMapItem.Expand(hRoot, TVE_EXPAND);
 
-	hClass = _TreeMapItem.InsertItem(_T("层"), 1, 1, hRoot);
-	_TreeMapItem.InsertItem(_T("Layer0"), 3, 3, hClass);
-	_TreeMapItem.InsertItem(_T("Layer1"), 3, 3, hClass);
-	_TreeMapItem.InsertItem(_T("Layer2"), 3, 3, hClass);
-	_TreeMapItem.Expand(hClass, TVE_EXPAND);
+	_hLayerRoot = _TreeMapItem.InsertItem(_T("层"), 1, 1, hRoot);
+	_TreeMapItem.InsertItem(_T("Layer0"), 3, 3, _hLayerRoot);
+	_TreeMapItem.InsertItem(_T("Layer1"), 3, 3, _hLayerRoot);
+	_TreeMapItem.InsertItem(_T("Layer2"), 3, 3, _hLayerRoot);
+	_TreeMapItem.Expand(_hLayerRoot, TVE_EXPAND);
 	
-	hClass = _TreeMapItem.InsertItem(_T("画刷"), 1, 1, hRoot);
-	_TreeMapItem.InsertItem(_T("Brush0"), 3, 3, hClass);
-	_TreeMapItem.InsertItem(_T("Brush1"), 3, 3, hClass);
-	_TreeMapItem.Expand(hClass, TVE_EXPAND);
+	_hBrushRoot = _TreeMapItem.InsertItem(_T("画刷"), 1, 1, hRoot);
+	_TreeMapItem.InsertItem(_T("Brush0"), 3, 3, _hBrushRoot);
+	_TreeMapItem.InsertItem(_T("Brush1"), 3, 3, _hBrushRoot);
+	_TreeMapItem.Expand(_hBrushRoot, TVE_EXPAND);
 
 	//可用Icon : 2, 5, 6
 
@@ -196,11 +195,13 @@ void MapView::OnSetFocus(CWnd* pOldWnd)
 
 void MapView::OnChangeVisualStyle()
 {
+	//工具条
 	m_wndToolBar.CleanUpLockedImages();
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_EXPLORER_24 : IDR_EXPLORER, 0, 0, TRUE /* 锁定 */);
 
 
-	m_ClassViewImages.DeleteImageList();
+	//Tree的图标
+	_TreeImageList.DeleteImageList();
 	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_CLASS_VIEW_24 : IDB_CLASS_VIEW;
 	CBitmap bmp;
 	if (!bmp.LoadBitmap(uiBmpId))
@@ -217,8 +218,9 @@ void MapView::OnChangeVisualStyle()
 
 	nFlags |= (theApp.m_bHiColorIcons) ? ILC_COLOR24 : ILC_COLOR4;
 
-	m_ClassViewImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
-	m_ClassViewImages.Add(&bmp, RGB(255, 0, 0));
+	_TreeImageList.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
+	_TreeImageList.Add(&bmp, RGB(255, 0, 0));
 
-	_TreeMapItem.SetImageList(&m_ClassViewImages, TVSIL_NORMAL);
+	_TreeMapItem.SetImageList(&_TreeImageList, TVSIL_NORMAL);
+
 }

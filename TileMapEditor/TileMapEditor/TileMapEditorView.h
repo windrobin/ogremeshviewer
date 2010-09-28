@@ -5,29 +5,18 @@
 
 #pragma once
 
-
 class CTileMapEditorView : public CScrollView
 {
 protected: // 仅从序列化创建
 	CTileMapEditorView();
 	DECLARE_DYNCREATE(CTileMapEditorView)
 
-// 属性
 public:
 	CTileMapEditorDoc* GetDocument() const;
 
-// 操作
-public:
-
-// 重写
-public:
 	virtual void OnDraw(CDC* pDC);  // 重写以绘制该视图
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-protected:
-	virtual void OnInitialUpdate(); // 构造后第一次调用
 
-// 实现
-public:
 	virtual ~CTileMapEditorView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -35,18 +24,17 @@ public:
 #endif
 
 protected:
+	virtual void OnInitialUpdate(); // 构造后第一次调用
+	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
 
-// 生成的消息映射函数
 protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
-	DECLARE_MESSAGE_MAP()
-public:
-	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	DECLARE_MESSAGE_MAP()
 };
 
 #ifndef _DEBUG  // TileMapEditorView.cpp 中的调试版本

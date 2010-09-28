@@ -89,3 +89,24 @@ void ResourceGameObjectGroup::CreateImageList(CDC* pDC)
 
 	_bHasImageList = true;
 }
+
+void ResourceGameObjectGroup::Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID)
+{
+	CreateImageList(pDC);
+
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTile(_strArtResKey);
+	if (pResTile)
+	{
+		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
+		{
+			if( (*it)->_strName == strID )
+			{
+				Cactus::ostringstream os;
+				os << (*it)->_ArtResID;
+				pResTile->Draw(pDC, posX, posY, os.str());
+
+				break;
+			}
+		}
+	}
+}

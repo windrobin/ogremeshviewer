@@ -25,9 +25,10 @@ public:
 //  Ù–‘
 protected:
 
-	CViewTree m_wndFileView;
-	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;
+
+	CViewTree	_ResourceTree;
+	CImageList	_TreeImageList;
 
 	HTREEITEM	_treeArtBackgroundRes;
 	HTREEITEM	_treeArtTileRes;

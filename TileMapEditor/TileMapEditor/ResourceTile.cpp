@@ -12,10 +12,10 @@ ResourceTile::ResourceTile()
 
 ResourceTile::~ResourceTile()
 {
-	for (BitmapListType::iterator it = _BitmapTiles.begin(); it != _BitmapTiles.end(); ++it)
+	for (IDBitmapMapType::iterator it = _BitmapTiles.begin(); it != _BitmapTiles.end(); ++it)
 	{
-		(*it)->DeleteObject();
-		delete *it;
+		it->second->DeleteObject();
+		delete it->second;
 	}
 }
 
@@ -113,7 +113,7 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 
 		_imageList.Add(bmpTile, (CBitmap*)0);
 
-		_BitmapTiles.push_back(bmpTile);
+		_BitmapTiles[osCap.str()] = bmpTile;
 
 		osCap.str("");
 		osCap << i;
@@ -123,6 +123,27 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 	bmp.DeleteObject();
 
 	_bHasImageList = true;
+}
+
+void ResourceTileSingleImage::Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID)
+{
+	CreateImageList(pDC);
+
+	if (_BitmapTiles.find(strID) == _BitmapTiles.end())
+	{
+		Log_Error("ResourceTileSingleImage::Draw, can not find Resource for " << strID);
+		return;
+	}
+
+	CBitmap* pBmp = _BitmapTiles[strID];
+
+	CDC memDC;
+	memDC.CreateCompatibleDC(pDC);
+	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
+
+	pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
+
+	memDC.SelectObject(pOldBmp);
 }
 
 //---------------------------------------------------------------------------------------------------------
@@ -176,6 +197,8 @@ bool ResourceTileFolder::Load()
 				osCap << i;
 				_captions.push_back(osCap.str());
 
+				_BitmapTiles[osCap.str()] = 0;
+
 				continue;
 			}
 		}
@@ -196,6 +219,8 @@ void ResourceTileFolder::CreateImageList(CDC* pDC)
 	CDC dcMem;
 	dcMem.CreateCompatibleDC(pDC);
 
+	IDBitmapMapType::iterator itBmp = _BitmapTiles.begin();
+
 	for (IDImageMapType::iterator it = _images.begin(); it != _images.end(); ++it)
 	{
 		CBitmap* bmpTile = new CBitmap;
@@ -210,10 +235,32 @@ void ResourceTileFolder::CreateImageList(CDC* pDC)
 
 		_imageList.Add(bmpTile, (CBitmap*)0);
 
-		_BitmapTiles.push_back(bmpTile);
+		itBmp->second = bmpTile;
+		itBmp++;
 	}
 
 	_bHasImageList = true;
+}
+
+void ResourceTileFolder::Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID)
+{
+	CreateImageList(pDC);
+
+	if (_BitmapTiles.find(strID) == _BitmapTiles.end())
+	{
+		Log_Error("ResourceTileFolder::Draw, can not find Resource for " << strID);
+		return;
+	}
+
+	CBitmap* pBmp = _BitmapTiles[strID];
+
+	CDC memDC;
+	memDC.CreateCompatibleDC(pDC);
+	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
+
+	pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
+
+	memDC.SelectObject(pOldBmp);
 }
 
 //---------------------------------------------------------------------------------------------------------

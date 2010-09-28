@@ -16,7 +16,10 @@ public:
 protected:
 	CClassToolBar	m_wndToolBar;
 	CViewTree		_TreeMapItem;
-	CImageList		m_ClassViewImages;
+	CImageList		_TreeImageList;
+
+	HTREEITEM		_hLayerRoot;
+	HTREEITEM		_hBrushRoot;
 
 	void FillClassView();
 

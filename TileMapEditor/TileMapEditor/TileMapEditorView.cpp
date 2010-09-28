@@ -8,6 +8,9 @@
 #include "TileMapEditorDoc.h"
 #include "TileMapEditorView.h"
 
+#include "ToolManager.h"
+#include "ToolBase.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -27,8 +30,6 @@ END_MESSAGE_MAP()
 
 CTileMapEditorView::CTileMapEditorView()
 {
-	// TODO: 在此处添加构造代码
-
 }
 
 CTileMapEditorView::~CTileMapEditorView()
@@ -45,14 +46,16 @@ BOOL CTileMapEditorView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CTileMapEditorView 绘制
 
-void CTileMapEditorView::OnDraw(CDC* /*pDC*/)
+void CTileMapEditorView::OnDraw(CDC* pDC)
 {
 	CTileMapEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 
-	// TODO: 在此处为本机数据添加绘制代码
+	pDoc->GetMap().Draw(pDC);
+
+	ToolManager::getSingleton().GetCurrentTool()->Draw(pDC);
 }
 
 void CTileMapEditorView::OnInitialUpdate()
@@ -112,21 +115,27 @@ void CTileMapEditorView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 
 void CTileMapEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: Add your message handler code here and/or call default
+	CPoint ptLP = point;
+	ptLP.Offset( GetScrollPosition() );
+	ToolManager::getSingleton().GetCurrentTool()->OnLButtonDown(nFlags, ptLP);
 
 	CScrollView::OnLButtonDown(nFlags, point);
 }
 
 void CTileMapEditorView::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	// TODO: Add your message handler code here and/or call default
+	CPoint ptLP = point;
+	ptLP.Offset( GetScrollPosition() );
+	ToolManager::getSingleton().GetCurrentTool()->OnLButtonUp(nFlags, ptLP);
 
 	CScrollView::OnLButtonUp(nFlags, point);
 }
 
 void CTileMapEditorView::OnMouseMove(UINT nFlags, CPoint point)
 {
-	// TODO: Add your message handler code here and/or call default
+	CPoint ptLP = point;
+	ptLP.Offset( GetScrollPosition() );
+	ToolManager::getSingleton().GetCurrentTool()->OnMouseMove(nFlags, ptLP);
 
 	CScrollView::OnMouseMove(nFlags, point);
 }

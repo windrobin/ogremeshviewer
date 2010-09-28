@@ -559,6 +559,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ToolManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolManager.h"
+					>
+				</File>
+				<File
 					RelativePath=".\ToolSelect.cpp"
 					>
 				</File>

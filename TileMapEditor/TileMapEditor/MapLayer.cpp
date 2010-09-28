@@ -44,7 +44,11 @@ void MapLayer::Draw(CDC* pDC)
 		Resource* pRes = ResourceManager::getSingleton().GetResource(it->first);
 		if (pRes)
 		{
-			//pRes->Draw();
+			for (size_t t = 0; t < it->second.size(); ++t)
+			{
+				STile& tile = it->second[t];
+				pRes->Draw(pDC, tile._posX * _iTileWidth, tile._posY * _iTileHeight, tile._strID);
+			}
 		}
 	}
 }

@@ -80,7 +80,6 @@
 #define IDR_THEME_MENU                  200
 #define IDD_DIALOG_FILE_NEW             201
 #define IDR_MENU_LAYER_OP               202
-#define IDR_MENU1                       203
 #define IDR_MENU_BRUSH_OP               203
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
@@ -132,13 +131,14 @@
 #define ID_LAYEROP_INSERT               32813
 #define ID_BRUSHOP_ADDBRUSH             32814
 #define ID_BRUSHOP_REMOVEBRUSH          32815
+#define ID_BRUSHOP_SELECTBRUSH          32816
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        204
-#define _APS_NEXT_COMMAND_VALUE         32816
+#define _APS_NEXT_COMMAND_VALUE         32817
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           301
 #endif

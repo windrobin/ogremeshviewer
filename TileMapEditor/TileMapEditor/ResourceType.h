@@ -20,6 +20,7 @@ public:
 
 	virtual	bool			Load(){ return false; }
 	virtual void			CreateImageList(CDC* pDC){}
+	virtual void			Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID){}
 
 	CImageList*				GetImageList(){ return &_imageList; }
 

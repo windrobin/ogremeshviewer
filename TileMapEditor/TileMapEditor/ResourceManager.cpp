@@ -394,4 +394,6 @@ Resource* ResourceManager::GetResource(const Cactus::String& key)
 	{
 		return _ResGameObjectGroups[key];
 	}
+
+	return 0;
 }

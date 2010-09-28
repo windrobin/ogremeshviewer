@@ -308,6 +308,7 @@ BEGIN
     BEGIN
         MENUITEM "&Add Brush",                  ID_BRUSHOP_ADDBRUSH
         MENUITEM "&Remove Brush",               ID_BRUSHOP_REMOVEBRUSH
+        MENUITEM "&Select Brush",               ID_BRUSHOP_SELECTBRUSH
     END
 END
 
