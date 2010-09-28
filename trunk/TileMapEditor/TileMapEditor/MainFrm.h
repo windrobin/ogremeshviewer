@@ -29,6 +29,7 @@ public:
 #endif
 
 	TileResView*	GetTileResView(){ return &_TileResView; }
+	MapView*		GetMapView(){ return &_MapPanel; }
 
 
 protected:  // 控件条嵌入成员

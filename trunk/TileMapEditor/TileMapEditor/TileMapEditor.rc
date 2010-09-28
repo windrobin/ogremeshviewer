@@ -289,6 +289,28 @@ BEGIN
     MENUITEM "Office 2007 (水绿色样式)(&A)",     ID_VIEW_APPLOOK_OFF_2007_AQUA
 END
 
+IDR_MENU_LAYER_OP MENU 
+BEGIN
+    POPUP "LayerOP"
+    BEGIN
+        MENUITEM "Insert &Before",              ID_LAYEROP_INSERTBEFORE
+        MENUITEM "Insert &After",               ID_LAYEROP_INSERT
+        MENUITEM SEPARATOR
+        MENUITEM "Move &Up",                    ID_LAYEROP_MOVEUP
+        MENUITEM "Move &Down",                  ID_LAYEROP_MOVEDOWN
+        MENUITEM "&Remove",                     ID_LAYEROP_REMOVE
+    END
+END
+
+IDR_MENU_BRUSH_OP MENU 
+BEGIN
+    POPUP "Brush OP"
+    BEGIN
+        MENUITEM "&Add Brush",                  ID_BRUSHOP_ADDBRUSH
+        MENUITEM "&Remove Brush",               ID_BRUSHOP_REMOVEBRUSH
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

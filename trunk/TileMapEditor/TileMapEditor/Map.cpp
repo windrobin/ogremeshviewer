@@ -173,6 +173,12 @@ bool Map::Load(const Cactus::String& strPathName)
 	return true;
 }
 
+void Map::Save(const Cactus::String& strPathName)
+{
+
+}
+
+
 void Map::Reset()
 {
 	if (_pMapBackground)

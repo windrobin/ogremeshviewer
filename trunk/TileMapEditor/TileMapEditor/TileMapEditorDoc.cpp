@@ -7,6 +7,8 @@
 #include "TileMapEditorDoc.h"
 
 #include "DialogFileNew.h"
+#include "MainFrm.h"
+#include "MapView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -53,22 +55,6 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	return TRUE;
 }
 
-
-// CTileMapEditorDoc 序列化
-
-void CTileMapEditorDoc::Serialize(CArchive& ar)
-{
-	if (ar.IsStoring())
-	{
-		// TODO: 在此添加存储代码
-	}
-	else
-	{
-		// TODO: 在此添加加载代码
-	}
-}
-
-
 // CTileMapEditorDoc 诊断
 
 #ifdef _DEBUG
@@ -85,3 +71,29 @@ void CTileMapEditorDoc::Dump(CDumpContext& dc) const
 
 
 // CTileMapEditorDoc 命令
+
+BOOL CTileMapEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
+{
+	//if (!CDocument::OnOpenDocument(lpszPathName))
+	//	return FALSE;
+
+	if( !_theMap.Load(lpszPathName) )
+	{
+		AfxMessageBox("加载失败，请检查文件是否合法！", MB_OK | MB_ICONERROR);
+		return FALSE;
+	}
+
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	MapView* pMapView = pMainFrame->GetMapView();
+
+
+	return TRUE;
+}
+
+BOOL CTileMapEditorDoc::OnSaveDocument(LPCTSTR lpszPathName)
+{
+	_theMap.Save(lpszPathName);
+
+	//return CDocument::OnSaveDocument(lpszPathName);
+	return TRUE;
+}
