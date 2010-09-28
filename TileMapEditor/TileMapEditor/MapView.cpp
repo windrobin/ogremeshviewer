@@ -4,6 +4,9 @@
 #include "MapView.h"
 #include "Resource.h"
 #include "TileMapEditor.h"
+#include "MapLayer.h"
+
+#define M_TreeID	(WM_USER + 100)
 
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {
@@ -51,6 +54,7 @@ BEGIN_MESSAGE_MAP(MapView, CDockablePane)
 	ON_COMMAND(ID_PROPERTIES, OnProperties)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
+	ON_NOTIFY(NM_CLICK, M_TreeID, &MapView::OnNMClickedTreeDetails)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -65,8 +69,8 @@ int MapView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 	// 创建视图:
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
-	if (!_TreeMapItem.Create(dwViewStyle, rectDummy, this, 2))
+	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_CHECKBOXES | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
+	if (!_TreeMapItem.Create(dwViewStyle, rectDummy, this, M_TreeID))
 	{
 		TRACE0("未能创建类视图\n");
 		return -1;      // 未能创建
@@ -98,6 +102,15 @@ void MapView::OnSize(UINT nType, int cx, int cy)
 	AdjustLayout();
 }
 
+void MapView::AddMapLayer(MapLayer* pLayer)
+{
+	HTREEITEM hItem = _TreeMapItem.InsertItem(pLayer->GetLayerName().c_str(), 3, 3, _hLayerRoot);
+	_TreeMapItem.SetItemData(hItem, (DWORD_PTR)pLayer);
+	_TreeMapItem.SetCheck(hItem, pLayer->IsVisible());
+
+	_TreeMapItem.Expand(_hLayerRoot, TVE_EXPAND);
+}
+
 void MapView::FillClassView()
 {
 	HTREEITEM hRoot = _TreeMapItem.InsertItem(_T("地图名称"), 0, 0);
@@ -107,14 +120,13 @@ void MapView::FillClassView()
 	_TreeMapItem.Expand(hRoot, TVE_EXPAND);
 
 	_hLayerRoot = _TreeMapItem.InsertItem(_T("层"), 1, 1, hRoot);
-	_TreeMapItem.InsertItem(_T("Layer0"), 3, 3, _hLayerRoot);
-	_TreeMapItem.InsertItem(_T("Layer1"), 3, 3, _hLayerRoot);
-	_TreeMapItem.InsertItem(_T("Layer2"), 3, 3, _hLayerRoot);
-	_TreeMapItem.Expand(_hLayerRoot, TVE_EXPAND);
+	//_TreeMapItem.InsertItem(_T("Layer0"), 3, 3, _hLayerRoot);
+	//_TreeMapItem.InsertItem(_T("Layer1"), 3, 3, _hLayerRoot);
+	//_TreeMapItem.InsertItem(_T("Layer2"), 3, 3, _hLayerRoot);
 	
 	_hBrushRoot = _TreeMapItem.InsertItem(_T("画刷"), 1, 1, hRoot);
-	_TreeMapItem.InsertItem(_T("Brush0"), 3, 3, _hBrushRoot);
-	_TreeMapItem.InsertItem(_T("Brush1"), 3, 3, _hBrushRoot);
+	//_TreeMapItem.InsertItem(_T("Brush0"), 3, 3, _hBrushRoot);
+	//_TreeMapItem.InsertItem(_T("Brush1"), 3, 3, _hBrushRoot);
 	_TreeMapItem.Expand(_hBrushRoot, TVE_EXPAND);
 
 	//可用Icon : 2, 5, 6
@@ -224,3 +236,30 @@ void MapView::OnChangeVisualStyle()
 	_TreeMapItem.SetImageList(&_TreeImageList, TVSIL_NORMAL);
 
 }
+
+void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	//LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	//CString strText = _TreeMapItem.GetItemText(pNMTreeView->itemNew.hItem);
+	//DWORD_PTR ptr = _TreeMapItem.GetItemData(pNMTreeView->itemNew.hItem);
+	//if (ptr)
+	//{
+	//}
+
+	CPoint point;
+	GetCursorPos(&point);
+	_TreeMapItem.ScreenToClient(&point);
+
+	UINT uFlag;
+	HTREEITEM hTree = _TreeMapItem.HitTest(point, &uFlag);
+	if (hTree && (TVHT_ONITEMSTATEICON & uFlag))
+	{
+		DWORD_PTR ptr = _TreeMapItem.GetItemData(hTree);
+		if(ptr)
+		{
+		}
+	}
+
+	*pResult = 0;
+}
+

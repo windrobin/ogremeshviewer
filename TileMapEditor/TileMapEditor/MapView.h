@@ -4,6 +4,8 @@
 #include "ViewTree.h"
 #include "PanelToolBar.h"
 
+class MapLayer;
+
 class MapView : public CDockablePane
 {
 public:
@@ -12,6 +14,8 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
+
+	void			AddMapLayer(MapLayer* pLayer);
 
 protected:
 	CClassToolBar	m_wndToolBar;
@@ -35,6 +39,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg LRESULT OnChangeActiveTab(WPARAM, LPARAM);
+	afx_msg void OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult);
 
 	DECLARE_MESSAGE_MAP()
 };
