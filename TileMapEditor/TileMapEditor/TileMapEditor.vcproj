@@ -69,6 +69,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="CommonUtilD.lib CxImageMfcDll_d.lib"
+				OutputFile="$(OutDir)\$(ProjectName)D.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\SDK\Lib"
 				GenerateDebugInformation="true"
