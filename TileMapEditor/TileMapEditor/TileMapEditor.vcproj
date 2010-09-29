@@ -572,19 +572,19 @@
 					>
 				</File>
 				<File
-					RelativePath=".\ToolDelete.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ToolDelete.h"
-					>
-				</File>
-				<File
 					RelativePath=".\ToolManager.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\ToolManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolRemove.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolRemove.h"
 					>
 				</File>
 				<File

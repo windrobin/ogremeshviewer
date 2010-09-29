@@ -4,7 +4,7 @@ enum EToolType
 {
 	eToolSelect,
 	eToolBrush,
-	eToolDelete,
+	eToolRemove,
 	eToolMax
 };
 
