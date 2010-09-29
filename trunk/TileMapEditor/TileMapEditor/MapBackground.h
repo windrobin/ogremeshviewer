@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MapBase.h"
+
 enum EPaintMode
 {
 	ePaintModeNormal,
@@ -8,7 +10,7 @@ enum EPaintMode
 	ePaintModeMax
 };
 
-class MapBackground : public PropertySys::SupportRTTI<MapBackground, PropertySys::RTTIObject>
+class MapBackground : public PropertySys::SupportRTTI<MapBackground, MapBaseObject>
 {
 	friend class Map;
 	friend class Map_xmlHandler;
@@ -16,8 +18,10 @@ public:
 	MapBackground();
 	~MapBackground();
 
-	static void			RegisterReflection();
-	virtual void		OnPropertyChanged(const std::string& propName);
+	static void				RegisterReflection();
+	virtual void			OnPropertyChanged(const std::string& propName);
+
+	virtual Cactus::String	GetObjectName(){ return "Background"; }
 
 protected:
 	Cactus::String		_strResKey;

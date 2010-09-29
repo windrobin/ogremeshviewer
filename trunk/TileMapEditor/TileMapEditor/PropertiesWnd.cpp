@@ -281,6 +281,7 @@ void CPropertiesWnd::AddPropertyData(PropertySys::RTTIObject* pObject, const Cac
 {
 	Reset();
 	_reflectiveUI.BuildUIForObject(0, pObject, strCaption.c_str());
+	m_wndPropList.ExpandAll();
 }
 
 
@@ -288,4 +289,5 @@ void CPropertiesWnd::Reset()
 {
 	m_wndPropList.RemoveAll();
 	_reflectiveUI.ResetGridPropertyMap();
+	m_wndPropList.ExpandAll();
 }

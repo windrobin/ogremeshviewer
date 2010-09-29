@@ -5,6 +5,7 @@
 #include "Resource.h"
 #include "TileMapEditor.h"
 #include "MapLayer.h"
+#include "Map.h"
 
 #define M_TreeID	(WM_USER + 100)
 
@@ -102,13 +103,20 @@ void MapView::OnSize(UINT nType, int cx, int cy)
 	AdjustLayout();
 }
 
-void MapView::AddMapLayer(MapLayer* pLayer)
+void MapView::SetMapObject(Map* p)
 {
-	HTREEITEM hItem = _TreeMapItem.InsertItem(pLayer->GetLayerName().c_str(), 3, 3, _hLayerRoot);
-	_TreeMapItem.SetItemData(hItem, (DWORD_PTR)pLayer);
-	_TreeMapItem.SetCheck(hItem, pLayer->IsVisible());
+	_TreeMapItem.SetItemData(_TreeMapItem.GetRootItem(), (DWORD_PTR)p);
 
-	_TreeMapItem.Expand(_hLayerRoot, TVE_EXPAND);
+	for(Map::MapLayerListType::iterator it = p->_layers.begin(); it != p->_layers.end(); ++it)
+	{
+		MapLayer* pLayer = *it;
+
+		HTREEITEM hItem = _TreeMapItem.InsertItem(pLayer->GetObjectName().c_str(), 3, 3, _hLayerRoot);
+		_TreeMapItem.SetItemData(hItem, (DWORD_PTR)pLayer);
+		_TreeMapItem.SetCheck(hItem, pLayer->IsVisible());
+
+		_TreeMapItem.Expand(_hLayerRoot, TVE_EXPAND);
+	}
 }
 
 void MapView::FillClassView()
@@ -274,9 +282,10 @@ void MapView::OnProperties()
 	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
 	if(ptr)
 	{
-		MapLayer* pLayer = (MapLayer*)ptr;
+		MapBaseObject* pObject = (MapBaseObject*)ptr;
+
 		CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetPropertyWnd(); 
-		pPropertyWnd->AddPropertyData(pLayer, pLayer->GetLayerName());
+		pPropertyWnd->AddPropertyData(pObject, pObject->GetObjectName());
 		pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
 	}
 }

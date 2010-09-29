@@ -1,24 +1,29 @@
 #pragma once
 
+#include "MapBase.h"
+
 class MapLayer;
 class MapBackground;
 
-class Map : public PropertySys::SupportRTTI<Map, PropertySys::RTTIObject>
+class Map : public PropertySys::SupportRTTI<Map, MapBaseObject>
 {
 	friend class Map_xmlHandler;
 	friend class CTileMapEditorView;
 	friend class CTileMapEditorDoc;
+	friend class MapView;
 public:
 	Map();
 	~Map();
 
-	void				Draw(CDC* pDC);
-	bool				Load(const Cactus::String& strPathName);
-	void				Save(const Cactus::String& strPathName);
-	void				Reset();
+	void						Draw(CDC* pDC);
+	bool						Load(const Cactus::String& strPathName);
+	void						Save(const Cactus::String& strPathName);
+	void						Reset();
 
-	static void			RegisterReflection();
-	virtual void		OnPropertyChanged(const std::string& propName);
+	static void					RegisterReflection();
+	virtual void				OnPropertyChanged(const std::string& propName);
+
+	virtual Cactus::String		GetObjectName(){ return _strName; }
 
 protected:
 	Cactus::String		_strName;
