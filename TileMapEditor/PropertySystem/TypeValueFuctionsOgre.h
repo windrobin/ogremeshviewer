@@ -73,10 +73,4 @@ namespace PropertySys
 		return CRect(l, t, r, b);
 	}
 
-	template<>
-	inline COLORREF TypeValueFromString(const std::string& strVal)
-	{
-		return atoi(strVal.c_str());
-	}
-
 }

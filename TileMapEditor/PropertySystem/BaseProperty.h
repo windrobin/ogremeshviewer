@@ -30,7 +30,6 @@ namespace PropertySys
 
 		eptPoint,			//MFC CPoint
 		eptRect,			//MFC CRect
-		eptColorRef,		//MFC Color
 
 		eptMAX
 	};
@@ -67,7 +66,6 @@ namespace PropertySys
 	template<> ePropertyType PropertyType<Cactus::String>::s_TypeID		= eptString;
 	template<> ePropertyType PropertyType<CPoint>::s_TypeID				= eptPoint;
 	template<> ePropertyType PropertyType<CRect>::s_TypeID				= eptRect;
-	template<> ePropertyType PropertyType<COLORREF>::s_TypeID			= eptColorRef;
 	
 	enum EValueSpecify
 	{
