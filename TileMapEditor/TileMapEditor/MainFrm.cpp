@@ -138,9 +138,11 @@ void CMainFrame::InitializeRibbon()
 	bNameValid = strTemp.LoadString(IDS_RIBBON_FILE);
 	ASSERT(bNameValid);
 
+
 	// 加载面板图像:
 	m_PanelImages.SetImageSize(CSize(16, 16));
 	m_PanelImages.Load(IDB_BUTTONS);
+
 
 	// 初始主按钮:
 	m_MainButton.SetImage(IDB_MAIN);
@@ -194,11 +196,14 @@ void CMainFrame::InitializeRibbon()
 	ASSERT(bNameValid);
 	pMainPanel->AddToBottom(new CMFCRibbonMainPanelButton(ID_APP_EXIT, strTemp, 15));
 
-	// 为“剪贴板”面板添加“主”类别:
+
+
+	// 为“剪贴板”面板添加“主页”类别:
 	bNameValid = strTemp.LoadString(IDS_RIBBON_HOME);
 	ASSERT(bNameValid);
 	CMFCRibbonCategory* pCategoryHome = m_wndRibbonBar.AddCategory(strTemp, IDB_WRITESMALL, IDB_WRITELARGE);
 
+	
 	// 创建“剪贴板”面板:
 	bNameValid = strTemp.LoadString(IDS_RIBBON_CLIPBOARD);
 	ASSERT(bNameValid);
@@ -219,6 +224,30 @@ void CMainFrame::InitializeRibbon()
 	ASSERT(bNameValid);
 	pPanelClipboard->Add(new CMFCRibbonButton(ID_EDIT_SELECT_ALL, strTemp, -1));
 
+
+
+	// 创建和添加“操作”面板:
+	CMFCRibbonPanel* pPanelOperations = pCategoryHome->AddPanel("操作");
+	pPanelOperations->Add(new CMFCRibbonButton(ID_EDIT_COPY, "撤销", 0, 0));
+	pPanelOperations->Add(new CMFCRibbonButton(ID_EDIT_COPY, "重做", 0, 0));
+
+
+
+	// 创建和添加“地图”面板:
+	CMFCRibbonPanel* pPanelMapEdit = pCategoryHome->AddPanel("地图");
+	CMFCRibbonLabel* pLabel = new CMFCRibbonLabel("当前层：");
+	pPanelMapEdit->Add(pLabel);
+
+	pLabel = new CMFCRibbonLabel("xxx");
+	pPanelMapEdit->Add(pLabel);
+
+	pPanelMapEdit->Add(new CMFCRibbonButton(ID_EDIT_COPY, "选取工具", 0, 0));
+	pPanelMapEdit->Add(new CMFCRibbonButton(ID_EDIT_COPY, "画刷工具", 0, 0));
+	pPanelMapEdit->Add(new CMFCRibbonButton(ID_EDIT_COPY, "删除工具", 0, 0));
+
+
+
+	// 创建和添加“视图”面板:
 #define M_Add_Ribbon_CheckBox(Panel, IDS, ID) \
 	{ \
 		bNameValid = strTemp.LoadString(IDS); \
@@ -227,7 +256,6 @@ void CMainFrame::InitializeRibbon()
 		Panel->Add(pTmp); \
 	}
 
-	// 创建和添加“视图”面板:
 	bNameValid = strTemp.LoadString(IDS_RIBBON_VIEW);
 	ASSERT(bNameValid);
 	CMFCRibbonPanel* pPanelView = pCategoryHome->AddPanel(strTemp, m_PanelImages.ExtractIcon (7));
@@ -239,6 +267,8 @@ void CMainFrame::InitializeRibbon()
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_OUTPUT_WND, ID_VIEW_OUTPUTWND);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_RIBBON_STATUSBAR, ID_VIEW_STATUS_BAR);
 
+
+	
 	// 将元素添加到选项卡右侧:
 	bNameValid = strTemp.LoadString(IDS_RIBBON_STYLE);
 	ASSERT(bNameValid);
@@ -254,6 +284,8 @@ void CMainFrame::InitializeRibbon()
 	pVisualStyleButton->SetDescription(strTemp);
 	m_wndRibbonBar.AddToTabs(pVisualStyleButton);
 
+	
+	
 	// 添加快速访问工具栏命令:
 	CList<UINT, UINT> lstQATCmds;
 

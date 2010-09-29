@@ -8,11 +8,13 @@ public:
 	TileResView();
 	virtual ~TileResView();
 
-	void			BuildImageAndInfoes(CImageList* pImage, const Cactus::StringVector& captions);
+	void			BuildImageAndInfoes(const Cactus::String& strResKey, CImageList* pImage, const Cactus::StringVector& captions);
 
 protected:
 	CClassToolBar	m_wndToolBar;
 	CListCtrl		_listImages;
+	int				_iOldCheck;
+	Cactus::String	_strResKey;
 
 // ÖØÐ´
 public:
@@ -23,6 +25,7 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	afx_msg void OnItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
 
 	afx_msg void OnClassAddMemberFunction();
 
