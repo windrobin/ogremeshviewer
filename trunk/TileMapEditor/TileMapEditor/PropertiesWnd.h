@@ -20,9 +20,12 @@ class CPropertiesWnd : public CDockablePane
 public:
 	CPropertiesWnd();
 
-	void AdjustLayout();
+	void	AdjustLayout();
 
-	void AddPropertyData(PropertySys::RTTIObject* pObject, const Cactus::String& strCaption);
+	void	AddPropertyData(PropertySys::RTTIObject* pObject, const Cactus::String& strCaption);
+
+	void	Reset();
+
 
 // Attributes
 public:

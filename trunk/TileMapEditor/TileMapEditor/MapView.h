@@ -12,10 +12,12 @@ public:
 	MapView();
 	virtual ~MapView();
 
-	void AdjustLayout();
-	void OnChangeVisualStyle();
+	void	AdjustLayout();
+	void	OnChangeVisualStyle();
 
-	void			AddMapLayer(MapLayer* pLayer);
+	void	AddMapLayer(MapLayer* pLayer);
+
+	void	Reset();
 
 protected:
 	CClassToolBar	m_wndToolBar;
