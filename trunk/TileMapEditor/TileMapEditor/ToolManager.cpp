@@ -3,7 +3,7 @@
 
 #include "ToolSelect.h"
 #include "ToolBrush.h"
-#include "ToolDelete.h"
+#include "ToolRemove.h"
 
 #include "TileMapEditorDoc.h"
 
@@ -17,7 +17,7 @@ ToolManager::ToolManager()
 {
 	_tools[eToolSelect]	= new ToolSelect;
 	_tools[eToolBrush]	= new ToolSelect;
-	_tools[eToolDelete]	= new ToolDelete;
+	_tools[eToolRemove]	= new ToolRemove;
 }
 
 ToolManager::~ToolManager()

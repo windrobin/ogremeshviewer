@@ -1,11 +1,11 @@
 #pragma once
 #include "toolbase.h"
 
-class ToolDelete : public ToolBase
+class ToolRemove : public ToolBase
 {
 public:
-	ToolDelete();
-	virtual ~ToolDelete();
+	ToolRemove();
+	virtual ~ToolRemove();
 
 	virtual void Draw(CDC* pDC);
 
