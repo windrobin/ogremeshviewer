@@ -540,6 +540,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MapBase.h"
+					>
+				</File>
+				<File
 					RelativePath=".\MapLayer.cpp"
 					>
 				</File>

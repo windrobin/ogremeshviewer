@@ -165,7 +165,7 @@ void Map::RegisterReflection()
 
 	pProp = M_RegisterPropertySimple(bool, DrawGrid, Map, Map, "是否绘制网格.", BaseProperty::eDefault, _bDrawGrid);
 	//pProp = M_RegisterPropertySimple(int, GridColor, Map, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
-	pProp->SetValueSpecify(eValueColor, "");
+	//pProp->SetValueSpecify(eValueColor, "");
 	
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MapBase.h"
+
 struct STile 
 {
 	int				_posX;
@@ -9,7 +11,7 @@ struct STile
 
 typedef Cactus::vector<STile>::type		TileVectorType;
 
-class MapLayer : public PropertySys::SupportRTTI<MapLayer, PropertySys::RTTIObject>
+class MapLayer : public PropertySys::SupportRTTI<MapLayer, MapBaseObject>
 {
 	friend class Map;
 	friend class Map_xmlHandler;
@@ -17,15 +19,15 @@ public:
 	MapLayer();
 	~MapLayer();
 
-	static void			RegisterReflection();
-	virtual void		OnPropertyChanged(const std::string& propName);
+	static void				RegisterReflection();
+	virtual void			OnPropertyChanged(const std::string& propName);
 
-	void				Draw(CDC* pDC);
+	void					Draw(CDC* pDC);
 
-	bool				IsVisible(){ return _bVisible; }
-	void				SetVisible(bool b){ _bVisible = b; }
+	bool					IsVisible(){ return _bVisible; }
+	void					SetVisible(bool b){ _bVisible = b; }
 
-	Cactus::String		GetLayerName(){ return _strName; }
+	virtual Cactus::String	GetObjectName(){ return _strName; }
 
 protected:
 	Cactus::String		_strName;

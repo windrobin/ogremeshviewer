@@ -4,7 +4,7 @@
 #include "ViewTree.h"
 #include "PanelToolBar.h"
 
-class MapLayer;
+class Map;
 
 class MapView : public CDockablePane
 {
@@ -15,7 +15,7 @@ public:
 	void	AdjustLayout();
 	void	OnChangeVisualStyle();
 
-	void	AddMapLayer(MapLayer* pLayer);
+	void	SetMapObject(Map* p);
 
 	void	Reset();
 
