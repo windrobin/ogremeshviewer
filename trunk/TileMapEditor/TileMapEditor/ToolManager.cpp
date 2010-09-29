@@ -16,7 +16,7 @@ ToolManager::ToolManager()
 , _pDoc(0)
 {
 	_tools[eToolSelect]	= new ToolSelect;
-	_tools[eToolBrush]	= new ToolSelect;
+	_tools[eToolBrush]	= new ToolBrush;
 	_tools[eToolRemove]	= new ToolRemove;
 }
 

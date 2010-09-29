@@ -5,6 +5,9 @@
 #include "Resource.h"
 #include "TileMapEditor.h"
 
+#include "ToolManager.h"
+#include "ToolBrush.h"
+
 using namespace Cactus;
 
 #define M_ListCtrl_ID	(WM_USER + 100)
@@ -14,6 +17,7 @@ using namespace Cactus;
 //////////////////////////////////////////////////////////////////////
 
 TileResView::TileResView()
+: _iOldCheck(-1)
 {
 }
 
@@ -28,6 +32,7 @@ BEGIN_MESSAGE_MAP(TileResView, CDockablePane)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 	ON_COMMAND(ID_CLASS_ADD_MEMBER_FUNCTION, OnClassAddMemberFunction)
+	ON_NOTIFY(LVN_ITEMCHANGED, M_ListCtrl_ID, OnItemChanged)
 
 	//ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
 	//ON_UPDATE_COMMAND_UI_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnUpdateSort)
@@ -57,6 +62,7 @@ int TileResView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_ICON;
 	_listImages.Create(dwViewStyle, CRect(0, 0, 100, 100), this, M_ListCtrl_ID);
+	_listImages.SetExtendedStyle( _listImages.GetExtendedStyle() | LVS_EX_CHECKBOXES);
 	//_listImages.SetBkColor(0);
 
 	return 0;
@@ -105,9 +111,15 @@ void TileResView::OnClassAddMemberFunction()
 	AfxMessageBox(_T("添加成员函数..."));
 }
 
-void TileResView::BuildImageAndInfoes(CImageList* pImage, const Cactus::StringVector& captions)
+void TileResView::BuildImageAndInfoes(const Cactus::String& strResKey, CImageList* pImage, const Cactus::StringVector& captions)
 {
 	_listImages.DeleteAllItems();
+
+	_iOldCheck	= -1;
+	_strResKey	= strResKey;
+
+	//Clear brush tool
+	ToolManager::getSingleton().SelectTool(eToolSelect);
 
 	_listImages.SetImageList(pImage, LVSIL_NORMAL);
 
@@ -115,5 +127,43 @@ void TileResView::BuildImageAndInfoes(CImageList* pImage, const Cactus::StringVe
 	{
 		_listImages.InsertItem(t, captions[t].c_str(), t);
 	}
+}
+
+void TileResView::OnItemChanged(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR); 
+
+	if((pNMLV->uOldState & INDEXTOSTATEIMAGEMASK(1)) /* old state : unchecked */ 
+		&& (pNMLV->uNewState & INDEXTOSTATEIMAGEMASK(2)) /* new state : checked */ 
+		) 
+	{ 
+		//TRACE("Item %d is checked\n", pNMLV->iItem);
+
+		if (_iOldCheck != -1)
+		{
+			_listImages.SetCheck(_iOldCheck, FALSE);
+		}
+
+		_iOldCheck = pNMLV->iItem;
+
+		//Set brush tool
+		ToolBrush* pBrush = (ToolBrush*)ToolManager::getSingleton().SelectTool(eToolBrush);
+		Cactus::ostringstream os;
+		os << _iOldCheck;
+		pBrush->SetResource(_strResKey, os.str());
+	} 
+	else if((pNMLV->uOldState & INDEXTOSTATEIMAGEMASK(2)) /* old state : checked */ 
+		&& (pNMLV->uNewState & INDEXTOSTATEIMAGEMASK(1)) /* new state : unchecked */ 
+		) 
+	{ 
+		//TRACE("Item %d is unchecked\n", pNMLV->iItem); 
+	} 
+	else 
+	{ 
+		//TRACE("Item %d does't change the check-status\n", pNMLV->iItem); 
+	} 
+
+	*pResult = 0; 
 
 }
+

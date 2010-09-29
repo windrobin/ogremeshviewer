@@ -279,8 +279,7 @@ void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResul
 		pRes->CreateImageList(pTileResView->GetDC());
 
 		//insert image into TileResView
-		pTileResView->BuildImageAndInfoes(pRes->GetImageList(), *pRes->GetCaptions());
-
+		pTileResView->BuildImageAndInfoes((LPCSTR)strText, pRes->GetImageList(), *pRes->GetCaptions());
 	}
 
 	*pResult = 0;
