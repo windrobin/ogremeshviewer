@@ -182,21 +182,6 @@ BOOL MapView::PreTranslateMessage(MSG* pMsg)
 	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
-void MapView::OnProperties()
-{
-	HTREEITEM hItem = _TreeMapItem.GetSelectedItem();
-	if (!hItem)
-		return;
-
-	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
-	if(ptr)
-	{
-		MapLayer* pLayer = (MapLayer*)ptr;
-		CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetPropertyWnd(); 
-		pPropertyWnd->AddPropertyData(pLayer, pLayer->GetLayerName());
-	}
-}
-
 void MapView::OnPaint()
 {
 	CPaintDC dc(this); // 用于绘制的设备上下文
@@ -280,3 +265,18 @@ void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
+void MapView::OnProperties()
+{
+	HTREEITEM hItem = _TreeMapItem.GetSelectedItem();
+	if (!hItem)
+		return;
+
+	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
+	if(ptr)
+	{
+		MapLayer* pLayer = (MapLayer*)ptr;
+		CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetPropertyWnd(); 
+		pPropertyWnd->AddPropertyData(pLayer, pLayer->GetLayerName());
+		pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
+	}
+}

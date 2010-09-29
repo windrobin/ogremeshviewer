@@ -6,6 +6,7 @@ using namespace PropertySys;
 
 MapBackground::MapBackground()
 : _ePaintMode(ePaintModeNormal)
+, _bVisible(true)
 {
 }
 

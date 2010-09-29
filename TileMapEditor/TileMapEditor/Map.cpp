@@ -26,6 +26,8 @@ public:
 			_map._iTileWidthDefault		= attributes.getValueAsInteger("tilew");
 			_map._iTileHeightDefault	= attributes.getValueAsInteger("tileh");
 			_map._strFootnotes			= attributes.getValueAsString("footnotes");
+			_map._bDrawGrid				= attributes.getValueAsBool("drawgrid");
+			_map._colBKColor			= attributes.getValueAsInteger("backgroundcolor");
 		}
 		else if ( currentElementMatch("tilemap/background/") )
 		{
@@ -33,6 +35,7 @@ public:
 			_map._pMapBackground = new MapBackground;
 			_map._pMapBackground->_bEnable		= attributes.getValueAsBool("enable");
 			_map._pMapBackground->_strResKey	= attributes.getValueAsString("reskey");
+			_map._pMapBackground->_bVisible		= attributes.getValueAsBool("visible");
 
 			String strTmp = attributes.getValueAsString("paintmode");
 			if (strTmp == "default")
@@ -56,6 +59,9 @@ public:
 			_pCurLayer->_iHeight		= attributes.getValueAsInteger("height");
 			_pCurLayer->_iTileWidth		= attributes.getValueAsInteger("tilew");
 			_pCurLayer->_iTileHeight	= attributes.getValueAsInteger("tileh");
+			_pCurLayer->_bDrawGrid		= attributes.getValueAsBool("drawgrid");
+			_pCurLayer->_bVisible		= attributes.getValueAsBool("visible");
+
 
 			_map._layers.push_back(_pCurLayer);
 		}
@@ -119,12 +125,14 @@ protected:
 //---------------------------------------------------------------------------------------------------------
 
 Map::Map()
-: _pMapBackground(0)
+: _iVersion(1)
+, _pMapBackground(0)
 , _iWidth(1024)
 , _iHeight(1024)
 , _iTileHeightDefault(64)
 , _iTileWidthDefault(64)
 , _bDrawGrid(true)
+, _colBKColor(0)
 {
 }
 
@@ -156,7 +164,7 @@ void Map::RegisterReflection()
 	pProp->SetValueSpecify(eValueColor, "");
 
 	pProp = M_RegisterPropertySimple(bool, DrawGrid, Map, Map, "是否绘制网格.", BaseProperty::eDefault, _bDrawGrid);
-	pProp = M_RegisterPropertySimple(int, GridColor, Map, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
+	//pProp = M_RegisterPropertySimple(int, GridColor, Map, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
 	pProp->SetValueSpecify(eValueColor, "");
 	
 }
@@ -184,7 +192,81 @@ bool Map::Load(const Cactus::String& strPathName)
 
 void Map::Save(const Cactus::String& strPathName)
 {
+	DataOutStreamOS os;
+	if( !os.Open(strPathName) )
+	{
+		Log_Error("Map::Save, can not write file : " << strPathName);
+		return;
+	}
 
+	XMLOutStream xmlOut(&os);
+
+	xmlOut.NodeBegin("tilemap");
+		xmlOut.AddAttribute("version", _iVersion);
+		xmlOut.AddAttribute("name", _strName);
+		xmlOut.AddAttribute("width", _iWidth);
+		xmlOut.AddAttribute("height", _iHeight);
+		xmlOut.AddAttribute("tilew", _iTileWidthDefault);
+		xmlOut.AddAttribute("tileh", _iTileHeightDefault);
+		xmlOut.AddAttribute("footnotes", _strFootnotes);
+		xmlOut.AddAttribute("drawgrid", _bDrawGrid);
+		xmlOut.AddAttribute("backgroundcolor", _colBKColor);
+
+		if (_pMapBackground)
+		{
+			xmlOut.NodeBegin("background");
+				xmlOut.AddAttribute("enable", _pMapBackground->_bEnable);
+				xmlOut.AddAttribute("reskey", _pMapBackground->_bEnable);
+				xmlOut.AddAttribute("visible", _pMapBackground->_bEnable);
+				if (_pMapBackground->_ePaintMode == ePaintModeNormal)
+					xmlOut.AddAttribute("paintmode", "default");
+				else if (_pMapBackground->_ePaintMode == ePaintModeTiled)
+					xmlOut.AddAttribute("paintmode", "tiled");
+				else if (_pMapBackground->_ePaintMode == ePaintModeStrench)
+					xmlOut.AddAttribute("paintmode", "stretch");
+
+			xmlOut.NodeEnd("background");
+		}
+
+		xmlOut.NodeBegin("layers");
+		for(MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
+		{
+			MapLayer* pLayer = (*it);
+
+			xmlOut.NodeBegin("layer");
+				xmlOut.AddAttribute("name", pLayer->_strName);
+				xmlOut.AddAttribute("enable", pLayer->_bEnable);
+				xmlOut.AddAttribute("width", pLayer->_iWidth);
+				xmlOut.AddAttribute("height", pLayer->_iHeight);
+				xmlOut.AddAttribute("tilew", pLayer->_iTileWidth);
+				xmlOut.AddAttribute("tileh", pLayer->_iTileHeight);
+				xmlOut.AddAttribute("drawgrid", pLayer->_bDrawGrid);
+				xmlOut.AddAttribute("visible", pLayer->_bVisible);
+
+			for (MapLayer::TileGroupMapType::iterator itG = pLayer->_GroupTiles.begin(); itG != pLayer->_GroupTiles.end(); ++itG)
+			{
+				for (size_t t = 0; t < itG->second.size(); ++t)
+				{
+					STile& tile = itG->second[t];
+					xmlOut.NodeBegin("tile");
+						xmlOut.AddAttribute("posx", tile._posX);
+						xmlOut.AddAttribute("posy", tile._posY);
+						xmlOut.AddAttribute("id", tile._strID);
+					xmlOut.NodeEnd("tile");
+				}
+			}
+
+			xmlOut.NodeEnd("layer");
+		}
+		xmlOut.NodeEnd("layers");
+
+		xmlOut.NodeBegin("brush");
+		xmlOut.NodeEnd("brush");
+
+	xmlOut.NodeEnd("tilemap");
+
+
+	xmlOut.Flush();
 }
 
 
@@ -204,7 +286,7 @@ void Map::Reset()
 
 void Map::Draw(CDC* pDC)
 {
-	pDC->FillSolidRect(0, 0, _iWidth, _iHeight, 0);
+	pDC->FillSolidRect(0, 0, _iWidth, _iHeight, _colBKColor);
 
 	if (_bDrawGrid)
 	{
