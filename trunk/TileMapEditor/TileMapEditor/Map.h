@@ -30,7 +30,7 @@ protected:
 	int					_iVersion;
 
 	bool				_bDrawGrid;
-	COLORREF			_colGridColor;
+	//COLORREF			_colGridColor;
 	COLORREF			_colBKColor;
 
 	MapBackground*		_pMapBackground;

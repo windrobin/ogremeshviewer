@@ -36,7 +36,7 @@ protected:
 	bool				_bEnable;
 
 	bool				_bDrawGrid;
-	COLORREF			_colGridColor;
+	//COLORREF			_colGridColor;
 
 	typedef Cactus::map<Cactus::String, TileVectorType>::type	TileGroupMapType;	//ResourceTile key
 	TileGroupMapType	_GroupTiles;

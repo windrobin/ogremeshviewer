@@ -23,4 +23,5 @@ protected:
 	Cactus::String		_strResKey;
 	EPaintMode			_ePaintMode;
 	bool				_bEnable;
+	bool				_bVisible;
 };

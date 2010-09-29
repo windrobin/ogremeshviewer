@@ -75,6 +75,15 @@ void CTileMapEditorDoc::Dump(CDumpContext& dc) const
 
 BOOL CTileMapEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
+	{
+		char buffer[MAX_PATH];
+		::GetModuleFileName(0, buffer, MAX_PATH);
+		std::string strModulePath = buffer;
+
+		strModulePath.erase(strModulePath.find_last_of('\\') + 1);
+		SetCurrentDirectory(strModulePath.c_str());
+	}
+
 	//if (!CDocument::OnOpenDocument(lpszPathName))
 	//	return FALSE;
 
@@ -97,6 +106,15 @@ BOOL CTileMapEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 BOOL CTileMapEditorDoc::OnSaveDocument(LPCTSTR lpszPathName)
 {
+	{
+		char buffer[MAX_PATH];
+		::GetModuleFileName(0, buffer, MAX_PATH);
+		std::string strModulePath = buffer;
+
+		strModulePath.erase(strModulePath.find_last_of('\\') + 1);
+		SetCurrentDirectory(strModulePath.c_str());
+	}
+
 	_theMap.Save(lpszPathName);
 
 	//return CDocument::OnSaveDocument(lpszPathName);
