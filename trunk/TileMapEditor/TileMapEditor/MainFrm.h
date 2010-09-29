@@ -30,6 +30,7 @@ public:
 
 	TileResView*	GetTileResView(){ return &_TileResView; }
 	MapView*		GetMapView(){ return &_MapPanel; }
+	CPropertiesWnd*	GetPropertyWnd(){ return &m_wndProperties; }
 
 
 protected:  // 控件条嵌入成员

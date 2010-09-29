@@ -27,8 +27,11 @@ void MapLayer::RegisterReflection()
 	pProp = M_RegisterPropertySimple(int, Height, MapLayer, Map, "高度，不可超过所属Map的高度.", BaseProperty::eDefault, _iHeight);
 	pProp = M_RegisterPropertySimple(int, TileWidth, MapLayer, Map, "绘制模式.", BaseProperty::eDefault, _iTileWidth);
 	pProp = M_RegisterPropertySimple(int, TileHeight, MapLayer, Map, "绘制模式.", BaseProperty::eDefault, _iTileHeight);
-	pProp = M_RegisterPropertySimple(bool, Enable, MapLayer, Map, "是否激活，不激活将不会显示和导出.", BaseProperty::eDefault, _bEnable);
+	pProp = M_RegisterPropertySimple(bool, Enable, MapLayer, Map, "是否激活，不激活将不会导出到游戏地图.", BaseProperty::eDefault, _bEnable);
 	
+	pProp = M_RegisterPropertySimple(bool, DrawGrid, MapLayer, Map, "是否绘制网格.", BaseProperty::eDefault, _bDrawGrid);
+	pProp = M_RegisterPropertySimple(int, GridColor, MapLayer, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
+	pProp->SetValueSpecify(eValueColor, "");
 }
 
 void MapLayer::OnPropertyChanged(const std::string& propName)
@@ -37,7 +40,7 @@ void MapLayer::OnPropertyChanged(const std::string& propName)
 
 void MapLayer::Draw(CDC* pDC)
 {
-	if (!_bEnable)
+	if (!_bVisible)
 		return;
 
 	CPen pen(PS_SOLID, 1, RGB(0, 128, 0));

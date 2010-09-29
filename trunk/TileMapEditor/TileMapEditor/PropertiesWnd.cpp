@@ -51,12 +51,12 @@ void CPropertiesWnd::AdjustLayout()
 	CRect rectClient,rectCombo;
 	GetClientRect(rectClient);
 
-	m_wndObjectCombo.GetWindowRect(&rectCombo);
+	//m_wndObjectCombo.GetWindowRect(&rectCombo);
 
-	int cyCmb = rectCombo.Size().cy;
+	int cyCmb = 0/*rectCombo.Size().cy*/;
 	int cyTlb = m_wndToolBar.CalcFixedLayout(FALSE, TRUE).cy;
 
-	m_wndObjectCombo.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), 200, SWP_NOACTIVATE | SWP_NOZORDER);
+	//m_wndObjectCombo.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), 200, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top + cyCmb, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_wndPropList.SetWindowPos(NULL, rectClient.left, rectClient.top + cyCmb + cyTlb, rectClient.Width(), rectClient.Height() -(cyCmb+cyTlb), SWP_NOACTIVATE | SWP_NOZORDER);
 }
@@ -69,7 +69,8 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
 
-	// 创建组合:
+#if 0
+	// Create combo:
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_BORDER | CBS_SORT | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
 	if (!m_wndObjectCombo.Create(dwViewStyle, rectDummy, this, 1))
@@ -82,6 +83,7 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndObjectCombo.AddString(_T("属性窗口"));
 	m_wndObjectCombo.SetFont(CFont::FromHandle((HFONT) GetStockObject(DEFAULT_GUI_FONT)));
 	m_wndObjectCombo.SetCurSel(0);
+#endif
 
 	if (!m_wndPropList.Create(WS_VISIBLE | WS_CHILD, rectDummy, this, 2))
 	{
@@ -161,9 +163,15 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
 
-	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("外观"));
 
-	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("三维外观"), (_variant_t) false, _T("指定窗口的字体不使用粗体，并且控件将使用三维边框")));
+	_reflectiveUI.SetGrid(&m_wndPropList);
+	m_wndPropList.SetPropertyChangeManager(&_reflectiveUI);
+
+
+#if 0
+	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("Appearance"));
+
+	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("3D Look"), (_variant_t) false, _T("Specifies the window's font will be non-bold and controls will have a 3D border")));
 
 	CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(_T("边框"), _T("Dialog Frame"), _T("其中之一: 无(None)、细(Thin)、可调整大小(Resizable)、对话框外框(Dialog Frame)"));
 	pProp->AddOption(_T("None"));
@@ -233,6 +241,7 @@ void CPropertiesWnd::InitPropList()
 
 	pGroup4->Expand(FALSE);
 	m_wndPropList.AddProperty(pGroup4);
+#endif
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -266,4 +275,11 @@ void CPropertiesWnd::SetPropListFont()
 	m_fntPropList.CreateFontIndirect(&lf);
 
 	m_wndPropList.SetFont(&m_fntPropList);
+}
+
+void CPropertiesWnd::AddPropertyData(PropertySys::RTTIObject* pObject, const Cactus::String& strCaption)
+{
+	m_wndPropList.RemoveAll();
+	_reflectiveUI.ResetGridPropertyMap();
+	_reflectiveUI.BuildUIForObject(0, pObject, strCaption.c_str());
 }

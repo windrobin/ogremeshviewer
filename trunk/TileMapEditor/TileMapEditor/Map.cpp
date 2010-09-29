@@ -124,6 +124,7 @@ Map::Map()
 , _iHeight(1024)
 , _iTileHeightDefault(64)
 , _iTileWidthDefault(64)
+, _bDrawGrid(true)
 {
 }
 
@@ -150,6 +151,14 @@ void Map::RegisterReflection()
 	pProp = M_RegisterPropertySimple(int, Height, Map, Map, "地图高度.", BaseProperty::eDefault, _iHeight);
 	pProp = M_RegisterPropertySimple(int, DefaultTileWidth, Map, Map, "缺省的Tile宽度.", BaseProperty::eDefault, _iTileWidthDefault);
 	pProp = M_RegisterPropertySimple(int, DefaultTileHeight, Map, Map, "缺省的Tile高.", BaseProperty::eDefault, _iTileHeightDefault);
+
+	pProp = M_RegisterPropertySimple(int, BackgroundColor, Map, Map, "背景颜色.", BaseProperty::eDefault, _colBKColor);
+	pProp->SetValueSpecify(eValueColor, "");
+
+	pProp = M_RegisterPropertySimple(bool, DrawGrid, Map, Map, "是否绘制网格.", BaseProperty::eDefault, _bDrawGrid);
+	pProp = M_RegisterPropertySimple(int, GridColor, Map, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
+	pProp->SetValueSpecify(eValueColor, "");
+	
 }
 
 void Map::OnPropertyChanged(const std::string& propName)
@@ -197,23 +206,26 @@ void Map::Draw(CDC* pDC)
 {
 	pDC->FillSolidRect(0, 0, _iWidth, _iHeight, 0);
 
-	CPen pen(PS_DOT, 1, RGB(128, 128, 128));
-	CPen* pOldPen = pDC->SelectObject(&pen);
-
-	int iGridWidth	= _iWidth / _iTileWidthDefault;
-	int iGridHeight	= _iHeight / _iTileHeightDefault;
-	for (int i = 0; i <= iGridWidth; i++)
+	if (_bDrawGrid)
 	{
-		pDC->MoveTo(0, i * _iTileWidthDefault);
-		pDC->LineTo(_iHeight, i * _iTileWidthDefault);
-	}
-	for (int i = 0; i <= iGridHeight; i++)
-	{
-		pDC->MoveTo(i * _iTileHeightDefault, 0);
-		pDC->LineTo(i * _iTileHeightDefault, _iWidth);
-	}
+		CPen pen(PS_DOT, 1, RGB(128, 128, 128));
+		CPen* pOldPen = pDC->SelectObject(&pen);
 
-	pDC->SelectObject(pOldPen);
+		int iGridWidth	= _iWidth / _iTileWidthDefault;
+		int iGridHeight	= _iHeight / _iTileHeightDefault;
+		for (int i = 0; i <= iGridWidth; i++)
+		{
+			pDC->MoveTo(0, i * _iTileWidthDefault);
+			pDC->LineTo(_iHeight, i * _iTileWidthDefault);
+		}
+		for (int i = 0; i <= iGridHeight; i++)
+		{
+			pDC->MoveTo(i * _iTileHeightDefault, 0);
+			pDC->LineTo(i * _iTileHeightDefault, _iWidth);
+		}
+
+		pDC->SelectObject(pOldPen);
+	}
 
 	for(MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
 	{

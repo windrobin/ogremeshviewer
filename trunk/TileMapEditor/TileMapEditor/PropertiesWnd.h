@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "ReflectiveUI.h"
+
 class CPropertiesToolBar : public CMFCToolBar
 {
 public:
@@ -20,7 +22,9 @@ public:
 
 	void AdjustLayout();
 
-//  Ù–‘
+	void AddPropertyData(PropertySys::RTTIObject* pObject, const Cactus::String& strCaption);
+
+// Attributes
 public:
 	void SetVSDotNetLook(BOOL bSet)
 	{
@@ -30,11 +34,13 @@ public:
 
 protected:
 	CFont m_fntPropList;
-	CComboBox m_wndObjectCombo;
-	CPropertiesToolBar m_wndToolBar;
-	CMFCPropertyGridCtrl m_wndPropList;
+	//CComboBox				m_wndObjectCombo;
+	CPropertiesToolBar		m_wndToolBar;
 
-//  µœ÷
+	CPropertyGrid			m_wndPropList;
+	CReflectiveUI			_reflectiveUI;
+
+// Implementation
 public:
 	virtual ~CPropertiesWnd();
 
