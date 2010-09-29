@@ -184,6 +184,17 @@ BOOL MapView::PreTranslateMessage(MSG* pMsg)
 
 void MapView::OnProperties()
 {
+	HTREEITEM hItem = _TreeMapItem.GetSelectedItem();
+	if (!hItem)
+		return;
+
+	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
+	if(ptr)
+	{
+		MapLayer* pLayer = (MapLayer*)ptr;
+		CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetPropertyWnd(); 
+		pPropertyWnd->AddPropertyData(pLayer, pLayer->GetLayerName());
+	}
 }
 
 void MapView::OnPaint()
@@ -251,12 +262,18 @@ void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 	_TreeMapItem.ScreenToClient(&point);
 
 	UINT uFlag;
-	HTREEITEM hTree = _TreeMapItem.HitTest(point, &uFlag);
-	if (hTree && (TVHT_ONITEMSTATEICON & uFlag))
+	HTREEITEM hItem = _TreeMapItem.HitTest(point, &uFlag);
+	if (hItem && (TVHT_ONITEMSTATEICON & uFlag))
 	{
-		DWORD_PTR ptr = _TreeMapItem.GetItemData(hTree);
+		DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
 		if(ptr)
 		{
+			MapLayer* pLayer = (MapLayer*)ptr;
+			BOOL b = _TreeMapItem.GetCheck(hItem);	//得到的状态是点击前的...
+			pLayer->SetVisible( b == FALSE );
+
+			CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+			pView->Invalidate(TRUE);
 		}
 	}
 

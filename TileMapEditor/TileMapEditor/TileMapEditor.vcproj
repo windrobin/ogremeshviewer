@@ -409,6 +409,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GString.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GString.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MapView.cpp"
 				>
 			</File>
@@ -434,6 +442,14 @@
 			</File>
 			<File
 				RelativePath=".\PropertiesWnd.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ReflectiveUI.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ReflectiveUI.h"
 				>
 			</File>
 			<File

@@ -29,6 +29,10 @@ protected:
 	int					_iTileHeightDefault;
 	int					_iVersion;
 
+	bool				_bDrawGrid;
+	COLORREF			_colGridColor;
+	COLORREF			_colBKColor;
+
 	MapBackground*		_pMapBackground;
 
 	typedef Cactus::list<MapLayer*>::type		MapLayerListType;
