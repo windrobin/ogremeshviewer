@@ -52,6 +52,10 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	_theMap._iTileHeightDefault	= dlg._iTileSize;
 
 	ToolManager::getSingleton().SetDocument(this);
+
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	pMainFrame->GetMapView()->Reset();
+	pMainFrame->GetPropertyWnd()->Reset();
 	
 	return TRUE;
 }
@@ -87,14 +91,20 @@ BOOL CTileMapEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	//if (!CDocument::OnOpenDocument(lpszPathName))
 	//	return FALSE;
 
+	Map map;
+	_theMap = map;
+
 	if( !_theMap.Load(lpszPathName) )
 	{
 		AfxMessageBox("加载失败，请检查文件是否合法！", MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
 
-	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd());
+	pMainFrame->GetPropertyWnd()->Reset();
+
 	MapView* pMapView = pMainFrame->GetMapView();
+	pMapView->Reset();
 
 	for(Map::MapLayerListType::iterator it = _theMap._layers.begin(); it != _theMap._layers.end(); ++it)
 	{

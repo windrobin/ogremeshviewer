@@ -280,3 +280,9 @@ void MapView::OnProperties()
 		pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
 	}
 }
+
+void MapView::Reset()
+{
+	_TreeMapItem.DeleteAllItems();
+	FillClassView();
+}

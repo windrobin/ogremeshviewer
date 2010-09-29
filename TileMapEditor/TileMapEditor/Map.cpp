@@ -199,6 +199,8 @@ void Map::Save(const Cactus::String& strPathName)
 		return;
 	}
 
+	//os << String("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
 	XMLOutStream xmlOut(&os);
 
 	xmlOut.NodeBegin("tilemap");
@@ -245,6 +247,9 @@ void Map::Save(const Cactus::String& strPathName)
 
 			for (MapLayer::TileGroupMapType::iterator itG = pLayer->_GroupTiles.begin(); itG != pLayer->_GroupTiles.end(); ++itG)
 			{
+				xmlOut.NodeBegin("tilegroup");
+					xmlOut.AddAttribute("reskey", itG->first);
+
 				for (size_t t = 0; t < itG->second.size(); ++t)
 				{
 					STile& tile = itG->second[t];
@@ -254,6 +259,7 @@ void Map::Save(const Cactus::String& strPathName)
 						xmlOut.AddAttribute("id", tile._strID);
 					xmlOut.NodeEnd("tile");
 				}
+				xmlOut.NodeEnd("tilegroup");
 			}
 
 			xmlOut.NodeEnd("layer");

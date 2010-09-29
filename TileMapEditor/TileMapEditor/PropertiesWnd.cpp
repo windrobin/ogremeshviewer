@@ -279,7 +279,13 @@ void CPropertiesWnd::SetPropListFont()
 
 void CPropertiesWnd::AddPropertyData(PropertySys::RTTIObject* pObject, const Cactus::String& strCaption)
 {
+	Reset();
+	_reflectiveUI.BuildUIForObject(0, pObject, strCaption.c_str());
+}
+
+
+void CPropertiesWnd::Reset()
+{
 	m_wndPropList.RemoveAll();
 	_reflectiveUI.ResetGridPropertyMap();
-	_reflectiveUI.BuildUIForObject(0, pObject, strCaption.c_str());
 }
