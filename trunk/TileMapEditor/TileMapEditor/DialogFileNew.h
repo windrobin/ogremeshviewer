@@ -24,4 +24,5 @@ public:
 	int _iMapHeight;
 	int _iTileSize;
 	CString _strFootnotes;
+	CString _strMapName;
 };

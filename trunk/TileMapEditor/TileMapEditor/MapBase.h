@@ -7,4 +7,6 @@ public:
 
 	virtual Cactus::String		GetObjectName(){ return ""; }
 
+	virtual bool				IsLayer(){ return false; }
+
 };

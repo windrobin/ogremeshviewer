@@ -116,11 +116,11 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 
 		_imageList.Add(bmpTile, (CBitmap*)0);
 
-		_BitmapTiles[osCap.str()] = bmpTile;
-
 		osCap.str("");
 		osCap << i;
 		_captions.push_back(osCap.str());
+
+		_BitmapTiles[osCap.str()] = bmpTile;
 	}
 
 	bmp.DeleteObject();

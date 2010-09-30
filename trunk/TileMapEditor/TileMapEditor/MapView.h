@@ -5,6 +5,7 @@
 #include "PanelToolBar.h"
 
 class Map;
+class MapLayer;
 
 class MapView : public CDockablePane
 {
@@ -27,6 +28,9 @@ protected:
 	HTREEITEM		_hLayerRoot;
 	HTREEITEM		_hBrushRoot;
 
+	MapLayer*		_pSelectedLayer;
+	HTREEITEM		_hSelectedItem;
+
 	void FillClassView();
 
 // ÖØÐ´
@@ -37,12 +41,18 @@ protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
-	afx_msg void OnProperties();
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg LRESULT OnChangeActiveTab(WPARAM, LPARAM);
 	afx_msg void OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult);
-
+	afx_msg void OnNMDblclkTree(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnLayerSetCurrent();
+	afx_msg void OnLayerInsert();
+	afx_msg void OnLayerShow();
+	afx_msg void OnLayerHide();
+	afx_msg void OnLayerRemove();
+	afx_msg void OnProperties();
 	DECLARE_MESSAGE_MAP()
 };
 

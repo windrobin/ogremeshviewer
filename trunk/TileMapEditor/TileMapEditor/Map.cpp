@@ -28,6 +28,7 @@ public:
 			_map._strFootnotes			= attributes.getValueAsString("footnotes");
 			_map._bDrawGrid				= attributes.getValueAsBool("drawgrid");
 			_map._colBKColor			= attributes.getValueAsInteger("backgroundcolor");
+			_map._strCurLayerName		= attributes.getValueAsString("curlayer");
 		}
 		else if ( currentElementMatch("tilemap/background/") )
 		{
@@ -62,8 +63,13 @@ public:
 			_pCurLayer->_bDrawGrid		= attributes.getValueAsBool("drawgrid");
 			_pCurLayer->_bVisible		= attributes.getValueAsBool("visible");
 
-
 			_map._layers.push_back(_pCurLayer);
+
+			if (_map._strCurLayerName == _pCurLayer->_strName)
+			{
+				_pCurLayer->_bVisible = true;
+				_map._pCurLayer = _pCurLayer;
+			}
 		}
 		else if ( currentElementMatch("tilemap/layers/layer/tilegroup/") )
 		{
@@ -133,6 +139,8 @@ Map::Map()
 , _iTileWidthDefault(64)
 , _bDrawGrid(true)
 , _colBKColor(0)
+, _pCurLayer(0)
+, _strCurLayerName("")
 {
 }
 
@@ -166,7 +174,6 @@ void Map::RegisterReflection()
 	pProp = M_RegisterPropertySimple(bool, DrawGrid, Map, Map, "是否绘制网格.", BaseProperty::eDefault, _bDrawGrid);
 	//pProp = M_RegisterPropertySimple(int, GridColor, Map, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
 	//pProp->SetValueSpecify(eValueColor, "");
-	
 }
 
 void Map::OnPropertyChanged(const std::string& propName)
@@ -199,7 +206,9 @@ void Map::Save(const Cactus::String& strPathName)
 		return;
 	}
 
-	//os << String("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+	String str = "<?xml version=\"1.0\" encoding=\"gb2312\"?>";
+	//os << str;	//这样会先写个长度
+	os.Write(&str[0], str.size());
 
 	XMLOutStream xmlOut(&os);
 
@@ -213,6 +222,7 @@ void Map::Save(const Cactus::String& strPathName)
 		xmlOut.AddAttribute("footnotes", _strFootnotes);
 		xmlOut.AddAttribute("drawgrid", _bDrawGrid);
 		xmlOut.AddAttribute("backgroundcolor", _colBKColor);
+		xmlOut.AddAttribute("curlayer", _strCurLayerName);
 
 		if (_pMapBackground)
 		{
@@ -317,6 +327,30 @@ void Map::Draw(CDC* pDC)
 
 	for(MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
 	{
-		(*it)->Draw(pDC);
+		if (*it != _pCurLayer)
+			(*it)->Draw(pDC);
+
+		if (_pCurLayer)
+			_pCurLayer->Draw(pDC);
+	}
+}
+
+void Map::SetCurLayer(MapLayer* pLayer)
+{
+	_pCurLayer = pLayer;
+}
+
+bool Map::AddLayer(MapLayer* pLayer)
+{
+	_layers.push_back(pLayer);
+	return true;
+}
+
+void Map::RemoveLayer(MapLayer* pLayer)
+{
+	MapLayerListType::iterator it = find(_layers.begin(), _layers.end(), pLayer);
+	if (it != _layers.end())
+	{
+		_layers.erase(it);
 	}
 }

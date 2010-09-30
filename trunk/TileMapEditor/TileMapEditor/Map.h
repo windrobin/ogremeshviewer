@@ -25,9 +25,16 @@ public:
 
 	virtual Cactus::String		GetObjectName(){ return _strName; }
 
+	void						SetCurLayer(MapLayer* pLayer);
+	MapLayer*					GetCurLayer(){ return _pCurLayer; }
+
+	bool						AddLayer(MapLayer* pLayer);
+	void						RemoveLayer(MapLayer* pLayer);
+
 protected:
 	Cactus::String		_strName;
 	Cactus::String		_strFootnotes;
+	Cactus::String		_strCurLayerName;
 	int					_iWidth;
 	int					_iHeight;
 	int					_iTileWidthDefault;
@@ -42,4 +49,6 @@ protected:
 
 	typedef Cactus::list<MapLayer*>::type		MapLayerListType;
 	MapLayerListType	_layers;
+
+	MapLayer*			_pCurLayer;
 };

@@ -78,3 +78,92 @@ void MapLayer::Draw(CDC* pDC)
 		pDC->SelectObject(pOldPen);
 	}
 }
+
+CRect MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY)
+{
+	gridX	= pt.x / _iTileWidth;
+	gridY	= pt.y / _iTileHeight;
+
+	return CRect(CPoint(gridX * _iTileWidth, gridY * _iTileHeight), CSize(_iTileWidth, _iTileHeight));
+}
+
+bool MapLayer::ModifyTile(int gridX, int gridY, const Cactus::String& resKey, const Cactus::String& strID)
+{
+	bool bFound = false;
+
+	for (TileGroupMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	{
+		for (size_t t = 0; t < it->second.size(); ++t)
+		{
+			STile& tile = it->second[t];
+			if(tile._posX == gridX && tile._posY == gridY)
+			{
+				if(tile._strID == strID && resKey == it->first)
+				{
+					return false;
+				}
+				else if (resKey == it->first)
+				{
+					tile._strID = strID;
+					return true;
+				}
+				else
+				{
+					it->second.erase(it->second.begin() + t);
+				}
+			}
+		}
+	}
+
+	if (!bFound)
+	{
+		STile newTile;
+		newTile._posX = gridX;
+		newTile._posY = gridY;
+		newTile._strID = strID;
+
+		_GroupTiles[resKey].push_back(newTile);
+	}
+
+	return true;
+}
+
+bool MapLayer::ClearTile(int gridX, int gridY)
+{
+	bool bFound = false;
+
+	for (TileGroupMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	{
+		for (size_t t = 0; t < it->second.size(); ++t)
+		{
+			STile& tile = it->second[t];
+			if(tile._posX == gridX && tile._posY == gridY)
+			{
+				it->second.erase(it->second.begin() + t);
+				bFound = true;
+			}
+		}
+	}
+
+	return bFound;
+}
+
+bool MapLayer::GetTileInfo(int gridX, int gridY, STile& tile, Cactus::String& resKey)
+{
+	bool bFound = false;
+
+	for (TileGroupMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	{
+		for (size_t t = 0; t < it->second.size(); ++t)
+		{
+			tile = it->second[t];
+			if(tile._posX == gridX && tile._posY == gridY)
+			{
+				resKey = it->first;
+				bFound = true;
+			}
+		}
+	}
+
+	return bFound;
+}

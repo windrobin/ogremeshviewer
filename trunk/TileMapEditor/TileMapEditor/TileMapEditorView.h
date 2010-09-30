@@ -18,6 +18,9 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
 	virtual ~CTileMapEditorView();
+
+	void	LogicInvalidate(CRect rc);
+
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

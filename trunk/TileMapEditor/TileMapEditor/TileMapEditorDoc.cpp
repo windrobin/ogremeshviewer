@@ -46,6 +46,11 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	if( dlg.DoModal() != IDOK)
 		return FALSE;
 
+	Map map;
+	_theMap = map;
+
+	_theMap._strName			= (LPCTSTR)dlg._strMapName;
+	_theMap._strFootnotes		= (LPCTSTR)dlg._strFootnotes;
 	_theMap._iWidth				= dlg._iMapWidth;
 	_theMap._iHeight			= dlg._iMapHeight;
 	_theMap._iTileWidthDefault	= dlg._iTileSize;
@@ -58,6 +63,7 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	pMainFrame->GetPropertyWnd()->Reset();
 
 	pMainFrame->GetMapView()->SetMapObject(&_theMap);
+	pMainFrame->SetCurLayerName(_theMap._strCurLayerName);
 
 	return TRUE;
 }
@@ -108,6 +114,7 @@ BOOL CTileMapEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	MapView* pMapView = pMainFrame->GetMapView();
 	pMapView->Reset();
 	pMapView->SetMapObject(&_theMap);
+	pMainFrame->SetCurLayerName(_theMap._strCurLayerName);
 
 	return TRUE;
 }

@@ -18,6 +18,8 @@ ToolManager::ToolManager()
 	_tools[eToolSelect]	= new ToolSelect;
 	_tools[eToolBrush]	= new ToolBrush;
 	_tools[eToolRemove]	= new ToolRemove;
+
+	_tools[_eCurToolType]->OnTurnOn();
 }
 
 ToolManager::~ToolManager()
@@ -37,10 +39,13 @@ ToolBase* ToolManager::SelectTool(EToolType e)
 {
 	if (e != _eCurToolType)
 	{
+		_tools[_eCurToolType]->OnTurnOff();
+
 		_eCurToolType = e;
 	}
 
-	return _tools[e];
+	_tools[_eCurToolType]->OnTurnOn();
+	return _tools[_eCurToolType];
 }
 
 ToolBase* ToolManager::GetCurrentTool()

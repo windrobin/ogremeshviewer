@@ -409,11 +409,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GString.cpp"
+				RelativePath=".\DialogNewLayer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\GString.h"
+				RelativePath=".\DialogNewLayer.h"
 				>
 			</File>
 			<File
@@ -596,6 +596,22 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="Util"
+			>
+			<File
+				RelativePath=".\GString.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GString.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MemDC.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

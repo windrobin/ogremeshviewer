@@ -141,6 +141,7 @@ public:
 			_eType		= eGameObjectNPC;
 			_strType	= element;
 			pGameObjectGroup = new ResourceGameObjectGroup;
+			pGameObjectGroup->_strGroupName = element;
 			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
 		}
 		else if (element == "monster")
@@ -148,6 +149,7 @@ public:
 			_eType		= eGameObjectMonster;
 			_strType	= element;
 			pGameObjectGroup = new ResourceGameObjectGroup;
+			pGameObjectGroup->_strGroupName = element;
 			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
 		}
 		else if (element == "funcpoint")
@@ -155,6 +157,7 @@ public:
 			_eType		= eGameObjectFunctionPoint;
 			_strType	= element;
 			pGameObjectGroup = new ResourceGameObjectGroup;
+			pGameObjectGroup->_strGroupName = element;
 			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
 		}
 		else if (element == "item" && _eType != eGameObjectMax)

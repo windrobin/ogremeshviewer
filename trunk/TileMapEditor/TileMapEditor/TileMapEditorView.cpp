@@ -11,6 +11,8 @@
 #include "ToolManager.h"
 #include "ToolBase.h"
 
+#include "MemDC.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -53,9 +55,10 @@ void CTileMapEditorView::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 
-	pDoc->GetMap().Draw(pDC);
+	MemDC memDC(pDC);
 
-	ToolManager::getSingleton().GetCurrentTool()->Draw(pDC);
+	pDoc->GetMap().Draw(&memDC);
+	ToolManager::getSingleton().GetCurrentTool()->Draw(&memDC);
 }
 
 void CTileMapEditorView::OnInitialUpdate()
@@ -138,4 +141,12 @@ void CTileMapEditorView::OnMouseMove(UINT nFlags, CPoint point)
 	ToolManager::getSingleton().GetCurrentTool()->OnMouseMove(nFlags, ptLP);
 
 	CScrollView::OnMouseMove(nFlags, point);
+}
+
+void CTileMapEditorView::LogicInvalidate(CRect rc)
+{
+	CPoint pt = GetScrollPosition();
+	rc.OffsetRect(-pt);
+
+	InvalidateRect(rc);
 }

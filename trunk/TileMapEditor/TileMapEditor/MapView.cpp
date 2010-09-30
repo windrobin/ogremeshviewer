@@ -7,6 +7,11 @@
 #include "MapLayer.h"
 #include "Map.h"
 
+#include "ToolManager.h"
+#include "TileMapEditorDoc.h"
+
+#include "DialogNewLayer.h"
+
 #define M_TreeID	(WM_USER + 100)
 
 class CClassViewMenuButton : public CMFCToolBarMenuButton
@@ -41,6 +46,7 @@ IMPLEMENT_SERIAL(CClassViewMenuButton, CMFCToolBarMenuButton, 1)
 //////////////////////////////////////////////////////////////////////
 
 MapView::MapView()
+: _pSelectedLayer(0)
 {
 }
 
@@ -52,10 +58,17 @@ BEGIN_MESSAGE_MAP(MapView, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
-	ON_COMMAND(ID_PROPERTIES, OnProperties)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 	ON_NOTIFY(NM_CLICK, M_TreeID, &MapView::OnNMClickedTreeDetails)
+	ON_NOTIFY(NM_DBLCLK, M_TreeID, &MapView::OnNMDblclkTree)
+	ON_NOTIFY(NM_RCLICK, M_TreeID, &MapView::OnNMRclickTree)
+	ON_COMMAND(ID_LAYEROP_SETCURRENT, OnLayerSetCurrent)
+	ON_COMMAND(ID_LAYEROP_INSERT, OnLayerInsert)
+	ON_COMMAND(ID_LAYEROP_SHOW, OnLayerShow)
+	ON_COMMAND(ID_LAYEROP_HIDE, OnLayerHide)
+	ON_COMMAND(ID_LAYEROP_REMOVE, OnLayerRemove)
+	ON_COMMAND(ID_PROPERTIES, OnProperties)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -121,7 +134,7 @@ void MapView::SetMapObject(Map* p)
 
 void MapView::FillClassView()
 {
-	HTREEITEM hRoot = _TreeMapItem.InsertItem(_T("地图名称"), 0, 0);
+	HTREEITEM hRoot = _TreeMapItem.InsertItem(_T("地图"), 0, 0);
 	_TreeMapItem.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
 	HTREEITEM hClass = _TreeMapItem.InsertItem(_T("背景"), 3, 3, hRoot);
@@ -241,6 +254,12 @@ void MapView::OnChangeVisualStyle()
 
 }
 
+void MapView::Reset()
+{
+	_TreeMapItem.DeleteAllItems();
+	FillClassView();
+}
+
 void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	//LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
@@ -265,12 +284,181 @@ void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 			BOOL b = _TreeMapItem.GetCheck(hItem);	//得到的状态是点击前的...
 			pLayer->SetVisible( b == FALSE );
 
+			if (b == TRUE && ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer() == pLayer)
+			{
+				ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(0);
+				((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName("");
+			}
+
 			CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
 			pView->Invalidate(TRUE);
 		}
 	}
 
 	*pResult = 0;
+}
+
+void MapView::OnNMDblclkTree(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	HTREEITEM hItem = _TreeMapItem.GetSelectedItem();
+
+	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
+	if (ptr)
+	{
+		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+		MapBaseObject* pObject = (MapBaseObject*)ptr;
+
+		if (pObject->IsLayer())
+		{
+			MapLayer* pLayer = (MapLayer*)pObject;
+
+			if (!pLayer->IsVisible())
+			{
+				pLayer->SetVisible(true);
+				_TreeMapItem.SetCheck(hItem);
+			}
+
+			ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(pLayer);
+			
+			((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(pLayer->GetObjectName());
+			CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+			pView->Invalidate(TRUE);
+		}
+	}
+
+	*pResult = 0;
+}
+
+void MapView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	_pSelectedLayer = 0;
+
+	CPoint point;
+	GetCursorPos(&point);
+
+	HTREEITEM hItem = _TreeMapItem.GetSelectedItem();
+	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
+	if (ptr)
+	{
+		MapBaseObject* pObject = (MapBaseObject*)ptr;
+
+		if (pObject->IsLayer())
+		{
+			_pSelectedLayer = (MapLayer*)pObject;
+			_hSelectedItem	= hItem;
+			theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_LAYER_OP, point.x, point.y, this, TRUE);
+		}
+		else	// Brush
+		{
+
+		}
+	}
+	else
+	{
+		theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_MAP_OP, point.x, point.y, this, TRUE);
+	}
+
+	*pResult = 0;
+}
+
+
+void MapView::OnLayerSetCurrent()
+{
+	if(_pSelectedLayer)
+	{
+		if (!_pSelectedLayer->IsVisible())
+		{
+			_pSelectedLayer->SetVisible(true);
+			_TreeMapItem.SetCheck(_hSelectedItem);
+		}
+
+		ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(_pSelectedLayer);
+
+		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(_pSelectedLayer->GetObjectName());
+		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		pView->Invalidate(TRUE);
+	}
+}
+
+void MapView::OnLayerInsert()
+{
+	DialogNewLayer dlg;
+	if (dlg.DoModal() == IDOK)
+	{
+		MapLayer* pLayer = new MapLayer;
+		pLayer->_strName		= (LPCTSTR)dlg._strLayerName;
+		pLayer->_iWidth			= dlg._iWidth;
+		pLayer->_iHeight		= dlg._iHeight;
+		pLayer->_iTileWidth		= dlg._iTileSize;
+		pLayer->_iTileHeight	= dlg._iTileSize;
+
+		ToolManager::getSingleton().GetDocument()->GetMap().AddLayer(pLayer);
+		HTREEITEM hItem = _TreeMapItem.InsertItem(pLayer->GetObjectName().c_str(), 3, 3, _hLayerRoot);
+		_TreeMapItem.SetItemData(hItem, (DWORD_PTR)pLayer);
+		_TreeMapItem.SetCheck(hItem, pLayer->IsVisible());
+		_TreeMapItem.Expand(_hLayerRoot, TVE_EXPAND);
+	}
+}
+
+void MapView::OnLayerShow()
+{
+	if(_pSelectedLayer)
+	{
+		if (!_pSelectedLayer->IsVisible())
+		{
+			_pSelectedLayer->SetVisible(true);
+			_TreeMapItem.SetCheck(_hSelectedItem);
+
+			((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(_pSelectedLayer->GetObjectName());
+			CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+			pView->Invalidate(TRUE);
+		}
+	}
+}
+
+void MapView::OnLayerHide()
+{
+	if(_pSelectedLayer)
+	{
+		if (_pSelectedLayer->IsVisible())
+		{
+			_pSelectedLayer->SetVisible(false);
+			_TreeMapItem.SetCheck(_hSelectedItem, 0);
+
+			if (ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer() == _pSelectedLayer)
+			{
+				ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(0);
+				((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName("");
+			}
+
+			CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+			pView->Invalidate(TRUE);
+		}
+	}
+}
+
+void MapView::OnLayerRemove()
+{
+	if(!_pSelectedLayer)
+		return;
+
+	Cactus::ostringstream os;
+	os << "你确信要删除层: '" << _pSelectedLayer->GetObjectName() << "' 吗？";
+	if( MessageBox(os.str().c_str(), "询问", MB_OK | MB_ICONQUESTION) == IDOK )
+	{
+		_TreeMapItem.DeleteItem(_hSelectedItem);
+
+		if (ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer() == _pSelectedLayer)
+		{
+			ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(0);
+			((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName("");
+		}
+
+		ToolManager::getSingleton().GetDocument()->GetMap().RemoveLayer(_pSelectedLayer);
+
+		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		pView->Invalidate(TRUE);
+	}
 }
 
 void MapView::OnProperties()
@@ -288,10 +476,4 @@ void MapView::OnProperties()
 		pPropertyWnd->AddPropertyData(pObject, pObject->GetObjectName());
 		pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
 	}
-}
-
-void MapView::Reset()
-{
-	_TreeMapItem.DeleteAllItems();
-	FillClassView();
 }
