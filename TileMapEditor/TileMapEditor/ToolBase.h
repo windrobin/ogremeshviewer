@@ -6,9 +6,21 @@ public:
 	ToolBase();
 	virtual ~ToolBase();
 
-	virtual void Draw(CDC* pDC) = 0;
+	virtual void Draw(CDC* pDC);
 
-	virtual void OnLButtonDown(UINT nFlags, CPoint point) = 0;
-	virtual void OnLButtonUp(UINT nFlags, CPoint point) = 0;
-	virtual void OnMouseMove(UINT nFlags, CPoint point) = 0;
+	virtual void OnLButtonDown(UINT nFlags, CPoint point);
+	virtual void OnLButtonUp(UINT nFlags, CPoint point);
+	virtual void OnMouseMove(UINT nFlags, CPoint point);
+
+	virtual void OnTurnOn();
+	virtual void OnTurnOff();
+
+protected:
+
+	bool				_bDrawCursor;
+	CRect				_rcTile;
+	int					_iGridX;
+	int					_iGridY;
+
+	COLORREF			_refCursor;
 };

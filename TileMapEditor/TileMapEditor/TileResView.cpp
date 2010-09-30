@@ -145,18 +145,19 @@ void TileResView::OnItemChanged(NMHDR *pNMHDR, LRESULT *pResult)
 		}
 
 		_iOldCheck = pNMLV->iItem;
+		CString str = _listImages.GetItemText(_iOldCheck, 0);
 
 		//Set brush tool
 		ToolBrush* pBrush = (ToolBrush*)ToolManager::getSingleton().SelectTool(eToolBrush);
-		Cactus::ostringstream os;
-		os << _iOldCheck;
-		pBrush->SetResource(_strResKey, os.str());
+		pBrush->SetResource(_strResKey, (LPCTSTR)str);
 	} 
 	else if((pNMLV->uOldState & INDEXTOSTATEIMAGEMASK(2)) /* old state : checked */ 
 		&& (pNMLV->uNewState & INDEXTOSTATEIMAGEMASK(1)) /* new state : unchecked */ 
 		) 
 	{ 
 		//TRACE("Item %d is unchecked\n", pNMLV->iItem); 
+		_iOldCheck = -1;
+		ToolManager::getSingleton().SelectTool(eToolSelect);
 	} 
 	else 
 	{ 

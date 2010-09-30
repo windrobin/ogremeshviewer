@@ -129,7 +129,7 @@ void ResourceTreeView::FillFileView()
 	hItem = _ResourceTree.InsertItem(_T("Function Point"), 2, 2, _treeGameObjectRes);
 	_ResourceTree.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["funcpoint"]);
 
-	_treeGameEventRes	= _ResourceTree.InsertItem(_T("游戏事件"), 0, 0, hRoot);
+	//_treeGameEventRes	= _ResourceTree.InsertItem(_T("游戏事件"), 0, 0, hRoot);
 
 	_ResourceTree.Expand(hRoot, TVE_EXPAND);
 
@@ -138,7 +138,7 @@ void ResourceTreeView::FillFileView()
 	_ResourceTree.Expand(_treeArtTileRes, TVE_EXPAND);
 	
 	_ResourceTree.Expand(_treeGameObjectRes, TVE_EXPAND);
-	_ResourceTree.Expand(_treeGameEventRes, TVE_EXPAND);
+	//_ResourceTree.Expand(_treeGameEventRes, TVE_EXPAND);
 }
 
 void ResourceTreeView::OnContextMenu(CWnd* pWnd, CPoint point)
@@ -279,8 +279,9 @@ void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResul
 		pRes->CreateImageList(pTileResView->GetDC());
 
 		//insert image into TileResView
-		pTileResView->BuildImageAndInfoes((LPCSTR)strText, pRes->GetImageList(), *pRes->GetCaptions());
+		pTileResView->BuildImageAndInfoes(pRes->GetResourceName(), pRes->GetImageList(), *pRes->GetCaptions());
 	}
 
 	*pResult = 0;
 }
+

@@ -238,8 +238,8 @@ void CMainFrame::InitializeRibbon()
 	CMFCRibbonLabel* pLabel = new CMFCRibbonLabel("当前层：");
 	pPanelMapEdit->Add(pLabel);
 
-	pLabel = new CMFCRibbonLabel("xxx");
-	pPanelMapEdit->Add(pLabel);
+	_pCurLayerLabel = new CMFCRibbonLabel("            ");
+	pPanelMapEdit->Add(_pCurLayerLabel);
 
 	pPanelMapEdit->Add(new CMFCRibbonButton(ID_EDIT_COPY, "选取工具", 0, 0));
 	pPanelMapEdit->Add(new CMFCRibbonButton(ID_EDIT_COPY, "画刷工具", 0, 0));
@@ -507,4 +507,10 @@ void CMainFrame::OnView_PropertyPanel()
 void CMainFrame::OnUpdateView_PropertyPanel(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndProperties.IsVisible());
+}
+
+void CMainFrame::SetCurLayerName(const Cactus::String& strLayerName)
+{
+	_pCurLayerLabel->SetText(strLayerName.c_str());
+	_pCurLayerLabel->Redraw();
 }

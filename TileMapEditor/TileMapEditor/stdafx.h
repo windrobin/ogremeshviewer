@@ -60,3 +60,4 @@
 #include <CommonUtil/CommonUtil.h>
 #include <CxImage/ximage.h>
 #include "../PropertySystem/PropertySystem.h"
+#include <afxdhtml.h>

@@ -15,6 +15,7 @@ class MapLayer : public PropertySys::SupportRTTI<MapLayer, MapBaseObject>
 {
 	friend class Map;
 	friend class Map_xmlHandler;
+	friend class MapView;
 public:
 	MapLayer();
 	~MapLayer();
@@ -28,6 +29,13 @@ public:
 	void					SetVisible(bool b){ _bVisible = b; }
 
 	virtual Cactus::String	GetObjectName(){ return _strName; }
+	virtual bool			IsLayer(){ return true; }
+
+	CRect					ToolHitTest(CPoint pt, int& gridX, int& gridY);
+
+	bool					ModifyTile(int gridX, int gridY, const Cactus::String& resKey, const Cactus::String& strID);
+	bool					ClearTile(int gridX, int gridY);
+	bool					GetTileInfo(int gridX, int gridY, STile& tile, Cactus::String& resKey);
 
 protected:
 	Cactus::String		_strName;

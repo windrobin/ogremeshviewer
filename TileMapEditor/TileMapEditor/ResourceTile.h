@@ -12,8 +12,10 @@ public:
 	ResourceTile();
 	~ResourceTile();
 
-	static void			RegisterReflection();
-	virtual void		OnPropertyChanged(const std::string& propName);
+	static void				RegisterReflection();
+	virtual void			OnPropertyChanged(const std::string& propName);
+
+	virtual Cactus::String	GetResourceName(){ return _strName; }
 
 protected:
 	Cactus::String		_strName;

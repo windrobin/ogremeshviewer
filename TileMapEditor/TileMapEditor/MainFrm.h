@@ -31,6 +31,7 @@ public:
 	TileResView*	GetTileResView(){ return &_TileResView; }
 	MapView*		GetMapView(){ return &_MapPanel; }
 	CPropertiesWnd*	GetPropertyWnd(){ return &m_wndProperties; }
+	void			SetCurLayerName(const Cactus::String& strLayerName);
 
 
 protected:  // 控件条嵌入成员
@@ -44,6 +45,8 @@ protected:  // 控件条嵌入成员
 	ResourceTreeView	_ResTreePanel;
 	MapView				_MapPanel;
 	TileResView			_TileResView;
+
+	CMFCRibbonLabel*	_pCurLayerLabel;
 
 // 生成的消息映射函数
 protected:

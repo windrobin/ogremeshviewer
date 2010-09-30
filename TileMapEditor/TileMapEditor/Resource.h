@@ -81,11 +81,15 @@
 #define IDD_DIALOG_FILE_NEW             201
 #define IDR_MENU_LAYER_OP               202
 #define IDR_MENU_BRUSH_OP               203
+#define IDR_MENU_MAP_OP                 204
+#define IDD_DIALOG_NEWLAYER             205
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
 #define IDC_EDIT_FOOTNOTES              1002
 #define IDC_EDIT_HEIGHT2                1003
 #define IDC_EDIT_TILE_SIZE              1003
+#define IDC_EDIT_MAPNAME                1004
+#define IDC_EDIT_LAYERNAME              1005
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771
 #define ID_STATUSBAR_PANE2              32772
@@ -124,22 +128,23 @@
 #define ID_VIEW_APPLOOK_OFF_2007_BLACK  32806
 #define ID_VIEW_APPLOOK_OFF_2007_SILVER 32807
 #define ID_VIEW_APPLOOK_OFF_2007_AQUA   32808
-#define ID_LAYEROP_MOVEUP               32809
-#define ID_LAYEROP_MOVEDOWN             32810
+#define ID_LAYEROP_SHOW                 32809
+#define ID_LAYEROP_HIDE                 32810
 #define ID_LAYEROP_REMOVE               32811
-#define ID_LAYEROP_INSERTBEFORE         32812
+#define ID_LAYEROP_SETCURRENT           32812
 #define ID_LAYEROP_INSERT               32813
 #define ID_BRUSHOP_ADDBRUSH             32814
 #define ID_BRUSHOP_REMOVEBRUSH          32815
 #define ID_BRUSHOP_SELECTBRUSH          32816
+#define ID_MAPOP_DEFINEBRUSH            32817
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        204
-#define _APS_NEXT_COMMAND_VALUE         32817
-#define _APS_NEXT_CONTROL_VALUE         1003
+#define _APS_NEXT_RESOURCE_VALUE        206
+#define _APS_NEXT_COMMAND_VALUE         32818
+#define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           301
 #endif
 #endif

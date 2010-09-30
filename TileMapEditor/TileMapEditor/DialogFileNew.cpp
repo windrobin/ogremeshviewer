@@ -13,6 +13,7 @@ IMPLEMENT_DYNAMIC(DialogFileNew, CDialog)
 DialogFileNew::DialogFileNew(CWnd* pParent /*=NULL*/)
 	: CDialog(DialogFileNew::IDD, pParent)
 	, _strFootnotes(_T(""))
+	, _strMapName(_T(""))
 {
 	_iMapWidth	= 1024;
 	_iMapHeight	= 1024;
@@ -30,6 +31,7 @@ void DialogFileNew::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_HEIGHT, _iMapHeight);
 	DDX_Text(pDX, IDC_EDIT_TILE_SIZE, _iTileSize);
 	DDX_Text(pDX, IDC_EDIT_FOOTNOTES, _strFootnotes);
+	DDX_Text(pDX, IDC_EDIT_MAPNAME, _strMapName);
 }
 
 

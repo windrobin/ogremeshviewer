@@ -190,10 +190,16 @@ void CTileMapEditorApp::PreLoadState()
 	CString strName;
 	bNameValid = strName.LoadString(IDS_EDIT_MENU);
 	ASSERT(bNameValid);
+
 	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EDIT);
+
 	bNameValid = strName.LoadString(IDS_EXPLORER);
 	ASSERT(bNameValid);
+
 	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EXPLORER);
+	GetContextMenuManager()->AddMenu(strName, IDR_MENU_LAYER_OP);
+	GetContextMenuManager()->AddMenu(strName, IDR_MENU_MAP_OP);
+	
 }
 
 void CTileMapEditorApp::LoadCustomState()
