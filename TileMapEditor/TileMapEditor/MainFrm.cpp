@@ -7,6 +7,10 @@
 
 #include "MainFrm.h"
 
+#define M_TOOL_SELECT	(WM_USER + 100)
+#define M_TOOL_BRUSH	(WM_USER + 101)
+#define M_TOOL_REMOVE	(WM_USER + 102)
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -34,6 +38,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 
 	ON_COMMAND(ID_VIEW_PROPERTIESWND, &CMainFrame::OnView_PropertyPanel)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PROPERTIESWND, &CMainFrame::OnUpdateView_PropertyPanel)
+
+	ON_COMMAND(M_TOOL_SELECT, &CMainFrame::OnTool_Select)
+	ON_COMMAND(M_TOOL_BRUSH, &CMainFrame::OnTool_Brush)
+	ON_COMMAND(M_TOOL_REMOVE, &CMainFrame::OnTool_Remove)
 
 END_MESSAGE_MAP()
 
@@ -228,9 +236,8 @@ void CMainFrame::InitializeRibbon()
 
 	// 创建和添加“操作”面板:
 	CMFCRibbonPanel* pPanelOperations = pCategoryHome->AddPanel("操作");
-	pPanelOperations->Add(new CMFCRibbonButton(ID_EDIT_COPY, "撤销", 0, 0));
-	pPanelOperations->Add(new CMFCRibbonButton(ID_EDIT_COPY, "重做", 0, 0));
-
+	pPanelOperations->Add(new CMFCRibbonButton(ID_EDIT_UNDO, "撤销", 0, 2));
+	pPanelOperations->Add(new CMFCRibbonButton(ID_EDIT_REDO, "重做", 0, 3));
 
 
 	// 创建和添加“地图”面板:
@@ -241,9 +248,9 @@ void CMainFrame::InitializeRibbon()
 	_pCurLayerLabel = new CMFCRibbonLabel("                ");
 	pPanelMapEdit->Add(_pCurLayerLabel);
 
-	pPanelMapEdit->Add(new CMFCRibbonButton(ID_EDIT_COPY, "选取工具", 0, 0));
-	pPanelMapEdit->Add(new CMFCRibbonButton(ID_EDIT_COPY, "画刷工具", 0, 0));
-	pPanelMapEdit->Add(new CMFCRibbonButton(ID_EDIT_COPY, "删除工具", 0, 0));
+	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_SELECT, "选取", 0, 6));
+	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_BRUSH, "画刷", 0, 4));
+	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_REMOVE, "删除", 0, 5));
 
 
 
@@ -513,4 +520,19 @@ void CMainFrame::SetCurLayerName(const Cactus::String& strLayerName)
 {
 	_pCurLayerLabel->SetText(strLayerName.c_str());
 	_pCurLayerLabel->Redraw();
+}
+
+void CMainFrame::OnTool_Select()
+{
+
+}
+
+void CMainFrame::OnTool_Brush()
+{
+
+}
+
+void CMainFrame::OnTool_Remove()
+{
+
 }
