@@ -47,6 +47,15 @@ namespace Cactus
 			_Stream << strKey << "=\"" << val << "\" ";
 		}
 
+		template<>
+		inline void	AddAttribute(const Cactus::String& strKey, const bool& val)
+		{
+			if (val)
+				_Stream << strKey << "=\"true\" ";
+			else
+				_Stream << strKey << "=\"false\" ";
+		}
+
 	protected:
 
 		Cactus::ostringstream	_Stream;
