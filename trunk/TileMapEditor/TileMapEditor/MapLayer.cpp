@@ -81,7 +81,7 @@ void MapLayer::Draw(CDC* pDC)
 
 bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
 {
-	if (pt.x > _iWidth || pt.y > _iHeight || pt.x < 0 || pt.y < 0)
+	if (pt.x >= _iWidth || pt.y >= _iHeight || pt.x <= 0 || pt.y <= 0)
 	{
 		return false;
 	}
