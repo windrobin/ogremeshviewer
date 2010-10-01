@@ -58,15 +58,22 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 		return;
 	}
 
+	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView();
+
 	int gridX, gridY;
 	CRect rc;
 	if(!pLayer->ToolHitTest(point, gridX, gridY, rc))
 	{
+		if (_bDrawCursor)
+			pView->LogicInvalidate(&_rcTile);	//Ë¢ÐÂÀÏµÄ
+
+		_iGridX = -1;
+		_iGridY = -1;
+
 		_bDrawCursor = false;
 		return;
 	}
 
-	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
 	if (gridX != _iGridX || gridY != _iGridY)
 	{
 		if (_bDrawCursor)
