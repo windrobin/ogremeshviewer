@@ -6,6 +6,7 @@
 #include "TileMapEditor.h"
 
 #include "MainFrm.h"
+#include "ToolManager.h"
 
 #define M_TOOL_SELECT	(WM_USER + 100)
 #define M_TOOL_BRUSH	(WM_USER + 101)
@@ -40,8 +41,12 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PROPERTIESWND, &CMainFrame::OnUpdateView_PropertyPanel)
 
 	ON_COMMAND(M_TOOL_SELECT, &CMainFrame::OnTool_Select)
+	ON_UPDATE_COMMAND_UI(M_TOOL_SELECT, &CMainFrame::OnUpdateButton_Select)
 	ON_COMMAND(M_TOOL_BRUSH, &CMainFrame::OnTool_Brush)
+	ON_UPDATE_COMMAND_UI(M_TOOL_BRUSH, &CMainFrame::OnUpdateButton_Brush)
 	ON_COMMAND(M_TOOL_REMOVE, &CMainFrame::OnTool_Remove)
+	ON_UPDATE_COMMAND_UI(M_TOOL_REMOVE, &CMainFrame::OnUpdateButton_Remove)
+
 
 END_MESSAGE_MAP()
 
@@ -236,8 +241,8 @@ void CMainFrame::InitializeRibbon()
 
 	// 创建和添加“操作”面板:
 	CMFCRibbonPanel* pPanelOperations = pCategoryHome->AddPanel("操作");
-	pPanelOperations->Add(new CMFCRibbonButton(ID_EDIT_UNDO, "撤销", 0, 2));
-	pPanelOperations->Add(new CMFCRibbonButton(ID_EDIT_REDO, "重做", 0, 3));
+	pPanelOperations->Add(new CMFCRibbonUndoButton(ID_EDIT_UNDO, "撤销", 0, 2));
+	pPanelOperations->Add(new CMFCRibbonUndoButton(ID_EDIT_REDO, "重做", 0, 3));
 
 
 	// 创建和添加“地图”面板:
@@ -251,7 +256,6 @@ void CMainFrame::InitializeRibbon()
 	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_SELECT, "选取", 0, 6));
 	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_BRUSH, "画刷", 0, 4));
 	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_REMOVE, "删除", 0, 5));
-
 
 
 	// 创建和添加“视图”面板:
@@ -524,15 +528,27 @@ void CMainFrame::SetCurLayerName(const Cactus::String& strLayerName)
 
 void CMainFrame::OnTool_Select()
 {
-
+	ToolManager::getSingleton().SelectTool(eToolSelect);
+}
+void CMainFrame::OnUpdateButton_Select(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(ToolManager::getSingleton().GetCurrentToolType() == eToolSelect);
 }
 
 void CMainFrame::OnTool_Brush()
 {
-
+	ToolManager::getSingleton().SelectTool(eToolBrush);
+}
+void CMainFrame::OnUpdateButton_Brush(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(ToolManager::getSingleton().GetCurrentToolType() == eToolBrush);
 }
 
 void CMainFrame::OnTool_Remove()
 {
-
+	ToolManager::getSingleton().SelectTool(eToolRemove);
+}
+void CMainFrame::OnUpdateButton_Remove(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(ToolManager::getSingleton().GetCurrentToolType() == eToolRemove);
 }

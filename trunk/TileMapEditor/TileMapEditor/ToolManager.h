@@ -22,6 +22,7 @@ public:
 
 	ToolBase*			SelectTool(EToolType e);
 	ToolBase*			GetCurrentTool();
+	EToolType			GetCurrentToolType(){ return _eCurToolType; }
 
 protected:
 

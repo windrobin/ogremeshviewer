@@ -66,8 +66,11 @@ protected:
 	afx_msg void OnUpdateView_PropertyPanel(CCmdUI* pCmdUI);
 
 	afx_msg void OnTool_Select();
+	afx_msg void OnUpdateButton_Select(CCmdUI* pCmdUI);
 	afx_msg void OnTool_Brush();
+	afx_msg void OnUpdateButton_Brush(CCmdUI* pCmdUI);
 	afx_msg void OnTool_Remove();
+	afx_msg void OnUpdateButton_Remove(CCmdUI* pCmdUI);
 
 	DECLARE_MESSAGE_MAP()
 
