@@ -63,7 +63,6 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	pMainFrame->GetPropertyWnd()->Reset();
 
 	pMainFrame->GetMapView()->SetMapObject(&_theMap);
-	pMainFrame->SetCurLayerName(_theMap._strCurLayerName);
 
 	return TRUE;
 }
@@ -114,7 +113,6 @@ BOOL CTileMapEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	MapView* pMapView = pMainFrame->GetMapView();
 	pMapView->Reset();
 	pMapView->SetMapObject(&_theMap);
-	pMainFrame->SetCurLayerName(_theMap._strCurLayerName);
 
 	return TRUE;
 }

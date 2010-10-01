@@ -225,7 +225,10 @@ void Map::Save(const Cactus::String& strPathName)
 		xmlOut.AddAttribute("footnotes", _strFootnotes);
 		xmlOut.AddAttribute("drawgrid", _bDrawGrid);
 		xmlOut.AddAttribute("backgroundcolor", _colBKColor);
-		xmlOut.AddAttribute("curlayer", _strCurLayerName);
+		if (_pCurLayer)
+			xmlOut.AddAttribute("curlayer", _pCurLayer->GetObjectName());
+		else
+			xmlOut.AddAttribute("curlayer", "");
 
 		if (_pMapBackground)
 		{

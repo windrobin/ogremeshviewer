@@ -42,9 +42,10 @@ ToolBase* ToolManager::SelectTool(EToolType e)
 		_tools[_eCurToolType]->OnTurnOff();
 
 		_eCurToolType = e;
+
+		_tools[_eCurToolType]->OnTurnOn();
 	}
 
-	_tools[_eCurToolType]->OnTurnOn();
 	return _tools[_eCurToolType];
 }
 
