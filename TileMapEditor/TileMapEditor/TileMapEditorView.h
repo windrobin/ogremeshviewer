@@ -38,6 +38,8 @@ protected:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 #ifndef _DEBUG  // TileMapEditorView.cpp 中的调试版本

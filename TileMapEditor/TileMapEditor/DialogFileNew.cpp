@@ -12,8 +12,8 @@ IMPLEMENT_DYNAMIC(DialogFileNew, CDialog)
 
 DialogFileNew::DialogFileNew(CWnd* pParent /*=NULL*/)
 	: CDialog(DialogFileNew::IDD, pParent)
-	, _strFootnotes(_T(""))
-	, _strMapName(_T(""))
+	, _strFootnotes(_T("请输入备注。"))
+	, _strMapName(_T("map_xx"))
 {
 	_iMapWidth	= 1024;
 	_iMapHeight	= 1024;
@@ -40,3 +40,22 @@ END_MESSAGE_MAP()
 
 
 // DialogFileNew message handlers
+
+void DialogFileNew::OnOK()
+{
+	UpdateData();
+
+	if (_strMapName.IsEmpty())
+	{
+		MessageBox("地图名不能为空！", "提示", MB_OK | MB_ICONINFORMATION);
+		return;
+	}
+
+	if (_iMapWidth <= 0 || _iMapHeight <= 0 || _iTileSize <= 1 || _iMapHeight < _iTileSize || _iMapWidth < _iTileSize)
+	{
+		MessageBox("请检查地图大小或者Tile大小是否有意义？", "提示", MB_OK | MB_ICONINFORMATION);
+		return;
+	}
+
+	CDialog::OnOK();
+}

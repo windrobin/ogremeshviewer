@@ -26,7 +26,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
-
+	afx_msg void OnNMDblclkListItem(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnClassAddMemberFunction();
 
 	DECLARE_MESSAGE_MAP()

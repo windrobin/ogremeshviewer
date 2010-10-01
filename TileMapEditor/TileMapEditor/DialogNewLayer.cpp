@@ -39,3 +39,21 @@ END_MESSAGE_MAP()
 
 
 // DialogNewLayer message handlers
+void DialogNewLayer::OnOK()
+{
+	UpdateData();
+
+	if (_strLayerName.IsEmpty())
+	{
+		MessageBox("层名不能为空！", "提示", MB_OK | MB_ICONINFORMATION);
+		return;
+	}
+
+	if (_iWidth <= 0 || _iHeight <= 0 || _iTileSize <= 1 || _iHeight < _iTileSize || _iWidth < _iTileSize)
+	{
+		MessageBox("请检查层大小或者Tile大小是否有意义？", "提示", MB_OK | MB_ICONINFORMATION);
+		return;
+	}
+
+	CDialog::OnOK();
+}

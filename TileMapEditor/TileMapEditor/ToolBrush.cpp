@@ -28,6 +28,9 @@ void ToolBrush::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	ToolBase::OnLButtonDown(nFlags, point);
 
+	if (!_bDrawCursor)
+		return;
+
 	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
 	if (!pLayer)
 		return;
@@ -48,6 +51,9 @@ void ToolBrush::OnLButtonUp(UINT nFlags, CPoint point)
 void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 {
 	ToolBase::OnMouseMove(nFlags, point);
+
+	if (!_bDrawCursor)
+		return;
 
 	if ( (nFlags & MK_LBUTTON) == MK_LBUTTON)
 	{

@@ -79,12 +79,18 @@ void MapLayer::Draw(CDC* pDC)
 	}
 }
 
-CRect MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY)
+bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
 {
+	if (pt.x > _iWidth || pt.y > _iHeight)
+	{
+		return false;
+	}
+
 	gridX	= pt.x / _iTileWidth;
 	gridY	= pt.y / _iTileHeight;
 
-	return CRect(CPoint(gridX * _iTileWidth, gridY * _iTileHeight), CSize(_iTileWidth, _iTileHeight));
+	rc = CRect(CPoint(gridX * _iTileWidth, gridY * _iTileHeight), CSize(_iTileWidth, _iTileHeight));
+	return true;
 }
 
 bool MapLayer::ModifyTile(int gridX, int gridY, const Cactus::String& resKey, const Cactus::String& strID)
