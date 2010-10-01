@@ -64,6 +64,11 @@ protected:
 	afx_msg void OnUpdateView_OutputPanel(CCmdUI* pCmdUI);
 	afx_msg void OnView_PropertyPanel();
 	afx_msg void OnUpdateView_PropertyPanel(CCmdUI* pCmdUI);
+
+	afx_msg void OnTool_Select();
+	afx_msg void OnTool_Brush();
+	afx_msg void OnTool_Remove();
+
 	DECLARE_MESSAGE_MAP()
 
 	void InitializeRibbon();
