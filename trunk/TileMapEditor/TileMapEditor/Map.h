@@ -25,11 +25,17 @@ public:
 
 	virtual Cactus::String		GetObjectName(){ return _strName; }
 
+	//设置当前Layer，如果Layer不可见，设置为可见，并负责刷新Ribbon和View
 	void						SetCurLayer(MapLayer* pLayer);
 	MapLayer*					GetCurLayer(){ return _pCurLayer; }
 
+	//如果是唯一的Layer，将被设置为当前的
 	bool						AddLayer(MapLayer* pLayer);
+
 	void						RemoveLayer(MapLayer* pLayer);
+
+	//bMakeCurrent只有在bShow为true时才有用
+	void						ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent = false);
 
 protected:
 	Cactus::String		_strName;

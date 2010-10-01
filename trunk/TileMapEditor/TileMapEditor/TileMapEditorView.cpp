@@ -26,6 +26,7 @@ BEGIN_MESSAGE_MAP(CTileMapEditorView, CScrollView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CTileMapEditorView 构造/析构
@@ -55,6 +56,8 @@ void CTileMapEditorView::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 
+	pDC->OffsetViewportOrg(50, 50);
+
 	MemDC memDC(pDC);
 
 	pDoc->GetMap().Draw(&memDC);
@@ -66,8 +69,8 @@ void CTileMapEditorView::OnInitialUpdate()
 	CScrollView::OnInitialUpdate();
 
 	CSize sizeTotal;
-	sizeTotal.cx	= GetDocument()->GetMap()._iWidth;
-	sizeTotal.cy	= GetDocument()->GetMap()._iHeight;
+	sizeTotal.cx	= GetDocument()->GetMap()._iWidth + 100;
+	sizeTotal.cy	= GetDocument()->GetMap()._iHeight + 100;
 	SetScrollSizes(MM_TEXT, sizeTotal);
 }
 
@@ -109,8 +112,8 @@ CTileMapEditorDoc* CTileMapEditorView::GetDocument() const // 非调试版本是内联的
 void CTileMapEditorView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 {
 	CSize sizeTotal;
-	sizeTotal.cx	= GetDocument()->GetMap()._iWidth;
-	sizeTotal.cy	= GetDocument()->GetMap()._iHeight;
+	sizeTotal.cx	= GetDocument()->GetMap()._iWidth + 100;
+	sizeTotal.cy	= GetDocument()->GetMap()._iHeight + 100;
 	SetScrollSizes(MM_TEXT, sizeTotal);
 
 	CScrollView::OnPrepareDC(pDC, pInfo);
@@ -120,6 +123,7 @@ void CTileMapEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CPoint ptLP = point;
 	ptLP.Offset( GetScrollPosition() );
+	ptLP.Offset(-50, -50);
 	ToolManager::getSingleton().GetCurrentTool()->OnLButtonDown(nFlags, ptLP);
 
 	CScrollView::OnLButtonDown(nFlags, point);
@@ -129,6 +133,7 @@ void CTileMapEditorView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	CPoint ptLP = point;
 	ptLP.Offset( GetScrollPosition() );
+	ptLP.Offset(-50, -50);
 	ToolManager::getSingleton().GetCurrentTool()->OnLButtonUp(nFlags, ptLP);
 
 	CScrollView::OnLButtonUp(nFlags, point);
@@ -138,6 +143,7 @@ void CTileMapEditorView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	CPoint ptLP = point;
 	ptLP.Offset( GetScrollPosition() );
+	ptLP.Offset(-50, -50);
 	ToolManager::getSingleton().GetCurrentTool()->OnMouseMove(nFlags, ptLP);
 
 	CScrollView::OnMouseMove(nFlags, point);
@@ -147,6 +153,14 @@ void CTileMapEditorView::LogicInvalidate(CRect rc)
 {
 	CPoint pt = GetScrollPosition();
 	rc.OffsetRect(-pt);
+	rc.OffsetRect(50, 50);
 
 	InvalidateRect(rc);
+}
+
+BOOL CTileMapEditorView::OnEraseBkgnd(CDC* pDC)
+{
+	//return CScrollView::OnEraseBkgnd(pDC);
+
+	return TRUE;
 }

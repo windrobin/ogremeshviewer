@@ -238,7 +238,7 @@ void CMainFrame::InitializeRibbon()
 	CMFCRibbonLabel* pLabel = new CMFCRibbonLabel("当前层：");
 	pPanelMapEdit->Add(pLabel);
 
-	_pCurLayerLabel = new CMFCRibbonLabel("            ");
+	_pCurLayerLabel = new CMFCRibbonLabel("                ");
 	pPanelMapEdit->Add(_pCurLayerLabel);
 
 	pPanelMapEdit->Add(new CMFCRibbonButton(ID_EDIT_COPY, "选取工具", 0, 0));

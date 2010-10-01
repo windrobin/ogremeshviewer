@@ -3,6 +3,9 @@
 #include "MapBackground.h"
 #include "MapLayer.h"
 
+#include "MainFrm.h"
+#include "TileMapEditorView.h"
+
 using namespace Cactus;
 using namespace PropertySys;
 
@@ -68,7 +71,7 @@ public:
 			if (_map._strCurLayerName == _pCurLayer->_strName)
 			{
 				_pCurLayer->_bVisible = true;
-				_map._pCurLayer = _pCurLayer;
+				_map.SetCurLayer(_pCurLayer);
 			}
 		}
 		else if ( currentElementMatch("tilemap/layers/layer/tilegroup/") )
@@ -337,20 +340,76 @@ void Map::Draw(CDC* pDC)
 
 void Map::SetCurLayer(MapLayer* pLayer)
 {
+	MapLayer* pOldLayer = _pCurLayer;
+
 	_pCurLayer = pLayer;
+
+	if (_pCurLayer)
+	{
+		_pCurLayer->SetVisible(true);
+		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(_pCurLayer->GetObjectName());
+	}
+	else
+	{
+		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName("");
+	}
+
+	if (pOldLayer || _pCurLayer)
+	{
+		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		pView->Invalidate(TRUE);
+	}
 }
 
 bool Map::AddLayer(MapLayer* pLayer)
 {
 	_layers.push_back(pLayer);
+	if (_layers.size() == 1)
+	{
+		SetCurLayer(pLayer);
+	}
 	return true;
 }
 
 void Map::RemoveLayer(MapLayer* pLayer)
 {
+	bool bIsCurrent = (_pCurLayer == pLayer);
+
 	MapLayerListType::iterator it = find(_layers.begin(), _layers.end(), pLayer);
 	if (it != _layers.end())
 	{
 		_layers.erase(it);
 	}
+	else
+	{
+		return;
+	}
+
+	CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+	pView->Invalidate(TRUE);
+}
+
+void Map::ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent)
+{
+	bool bIsCurrent = (_pCurLayer == pLayer);
+
+	if (pLayer->IsVisible() == bShow)
+	{
+		return;
+	}
+
+	pLayer->SetVisible(bShow);
+
+	if (bIsCurrent && !bShow)
+	{
+		SetCurLayer(0);
+	}
+	else if (bMakeCurrent || _layers.size() == 1)
+	{
+		_pCurLayer = pLayer;
+		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(_pCurLayer->GetObjectName());
+	}
+
+	CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+	pView->Invalidate(TRUE);
 }

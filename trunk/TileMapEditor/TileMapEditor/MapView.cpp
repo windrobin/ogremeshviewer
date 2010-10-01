@@ -282,16 +282,8 @@ void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			MapLayer* pLayer = (MapLayer*)ptr;
 			BOOL b = _TreeMapItem.GetCheck(hItem);	//得到的状态是点击前的...
-			pLayer->SetVisible( b == FALSE );
 
-			if (b == TRUE && ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer() == pLayer)
-			{
-				ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(0);
-				((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName("");
-			}
-
-			CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-			pView->Invalidate(TRUE);
+			ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(pLayer, b == FALSE);
 		}
 	}
 
@@ -319,10 +311,6 @@ void MapView::OnNMDblclkTree(NMHDR *pNMHDR, LRESULT *pResult)
 			}
 
 			ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(pLayer);
-			
-			((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(pLayer->GetObjectName());
-			CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-			pView->Invalidate(TRUE);
 		}
 	}
 
@@ -366,17 +354,8 @@ void MapView::OnLayerSetCurrent()
 {
 	if(_pSelectedLayer)
 	{
-		if (!_pSelectedLayer->IsVisible())
-		{
-			_pSelectedLayer->SetVisible(true);
-			_TreeMapItem.SetCheck(_hSelectedItem);
-		}
-
+		_TreeMapItem.SetCheck(_hSelectedItem);
 		ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(_pSelectedLayer);
-
-		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(_pSelectedLayer->GetObjectName());
-		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-		pView->Invalidate(TRUE);
 	}
 }
 
@@ -393,6 +372,7 @@ void MapView::OnLayerInsert()
 		pLayer->_iTileHeight	= dlg._iTileSize;
 
 		ToolManager::getSingleton().GetDocument()->GetMap().AddLayer(pLayer);
+
 		HTREEITEM hItem = _TreeMapItem.InsertItem(pLayer->GetObjectName().c_str(), 3, 3, _hLayerRoot);
 		_TreeMapItem.SetItemData(hItem, (DWORD_PTR)pLayer);
 		_TreeMapItem.SetCheck(hItem, pLayer->IsVisible());
@@ -406,12 +386,9 @@ void MapView::OnLayerShow()
 	{
 		if (!_pSelectedLayer->IsVisible())
 		{
-			_pSelectedLayer->SetVisible(true);
 			_TreeMapItem.SetCheck(_hSelectedItem);
 
-			((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(_pSelectedLayer->GetObjectName());
-			CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-			pView->Invalidate(TRUE);
+			ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(_pSelectedLayer, true, false);
 		}
 	}
 }
@@ -422,17 +399,9 @@ void MapView::OnLayerHide()
 	{
 		if (_pSelectedLayer->IsVisible())
 		{
-			_pSelectedLayer->SetVisible(false);
 			_TreeMapItem.SetCheck(_hSelectedItem, 0);
 
-			if (ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer() == _pSelectedLayer)
-			{
-				ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(0);
-				((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName("");
-			}
-
-			CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-			pView->Invalidate(TRUE);
+			ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(_pSelectedLayer, false, false);
 		}
 	}
 }
@@ -448,16 +417,7 @@ void MapView::OnLayerRemove()
 	{
 		_TreeMapItem.DeleteItem(_hSelectedItem);
 
-		if (ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer() == _pSelectedLayer)
-		{
-			ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(0);
-			((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName("");
-		}
-
 		ToolManager::getSingleton().GetDocument()->GetMap().RemoveLayer(_pSelectedLayer);
-
-		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-		pView->Invalidate(TRUE);
 	}
 }
 

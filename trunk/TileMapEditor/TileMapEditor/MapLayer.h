@@ -31,7 +31,7 @@ public:
 	virtual Cactus::String	GetObjectName(){ return _strName; }
 	virtual bool			IsLayer(){ return true; }
 
-	CRect					ToolHitTest(CPoint pt, int& gridX, int& gridY);
+	bool					ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc);
 
 	bool					ModifyTile(int gridX, int gridY, const Cactus::String& resKey, const Cactus::String& strID);
 	bool					ClearTile(int gridX, int gridY);

@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(TileResView, CDockablePane)
 	ON_WM_SETFOCUS()
 	ON_COMMAND(ID_CLASS_ADD_MEMBER_FUNCTION, OnClassAddMemberFunction)
 	ON_NOTIFY(LVN_ITEMCHANGED, M_ListCtrl_ID, OnItemChanged)
+	ON_NOTIFY(NM_DBLCLK, M_ListCtrl_ID, &TileResView::OnNMDblclkListItem)
 
 	//ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
 	//ON_UPDATE_COMMAND_UI_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnUpdateSort)
@@ -168,3 +169,23 @@ void TileResView::OnItemChanged(NMHDR *pNMHDR, LRESULT *pResult)
 
 }
 
+void TileResView::OnNMDblclkListItem(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	//LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR); 
+
+	//if (_iOldCheck != -1)
+	//{
+	//	_listImages.SetCheck(_iOldCheck, FALSE);
+	//}
+
+	//_iOldCheck = pNMLV->iItem;
+	//_listImages.SetCheck(_iOldCheck, TRUE);
+
+	//CString str = _listImages.GetItemText(_iOldCheck, 0);
+
+	////Set brush tool
+	//ToolBrush* pBrush = (ToolBrush*)ToolManager::getSingleton().SelectTool(eToolBrush);
+	//pBrush->SetResource(_strResKey, (LPCTSTR)str);
+
+	*pResult = 0;
+}

@@ -41,7 +41,7 @@ void ToolBase::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!pLayer)
 		return;
 
-	_rcTile = pLayer->ToolHitTest(point, _iGridX, _iGridY);
+	_bDrawCursor = pLayer->ToolHitTest(point, _iGridX, _iGridY, _rcTile);
 }
 
 void ToolBase::OnLButtonUp(UINT nFlags, CPoint point)
@@ -58,10 +58,12 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 		return;
 	}
 
-	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-
 	int gridX, gridY;
-	CRect rc = pLayer->ToolHitTest(point, gridX, gridY);
+	CRect rc;
+	if(!pLayer->ToolHitTest(point, gridX, gridY, rc))
+		return;
+
+	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
 	if (gridX != _iGridX || gridY != _iGridY)
 	{
 		if (_bDrawCursor)
