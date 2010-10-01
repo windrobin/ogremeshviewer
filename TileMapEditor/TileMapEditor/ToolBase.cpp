@@ -61,7 +61,10 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 	int gridX, gridY;
 	CRect rc;
 	if(!pLayer->ToolHitTest(point, gridX, gridY, rc))
+	{
+		_bDrawCursor = false;
 		return;
+	}
 
 	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
 	if (gridX != _iGridX || gridY != _iGridY)
