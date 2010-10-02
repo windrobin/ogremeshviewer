@@ -74,6 +74,6 @@ protected:
 	Cactus::String		_strFileExt;
 	int					_iBits;
 
-	typedef Cactus::map<int, CxImage*>::type	IDImageMapType;
+	typedef Cactus::map<Cactus::String, CxImage*>::type	IDImageMapType;
 	IDImageMapType		_images;
 };

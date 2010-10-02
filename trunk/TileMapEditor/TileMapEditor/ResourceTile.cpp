@@ -114,7 +114,7 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 		dcMem.BitBlt(0, 0, _tileWidth, _tileHeight, &dcBmp, (i % iLineCount) * _tileWidth, (i / iLineCount) * _tileHeight, SRCCOPY);
 		dcMem.SelectObject(bmpOld);
 
-		_imageList.Add(bmpTile, (CBitmap*)0);
+		_imageList.Add(bmpTile, RGB(0, 0, 0));
 
 		osCap.str("");
 		osCap << i;
@@ -144,7 +144,8 @@ void ResourceTileSingleImage::Draw(CDC* pDC, int posX, int posY, const Cactus::S
 	memDC.CreateCompatibleDC(pDC);
 	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
 
-	pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
+	//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
+	pDC->TransparentBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, _tileWidth, _tileHeight, 0);
 
 	memDC.SelectObject(pOldBmp);
 }
@@ -194,11 +195,11 @@ bool ResourceTileFolder::Load()
 		{
 			if (pImage->GetWidth() == _tileWidth && pImage->GetHeight() == _tileHeight)
 			{
-				_images[i] = pImage;
-
 				osCap.str("");
 				osCap << i;
 				_captions.push_back(osCap.str());
+
+				_images[osCap.str()] = pImage;
 
 				_BitmapTiles[osCap.str()] = 0;
 
@@ -236,7 +237,7 @@ void ResourceTileFolder::CreateImageList(CDC* pDC)
 
 		dcMem.SelectObject(bmpOld);
 
-		_imageList.Add(bmpTile, (CBitmap*)0);
+		_imageList.Add(bmpTile, RGB(0, 0, 0));
 
 		itBmp->second = bmpTile;
 		itBmp++;
@@ -249,6 +250,7 @@ void ResourceTileFolder::Draw(CDC* pDC, int posX, int posY, const Cactus::String
 {
 	CreateImageList(pDC);
 
+#if 0
 	if (_BitmapTiles.find(strID) == _BitmapTiles.end())
 	{
 		Log_Error("ResourceTileFolder::Draw, can not find Resource for " << strID);
@@ -261,9 +263,23 @@ void ResourceTileFolder::Draw(CDC* pDC, int posX, int posY, const Cactus::String
 	memDC.CreateCompatibleDC(pDC);
 	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
 
-	pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
+	//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
+	pDC->TransparentBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, _tileWidth, _tileHeight, 0);
 
 	memDC.SelectObject(pOldBmp);
+
+#else
+
+	if (_images.find(strID) == _images.end())
+	{
+		Log_Error("ResourceTileFolder::Draw, can not find Resource for " << strID);
+		return;
+	}
+
+	CxImage* pImage = _images[strID];
+	pImage->Draw(pDC->GetSafeHdc(), posX, posY);
+
+#endif
 }
 
 //---------------------------------------------------------------------------------------------------------
