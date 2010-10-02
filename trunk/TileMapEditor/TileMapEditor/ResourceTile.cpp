@@ -111,6 +111,7 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 		bmpTile->CreateCompatibleBitmap(pDC, _tileWidth, _tileHeight);
 		bmpOld = dcMem.SelectObject(bmpTile);
 
+		dcMem.FillSolidRect(0, 0, _tileWidth, _tileHeight, RGB(255, 255, 255));
 		dcMem.BitBlt(0, 0, _tileWidth, _tileHeight, &dcBmp, (i % iLineCount) * _tileWidth, (i / iLineCount) * _tileHeight, SRCCOPY);
 		dcMem.SelectObject(bmpOld);
 
@@ -235,6 +236,7 @@ void ResourceTileFolder::CreateImageList(CDC* pDC)
 		bmpTile->CreateCompatibleBitmap(pDC, _tileWidth, _tileHeight);
 		bmpOld = dcMem.SelectObject(bmpTile);
 
+		dcMem.FillSolidRect(0, 0, _tileWidth, _tileHeight, RGB(255, 255, 255));
 		it->second->Draw(dcMem.GetSafeHdc());
 
 		dcMem.SelectObject(bmpOld);
