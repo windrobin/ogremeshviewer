@@ -23,11 +23,14 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-class COutputWnd : public CDockablePane
+class COutputWnd : public CDockablePane, public Cactus::ILogListener
 {
 // ππ‘Ï
 public:
 	COutputWnd();
+
+	virtual void	OnLogContent(const char* loggerName, Cactus::ELogLevel elevel, const char* content);
+
 
 //  Ù–‘
 protected:
@@ -35,14 +38,11 @@ protected:
 
 	CMFCTabCtrl	m_wndTabs;
 
-	COutputList m_wndOutputBuild;
-	COutputList m_wndOutputDebug;
-	COutputList m_wndOutputFind;
+	COutputList m_wndOutputLog;
+	//COutputList m_wndOutputDebug;
+	//COutputList m_wndOutputFind;
 
 protected:
-	void FillBuildWindow();
-	void FillDebugWindow();
-	void FillFindWindow();
 
 	void AdjustHorzScroll(CListBox& wndListBox);
 
