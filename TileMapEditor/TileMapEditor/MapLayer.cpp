@@ -37,6 +37,11 @@ void MapLayer::RegisterReflection()
 
 void MapLayer::OnPropertyChanged(const std::string& propName)
 {
+	if (propName == "DrawGrid")
+	{
+		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		pView->Invalidate(TRUE);
+	}
 }
 
 void MapLayer::Draw(CDC* pDC)

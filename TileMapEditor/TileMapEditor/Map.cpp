@@ -181,6 +181,11 @@ void Map::RegisterReflection()
 
 void Map::OnPropertyChanged(const std::string& propName)
 {
+	if (propName == "DrawGrid")
+	{
+		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		pView->Invalidate(TRUE);
+	}
 }
 
 bool Map::Load(const Cactus::String& strPathName)

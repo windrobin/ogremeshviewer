@@ -83,7 +83,7 @@ int MapView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 	// 创建视图:
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_CHECKBOXES | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
+	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_TRACKSELECT;
 	if (!_TreeMapItem.Create(dwViewStyle, rectDummy, this, M_TreeID))
 	{
 		TRACE0("未能创建类视图\n");
@@ -275,15 +275,40 @@ void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 
 	UINT uFlag;
 	HTREEITEM hItem = _TreeMapItem.HitTest(point, &uFlag);
-	if (hItem && (TVHT_ONITEMSTATEICON & uFlag))
+	if (!hItem)
+		return;
+
+	if (TVHT_ONITEMSTATEICON & uFlag)	//点击的是CheckBox
 	{
 		DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
 		if(ptr)
 		{
 			MapLayer* pLayer = (MapLayer*)ptr;
 			BOOL b = _TreeMapItem.GetCheck(hItem);	//得到的状态是点击前的...
+			if (b == TRUE)
+			{
+				ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(pLayer, false);
+			}
+			else
+			{
+				ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(pLayer, true, true);
+			}
+		}
+	}
+	else
+	{
+		DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
+		if (ptr)
+		{
+			MapBaseObject* pObject = (MapBaseObject*)ptr;
 
-			ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(pLayer, b == FALSE);
+			if (pObject->IsLayer())
+			{
+				MapLayer* pLayer = (MapLayer*)pObject;
+
+				if (pLayer->IsVisible())
+					ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(pLayer);
+			}
 		}
 	}
 
@@ -297,7 +322,6 @@ void MapView::OnNMDblclkTree(NMHDR *pNMHDR, LRESULT *pResult)
 	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
 	if (ptr)
 	{
-		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 		MapBaseObject* pObject = (MapBaseObject*)ptr;
 
 		if (pObject->IsLayer())
