@@ -194,11 +194,18 @@ namespace Cactus
 
 		Cactus::vector<IAppender*>::type	_Appenders;
 
-		ILogFormat*		_pLogFormat;
+		ILogFormat*			_pLogFormat;
 
 		ThreadMutex			_mutex;
-		ELogLevel		_level;
+		ELogLevel			_level;
 		Cactus::String		_name;
+	};
+
+	//-----------------------------------------------------------------------
+	class COMMONUTIL_API ILogListener
+	{
+	public:
+		virtual void	OnLogContent(const char* loggerName, ELogLevel elevel, const char* content) = 0;
 	};
 
 	//-----------------------------------------------------------------------
@@ -211,27 +218,28 @@ namespace Cactus
 		// Give the log level and File configurable.
 		LogManager(ELogLevel eDefault = eLogLevelInfo, const char* logFileName = "default.log");
 
-		// LogManager will be in charge of deleting it.
-		bool		AddLog(ILog* pLog);
-
 		~LogManager();
 
-		ILog*		GetLog(const Cactus::String& name);
+		// LogManager will be in charge of deleting it.
+		bool				AddLog(ILog* pLog);
 
-		ILog*		GetDefaultLog()
-		{
-			return _pDefaultLog;
-		}
+		ILog*				GetLog(const Cactus::String& name);
 
-		void		Flush();
+		ILog*				GetDefaultLog(){ return _pDefaultLog; }
+
+		void				Flush();
 
 		static ELogLevel	GetLogLevelFromString(const Cactus::String& str);
 
+		ILogListener*		GetLogListener(){ return _pLogListener; }
+		void				SetLogListener(ILogListener* pListener){ _pLogListener = pListener; }
+
 	protected:
 		typedef Cactus::map<Cactus::String, ILog*>::type LogMap;
-		LogMap		_logMap;
+		LogMap			_logMap;
 
-		ILog*		_pDefaultLog;
+		ILog*			_pDefaultLog;
+		ILogListener*	_pLogListener;
 	};
 }
 
