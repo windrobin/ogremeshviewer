@@ -132,6 +132,7 @@ void ResourceTileSingleImage::Draw(CDC* pDC, int posX, int posY, const Cactus::S
 {
 	CreateImageList(pDC);
 
+
 	if (_BitmapTiles.find(strID) == _BitmapTiles.end())
 	{
 		Log_Error("ResourceTileSingleImage::Draw, can not find Resource for " << strID);
@@ -148,6 +149,7 @@ void ResourceTileSingleImage::Draw(CDC* pDC, int posX, int posY, const Cactus::S
 	pDC->TransparentBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, _tileWidth, _tileHeight, 0);
 
 	memDC.SelectObject(pOldBmp);
+
 }
 
 //---------------------------------------------------------------------------------------------------------
