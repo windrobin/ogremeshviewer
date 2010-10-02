@@ -69,7 +69,7 @@ void ResourceBackground::CreateImageList(CDC* pDC)
 	_pBmp = new CBitmap;
 	_pBmp->Attach(hBmp);
 
-	_imageList.Add(_pBmp, (CBitmap*)0);
+	_imageList.Add(_pBmp, RGB(0, 0, 0));
 	_captions.push_back(_strName);
 
 	_bHasImageList = true;
