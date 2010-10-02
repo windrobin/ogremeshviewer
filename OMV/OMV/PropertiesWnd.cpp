@@ -196,6 +196,7 @@ void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
 void CPropertiesWnd::AddPropertyData()
 {
 	_reflectiveUI.BuildUIForObject(0, OgreFramework::getSingleton().getSingletonPtr(), "Configs");
+	m_wndPropList.ExpandAll();
 }
 
 void CPropertiesWnd::InitPropList()
