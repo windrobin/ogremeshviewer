@@ -13,9 +13,8 @@ IMPLEMENT_DYNAMIC(DialogNewLayer, CDialog)
 DialogNewLayer::DialogNewLayer(CWnd* pParent /*=NULL*/)
 	: CDialog(DialogNewLayer::IDD, pParent)
 	, _strLayerName(_T("layer_xx"))
-	, _iWidth(1024)
-	, _iHeight(1024)
-	, _iTileSize(64)
+	, _iWInTiles(1)
+	, _iHInTiles(1)
 {
 
 }
@@ -28,9 +27,8 @@ void DialogNewLayer::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_LAYERNAME, _strLayerName);
-	DDX_Text(pDX, IDC_EDIT_WIDTH, _iWidth);
-	DDX_Text(pDX, IDC_EDIT_HEIGHT, _iHeight);
-	DDX_Text(pDX, IDC_EDIT_TILE_SIZE, _iTileSize);
+	DDX_Text(pDX, IDC_EDIT_WIDTH, _iWInTiles);
+	DDX_Text(pDX, IDC_EDIT_HEIGHT, _iHInTiles);
 }
 
 
@@ -49,9 +47,9 @@ void DialogNewLayer::OnOK()
 		return;
 	}
 
-	if (_iWidth <= 0 || _iHeight <= 0 || _iTileSize <= 1 || _iHeight < _iTileSize || _iWidth < _iTileSize)
+	if (_iWInTiles < 1 || _iHInTiles < 1)
 	{
-		MessageBox("请检查层大小或者Tile大小是否有意义？", "提示", MB_OK | MB_ICONINFORMATION);
+		MessageBox("请检查层的Tile大小是否有意义？", "提示", MB_OK | MB_ICONINFORMATION);
 		return;
 	}
 

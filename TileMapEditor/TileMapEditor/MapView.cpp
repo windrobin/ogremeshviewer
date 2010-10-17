@@ -389,11 +389,10 @@ void MapView::OnLayerInsert()
 	if (dlg.DoModal() == IDOK)
 	{
 		MapLayer* pLayer = new MapLayer;
+		pLayer->_pParentMap		= &ToolManager::getSingleton().GetDocument()->GetMap();
 		pLayer->_strName		= (LPCTSTR)dlg._strLayerName;
-		pLayer->_iWidth			= dlg._iWidth;
-		pLayer->_iHeight		= dlg._iHeight;
-		pLayer->_iTileWidth		= dlg._iTileSize;
-		pLayer->_iTileHeight	= dlg._iTileSize;
+		pLayer->_iWidthInTiles	= dlg._iWInTiles;
+		pLayer->_iHeightInTiles	= dlg._iHInTiles;
 
 		ToolManager::getSingleton().GetDocument()->GetMap().AddLayer(pLayer);
 

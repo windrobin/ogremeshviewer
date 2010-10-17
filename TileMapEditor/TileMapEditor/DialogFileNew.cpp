@@ -15,9 +15,10 @@ DialogFileNew::DialogFileNew(CWnd* pParent /*=NULL*/)
 	, _strFootnotes(_T("请输入备注。"))
 	, _strMapName(_T("map_xx"))
 {
-	_iMapWidth	= 1024;
-	_iMapHeight	= 1024;
-	_iTileSize	= 64;
+	_iMapWidth			= 20;
+	_iMapHeight			= 20;
+	_iUnitTileWidth		= 64;
+	_iUnitTileHeight	= 64;
 }
 
 DialogFileNew::~DialogFileNew()
@@ -29,7 +30,8 @@ void DialogFileNew::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_WIDTH, _iMapWidth);
 	DDX_Text(pDX, IDC_EDIT_HEIGHT, _iMapHeight);
-	DDX_Text(pDX, IDC_EDIT_TILE_SIZE, _iTileSize);
+	DDX_Text(pDX, IDC_EDIT_TILE_WIDTH, _iUnitTileWidth);
+	DDX_Text(pDX, IDC_EDIT_TILE_HEIGHT, _iUnitTileHeight);
 	DDX_Text(pDX, IDC_EDIT_FOOTNOTES, _strFootnotes);
 	DDX_Text(pDX, IDC_EDIT_MAPNAME, _strMapName);
 }
@@ -51,7 +53,8 @@ void DialogFileNew::OnOK()
 		return;
 	}
 
-	if (_iMapWidth <= 0 || _iMapHeight <= 0 || _iTileSize <= 1 || _iMapHeight < _iTileSize || _iMapWidth < _iTileSize)
+	if (_iMapWidth < 1 || _iMapHeight < 1
+		|| _iUnitTileWidth < 1 || _iUnitTileHeight < 1)
 	{
 		MessageBox("请检查地图大小或者Tile大小是否有意义？", "提示", MB_OK | MB_ICONINFORMATION);
 		return;

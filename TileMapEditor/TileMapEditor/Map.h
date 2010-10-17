@@ -11,6 +11,7 @@ class Map : public PropertySys::SupportRTTI<Map, MapBaseObject>
 	friend class CTileMapEditorView;
 	friend class CTileMapEditorDoc;
 	friend class MapView;
+	friend class MapLayer;
 public:
 	Map();
 	~Map();
@@ -43,12 +44,12 @@ protected:
 	Cactus::String		_strCurLayerName;
 	int					_iWidth;
 	int					_iHeight;
-	int					_iTileWidthDefault;
-	int					_iTileHeightDefault;
+	int					_iUnitTileWidth;
+	int					_iUnitTileHeight;
 	int					_iVersion;
 
-	bool				_bDrawGrid;
-	//COLORREF			_colGridColor;
+	EMapType			_eMapType;
+
 	COLORREF			_colBKColor;
 
 	MapBackground*		_pMapBackground;

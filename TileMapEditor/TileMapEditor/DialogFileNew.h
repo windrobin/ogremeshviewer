@@ -21,9 +21,10 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	int _iMapWidth;
-	int _iMapHeight;
-	int _iTileSize;
+	int		_iMapWidth;
+	int		_iMapHeight;
+	int		_iUnitTileWidth;
+	int		_iUnitTileHeight;
 	CString _strFootnotes;
 	CString _strMapName;
 };

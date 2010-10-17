@@ -38,11 +38,11 @@ public:
 	bool					GetTileInfo(int gridX, int gridY, STile& tile, Cactus::String& resKey);
 
 protected:
+	Map*				_pParentMap;
+
 	Cactus::String		_strName;
-	int					_iWidth;
-	int					_iHeight;
-	int					_iTileWidth;
-	int					_iTileHeight;
+	int					_iWidthInTiles;			//in map UnitTile
+	int					_iHeightInTiles;		//in map UnitTile
 	bool				_bEnable;
 
 	bool				_bDrawGrid;

@@ -53,8 +53,8 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	_theMap._strFootnotes		= (LPCTSTR)dlg._strFootnotes;
 	_theMap._iWidth				= dlg._iMapWidth;
 	_theMap._iHeight			= dlg._iMapHeight;
-	_theMap._iTileWidthDefault	= dlg._iTileSize;
-	_theMap._iTileHeightDefault	= dlg._iTileSize;
+	_theMap._iUnitTileWidth		= dlg._iUnitTileWidth;
+	_theMap._iUnitTileHeight	= dlg._iUnitTileHeight;
 
 	ToolManager::getSingleton().SetDocument(this);
 
