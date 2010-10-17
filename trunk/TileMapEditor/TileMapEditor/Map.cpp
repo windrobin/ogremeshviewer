@@ -26,10 +26,9 @@ public:
 			_map._strName				= attributes.getValueAsString("name");
 			_map._iWidth				= attributes.getValueAsInteger("width");
 			_map._iHeight				= attributes.getValueAsInteger("height");
-			_map._iTileWidthDefault		= attributes.getValueAsInteger("tilew");
-			_map._iTileHeightDefault	= attributes.getValueAsInteger("tileh");
+			_map._iUnitTileWidth		= attributes.getValueAsInteger("wUnitTile");
+			_map._iUnitTileHeight		= attributes.getValueAsInteger("hUnitTile");
 			_map._strFootnotes			= attributes.getValueAsString("footnotes");
-			_map._bDrawGrid				= attributes.getValueAsBool("drawgrid");
 			_map._colBKColor			= attributes.getValueAsInteger("backgroundcolor");
 			_map._strCurLayerName		= attributes.getValueAsString("curlayer");
 		}
@@ -57,12 +56,11 @@ public:
 			//<layer name="layer0" enable="true" width="1024" height="1024" tilew="64" tileh="64">
 
 			_pCurLayer = new MapLayer;
+			_pCurLayer->_pParentMap		= &_map;
 			_pCurLayer->_strName		= attributes.getValueAsString("name");
 			_pCurLayer->_bEnable		= attributes.getValueAsBool("enable");
-			_pCurLayer->_iWidth			= attributes.getValueAsInteger("width");
-			_pCurLayer->_iHeight		= attributes.getValueAsInteger("height");
-			_pCurLayer->_iTileWidth		= attributes.getValueAsInteger("tilew");
-			_pCurLayer->_iTileHeight	= attributes.getValueAsInteger("tileh");
+			_pCurLayer->_iWidthInTiles	= attributes.getValueAsInteger("wInTiles");
+			_pCurLayer->_iHeightInTiles	= attributes.getValueAsInteger("hInTiles");
 			_pCurLayer->_bDrawGrid		= attributes.getValueAsBool("drawgrid");
 			_pCurLayer->_bVisible		= attributes.getValueAsBool("visible");
 
@@ -138,12 +136,12 @@ Map::Map()
 , _pMapBackground(0)
 , _iWidth(1024)
 , _iHeight(1024)
-, _iTileHeightDefault(64)
-, _iTileWidthDefault(64)
-, _bDrawGrid(true)
+, _iUnitTileWidth(64)
+, _iUnitTileHeight(64)
 , _colBKColor(0)
 , _pCurLayer(0)
 , _strCurLayerName("")
+, _eMapType(eRectangle)
 {
 }
 
@@ -168,24 +166,15 @@ void Map::RegisterReflection()
 
 	pProp = M_RegisterPropertySimple(int, Width, Map, Map, "地图宽度.", BaseProperty::eDefault, _iWidth);
 	pProp = M_RegisterPropertySimple(int, Height, Map, Map, "地图高度.", BaseProperty::eDefault, _iHeight);
-	pProp = M_RegisterPropertySimple(int, DefaultTileWidth, Map, Map, "缺省的Tile宽度.", BaseProperty::eDefault, _iTileWidthDefault);
-	pProp = M_RegisterPropertySimple(int, DefaultTileHeight, Map, Map, "缺省的Tile高.", BaseProperty::eDefault, _iTileHeightDefault);
+	pProp = M_RegisterPropertySimple(int, UnitTileWidth, Map, Map, "最小Tile的宽度.", BaseProperty::eDefault, _iUnitTileHeight);
+	pProp = M_RegisterPropertySimple(int, UnitTileHeight, Map, Map, "最小Tile的高度.", BaseProperty::eDefault, _iUnitTileHeight);
 
 	pProp = M_RegisterPropertySimple(int, BackgroundColor, Map, Map, "背景颜色.", BaseProperty::eDefault, _colBKColor);
 	pProp->SetValueSpecify(eValueColor, "");
-
-	pProp = M_RegisterPropertySimple(bool, DrawGrid, Map, Map, "是否绘制网格.", BaseProperty::eDefault, _bDrawGrid);
-	//pProp = M_RegisterPropertySimple(int, GridColor, Map, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
-	//pProp->SetValueSpecify(eValueColor, "");
 }
 
 void Map::OnPropertyChanged(const std::string& propName)
 {
-	if (propName == "DrawGrid")
-	{
-		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-		pView->Invalidate(TRUE);
-	}
 }
 
 bool Map::Load(const Cactus::String& strPathName)
@@ -225,10 +214,9 @@ void Map::Save(const Cactus::String& strPathName)
 		xmlOut.AddAttribute("name", _strName);
 		xmlOut.AddAttribute("width", _iWidth);
 		xmlOut.AddAttribute("height", _iHeight);
-		xmlOut.AddAttribute("tilew", _iTileWidthDefault);
-		xmlOut.AddAttribute("tileh", _iTileHeightDefault);
+		xmlOut.AddAttribute("wUnitTile", _iUnitTileWidth);
+		xmlOut.AddAttribute("hUnitTile", _iUnitTileHeight);
 		xmlOut.AddAttribute("footnotes", _strFootnotes);
-		xmlOut.AddAttribute("drawgrid", _bDrawGrid);
 		xmlOut.AddAttribute("backgroundcolor", _colBKColor);
 		if (_pCurLayer)
 			xmlOut.AddAttribute("curlayer", _pCurLayer->GetObjectName());
@@ -259,10 +247,8 @@ void Map::Save(const Cactus::String& strPathName)
 			xmlOut.NodeBegin("layer");
 				xmlOut.AddAttribute("name", pLayer->_strName);
 				xmlOut.AddAttribute("enable", pLayer->_bEnable);
-				xmlOut.AddAttribute("width", pLayer->_iWidth);
-				xmlOut.AddAttribute("height", pLayer->_iHeight);
-				xmlOut.AddAttribute("tilew", pLayer->_iTileWidth);
-				xmlOut.AddAttribute("tileh", pLayer->_iTileHeight);
+				xmlOut.AddAttribute("wInTiles", pLayer->_iWidthInTiles);
+				xmlOut.AddAttribute("hInTiles", pLayer->_iHeightInTiles);
 				xmlOut.AddAttribute("drawgrid", pLayer->_bDrawGrid);
 				xmlOut.AddAttribute("visible", pLayer->_bVisible);
 
@@ -313,28 +299,28 @@ void Map::Reset()
 
 void Map::Draw(CDC* pDC)
 {
-	pDC->FillSolidRect(0, 0, _iWidth, _iHeight, _colBKColor);
+	pDC->FillSolidRect(0, 0, _iWidth * _iUnitTileWidth, _iHeight * _iUnitTileHeight, _colBKColor);
 
-	if (_bDrawGrid)
-	{
-		CPen pen(PS_DOT, 1, RGB(128, 128, 128));
-		CPen* pOldPen = pDC->SelectObject(&pen);
+	//if (_bDrawGrid)
+	//{
+	//	CPen pen(PS_DOT, 1, RGB(128, 128, 128));
+	//	CPen* pOldPen = pDC->SelectObject(&pen);
 
-		int iGridWidth	= _iWidth / _iTileWidthDefault;
-		int iGridHeight	= _iHeight / _iTileHeightDefault;
-		for (int i = 0; i <= iGridWidth; i++)
-		{
-			pDC->MoveTo(0, i * _iTileWidthDefault);
-			pDC->LineTo(_iHeight, i * _iTileWidthDefault);
-		}
-		for (int i = 0; i <= iGridHeight; i++)
-		{
-			pDC->MoveTo(i * _iTileHeightDefault, 0);
-			pDC->LineTo(i * _iTileHeightDefault, _iWidth);
-		}
+	//	int iGridWidth	= _iWidth / _iUintTileWidth;
+	//	int iGridHeight	= _iHeight / _iUnitTileHeight;
+	//	for (int i = 0; i <= iGridWidth; i++)
+	//	{
+	//		pDC->MoveTo(0, i * _iUintTileWidth);
+	//		pDC->LineTo(_iHeight, i * _iUintTileWidth);
+	//	}
+	//	for (int i = 0; i <= iGridHeight; i++)
+	//	{
+	//		pDC->MoveTo(i * _iUnitTileHeight, 0);
+	//		pDC->LineTo(i * _iUnitTileHeight, _iWidth);
+	//	}
 
-		pDC->SelectObject(pOldPen);
-	}
+	//	pDC->SelectObject(pOldPen);
+	//}
 
 	for(MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
 	{
