@@ -38,12 +38,15 @@ public:
 	//bMakeCurrent只有在bShow为true时才有用
 	void						ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent = false);
 
+	int							GetPixelWidth(){ return _iWidthInTiles * _iUnitTileWidth; }
+	int							GetPixelHeight(){ return _iHeightInTiles * _iUnitTileHeight; }
+
 protected:
 	Cactus::String		_strName;
 	Cactus::String		_strFootnotes;
 	Cactus::String		_strCurLayerName;
-	int					_iWidth;
-	int					_iHeight;
+	int					_iWidthInTiles;
+	int					_iHeightInTiles;
 	int					_iUnitTileWidth;
 	int					_iUnitTileHeight;
 	int					_iVersion;

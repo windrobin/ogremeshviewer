@@ -51,8 +51,8 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 
 	_theMap._strName			= (LPCTSTR)dlg._strMapName;
 	_theMap._strFootnotes		= (LPCTSTR)dlg._strFootnotes;
-	_theMap._iWidth				= dlg._iMapWidth;
-	_theMap._iHeight			= dlg._iMapHeight;
+	_theMap._iWidthInTiles		= dlg._iMapWidth;
+	_theMap._iHeightInTiles		= dlg._iMapHeight;
 	_theMap._iUnitTileWidth		= dlg._iUnitTileWidth;
 	_theMap._iUnitTileHeight	= dlg._iUnitTileHeight;
 

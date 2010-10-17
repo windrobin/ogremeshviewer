@@ -24,8 +24,8 @@ public:
 			//<tilemap version="1" name="test001" width="1024" height="1024" tilew="64" tileh="64" footnotes="这是一个测试地图文件。">
 			_map._iVersion				= attributes.getValueAsInteger("version");
 			_map._strName				= attributes.getValueAsString("name");
-			_map._iWidth				= attributes.getValueAsInteger("width");
-			_map._iHeight				= attributes.getValueAsInteger("height");
+			_map._iWidthInTiles				= attributes.getValueAsInteger("width");
+			_map._iHeightInTiles				= attributes.getValueAsInteger("height");
 			_map._iUnitTileWidth		= attributes.getValueAsInteger("wUnitTile");
 			_map._iUnitTileHeight		= attributes.getValueAsInteger("hUnitTile");
 			_map._strFootnotes			= attributes.getValueAsString("footnotes");
@@ -134,8 +134,8 @@ protected:
 Map::Map()
 : _iVersion(1)
 , _pMapBackground(0)
-, _iWidth(1024)
-, _iHeight(1024)
+, _iWidthInTiles(1024)
+, _iHeightInTiles(1024)
 , _iUnitTileWidth(64)
 , _iUnitTileHeight(64)
 , _colBKColor(0)
@@ -164,8 +164,8 @@ void Map::RegisterReflection()
 	pProp = M_RegisterPropertySimple(int, Version, Map, Map, "地图版本.", BaseProperty::eReadOnly, _iVersion);
 	pProp = M_RegisterPropertySimple(Cactus::String, Footnotes, Map, Map, "地图备注.", BaseProperty::eDefault, _strFootnotes);
 
-	pProp = M_RegisterPropertySimple(int, Width, Map, Map, "地图宽度.", BaseProperty::eDefault, _iWidth);
-	pProp = M_RegisterPropertySimple(int, Height, Map, Map, "地图高度.", BaseProperty::eDefault, _iHeight);
+	pProp = M_RegisterPropertySimple(int, WidthInTiles, Map, Map, "地图宽度.", BaseProperty::eDefault, _iWidthInTiles);
+	pProp = M_RegisterPropertySimple(int, HeightInTiles, Map, Map, "地图高度.", BaseProperty::eDefault, _iHeightInTiles);
 	pProp = M_RegisterPropertySimple(int, UnitTileWidth, Map, Map, "最小Tile的宽度.", BaseProperty::eDefault, _iUnitTileHeight);
 	pProp = M_RegisterPropertySimple(int, UnitTileHeight, Map, Map, "最小Tile的高度.", BaseProperty::eDefault, _iUnitTileHeight);
 
@@ -212,8 +212,8 @@ void Map::Save(const Cactus::String& strPathName)
 	xmlOut.NodeBegin("tilemap");
 		xmlOut.AddAttribute("version", _iVersion);
 		xmlOut.AddAttribute("name", _strName);
-		xmlOut.AddAttribute("width", _iWidth);
-		xmlOut.AddAttribute("height", _iHeight);
+		xmlOut.AddAttribute("width", _iWidthInTiles);
+		xmlOut.AddAttribute("height", _iHeightInTiles);
 		xmlOut.AddAttribute("wUnitTile", _iUnitTileWidth);
 		xmlOut.AddAttribute("hUnitTile", _iUnitTileHeight);
 		xmlOut.AddAttribute("footnotes", _strFootnotes);
@@ -299,24 +299,24 @@ void Map::Reset()
 
 void Map::Draw(CDC* pDC)
 {
-	pDC->FillSolidRect(0, 0, _iWidth * _iUnitTileWidth, _iHeight * _iUnitTileHeight, _colBKColor);
+	pDC->FillSolidRect(0, 0, _iWidthInTiles * _iUnitTileWidth, _iHeightInTiles * _iUnitTileHeight, _colBKColor);
 
 	//if (_bDrawGrid)
 	//{
 	//	CPen pen(PS_DOT, 1, RGB(128, 128, 128));
 	//	CPen* pOldPen = pDC->SelectObject(&pen);
 
-	//	int iGridWidth	= _iWidth / _iUintTileWidth;
-	//	int iGridHeight	= _iHeight / _iUnitTileHeight;
+	//	int iGridWidth	= _iWidthInTiles / _iUintTileWidth;
+	//	int iGridHeight	= _iHeightInTiles / _iUnitTileHeight;
 	//	for (int i = 0; i <= iGridWidth; i++)
 	//	{
 	//		pDC->MoveTo(0, i * _iUintTileWidth);
-	//		pDC->LineTo(_iHeight, i * _iUintTileWidth);
+	//		pDC->LineTo(_iHeightInTiles, i * _iUintTileWidth);
 	//	}
 	//	for (int i = 0; i <= iGridHeight; i++)
 	//	{
 	//		pDC->MoveTo(i * _iUnitTileHeight, 0);
-	//		pDC->LineTo(i * _iUnitTileHeight, _iWidth);
+	//		pDC->LineTo(i * _iUnitTileHeight, _iWidthInTiles);
 	//	}
 
 	//	pDC->SelectObject(pOldPen);
