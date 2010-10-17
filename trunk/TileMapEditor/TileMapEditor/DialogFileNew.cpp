@@ -14,6 +14,7 @@ DialogFileNew::DialogFileNew(CWnd* pParent /*=NULL*/)
 	: CDialog(DialogFileNew::IDD, pParent)
 	, _strFootnotes(_T("«Î ‰»Î±∏◊¢°£"))
 	, _strMapName(_T("map_xx"))
+	, _iType(0)
 {
 	_iMapWidth			= 20;
 	_iMapHeight			= 20;
@@ -34,6 +35,7 @@ void DialogFileNew::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_TILE_HEIGHT, _iUnitTileHeight);
 	DDX_Text(pDX, IDC_EDIT_FOOTNOTES, _strFootnotes);
 	DDX_Text(pDX, IDC_EDIT_MAPNAME, _strMapName);
+	DDX_CBIndex(pDX, IDC_COMBO_TYPE, _iType);
 }
 
 

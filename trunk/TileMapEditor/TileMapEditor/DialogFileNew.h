@@ -27,4 +27,5 @@ public:
 	int		_iUnitTileHeight;
 	CString _strFootnotes;
 	CString _strMapName;
+	int _iType;
 };
