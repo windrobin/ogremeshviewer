@@ -65,26 +65,23 @@ void MapLayer::Draw(CDC* pDC)
 		}
 	}
 
-	int iMapW = _pParentMap->_iWidth * _pParentMap->_iUnitTileWidth;
-	int iMapH = _pParentMap->_iHeight * _pParentMap->_iUnitTileHeight;
-
 	if (_bDrawGrid)
 	{
 		CPen pen(PS_SOLID, 1, RGB(0, 128, 0));
 		CPen* pOldPen = pDC->SelectObject(&pen);
 
-		int iGridsVert	= iMapW / _iWidthInTiles;
-		int iGridsHoriz	= iMapH / _iHeightInTiles;
+		int iMapW = _pParentMap->GetPixelWidth();
+		int iMapH = _pParentMap->GetPixelHeight();
 
 		//ª≠∫·œﬂ
-		for (int i = 0; i <= iGridsHoriz; i++)
+		for (int i = 0; i <= _pParentMap->_iHeightInTiles / _iHeightInTiles; i++)
 		{
 			pDC->MoveTo(0, i * _iHeightInTiles * _pParentMap->_iUnitTileHeight);
 			pDC->LineTo(iMapW, i * _iHeightInTiles * _pParentMap->_iUnitTileHeight);
 		}
 
 		//ª≠ ˙œﬂ
-		for (int i = 0; i <= iGridsVert; i++)
+		for (int i = 0; i <= _pParentMap->_iWidthInTiles / _iWidthInTiles; i++)
 		{
 			pDC->MoveTo(i * _iWidthInTiles * _pParentMap->_iUnitTileWidth, 0);
 			pDC->LineTo(i * _iWidthInTiles * _pParentMap->_iUnitTileWidth, iMapH);
@@ -96,8 +93,8 @@ void MapLayer::Draw(CDC* pDC)
 
 bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
 {
-	int iMapW = _pParentMap->_iWidth * _pParentMap->_iUnitTileWidth;
-	int iMapH = _pParentMap->_iHeight * _pParentMap->_iUnitTileHeight;
+	int iMapW = _pParentMap->GetPixelWidth();
+	int iMapH = _pParentMap->GetPixelHeight();
 
 	if (pt.x >= iMapW || pt.y >= iMapH || pt.x <= 0 || pt.y <= 0)
 	{
