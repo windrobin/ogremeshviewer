@@ -71,6 +71,9 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 		_iGridY = -1;
 
 		_bDrawCursor = false;
+
+		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCursorPosition(0, 0);
+
 		return;
 	}
 
@@ -87,6 +90,8 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 	_iGridY = gridY;
 	_rcTile = rc;
 	_bDrawCursor = true;
+
+	((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCursorPosition(_iGridX, _iGridY);
 }
 
 
