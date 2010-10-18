@@ -32,6 +32,7 @@ public:
 	MapView*		GetMapView(){ return &_MapPanel; }
 	CPropertiesWnd*	GetPropertyWnd(){ return &m_wndProperties; }
 	void			SetCurLayerName(const Cactus::String& strLayerName);
+	void			SetCursorPosition(int x, int y);
 
 
 protected:  // 控件条嵌入成员
@@ -47,6 +48,7 @@ protected:  // 控件条嵌入成员
 	TileResView			_TileResView;
 
 	CMFCRibbonLabel*	_pCurLayerLabel;
+	CMFCRibbonLabel*	_pCurPositionLabel;
 
 // 生成的消息映射函数
 protected:

@@ -125,11 +125,59 @@ bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
 	int iTileW = _pParentMap->_iUnitTileWidth;
 	int iTileH = _pParentMap->_iUnitTileHeight;
 
-	gridX	= pt.x / iTileW;
-	gridY	= pt.y / iTileH;
+	if (_pParentMap->_eMapType == eRectangle)
+	{
+		gridX	= pt.x / iTileW;
+		gridY	= pt.y / iTileH;
 
-	rc = CRect(CPoint(gridX * iTileW, gridY * iTileH), CSize(iTileW, iTileH));
-	return true;
+		rc = CRect(CPoint(gridX * iTileW, gridY * iTileH), CSize(iTileW, iTileH));
+
+		return true;
+	}
+	else
+	{
+/*
+k = H/W;
+
+x[0, 0.5W]
+y >= -kx + 0.5H;
+y <= kx + 0.5H;
+
+x[0.5W, W]
+y >= kx - 0.5H;
+y <= -kx + 1.5H;
+*/
+		int y = 0;
+		float k = 1.0f * iMapH / iMapW;
+		if (pt.x <= iMapW/2)
+		{
+			if ( (pt.y >= -k * pt.x + iMapH/2) && (pt.y <= k * pt.x + iMapH/2) )
+			{
+				gridX	= pt.x / iTileW;
+				gridY	= pt.y / iTileH;
+
+				rc = CRect(CPoint(gridX * iTileW, gridY * iTileH), CSize(iTileW, iTileH));
+
+				return true;
+			}
+		}
+		else
+		{
+			if ( (pt.y >= k * pt.x - iMapH/2) && (pt.y <= -k * pt.x + 1.5 * iMapH) )
+			{
+
+				gridX	= pt.x / iTileW;
+				gridY	= pt.y / iTileH;
+
+				rc = CRect(CPoint(gridX * iTileW, gridY * iTileH), CSize(iTileW, iTileH));
+
+				return true;
+			}
+		}
+
+	}
+
+	return false;
 }
 
 bool MapLayer::ModifyTile(int gridX, int gridY, const Cactus::String& resKey, const Cactus::String& strID)

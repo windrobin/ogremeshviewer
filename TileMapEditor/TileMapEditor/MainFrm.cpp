@@ -253,6 +253,9 @@ void CMainFrame::InitializeRibbon()
 	_pCurLayerLabel = new CMFCRibbonLabel("                ");
 	pPanelMapEdit->Add(_pCurLayerLabel);
 
+	_pCurPositionLabel = new CMFCRibbonLabel("光标位置：(xxxx, xxxx)");
+	pPanelMapEdit->Add( _pCurPositionLabel  );
+
 	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_SELECT, "选取", 0, 6));
 	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_BRUSH, "画刷", 0, 4));
 	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_REMOVE, "删除", 0, 5));
@@ -525,6 +528,15 @@ void CMainFrame::SetCurLayerName(const Cactus::String& strLayerName)
 	_pCurLayerLabel->SetText(strLayerName.c_str());
 	_pCurLayerLabel->Redraw();
 }
+
+void CMainFrame::SetCursorPosition(int x, int y)
+{
+	CString str;
+	str.Format("光标位置：(%d, %d)", x, y);
+	_pCurPositionLabel->SetText(str);
+	_pCurPositionLabel->Redraw();
+}
+
 
 void CMainFrame::OnTool_Select()
 {
