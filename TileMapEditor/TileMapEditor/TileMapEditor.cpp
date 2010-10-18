@@ -172,6 +172,11 @@ BOOL CTileMapEditorApp::InitInstance()
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
 
+	char buffer[MAX_PATH];
+	::GetModuleFileName(0, buffer, MAX_PATH);
+	std::string strModulePath = buffer;
+	strModulePath.erase(strModulePath.find_last_of('\\') + 1);
+	SetCurrentDirectory(strModulePath.c_str());
 
 	// 仅当具有后缀时才调用 DragAcceptFiles
 	//  在 SDI 应用程序中，这应在 ProcessShellCommand 之后发生
