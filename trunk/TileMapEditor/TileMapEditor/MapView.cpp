@@ -391,15 +391,19 @@ void MapView::OnLayerInsert()
 		MapLayer* pLayer = new MapLayer;
 		pLayer->_pParentMap		= &ToolManager::getSingleton().GetDocument()->GetMap();
 		pLayer->_strName		= (LPCTSTR)dlg._strLayerName;
-		pLayer->_iWidthInTiles	= dlg._iWInTiles;
-		pLayer->_iHeightInTiles	= dlg._iHInTiles;
 
-		ToolManager::getSingleton().GetDocument()->GetMap().AddLayer(pLayer);
-
-		HTREEITEM hItem = _TreeMapItem.InsertItem(pLayer->GetObjectName().c_str(), 3, 3, _hLayerRoot);
-		_TreeMapItem.SetItemData(hItem, (DWORD_PTR)pLayer);
-		_TreeMapItem.SetCheck(hItem, pLayer->IsVisible());
-		_TreeMapItem.Expand(_hLayerRoot, TVE_EXPAND);
+		if( ToolManager::getSingleton().GetDocument()->GetMap().AddLayer(pLayer) )
+		{
+			HTREEITEM hItem = _TreeMapItem.InsertItem(pLayer->GetObjectName().c_str(), 3, 3, _hLayerRoot);
+			_TreeMapItem.SetItemData(hItem, (DWORD_PTR)pLayer);
+			_TreeMapItem.SetCheck(hItem, pLayer->IsVisible());
+			_TreeMapItem.Expand(_hLayerRoot, TVE_EXPAND);
+		}
+		else
+		{
+			delete pLayer;
+			MessageBox("添加层错误，层名已经存在！", "错误", MB_OK | MB_ICONHAND);
+		}
 	}
 }
 

@@ -41,8 +41,6 @@ protected:
 	Map*				_pParentMap;
 
 	Cactus::String		_strName;
-	int					_iWidthInTiles;			//in map UnitTile
-	int					_iHeightInTiles;		//in map UnitTile
 	bool				_bEnable;
 
 	bool				_bDrawGrid;

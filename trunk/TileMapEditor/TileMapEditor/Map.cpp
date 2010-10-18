@@ -59,8 +59,6 @@ public:
 			_pCurLayer->_pParentMap		= &_map;
 			_pCurLayer->_strName		= attributes.getValueAsString("name");
 			_pCurLayer->_bEnable		= attributes.getValueAsBool("enable");
-			_pCurLayer->_iWidthInTiles	= attributes.getValueAsInteger("wInTiles");
-			_pCurLayer->_iHeightInTiles	= attributes.getValueAsInteger("hInTiles");
 			_pCurLayer->_bDrawGrid		= attributes.getValueAsBool("drawgrid");
 			_pCurLayer->_bVisible		= attributes.getValueAsBool("visible");
 
@@ -247,8 +245,6 @@ void Map::Save(const Cactus::String& strPathName)
 			xmlOut.NodeBegin("layer");
 				xmlOut.AddAttribute("name", pLayer->_strName);
 				xmlOut.AddAttribute("enable", pLayer->_bEnable);
-				xmlOut.AddAttribute("wInTiles", pLayer->_iWidthInTiles);
-				xmlOut.AddAttribute("hInTiles", pLayer->_iHeightInTiles);
 				xmlOut.AddAttribute("drawgrid", pLayer->_bDrawGrid);
 				xmlOut.AddAttribute("visible", pLayer->_bVisible);
 
@@ -351,13 +347,20 @@ void Map::SetCurLayer(MapLayer* pLayer)
 	if (pOldLayer || _pCurLayer)
 	{
 		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-		pView->Invalidate(TRUE);
+		pView->Invalidate();
 	}
 }
 
 bool Map::AddLayer(MapLayer* pLayer)
 {
+	for(MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
+	{
+		if ( (*it)->_strName == pLayer->_strName )
+			return false;
+	}
+
 	_layers.push_back(pLayer);
+
 	if (_layers.size() == 1)
 	{
 		SetCurLayer(pLayer);
@@ -372,6 +375,7 @@ void Map::RemoveLayer(MapLayer* pLayer)
 	MapLayerListType::iterator it = find(_layers.begin(), _layers.end(), pLayer);
 	if (it != _layers.end())
 	{
+		delete *it;
 		_layers.erase(it);
 	}
 	else
@@ -379,8 +383,15 @@ void Map::RemoveLayer(MapLayer* pLayer)
 		return;
 	}
 
-	CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-	pView->Invalidate(TRUE);
+	if (bIsCurrent)
+	{
+		SetCurLayer(0);
+	}
+	else
+	{
+		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		pView->Invalidate();
+	}
 }
 
 void Map::ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent)
@@ -405,5 +416,5 @@ void Map::ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent)
 	}
 
 	CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-	pView->Invalidate(TRUE);
+	pView->Invalidate();
 }
