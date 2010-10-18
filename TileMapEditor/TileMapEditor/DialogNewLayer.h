@@ -21,6 +21,4 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CString _strLayerName;
-	int		_iWInTiles;
-	int		_iHInTiles;
 };
