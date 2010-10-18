@@ -153,8 +153,26 @@ y <= -kx + 1.5H;
 		{
 			if ( (pt.y >= -k * pt.x + iMapH/2) && (pt.y <= k * pt.x + iMapH/2) )
 			{
-				gridX	= pt.x / iTileW;
-				gridY	= pt.y / iTileH;
+				//¼ÆËãx
+				//y = kx + b;	b[-0.5H, 0.5H]
+				float b = -iMapH/2;
+				gridX = -1;
+				while(pt.y > k * pt.x + b)
+				{
+					b += iTileH;
+					gridX++;
+				}
+
+
+				//¼ÆËãy
+				//y = -kx + b;	b[0.5H, 1.5H]
+				b = iMapH/2;
+				gridY = -1;
+				while(pt.y > -k * pt.x + b)
+				{
+					b += iTileH;
+					gridY++;
+				}
 
 				rc = CRect(CPoint(gridX * iTileW, gridY * iTileH), CSize(iTileW, iTileH));
 
