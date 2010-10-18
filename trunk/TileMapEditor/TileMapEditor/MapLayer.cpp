@@ -147,50 +147,66 @@ x[0.5W, W]
 y >= kx - 0.5H;
 y <= -kx + 1.5H;
 */
+		bool bInRegion = false;
+
 		int y = 0;
 		float k = 1.0f * iMapH / iMapW;
 		if (pt.x <= iMapW/2)
 		{
 			if ( (pt.y >= -k * pt.x + iMapH/2) && (pt.y <= k * pt.x + iMapH/2) )
-			{
-				//计算x
-				//y = kx + b;	b[-0.5H, 0.5H]
-				float b = -iMapH/2;
-				gridX = -1;
-				while(pt.y > k * pt.x + b)
-				{
-					b += iTileH;
-					gridX++;
-				}
-
-
-				//计算y
-				//y = -kx + b;	b[0.5H, 1.5H]
-				b = iMapH/2;
-				gridY = -1;
-				while(pt.y > -k * pt.x + b)
-				{
-					b += iTileH;
-					gridY++;
-				}
-
-				rc = CRect(CPoint(gridX * iTileW, gridY * iTileH), CSize(iTileW, iTileH));
-
-				return true;
-			}
+				bInRegion = true;
 		}
 		else
 		{
 			if ( (pt.y >= k * pt.x - iMapH/2) && (pt.y <= -k * pt.x + 1.5 * iMapH) )
+				bInRegion = true;
+		}
+
+		if (bInRegion)
+		{
+			//计算y
+			//y = kx + b;	b[-0.5H, 0.5H]
+			float b = 1.0f * -iMapH/2;
+			gridY = -1;
+			while(pt.y > k * pt.x + b)
 			{
-
-				gridX	= pt.x / iTileW;
-				gridY	= pt.y / iTileH;
-
-				rc = CRect(CPoint(gridX * iTileW, gridY * iTileH), CSize(iTileW, iTileH));
-
-				return true;
+				b += iTileH;
+				gridY++;
 			}
+
+			//计算x
+			//y = -kx + b;	b[0.5H, 1.5H]
+			b = 1.0f * iMapH/2;
+			gridX = -1;
+			while(pt.y > -k * pt.x + b)
+			{
+				b += iTileH;
+				gridX++;
+			}
+
+			int xLeft	= iMapW / 2;
+			int yTop	= 0;
+			if (pt.x <= iMapW/2)
+			{
+				for (int i = 0; i < gridX; ++i)
+					xLeft -= iTileW/2;
+
+				for (int i = 0; i < gridY; ++i)
+					yTop += iTileH/2;
+			}
+			else
+			{
+				for (int i = 0; i < gridX; ++i)
+					xLeft += iTileW/2;
+
+				for (int i = 0; i < gridY; ++i)
+					yTop += iTileH/2;
+			}
+
+
+			rc = CRect(CPoint(xLeft, yTop), CSize(iTileW, iTileH));
+
+			return true;
 		}
 
 	}
