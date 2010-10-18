@@ -189,18 +189,18 @@ y <= -kx + 1.5H;
 			if (pt.x <= iMapW/2)
 			{
 				for (int i = 0; i < gridX; ++i)
-					xLeft -= iTileW/2;
+					xLeft -= iTileW;
 
 				for (int i = 0; i < gridY; ++i)
-					yTop += iTileH/2;
+					yTop += iTileH;
 			}
 			else
 			{
 				for (int i = 0; i < gridX; ++i)
-					xLeft += iTileW/2;
+					xLeft += iTileW;
 
 				for (int i = 0; i < gridY; ++i)
-					yTop += iTileH/2;
+					yTop += iTileH;
 			}
 
 
