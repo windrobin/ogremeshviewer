@@ -56,8 +56,7 @@ public:
 			//<layer name="layer0" enable="true" width="1024" height="1024" tilew="64" tileh="64">
 
 			_pCurLayer = new MapLayer;
-			_pCurLayer->_pParentMap		= &_map;
-			_pCurLayer->_strName		= attributes.getValueAsString("name");
+			_pCurLayer->Init(attributes.getValueAsString("name"), &_map);
 			_pCurLayer->_bEnable		= attributes.getValueAsBool("enable");
 			_pCurLayer->_bDrawGrid		= attributes.getValueAsBool("drawgrid");
 			_pCurLayer->_bVisible		= attributes.getValueAsBool("visible");
@@ -334,20 +333,22 @@ void Map::SetCurLayer(MapLayer* pLayer)
 
 	_pCurLayer = pLayer;
 
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 	if (_pCurLayer)
 	{
 		_pCurLayer->SetVisible(true);
-		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(_pCurLayer->GetObjectName());
+		pMainFrame->SetCurLayerName(_pCurLayer->GetObjectName());
 	}
 	else
 	{
-		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName("");
+		pMainFrame->SetCurLayerName("");
 	}
 
 	if (pOldLayer || _pCurLayer)
 	{
-		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
-		pView->Invalidate();
+		CView* pView = pMainFrame->GetActiveView(); 
+		if (pView)
+			pView->Invalidate();
 	}
 }
 
@@ -389,13 +390,16 @@ void Map::RemoveLayer(MapLayer* pLayer)
 	}
 	else
 	{
-		CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+		CView* pView = pMainFrame->GetActiveView(); 
 		pView->Invalidate();
 	}
 }
 
 void Map::ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent)
 {
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+
 	bool bIsCurrent = (_pCurLayer == pLayer);
 
 	if (pLayer->IsVisible() == bShow)
@@ -412,9 +416,9 @@ void Map::ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent)
 	else if (bMakeCurrent || _layers.size() == 1)
 	{
 		_pCurLayer = pLayer;
-		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCurLayerName(_pCurLayer->GetObjectName());
+		pMainFrame->SetCurLayerName(_pCurLayer->GetObjectName());
 	}
 
-	CView* pView = ((CFrameWnd*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+	CView* pView = pMainFrame->GetActiveView(); 
 	pView->Invalidate();
 }

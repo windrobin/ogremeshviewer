@@ -15,6 +15,7 @@ DialogFileNew::DialogFileNew(CWnd* pParent /*=NULL*/)
 	, _strFootnotes(_T("«Î ‰»Î±∏◊¢°£"))
 	, _strMapName(_T("map_xx"))
 	, _iType(0)
+	, _bCreateLayer(TRUE)
 {
 	_iMapWidth			= 20;
 	_iMapHeight			= 20;
@@ -36,14 +37,28 @@ void DialogFileNew::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_FOOTNOTES, _strFootnotes);
 	DDX_Text(pDX, IDC_EDIT_MAPNAME, _strMapName);
 	DDX_CBIndex(pDX, IDC_COMBO_TYPE, _iType);
+	DDX_Check(pDX, IDC_CHECK_CREATE_LAYER, _bCreateLayer);
 }
 
 
 BEGIN_MESSAGE_MAP(DialogFileNew, CDialog)
+	ON_CBN_SELCHANGE(IDC_COMBO_TYPE, &DialogFileNew::OnCbnSelchangeComboType)
 END_MESSAGE_MAP()
 
 
 // DialogFileNew message handlers
+
+
+void DialogFileNew::OnCbnSelchangeComboType()
+{
+	UpdateData(TRUE);
+
+	if (_iType == 1)
+	{
+		_iUnitTileHeight	= _iUnitTileWidth / 2;
+		UpdateData(FALSE);
+	}
+}
 
 void DialogFileNew::OnOK()
 {
@@ -64,3 +79,4 @@ void DialogFileNew::OnOK()
 
 	CDialog::OnOK();
 }
+

@@ -389,8 +389,7 @@ void MapView::OnLayerInsert()
 	if (dlg.DoModal() == IDOK)
 	{
 		MapLayer* pLayer = new MapLayer;
-		pLayer->_pParentMap		= &ToolManager::getSingleton().GetDocument()->GetMap();
-		pLayer->_strName		= (LPCTSTR)dlg._strLayerName;
+		pLayer->Init((LPCTSTR)dlg._strLayerName, &ToolManager::getSingleton().GetDocument()->GetMap());
 
 		if( ToolManager::getSingleton().GetDocument()->GetMap().AddLayer(pLayer) )
 		{

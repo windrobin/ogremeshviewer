@@ -28,4 +28,6 @@ public:
 	CString _strFootnotes;
 	CString _strMapName;
 	int _iType;
+	BOOL _bCreateLayer;
+	afx_msg void OnCbnSelchangeComboType();
 };

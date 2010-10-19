@@ -94,6 +94,8 @@
 #define IDC_EDIT_TILE_HEIGHT            1006
 #define IDC_COMBO1                      1007
 #define IDC_COMBO_TYPE                  1007
+#define IDC_CHECK1                      1008
+#define IDC_CHECK_CREATE_LAYER          1008
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771
 #define ID_STATUSBAR_PANE2              32772
@@ -148,7 +150,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        207
 #define _APS_NEXT_COMMAND_VALUE         32818
-#define _APS_NEXT_CONTROL_VALUE         1008
+#define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           301
 #endif
 #endif
