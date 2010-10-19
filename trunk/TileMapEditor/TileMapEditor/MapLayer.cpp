@@ -80,17 +80,18 @@ void MapLayer::Draw(CDC* pDC)
 					//rc.DeflateRect(1, 1, 1, 1);
 
 					CPoint pts[4];
-					pts[0] = CPoint(rc.left, rc.top + rc.Height()/2);
-					pts[1] = CPoint(rc.left + rc.Width()/2, rc.top);
-					pts[2] = CPoint(rc.right, rc.top + rc.Height()/2);
-					pts[3] = CPoint(rc.left + rc.Width()/2, rc.bottom);
+					pts[0] = CPoint(0, iTileH/2);
+					pts[1] = CPoint(iTileW/2, 0);
+					pts[2] = CPoint(iTileW, iTileH/2);
+					pts[3] = CPoint(iTileW/2, iTileH);
 
 					CRgn rgn;
 					rgn.CreatePolygonRgn(pts, 4, WINDING);
+					rgn.OffsetRgn(xLeft, yTop);
 					
-					//pDC->SelectClipRgn(&rgn, RGN_AND);
+					pDC->SelectClipRgn(&rgn, RGN_AND);
 					pRes->Draw(pDC, xLeft, yTop, tile._strID);
-					//pDC->SelectClipRgn(0);
+					pDC->SelectClipRgn(0);
 					
 					rgn.DeleteObject();
 				}
