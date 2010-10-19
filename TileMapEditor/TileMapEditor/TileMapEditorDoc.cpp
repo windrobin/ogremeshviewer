@@ -11,6 +11,7 @@
 #include "MapView.h"
 
 #include "ToolManager.h"
+#include "MapLayer.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -58,6 +59,13 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	_theMap._eMapType			= EMapType(dlg._iType);
 
 	ToolManager::getSingleton().SetDocument(this);
+
+	if (dlg._bCreateLayer)
+	{
+		MapLayer* pLayer = new MapLayer;
+		pLayer->Init("Background", &_theMap);
+		_theMap.AddLayer(pLayer);
+	}
 
 	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 	pMainFrame->GetMapView()->Reset();

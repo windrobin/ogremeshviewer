@@ -20,6 +20,8 @@ public:
 	MapLayer();
 	~MapLayer();
 
+	void					Init(const Cactus::String& strName, Map* pParent);
+
 	static void				RegisterReflection();
 	virtual void			OnPropertyChanged(const std::string& propName);
 

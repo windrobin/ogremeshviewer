@@ -9,7 +9,6 @@ using namespace PropertySys;
 MapLayer::MapLayer()
 : _bVisible(true)
 , _bDrawGrid(true)
-, _pParentMap(0)
 {
 }
 
@@ -17,6 +16,11 @@ MapLayer::~MapLayer()
 {
 }
 
+void MapLayer::Init(const Cactus::String& strName, Map* pParent)
+{
+	_pParentMap	= pParent;
+	_strName	= strName;
+}
 
 void MapLayer::RegisterReflection()
 {
@@ -184,25 +188,14 @@ y <= -kx + 1.5H;
 				gridX++;
 			}
 
-			int xLeft	= iMapW / 2;
+			int xLeft	= iMapW / 2 - iTileW/2;
 			int yTop	= 0;
-			if (pt.x <= iMapW/2)
-			{
-				for (int i = 0; i < gridX; ++i)
-					xLeft -= iTileW;
 
-				for (int i = 0; i < gridY; ++i)
-					yTop += iTileH;
-			}
-			else
-			{
-				for (int i = 0; i < gridX; ++i)
-					xLeft += iTileW;
+			xLeft	+= gridX * iTileW/2;
+			yTop	+= gridX * iTileH/2;
 
-				for (int i = 0; i < gridY; ++i)
-					yTop += iTileH;
-			}
-
+			xLeft	-= gridY * iTileW/2;
+			yTop	+= gridY * iTileH/2;
 
 			rc = CRect(CPoint(xLeft, yTop), CSize(iTileW, iTileH));
 
