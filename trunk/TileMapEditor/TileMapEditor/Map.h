@@ -12,6 +12,7 @@ class Map : public PropertySys::SupportRTTI<Map, MapBaseObject>
 	friend class CTileMapEditorDoc;
 	friend class MapView;
 	friend class MapLayer;
+
 public:
 	Map();
 	~Map();
@@ -40,6 +41,8 @@ public:
 
 	int							GetPixelWidth(){ return _iWidthInTiles * _iUnitTileWidth; }
 	int							GetPixelHeight(){ return _iHeightInTiles * _iUnitTileHeight; }
+
+	EMapType					GetType(){ return _eMapType; }
 
 protected:
 	Cactus::String		_strName;
