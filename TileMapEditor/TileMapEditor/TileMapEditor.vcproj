@@ -516,6 +516,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ResourceTileFolder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceTileFolder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceTileSingleImage.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceTileSingleImage.h"
+					>
+				</File>
+				<File
 					RelativePath=".\ResourceType.h"
 					>
 				</File>

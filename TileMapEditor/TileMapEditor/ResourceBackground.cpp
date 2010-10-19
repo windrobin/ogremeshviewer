@@ -29,7 +29,7 @@ void ResourceBackground::RegisterReflection()
 
 	pProp = M_RegisterPropertySimple(Cactus::String, Name, ResourceBackground, Resource, "图像文件.", BaseProperty::eReadOnly, _strName);
 
-	pProp = M_RegisterPropertySimple(Cactus::String, ImagePathName, ResourceBackground, Resource, "图像文件.", BaseProperty::eDefault, _strImagePathName);
+	pProp = M_RegisterPropertySimple(Cactus::String, ImagePathName, ResourceBackground, Resource, "图像文件.", BaseProperty::eReadOnly, _strImagePathName);
 	pProp->SetValueSpecify(eFilePathName, "");
 
 	pProp = M_RegisterPropertySimple(int, ImageWidth, ResourceBackground, Resource, "图像宽度.", BaseProperty::eReadOnly, _iWidth);
@@ -61,15 +61,45 @@ void ResourceBackground::CreateImageList(CDC* pDC)
 	if (_bHasImageList)
 		return;
 
-	//_image.GetColorType()
+	BOOL b = _imageList.Create(_iIconSize, _iIconSize, ILC_COLOR32, 0, 4);
 
-	BOOL b = _imageList.Create(_iWidth, _iHeight, ILC_COLOR32, 0, 4);
+	CDC dcMem;
+	dcMem.CreateCompatibleDC(pDC);
 
-	HBITMAP hBmp = _image.MakeBitmap(pDC->GetSafeHdc());
 	_pBmp = new CBitmap;
-	_pBmp->Attach(hBmp);
+	_pBmp->CreateCompatibleBitmap(pDC, _iIconSize, _iIconSize);
+	CBitmap* bmpOld = dcMem.SelectObject(_pBmp);
 
-	_imageList.Add(_pBmp, RGB(0, 0, 0));
+	dcMem.FillSolidRect(0, 0, _iIconSize, _iIconSize, RGB(255, 255, 255));
+
+	int iW = _image.GetWidth();
+	int iH = _image.GetHeight();
+
+	if (__max(iW, iH) > _iIconSize)
+	{
+		if (iW > iH)
+		{
+			float fR = 1.0f * _iIconSize / iW;
+			_image.Draw(dcMem.GetSafeHdc(), 0, 0, _iIconSize, iH * fR, 0, true);
+		}
+		else
+		{
+			float fR = 1.0f * _iIconSize / iH;
+			_image.Draw(dcMem.GetSafeHdc(), (_iIconSize - fR * iW)/2, 0, fR * iW, _iIconSize, 0, true);
+		}
+	}
+	else
+	{
+		_image.Draw(dcMem.GetSafeHdc(), (_iIconSize - iW)/2, 0, -1, -1, 0, true);
+	}
+
+	dcMem.SelectObject(bmpOld);
+
+	//HBITMAP hBmp = _image.MakeBitmap(pDC->GetSafeHdc());
+	//_pBmp = new CBitmap;
+	//_pBmp->Attach(hBmp);
+
+	_imageList.Add(_pBmp, (CBitmap*)0);
 	_captions.push_back(_strName);
 
 	_bHasImageList = true;

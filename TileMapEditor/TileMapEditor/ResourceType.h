@@ -32,4 +32,5 @@ protected:
 	CImageList				_imageList;
 	bool					_bHasImageList;
 	Cactus::StringVector	_captions;
+	int						_iIconSize;
 };

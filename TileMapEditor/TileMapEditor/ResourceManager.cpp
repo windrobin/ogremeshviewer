@@ -3,6 +3,8 @@
 
 #include "ResourceBackground.h"
 #include "ResourceTile.h"
+#include "ResourceTileSingleImage.h"
+#include "ResourceTileFolder.h"
 #include "ResourceGameObject.h"
 
 using namespace Cactus;
@@ -39,6 +41,7 @@ public:
 				ResourceBackground* p = new ResourceBackground;
 				p->_strName				= attributes.getValueAsString("name");
 				p->_strImagePathName	= attributes.getValueAsString("res");
+				p->_iIconSize			= attributes.getValueAsInteger("iconsize");
 
 				if( p->Load() && _resManager._ResBackgrounds.find(p->_strName) == _resManager._ResBackgrounds.end() )
 				{
@@ -62,6 +65,7 @@ public:
 					p->_tileHeight		= attributes.getValueAsInteger("tileh");
 					p->_tilesCount		= attributes.getValueAsInteger("count");
 					p->_strImageName	= attributes.getValueAsString("file");
+					p->_iIconSize		= attributes.getValueAsInteger("iconsize");
 
 					if( p->Load() && _resManager._ResTiles.find(p->_strName) == _resManager._ResTiles.end() )
 					{
@@ -78,12 +82,9 @@ public:
 					//<item type="folder" name="tile2" folder="art/tiles/tile2/" tilew="32" tileh="32" count="8" bits="2" ext=".png" />
 					ResourceTileFolder* p = new ResourceTileFolder;
 					p->_strName			= attributes.getValueAsString("name");
-					p->_tileWidth		= attributes.getValueAsInteger("tilew");
-					p->_tileHeight		= attributes.getValueAsInteger("tileh");
-					p->_tilesCount		= attributes.getValueAsInteger("count");
 					p->_strFolderName	= attributes.getValueAsString("folder");
 					p->_strFileExt		= attributes.getValueAsString("ext");
-					p->_iBits			= attributes.getValueAsInteger("bits");
+					p->_iIconSize		= attributes.getValueAsInteger("iconsize");
 
 					if( p->Load() && _resManager._ResTiles.find(p->_strName) == _resManager._ResTiles.end() )
 					{
