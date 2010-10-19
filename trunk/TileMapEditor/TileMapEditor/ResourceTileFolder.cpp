@@ -37,6 +37,8 @@ void ResourceTileFolder::OnPropertyChanged(const std::string& propName)
 
 bool ResourceTileFolder::Load()
 {
+	_tilesCount = 0;
+
 	String strFull = ResourceManager::getSingleton().GetRootFolder() + _strFolderName;
 
 	CFileFind finder;
@@ -67,6 +69,8 @@ bool ResourceTileFolder::Load()
 
 			_images[strTitle] = pImage;
 			_BitmapTiles[strTitle] = 0;
+
+			_tilesCount++;
 		}
 	}
 	finder.Close();
