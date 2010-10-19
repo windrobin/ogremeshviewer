@@ -63,7 +63,6 @@ bool ResourceTileFolder::Load()
 		if ( pImage->Load( finder.GetFilePath() ) )
 		{
 			String strTitle = (LPCTSTR)finder.GetFileTitle();
-
 			_captions.push_back( strTitle );
 
 			_images[strTitle] = pImage;
