@@ -78,6 +78,7 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 
 		if (__max(_tileWidth, _tileHeight) > _iIconSize)
 		{
+			dcMem.SetStretchBltMode(HALFTONE);
 			if (_tileWidth > _tileHeight)
 			{
 				float fR = 1.0f * _iIconSize / _tileWidth;
