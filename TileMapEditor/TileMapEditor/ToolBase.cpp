@@ -28,8 +28,25 @@ void ToolBase::Draw(CDC* pDC)
 		CPen* pOldPen = pDC->SelectObject(&pen);
 
 		CRect rc = _rcTile;
-		rc.DeflateRect(1, 1, 0, 0);
-		pDC->Rectangle(rc);
+
+		if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
+		{
+			rc.DeflateRect(1, 1, 0, 0);
+
+			pDC->Rectangle(rc);
+		}
+		else
+		{
+			rc.DeflateRect(1, 1, 1, 1);
+
+			CPoint pts[4];
+			pts[0] = CPoint(rc.left, rc.top + rc.Height()/2);
+			pts[1] = CPoint(rc.left + rc.Width()/2, rc.top);
+			pts[2] = CPoint(rc.right, rc.top + rc.Height()/2);
+			pts[3] = CPoint(rc.left + rc.Width()/2, rc.bottom);
+
+			pDC->Polygon(pts, 4);
+		}
 
 		pDC->SelectObject(pOldPen);
 	}
