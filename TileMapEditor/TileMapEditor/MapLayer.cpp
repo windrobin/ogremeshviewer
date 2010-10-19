@@ -60,7 +60,24 @@ void MapLayer::Draw(CDC* pDC)
 			for (size_t t = 0; t < it->second.size(); ++t)
 			{
 				STile& tile = it->second[t];
-				pRes->Draw(pDC, tile._posX * iTileW, tile._posY * iTileH, tile._strID);
+
+				if (_pParentMap->_eMapType == eRectangle)
+				{
+					pRes->Draw(pDC, tile._posX * iTileW, tile._posY * iTileH, tile._strID);
+				}
+				else
+				{
+					int xLeft	= _pParentMap->GetPixelWidth() / 2 - iTileW/2;
+					int yTop	= 0;
+
+					xLeft	+= tile._posX * iTileW/2;
+					yTop	+= tile._posX * iTileH/2;
+
+					xLeft	-= tile._posY * iTileW/2;
+					yTop	+= tile._posY * iTileH/2;
+
+					pRes->Draw(pDC, xLeft, yTop, tile._strID);
+				}
 			}
 		}
 	}
@@ -140,7 +157,7 @@ bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
 	}
 	else
 	{
-/*
+/*======================================
 k = H/W;
 
 x[0, 0.5W]
@@ -150,7 +167,7 @@ y <= kx + 0.5H;
 x[0.5W, W]
 y >= kx - 0.5H;
 y <= -kx + 1.5H;
-*/
+======================================*/
 		bool bInRegion = false;
 
 		int y = 0;
