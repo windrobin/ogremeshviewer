@@ -75,7 +75,7 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 		return;
 	}
 
-	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView();
+	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView();
 
 	int gridX, gridY;
 	CRect rc;
@@ -89,7 +89,7 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 
 		_bDrawCursor = false;
 
-		((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCursorPosition(0, 0);
+		((CMainFrame*)AfxGetMainWnd())->SetCursorPosition(0, 0);
 
 		return;
 	}
@@ -108,7 +108,7 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 	_rcTile = rc;
 	_bDrawCursor = true;
 
-	((CMainFrame*)AfxGetApp()->m_pMainWnd)->SetCursorPosition(_iGridX, _iGridY);
+	((CMainFrame*)AfxGetMainWnd())->SetCursorPosition(_iGridX, _iGridY);
 }
 
 
@@ -123,7 +123,7 @@ void ToolBase::OnTurnOff()
 	{
 		_bDrawCursor = false;
 
-		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
 		pView->LogicInvalidate(&_rcTile);	//Ë¢ÐÂÀÏµÄ
 	}
 

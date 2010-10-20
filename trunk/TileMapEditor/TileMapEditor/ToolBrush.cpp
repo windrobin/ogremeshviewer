@@ -48,7 +48,7 @@ void ToolBrush::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if( pLayer->ModifyTile(_iGridX, _iGridY, _strResKey, _strResID) )
 	{
-		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
 		pView->LogicInvalidate(_rcTile);
 	}
 }
@@ -74,7 +74,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 
 		if( pLayer->ModifyTile(_iGridX, _iGridY, _strResKey, _strResID) )
 		{
-			CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+			CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
 			pView->LogicInvalidate(_rcTile);
 		}
 	}

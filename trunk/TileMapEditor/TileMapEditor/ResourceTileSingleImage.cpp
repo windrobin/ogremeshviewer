@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "ResourceTileSingleImage.h"
 #include "ResourceManager.h"
+#include "TileMapEditorView.h"
+#include "MainFrm.h"
 
 using namespace Cactus;
 using namespace PropertySys;
@@ -135,10 +137,15 @@ void ResourceTileSingleImage::Draw(CDC* pDC, int posCenterX, int posCenterY, con
 	int startX = posCenterX - pBmp->GetBitmapDimension().cx/2;
 	int startY = posCenterY - pBmp->GetBitmapDimension().cy/2;
 
+	CRect rcDest(startX, startY, startX + pBmp->GetBitmapDimension().cx, startY + pBmp->GetBitmapDimension().cy);
+
 	//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
-	pDC->TransparentBlt(startX, startY, pBmp->GetBitmapDimension().cx, pBmp->GetBitmapDimension().cy
-		, &memDC, 0, 0, pBmp->GetBitmapDimension().cx, pBmp->GetBitmapDimension().cy, RGB(255,255,255));
+	pDC->TransparentBlt(startX, startY, rcDest.Width(), rcDest.Height()
+		, &memDC, 0, 0, rcDest.Width(),rcDest.Height(), RGB(255,255,255));
 
 	memDC.SelectObject(pOldBmp);
+
+	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
+	pView->LogicInvalidate(rcDest);
 
 }

@@ -37,7 +37,7 @@ void ToolRemove::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if( pLayer->ClearTile(_iGridX, _iGridY) )
 	{
-		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
 		pView->LogicInvalidate(_rcTile);
 	}
 }
@@ -63,7 +63,7 @@ void ToolRemove::OnMouseMove(UINT nFlags, CPoint point)
 
 		if( pLayer->ClearTile(_iGridX, _iGridY) )
 		{
-			CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetActiveView(); 
+			CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
 			pView->LogicInvalidate(_rcTile);
 		}
 	}

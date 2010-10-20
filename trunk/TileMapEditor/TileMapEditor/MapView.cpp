@@ -458,7 +458,7 @@ void MapView::OnProperties()
 	{
 		MapBaseObject* pObject = (MapBaseObject*)ptr;
 
-		CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetApp()->m_pMainWnd)->GetPropertyWnd(); 
+		CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetMainWnd())->GetPropertyWnd(); 
 		pPropertyWnd->AddPropertyData(pObject, pObject->GetObjectName());
 		pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
 	}
