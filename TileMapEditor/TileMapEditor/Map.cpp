@@ -422,3 +422,85 @@ void Map::ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent)
 	CView* pView = pMainFrame->GetActiveView(); 
 	pView->Invalidate();
 }
+
+bool Map::GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid)
+{
+/*
+	int xOffset = (GetPixelWidth() - _iUnitTileWidth)/2;
+
+	ptGrid.x	= ptPixel.y/_iUnitTileHeight + (ptPixel.x - xOffset) /_iUnitTileWidth;
+	ptGrid.y	= ptPixel.y/_iUnitTileHeight - (ptPixel.x - xOffset) /_iUnitTileWidth;
+
+	return (ptGrid.x >= 0 && ptGrid.y >= 0
+		&& ptGrid.x < _iWidthInTiles && ptGrid.y < _iHeightInTiles
+		);
+*/
+
+/*======================================
+k = H/W;
+
+x[0, 0.5W]
+y >= -kx + 0.5H;
+y <= kx + 0.5H;
+
+x[0.5W, W]
+y >= kx - 0.5H;
+y <= -kx + 1.5H;
+
+//a, b为grid坐标；x, y为像素坐标；
+a - b = 2x/W;
+a + b = 2y/H;
+======================================*/
+	bool bInRegion = false;
+
+	int iMapW = GetPixelWidth();
+	int iMapH = GetPixelHeight();
+
+	int y = 0;
+	float k = 1.0f * iMapH / iMapW;
+	if (ptPixel.x <= iMapW/2)
+	{
+		if ( (ptPixel.y >= -k * ptPixel.x + iMapH/2) && (ptPixel.y <= k * ptPixel.x + iMapH/2) )
+			bInRegion = true;
+	}
+	else
+	{
+		if ( (ptPixel.y >= k * ptPixel.x - iMapH/2) && (ptPixel.y <= -k * ptPixel.x + 1.5 * iMapH) )
+			bInRegion = true;
+	}
+
+	if (bInRegion)
+	{
+		//计算y
+		//y = kx + b;	b[-0.5H, 0.5H]
+		float b = 1.0f * -iMapH/2;
+		ptGrid.y = -1;
+		while(ptPixel.y > k * ptPixel.x + b)
+		{
+			b += _iUnitTileHeight;
+			ptGrid.y++;
+		}
+
+		//计算x
+		//y = -kx + b;	b[0.5H, 1.5H]
+		b = 1.0f * iMapH/2;
+		ptGrid.x = -1;
+		while(ptPixel.y > -k * ptPixel.x + b)
+		{
+			b += _iUnitTileHeight;
+			ptGrid.x++;
+		}
+	}
+
+	return bInRegion;
+}
+
+CRect Map::GetPixelCoordRect(const CPoint& ptGrid)
+{
+	int xOffset = (GetPixelWidth() - _iUnitTileWidth)/2;
+
+	int xLeft	= xOffset + (ptGrid.x - ptGrid.y) * _iUnitTileWidth / 2;
+	int yTop	= (ptGrid.x + ptGrid.y) * _iUnitTileHeight / 2;
+
+	return CRect(CPoint(xLeft, yTop), CSize(_iUnitTileWidth, _iUnitTileHeight));
+}
