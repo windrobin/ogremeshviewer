@@ -67,9 +67,9 @@ public:
 					p->_strImageName	= attributes.getValueAsString("file");
 					p->_iIconSize		= attributes.getValueAsInteger("iconsize");
 
-					if( p->Load() && _resManager._ResTiles.find(p->_strName) == _resManager._ResTiles.end() )
+					if( p->Load() && _resManager._ResourceTiles.find(p->_strName) == _resManager._ResourceTiles.end() )
 					{
-						_resManager._ResTiles[p->_strName] = p;
+						_resManager._ResourceTiles[p->_strName] = p;
 					}
 					else
 					{
@@ -86,9 +86,9 @@ public:
 					p->_strFileExt		= attributes.getValueAsString("ext");
 					p->_iIconSize		= attributes.getValueAsInteger("iconsize");
 
-					if( p->Load() && _resManager._ResTiles.find(p->_strName) == _resManager._ResTiles.end() )
+					if( p->Load() && _resManager._ResourceTiles.find(p->_strName) == _resManager._ResourceTiles.end() )
 					{
-						_resManager._ResTiles[p->_strName] = p;
+						_resManager._ResourceTiles[p->_strName] = p;
 					}
 					else
 					{
@@ -352,17 +352,17 @@ void ResourceManager::Reset()
 	for_each(_ResBackgrounds.begin(), _ResBackgrounds.end(), delete_resourceBackground);
 	_ResBackgrounds.clear();
 
-	for_each(_ResTiles.begin(), _ResTiles.end(), delete_resourceTile);
-	_ResTiles.clear();
+	for_each(_ResourceTiles.begin(), _ResourceTiles.end(), delete_resourceTile);
+	_ResourceTiles.clear();
 
 	for_each(_ResGameObjectGroups.begin(), _ResGameObjectGroups.end(), delete_resourceGameObjectGroup);
 	_ResGameObjectGroups.clear();
 }
 
-bool ResourceManager::IsResTileIDValid(const Cactus::String& tile, const Cactus::String& strID)
+bool ResourceManager::IsResourceTileIDValid(const Cactus::String& tile, const Cactus::String& strID)
 {
-	ResTileType::iterator it = _ResTiles.find(tile);
-	if (it != _ResTiles.end())
+	ResTileType::iterator it = _ResourceTiles.find(tile);
+	if (it != _ResourceTiles.end())
 	{
 		ResourceTile* pTile = it->second;
 		return pTile->IsResItemValid(strID);
@@ -371,10 +371,10 @@ bool ResourceManager::IsResTileIDValid(const Cactus::String& tile, const Cactus:
 	return false;
 }
 
-ResourceTile* ResourceManager::GetResourceTile(const Cactus::String& tile)
+ResourceTile* ResourceManager::GetResourceTile(const Cactus::String& strName)
 {
-	ResTileType::iterator it = _ResTiles.find(tile);
-	if (it != _ResTiles.end())
+	ResTileType::iterator it = _ResourceTiles.find(strName);
+	if (it != _ResourceTiles.end())
 	{
 		return it->second;
 	}
@@ -389,9 +389,9 @@ Resource* ResourceManager::GetResource(const Cactus::String& key)
 		return _ResBackgrounds[key];
 	}
 
-	if (_ResTiles.find(key) != _ResTiles.end())
+	if (_ResourceTiles.find(key) != _ResourceTiles.end())
 	{
-		return _ResTiles[key];
+		return _ResourceTiles[key];
 	}
 
 	if (_ResGameObjectGroups.find(key) != _ResGameObjectGroups.end())

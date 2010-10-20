@@ -2,7 +2,8 @@
 
 #include "ResourceTile.h"
 
-//原始图像资源在一张大图像中，子资源是作为其中小块
+//原始图像资源在一张大图像中，子资源是作为其中小块;
+//子资源的命名是编号0 - N-1转换成的String
 class ResourceTileSingleImage : public PropertySys::SupportRTTI<ResourceTileSingleImage, ResourceTile>
 {
 	friend class ResourceManager;

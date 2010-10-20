@@ -111,8 +111,8 @@ void ResourceTreeView::FillFileView()
 	}
 
 	_treeArtTileRes			= _ResourceTree.InsertItem(_T("Tile×ÊÔ´"), 0, 0, hArtSrc);
-	for (ResourceManager::ResTileType::iterator it = ResourceManager::getSingleton()._ResTiles.begin(); 
-		it != ResourceManager::getSingleton()._ResTiles.end(); ++it)
+	for (ResourceManager::ResTileType::iterator it = ResourceManager::getSingleton()._ResourceTiles.begin(); 
+		it != ResourceManager::getSingleton()._ResourceTiles.end(); ++it)
 	{
 		HTREEITEM hItem = _ResourceTree.InsertItem(it->first.c_str(), 2, 2, _treeArtTileRes);
 		_ResourceTree.SetItemData(hItem, (DWORD_PTR)it->second);

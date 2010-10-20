@@ -82,13 +82,13 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 			if (_tileWidth > _tileHeight)
 			{
 				float fR = 1.0f * _iIconSize / _tileWidth;
-				dcMem.StretchBlt(0, 0, _iIconSize, _tileHeight * fR
+				dcMem.StretchBlt(0, 0, _iIconSize, int(_tileHeight * fR)
 					, &dcBmp, (i % iLineCount) * _tileWidth, (i / iLineCount) * _tileHeight, _tileWidth, _tileHeight, SRCCOPY);
 			}
 			else
 			{
 				float fR = 1.0f * _iIconSize / _tileHeight;
-				dcMem.StretchBlt((_iIconSize - fR * _tileWidth)/2, 0, fR * _tileWidth, _iIconSize
+				dcMem.StretchBlt(int((_iIconSize - fR * _tileWidth)/2), 0, int(fR * _tileWidth), _iIconSize
 					, &dcBmp, (i % iLineCount) * _tileWidth, (i / iLineCount) * _tileHeight, _tileWidth, _tileHeight, SRCCOPY);
 			}
 		}

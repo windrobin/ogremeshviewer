@@ -17,7 +17,7 @@ ResourceGameObject::~ResourceGameObject()
 bool ResourceGameObject::Load(const Cactus::String& strTile)
 {
 	//判断它依赖的图像资源十分有效
-	return ResourceManager::getSingleton().IsResTileIDValid(strTile, _ArtResID);
+	return ResourceManager::getSingleton().IsResourceTileIDValid(strTile, _ArtResID);
 }
 
 //--------------------------------------------------------------------------------------------------------
