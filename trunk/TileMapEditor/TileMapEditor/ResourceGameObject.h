@@ -14,7 +14,7 @@ public:
 
 protected:
 	Cactus::String		_strName;
-	int					_ArtResID;
+	Cactus::String		_ArtResID;
 
 	GameObjectType		_eType;
 };

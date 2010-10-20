@@ -27,7 +27,6 @@ public:
 
 	Cactus::StringVector*	GetCaptions(){ return &_captions; }
 
-
 protected:
 	CImageList				_imageList;
 	bool					_bHasImageList;
