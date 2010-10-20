@@ -1,6 +1,14 @@
 #pragma once
 
-enum GameObjectType
+enum EResourceType
+{
+	eResTypeArt,
+	eResTypeGameObject,
+	eResTypeMax
+};
+
+
+enum EGameObjectType
 {
 	eGameObjectNPC,
 	eGameObjectMonster,
@@ -37,6 +45,9 @@ public:
 	//获取资源组名称
 	Cactus::String			GetResourceName(){ return _strName; }
 
+	//获取资源组类型
+	EResourceType			GetResourceType(){ return _eResType; }
+
 	//获取子资源的名称
 	Cactus::StringVector*	GetCaptions(){ return &_captions; }
 
@@ -46,4 +57,5 @@ protected:
 	bool					_bHasImageList;		//图像列表是否已经创建
 	Cactus::StringVector	_captions;			//子资源的名字数组
 	int						_iIconSize;			//资源列表缩略图标的大小
+	EResourceType			_eResType;			//资源组类型
 };

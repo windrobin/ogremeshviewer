@@ -18,7 +18,7 @@ protected:
 	Cactus::String		_strName;	//名字
 	Cactus::String		_ArtResID;	//依赖的子图像资源名称
 
-	GameObjectType		_eType;		//类型
+	EGameObjectType		_eType;		//类型
 };
 
 //--------------------------------------------------------------------------------------------------------
