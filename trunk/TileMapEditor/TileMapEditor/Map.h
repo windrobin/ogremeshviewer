@@ -43,6 +43,9 @@ public:
 	int							GetPixelHeight(){ return _iHeightInTiles * _iUnitTileHeight; }
 
 	EMapType					GetType(){ return _eMapType; }
+	
+	bool						GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid);
+	CRect						GetPixelCoordRect(const CPoint& ptGrid);
 
 protected:
 	Cactus::String		_strName;

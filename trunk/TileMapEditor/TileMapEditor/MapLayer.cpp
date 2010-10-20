@@ -61,39 +61,15 @@ void MapLayer::Draw(CDC* pDC)
 			{
 				STile& tile = it->second[t];
 
-				if (_pParentMap->_eMapType == eRectangle)
+				if (_pParentMap->GetType() == eRectangle)
 				{
 					pRes->Draw(pDC, tile._posX * iTileW, tile._posY * iTileH, tile._strID);
 				}
 				else
 				{
-					int xLeft	= _pParentMap->GetPixelWidth() / 2 - iTileW/2;
-					int yTop	= 0;
+					CRect rc = _pParentMap->GetPixelCoordRect(CPoint(tile._posX, tile._posY));
 
-					xLeft	+= tile._posX * iTileW/2;
-					yTop	+= tile._posX * iTileH/2;
-
-					xLeft	-= tile._posY * iTileW/2;
-					yTop	+= tile._posY * iTileH/2;
-
-					CRect rc(xLeft, yTop, xLeft + iTileW, yTop + iTileH);
-					//rc.DeflateRect(1, 1, 1, 1);
-
-					CPoint pts[4];
-					pts[0] = CPoint(0, iTileH/2);
-					pts[1] = CPoint(iTileW/2, 0);
-					pts[2] = CPoint(iTileW, iTileH/2);
-					pts[3] = CPoint(iTileW/2, iTileH);
-
-					CRgn rgn;
-					rgn.CreatePolygonRgn(pts, 4, WINDING);
-					rgn.OffsetRgn(xLeft, yTop);
-					
-					pDC->SelectClipRgn(&rgn, RGN_AND);
-					pRes->Draw(pDC, xLeft, yTop, tile._strID);
-					pDC->SelectClipRgn(0);
-					
-					rgn.DeleteObject();
+					pRes->Draw(pDC, rc.left, rc.top, tile._strID);
 				}
 			}
 		}
@@ -107,7 +83,7 @@ void MapLayer::Draw(CDC* pDC)
 		int iMapW = _pParentMap->GetPixelWidth();
 		int iMapH = _pParentMap->GetPixelHeight();
 
-		if (_pParentMap->_eMapType == eRectangle)
+		if (_pParentMap->GetType() == eRectangle)
 		{
 			//画横线
 			for (int i = 0; i <= _pParentMap->_iHeightInTiles; i++)
@@ -163,7 +139,7 @@ bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
 	int iTileW = _pParentMap->_iUnitTileWidth;
 	int iTileH = _pParentMap->_iUnitTileHeight;
 
-	if (_pParentMap->_eMapType == eRectangle)
+	if (_pParentMap->GetType() == eRectangle)
 	{
 		gridX	= pt.x / iTileW;
 		gridY	= pt.y / iTileH;
@@ -174,71 +150,17 @@ bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
 	}
 	else
 	{
-/*======================================
-k = H/W;
-
-x[0, 0.5W]
-y >= -kx + 0.5H;
-y <= kx + 0.5H;
-
-x[0.5W, W]
-y >= kx - 0.5H;
-y <= -kx + 1.5H;
-
-//a, b为grid坐标；x, y为像素坐标；
-a - b = 2x/W;
-a + b = 2y/H;
-======================================*/
-		bool bInRegion = false;
-
-		int y = 0;
-		float k = 1.0f * iMapH / iMapW;
-		if (pt.x <= iMapW/2)
-		{
-			if ( (pt.y >= -k * pt.x + iMapH/2) && (pt.y <= k * pt.x + iMapH/2) )
-				bInRegion = true;
-		}
-		else
-		{
-			if ( (pt.y >= k * pt.x - iMapH/2) && (pt.y <= -k * pt.x + 1.5 * iMapH) )
-				bInRegion = true;
-		}
-
+		CPoint ptGrid;
+		bool bInRegion = _pParentMap->GetGridCoord(pt, ptGrid);
 		if (bInRegion)
 		{
-			//计算y
-			//y = kx + b;	b[-0.5H, 0.5H]
-			float b = 1.0f * -iMapH/2;
-			gridY = -1;
-			while(pt.y > k * pt.x + b)
-			{
-				b += iTileH;
-				gridY++;
-			}
+			gridX = ptGrid.x;
+			gridY = ptGrid.y;
 
-			//计算x
-			//y = -kx + b;	b[0.5H, 1.5H]
-			b = 1.0f * iMapH/2;
-			gridX = -1;
-			while(pt.y > -k * pt.x + b)
-			{
-				b += iTileH;
-				gridX++;
-			}
-
-			int xLeft	= iMapW / 2 - iTileW/2;
-			int yTop	= 0;
-
-			xLeft	+= gridX * iTileW/2;
-			yTop	+= gridX * iTileH/2;
-
-			xLeft	-= gridY * iTileW/2;
-			yTop	+= gridY * iTileH/2;
-
-			rc = CRect(CPoint(xLeft, yTop), CSize(iTileW, iTileH));
-
-			return true;
+			rc = _pParentMap->GetPixelCoordRect(ptGrid);
 		}
+
+		return bInRegion;
 
 	}
 
