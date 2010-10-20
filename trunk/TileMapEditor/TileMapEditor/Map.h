@@ -11,7 +11,6 @@ class Map : public PropertySys::SupportRTTI<Map, MapBaseObject>
 	friend class CTileMapEditorView;
 	friend class CTileMapEditorDoc;
 	friend class MapView;
-	friend class MapLayer;
 
 public:
 	Map();
