@@ -9,6 +9,8 @@
 #include "MainFrm.h"
 #include "TileMapEditorView.h"
 
+#include "ResourceManager.h"
+
 ToolBrush::ToolBrush()
 {
 	_refCursor = RGB(192, 192, 0);
@@ -20,8 +22,17 @@ ToolBrush::~ToolBrush()
 
 void ToolBrush::Draw(CDC* pDC)
 {
-	ToolBase::Draw(pDC);
+	if (!_bDrawCursor)
+		return;
 
+	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResKey);
+	if (pRes)
+	{
+		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(CPoint(_iGridX, _iGridY));
+		pRes->Draw(pDC, rc.CenterPoint().x, rc.CenterPoint().y, _strResID);
+	}
+
+	ToolBase::Draw(pDC);
 }
 
 void ToolBrush::OnLButtonDown(UINT nFlags, CPoint point)

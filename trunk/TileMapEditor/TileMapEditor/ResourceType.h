@@ -40,7 +40,7 @@ public:
 	CImageList*				GetImageList(){ return &_imageList; }
 
 	//绘制编号为strID的子资源
-	virtual void			Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID){}
+	virtual void			Draw(CDC* pDC, int posCenterX, int posCenterY, const Cactus::String& strID){}
 
 	//获取资源组名称
 	Cactus::String			GetResourceName(){ return _strName; }

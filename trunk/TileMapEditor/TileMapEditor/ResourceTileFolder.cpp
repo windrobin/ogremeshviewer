@@ -136,7 +136,7 @@ void ResourceTileFolder::CreateImageList(CDC* pDC)
 	AfxGetMainWnd()->EndWaitCursor();
 }
 
-void ResourceTileFolder::Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID)
+void ResourceTileFolder::Draw(CDC* pDC, int posCenterX, int posCenterY, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 
@@ -147,5 +147,9 @@ void ResourceTileFolder::Draw(CDC* pDC, int posX, int posY, const Cactus::String
 	}
 
 	CxImage* pImage = _images[strID];
-	pImage->Draw(pDC->GetSafeHdc(), posX, posY);
+
+	int startX = posCenterX - pImage->GetWidth()/2;
+	int startY = posCenterY - pImage->GetHeight()/2;
+
+	pImage->Draw(pDC->GetSafeHdc(), startX, startY);
 }
