@@ -134,10 +134,13 @@ void ResourceTileSingleImage::Draw(CDC* pDC, int posCenterX, int posCenterY, con
 	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
 
 
-	int startX = posCenterX - pBmp->GetBitmapDimension().cx/2;
-	int startY = posCenterY - pBmp->GetBitmapDimension().cy/2;
+	BITMAP bmpInfo;
+	pBmp->GetBitmap(&bmpInfo);
 
-	CRect rcDest(startX, startY, startX + pBmp->GetBitmapDimension().cx, startY + pBmp->GetBitmapDimension().cy);
+	int startX = posCenterX - bmpInfo.bmWidth/2;
+	int startY = posCenterY - bmpInfo.bmHeight/2;
+
+	CRect rcDest(startX, startY, startX + bmpInfo.bmWidth, startY + bmpInfo.bmHeight);
 
 	//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
 	pDC->TransparentBlt(startX, startY, rcDest.Width(), rcDest.Height()
