@@ -464,6 +464,19 @@ void Map::ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent)
 
 bool Map::GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid)
 {
+	if (ptPixel.x > GetPixelWidth() || ptPixel.y > GetPixelHeight() || ptPixel.x < 0 || ptPixel.y < 0)
+	{
+		return false;
+	}
+
+	if (GetType() == eRectangle)
+	{
+		ptGrid.x	= ptPixel.x / _iUnitTileWidth;
+		ptGrid.y	= ptPixel.y / _iUnitTileHeight;
+
+		return true;
+	}
+
 /*
 	int xOffset = (GetPixelWidth() - _iUnitTileWidth)/2;
 
@@ -536,10 +549,17 @@ a + b = 2y/H;
 
 CRect Map::GetPixelCoordRect(const CPoint& ptGrid)
 {
-	int xOffset = (GetPixelWidth() - _iUnitTileWidth)/2;
+	if (GetType() == eRectangle)
+	{
+		return CRect(CPoint(ptGrid.x * _iUnitTileWidth, ptGrid.y * _iUnitTileHeight), CSize(_iUnitTileWidth, _iUnitTileHeight));
+	}
+	else
+	{
+		int xOffset = (GetPixelWidth() - _iUnitTileWidth)/2;
 
-	int xLeft	= xOffset + (ptGrid.x - ptGrid.y) * _iUnitTileWidth / 2;
-	int yTop	= (ptGrid.x + ptGrid.y) * _iUnitTileHeight / 2;
+		int xLeft	= xOffset + (ptGrid.x - ptGrid.y) * _iUnitTileWidth / 2;
+		int yTop	= (ptGrid.x + ptGrid.y) * _iUnitTileHeight / 2;
 
-	return CRect(CPoint(xLeft, yTop), CSize(_iUnitTileWidth, _iUnitTileHeight));
+		return CRect(CPoint(xLeft, yTop), CSize(_iUnitTileWidth, _iUnitTileHeight));
+	}
 }

@@ -45,9 +45,6 @@ void MapLayer::Draw(CDC* pDC)
 	if (!_bVisible || !_pParentMap)
 		return;
 
-	int iTileW = _pParentMap->_iUnitTileWidth;
-	int iTileH = _pParentMap->_iUnitTileHeight;
-
 	for (TileGroupMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
 	{
 		Resource* pRes = ResourceManager::getSingleton().GetResource(it->first);
@@ -57,16 +54,8 @@ void MapLayer::Draw(CDC* pDC)
 			{
 				STile& tile = it->second[t];
 
-				if (_pParentMap->GetType() == eRectangle)
-				{
-					pRes->Draw(pDC, tile._posX * iTileW, tile._posY * iTileH, tile._strID);
-				}
-				else
-				{
-					CRect rc = _pParentMap->GetPixelCoordRect(CPoint(tile._posX, tile._posY));
-
-					pRes->Draw(pDC, rc.left, rc.top, tile._strID);
-				}
+				CRect rc = _pParentMap->GetPixelCoordRect(CPoint(tile._posX, tile._posY));
+				pRes->Draw(pDC, rc.left, rc.top, tile._strID);
 			}
 		}
 	}
@@ -74,43 +63,17 @@ void MapLayer::Draw(CDC* pDC)
 
 bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
 {
-	int iMapW = _pParentMap->GetPixelWidth();
-	int iMapH = _pParentMap->GetPixelHeight();
-
-	if (pt.x >= iMapW || pt.y >= iMapH || pt.x <= 0 || pt.y <= 0)
+	CPoint ptGrid;
+	bool bInRegion = _pParentMap->GetGridCoord(pt, ptGrid);
+	if (bInRegion)
 	{
-		return false;
+		gridX = ptGrid.x;
+		gridY = ptGrid.y;
+
+		rc = _pParentMap->GetPixelCoordRect(ptGrid);
 	}
 
-	int iTileW = _pParentMap->_iUnitTileWidth;
-	int iTileH = _pParentMap->_iUnitTileHeight;
-
-	if (_pParentMap->GetType() == eRectangle)
-	{
-		gridX	= pt.x / iTileW;
-		gridY	= pt.y / iTileH;
-
-		rc = CRect(CPoint(gridX * iTileW, gridY * iTileH), CSize(iTileW, iTileH));
-
-		return true;
-	}
-	else
-	{
-		CPoint ptGrid;
-		bool bInRegion = _pParentMap->GetGridCoord(pt, ptGrid);
-		if (bInRegion)
-		{
-			gridX = ptGrid.x;
-			gridY = ptGrid.y;
-
-			rc = _pParentMap->GetPixelCoordRect(ptGrid);
-		}
-
-		return bInRegion;
-
-	}
-
-	return false;
+	return bInRegion;
 }
 
 bool MapLayer::ModifyTile(int gridX, int gridY, const Cactus::String& resKey, const Cactus::String& strID)
