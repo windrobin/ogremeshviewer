@@ -16,6 +16,7 @@ ResourceGameObject::~ResourceGameObject()
 
 bool ResourceGameObject::Load(const Cactus::String& strTile)
 {
+	//判断它依赖的图像资源十分有效
 	return ResourceManager::getSingleton().IsResTileIDValid(strTile, _ArtResID);
 }
 
@@ -39,7 +40,6 @@ void ResourceGameObjectGroup::RegisterReflection()
 
 	M_ReflectionInit(0);
 	
-	pProp = M_RegisterPropertySimple(Cactus::String, GroupName, ResourceGameObjectGroup, Resource, "游戏对象组名.", BaseProperty::eReadOnly, _strGroupName);
 	pProp = M_RegisterPropertySimple(Cactus::String, ArtResKey, ResourceGameObjectGroup, Resource, "图标的来源.", BaseProperty::eReadOnly, _strArtResKey);
 }
 

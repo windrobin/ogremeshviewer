@@ -7,7 +7,6 @@ using namespace PropertySys;
 
 ResourceTile::ResourceTile()
 {
-	_bHasImageList = false;
 }
 
 ResourceTile::~ResourceTile()
