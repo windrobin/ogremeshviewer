@@ -5,6 +5,8 @@
 
 #pragma once
 
+class CTileMapEditorDoc;
+
 class CTileMapEditorView : public CScrollView
 {
 protected: // 仅从序列化创建

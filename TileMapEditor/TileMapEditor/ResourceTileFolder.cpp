@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "ResourceTileFolder.h"
 #include "ResourceManager.h"
+#include "TileMapEditorView.h"
+#include "MainFrm.h"
 
 using namespace Cactus;
 using namespace PropertySys;
@@ -152,4 +154,9 @@ void ResourceTileFolder::Draw(CDC* pDC, int posCenterX, int posCenterY, const Ca
 	int startY = posCenterY - pImage->GetHeight()/2;
 
 	pImage->Draw(pDC->GetSafeHdc(), startX, startY);
+
+	CRect rcDest(startX, startY, startX + pImage->GetWidth(), startY + pImage->GetHeight());
+	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
+	pView->LogicInvalidate(rcDest);
+
 }

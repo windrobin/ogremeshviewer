@@ -19,6 +19,8 @@ public:
 
 	Map&	GetMap(){ return _theMap; }
 
+	bool	_bInNewMapDlg;
+
 
 public:
 	virtual ~CTileMapEditorDoc();
