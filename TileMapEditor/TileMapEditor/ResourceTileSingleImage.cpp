@@ -113,7 +113,7 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 	_bHasImageList = true;
 }
 
-void ResourceTileSingleImage::Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID)
+void ResourceTileSingleImage::Draw(CDC* pDC, int posCenterX, int posCenterY, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 
@@ -128,10 +128,16 @@ void ResourceTileSingleImage::Draw(CDC* pDC, int posX, int posY, const Cactus::S
 
 	CDC memDC;
 	memDC.CreateCompatibleDC(pDC);
+	
 	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
 
+
+	int startX = posCenterX - pBmp->GetBitmapDimension().cx/2;
+	int startY = posCenterY - pBmp->GetBitmapDimension().cy/2;
+
 	//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
-	pDC->TransparentBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, _tileWidth, _tileHeight, RGB(255,255,255));
+	pDC->TransparentBlt(startX, startY, pBmp->GetBitmapDimension().cx, pBmp->GetBitmapDimension().cy
+		, &memDC, 0, 0, pBmp->GetBitmapDimension().cx, pBmp->GetBitmapDimension().cy, RGB(255,255,255));
 
 	memDC.SelectObject(pOldBmp);
 
