@@ -7,6 +7,7 @@ using namespace PropertySys;
 
 ResourceTile::ResourceTile()
 {
+	_eResType = eResTypeArt;
 }
 
 ResourceTile::~ResourceTile()

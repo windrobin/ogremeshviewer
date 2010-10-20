@@ -23,6 +23,7 @@ bool ResourceGameObject::Load(const Cactus::String& strTile)
 //--------------------------------------------------------------------------------------------------------
 ResourceGameObjectGroup::ResourceGameObjectGroup()
 {
+	_eResType = eResTypeGameObject;
 }
 
 ResourceGameObjectGroup::~ResourceGameObjectGroup()

@@ -203,7 +203,7 @@ public:
 private:
 
 	ResourceManager&	_resManager;
-	GameObjectType		_eType;
+	EGameObjectType		_eType;
 	String				_strType;
 	ResourceGameObjectGroup*	pGameObjectGroup;
 };

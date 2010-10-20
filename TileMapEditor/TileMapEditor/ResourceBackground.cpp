@@ -10,6 +10,7 @@ ResourceBackground::ResourceBackground()
 , _iHeight(0)
 , _pBmp(0)
 {
+	_eResType = eResTypeArt;
 }
 
 ResourceBackground::~ResourceBackground()
