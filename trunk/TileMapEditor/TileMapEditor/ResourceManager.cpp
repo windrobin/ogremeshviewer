@@ -130,53 +130,70 @@ class ResourceGameObject_xmlHandler : public Cactus::XMLHandler
 public:
 	ResourceGameObject_xmlHandler(ResourceManager& resMan) : _resManager(resMan)
 	{
-		_eType	= eGameObjectMax;
-		pGameObjectGroup = 0;
+		_eType				= eGameObjectMax;
+		pGameObjectGroup	= 0;
+		pGameObject			= 0;
 	}
 	virtual ~ResourceGameObject_xmlHandler(){}
 
 	virtual void elementStart(const Cactus::String& element, const Cactus::XMLAttributes& attributes)
 	{
-		if (element == "npc")
+		if ( element == "npc"
+			||
+			element == "monster"
+			||
+			element == "funcpoint"
+			)
 		{
-			_eType		= eGameObjectNPC;
 			_strType	= element;
-			pGameObjectGroup = new ResourceGameObjectGroup;
-			pGameObjectGroup->_strName = element;
-			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
-		}
-		else if (element == "monster")
-		{
-			_eType		= eGameObjectMonster;
-			_strType	= element;
-			pGameObjectGroup = new ResourceGameObjectGroup;
-			pGameObjectGroup->_strName = element;
-			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
-		}
-		else if (element == "funcpoint")
-		{
-			_eType		= eGameObjectFunctionPoint;
-			_strType	= element;
+
+			if (element == "npc")
+				_eType		= eGameObjectNPC;
+			else if (element == "monster")
+				_eType		= eGameObjectMonster;
+			else if (element == "funcpoint")
+				_eType		= eGameObjectFunctionPoint;
+
 			pGameObjectGroup = new ResourceGameObjectGroup;
 			pGameObjectGroup->_strName = element;
 			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
 		}
 		else if (element == "item" && _eType != eGameObjectMax)
 		{
-			//<item name="npc01" iconres="tile1" iconid="15" />
+			//<item name="npc01" iconid="000" xOffset="25" yOffset="16" xBarycentric="0" yBarycentric="0" >
+			//	<obstacle x="0" y="0"/>
+			//	<obstacle x="0" y="1"/>
+			//	<obstacle x="0" y="-1"/>
+			//</item>
 			ResourceGameObject* p = new ResourceGameObject;
 			p->_strName			= attributes.getValueAsString("name");
 			p->_ArtResID		= attributes.getValueAsString("iconid");
+			p->_ptOffset.x		= attributes.getValueAsInteger("xOffset");
+			p->_ptOffset.y		= attributes.getValueAsInteger("yOffset");
+			p->_xBaryCentric	= attributes.getValueAsFloat("xBarycentric");
+			p->_yBaryCentric	= attributes.getValueAsFloat("yBarycentric");
 		
 			p->_eType			= _eType;
 
 			if (p->Load(pGameObjectGroup->_strArtResKey))
 			{
 				pGameObjectGroup->_ResGameObjects.push_back(p);
+
+				pGameObject = p;
 			}
 			else
 			{
 				delete p;
+			}
+		}
+		else if (element == "obstacle")
+		{
+			if (pGameObject)
+			{
+				CPoint pt;
+				pt.x	= attributes.getValueAsInteger("x");
+				pt.y	= attributes.getValueAsInteger("y");
+				pGameObject->_obstacle.push_back(pt);
 			}
 		}
 	}
@@ -196,6 +213,10 @@ public:
 			pGameObjectGroup = 0;
 			_eType	= eGameObjectMax;
 		}
+		else if (element == "item")
+		{
+			pGameObject = 0;
+		}
 	}
 
 	virtual void text(const Cactus::String& content){}
@@ -206,6 +227,7 @@ private:
 	EGameObjectType		_eType;
 	String				_strType;
 	ResourceGameObjectGroup*	pGameObjectGroup;
+	ResourceGameObject*			pGameObject;
 };
 
 //---------------------------------------------------------------------------------------------------------

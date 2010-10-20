@@ -24,13 +24,15 @@ public:
 			//<tilemap version="1" name="test001" width="1024" height="1024" tilew="64" tileh="64" footnotes="这是一个测试地图文件。">
 			_map._iVersion				= attributes.getValueAsInteger("version");
 			_map._strName				= attributes.getValueAsString("name");
-			_map._iWidthInTiles				= attributes.getValueAsInteger("width");
-			_map._iHeightInTiles				= attributes.getValueAsInteger("height");
+			_map._iWidthInTiles			= attributes.getValueAsInteger("width");
+			_map._iHeightInTiles		= attributes.getValueAsInteger("height");
 			_map._iUnitTileWidth		= attributes.getValueAsInteger("wUnitTile");
 			_map._iUnitTileHeight		= attributes.getValueAsInteger("hUnitTile");
 			_map._strFootnotes			= attributes.getValueAsString("footnotes");
 			_map._colBKColor			= attributes.getValueAsInteger("backgroundcolor");
 			_map._strCurLayerName		= attributes.getValueAsString("curlayer");
+			_map._bDrawGrid				= attributes.getValueAsBool("drawgrid");
+			_map._colGridColor			= attributes.getValueAsInteger("gridcolor");
 		}
 		else if ( currentElementMatch("tilemap/background/") )
 		{
@@ -58,7 +60,6 @@ public:
 			_pCurLayer = new MapLayer;
 			_pCurLayer->Init(attributes.getValueAsString("name"), &_map);
 			_pCurLayer->_bEnable		= attributes.getValueAsBool("enable");
-			_pCurLayer->_bDrawGrid		= attributes.getValueAsBool("drawgrid");
 			_pCurLayer->_bVisible		= attributes.getValueAsBool("visible");
 
 			_map._layers.push_back(_pCurLayer);
@@ -139,6 +140,8 @@ Map::Map()
 , _pCurLayer(0)
 , _strCurLayerName("")
 , _eMapType(eRectangle)
+, _bDrawGrid(true)
+, _colGridColor(RGB(0, 128, 0))
 {
 }
 
@@ -167,6 +170,10 @@ void Map::RegisterReflection()
 	pProp = M_RegisterPropertySimple(int, UnitTileHeight, Map, Map, "最小Tile的高度.", BaseProperty::eDefault, _iUnitTileHeight);
 
 	pProp = M_RegisterPropertySimple(int, BackgroundColor, Map, Map, "背景颜色.", BaseProperty::eDefault, _colBKColor);
+	pProp->SetValueSpecify(eValueColor, "");
+
+	pProp = M_RegisterPropertySimple(bool, DrawGrid, Map, Map, "是否绘制网格.", BaseProperty::eDefault, _bDrawGrid);
+	pProp = M_RegisterPropertySimple(int, GridColor, Map, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
 	pProp->SetValueSpecify(eValueColor, "");
 }
 
@@ -215,6 +222,8 @@ void Map::Save(const Cactus::String& strPathName)
 		xmlOut.AddAttribute("hUnitTile", _iUnitTileHeight);
 		xmlOut.AddAttribute("footnotes", _strFootnotes);
 		xmlOut.AddAttribute("backgroundcolor", _colBKColor);
+		xmlOut.AddAttribute("drawgrid",	 _bDrawGrid);
+		xmlOut.AddAttribute("gridcolor", _colGridColor);
 		if (_pCurLayer)
 			xmlOut.AddAttribute("curlayer", _pCurLayer->GetObjectName());
 		else
@@ -244,7 +253,6 @@ void Map::Save(const Cactus::String& strPathName)
 			xmlOut.NodeBegin("layer");
 				xmlOut.AddAttribute("name", pLayer->_strName);
 				xmlOut.AddAttribute("enable", pLayer->_bEnable);
-				xmlOut.AddAttribute("drawgrid", pLayer->_bDrawGrid);
 				xmlOut.AddAttribute("visible", pLayer->_bVisible);
 
 			for (MapLayer::TileGroupMapType::iterator itG = pLayer->_GroupTiles.begin(); itG != pLayer->_GroupTiles.end(); ++itG)
@@ -296,26 +304,56 @@ void Map::Draw(CDC* pDC)
 {
 	pDC->FillSolidRect(0, 0, _iWidthInTiles * _iUnitTileWidth, _iHeightInTiles * _iUnitTileHeight, _colBKColor);
 
-	//if (_bDrawGrid)
-	//{
-	//	CPen pen(PS_DOT, 1, RGB(128, 128, 128));
-	//	CPen* pOldPen = pDC->SelectObject(&pen);
+	if (_bDrawGrid)
+	{
+		CPen pen(PS_SOLID, 1, _colGridColor);
+		CPen* pOldPen = pDC->SelectObject(&pen);
 
-	//	int iGridWidth	= _iWidthInTiles / _iUintTileWidth;
-	//	int iGridHeight	= _iHeightInTiles / _iUnitTileHeight;
-	//	for (int i = 0; i <= iGridWidth; i++)
-	//	{
-	//		pDC->MoveTo(0, i * _iUintTileWidth);
-	//		pDC->LineTo(_iHeightInTiles, i * _iUintTileWidth);
-	//	}
-	//	for (int i = 0; i <= iGridHeight; i++)
-	//	{
-	//		pDC->MoveTo(i * _iUnitTileHeight, 0);
-	//		pDC->LineTo(i * _iUnitTileHeight, _iWidthInTiles);
-	//	}
+		int iMapW = GetPixelWidth();
+		int iMapH = GetPixelHeight();
 
-	//	pDC->SelectObject(pOldPen);
-	//}
+		if (GetType() == eRectangle)
+		{
+			//画横线
+			for (int i = 0; i <= _iHeightInTiles; i++)
+			{
+				pDC->MoveTo(0, i * _iUnitTileHeight);
+				pDC->LineTo(iMapW, i * _iUnitTileHeight);
+			}
+
+			//画竖线
+			for (int i = 0; i <= _iWidthInTiles; i++)
+			{
+				pDC->MoveTo(i * _iUnitTileWidth, 0);
+				pDC->LineTo(i * _iUnitTileWidth, iMapH);
+			}
+		}
+		else
+		{
+			//画斜横线
+			for (int i = 0; i <= _iHeightInTiles; i++)
+			{
+				pDC->MoveTo(iMapW/2 - i * _iUnitTileWidth / 2
+					, i * _iUnitTileHeight / 2);
+
+				pDC->LineTo(iMapW - i * _iUnitTileWidth / 2
+					, iMapH/2 + i * _iUnitTileHeight / 2);
+			}
+
+			//画斜竖线
+			for (int i = 0; i <= _iWidthInTiles; i++)
+			{
+				pDC->MoveTo(i * _iUnitTileWidth / 2
+					, iMapH/2 + i * _iUnitTileHeight / 2);
+
+				pDC->LineTo(iMapW/2 + i * _iUnitTileWidth / 2
+					, i * _iUnitTileHeight / 2);
+			}
+		}
+
+		pDC->SelectObject(pOldPen);
+	}
+
 
 	for(MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
 	{
@@ -325,6 +363,7 @@ void Map::Draw(CDC* pDC)
 		if (_pCurLayer)
 			_pCurLayer->Draw(pDC);
 	}
+
 }
 
 void Map::SetCurLayer(MapLayer* pLayer)

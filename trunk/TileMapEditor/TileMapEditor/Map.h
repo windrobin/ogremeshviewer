@@ -60,6 +60,8 @@ protected:
 	EMapType			_eMapType;
 
 	COLORREF			_colBKColor;
+	bool				_bDrawGrid;
+	COLORREF			_colGridColor;
 
 	MapBackground*		_pMapBackground;
 

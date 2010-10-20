@@ -8,7 +8,6 @@ using namespace PropertySys;
 
 MapLayer::MapLayer()
 : _bVisible(true)
-, _bDrawGrid(true)
 {
 }
 
@@ -30,9 +29,6 @@ void MapLayer::RegisterReflection()
 
 	pProp = M_RegisterPropertySimple(Cactus::String, Name, MapLayer, Map, "Layer名.", BaseProperty::eDefault, _strName);
 	pProp = M_RegisterPropertySimple(bool, Enable, MapLayer, Map, "是否激活，不激活将不会导出到游戏地图.", BaseProperty::eDefault, _bEnable);
-	pProp = M_RegisterPropertySimple(bool, DrawGrid, MapLayer, Map, "是否绘制网格.", BaseProperty::eDefault, _bDrawGrid);
-	//pProp = M_RegisterPropertySimple(int, GridColor, MapLayer, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
-	//pProp->SetValueSpecify(eValueColor, "");
 }
 
 void MapLayer::OnPropertyChanged(const std::string& propName)
@@ -73,56 +69,6 @@ void MapLayer::Draw(CDC* pDC)
 				}
 			}
 		}
-	}
-
-	if (_bDrawGrid)
-	{
-		CPen pen(PS_SOLID, 1, RGB(0, 128, 0));
-		CPen* pOldPen = pDC->SelectObject(&pen);
-
-		int iMapW = _pParentMap->GetPixelWidth();
-		int iMapH = _pParentMap->GetPixelHeight();
-
-		if (_pParentMap->GetType() == eRectangle)
-		{
-			//画横线
-			for (int i = 0; i <= _pParentMap->_iHeightInTiles; i++)
-			{
-				pDC->MoveTo(0, i * _pParentMap->_iUnitTileHeight);
-				pDC->LineTo(iMapW, i * _pParentMap->_iUnitTileHeight);
-			}
-
-			//画竖线
-			for (int i = 0; i <= _pParentMap->_iWidthInTiles; i++)
-			{
-				pDC->MoveTo(i * _pParentMap->_iUnitTileWidth, 0);
-				pDC->LineTo(i * _pParentMap->_iUnitTileWidth, iMapH);
-			}
-		}
-		else
-		{
-			//画斜横线
-			for (int i = 0; i <= _pParentMap->_iHeightInTiles; i++)
-			{
-				pDC->MoveTo(iMapW/2 - i * _pParentMap->_iUnitTileWidth / 2
-					, i * _pParentMap->_iUnitTileHeight / 2);
-
-				pDC->LineTo(iMapW - i * _pParentMap->_iUnitTileWidth / 2
-					, iMapH/2 + i * _pParentMap->_iUnitTileHeight / 2);
-			}
-
-			//画斜竖线
-			for (int i = 0; i <= _pParentMap->_iWidthInTiles; i++)
-			{
-				pDC->MoveTo(i * _pParentMap->_iUnitTileWidth / 2
-					, iMapH/2 + i * _pParentMap->_iUnitTileHeight / 2);
-
-				pDC->LineTo(iMapW/2 + i * _pParentMap->_iUnitTileWidth / 2
-					, i * _pParentMap->_iUnitTileHeight / 2);
-			}
-		}
-
-		pDC->SelectObject(pOldPen);
 	}
 }
 
