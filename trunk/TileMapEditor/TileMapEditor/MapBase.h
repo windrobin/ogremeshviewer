@@ -11,8 +11,14 @@ class MapBaseObject : public PropertySys::SupportRTTI<MapBaseObject, PropertySys
 public:
 	MapBaseObject(){}
 
-	virtual Cactus::String		GetObjectName(){ return ""; }
+	virtual bool		IsLayer(){ return false; }
 
-	virtual bool				IsLayer(){ return false; }
+	Cactus::String		GetObjectName(){ return _strName; }
 
+	static void			RegisterReflection();
+	virtual void		OnPropertyChanged(const std::string& propName);
+
+protected:
+
+	Cactus::String		_strName;
 };

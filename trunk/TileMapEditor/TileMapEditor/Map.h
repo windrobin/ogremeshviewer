@@ -47,7 +47,6 @@ public:
 	CRect						GetPixelCoordRect(const CPoint& ptGrid);
 
 protected:
-	Cactus::String		_strName;
 	Cactus::String		_strFootnotes;
 	Cactus::String		_strCurLayerName;
 	int					_iWidthInTiles;

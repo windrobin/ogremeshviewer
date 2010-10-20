@@ -6,8 +6,17 @@ struct STile
 {
 	int				_posX;
 	int				_posY;
-	Cactus::String	_strID;
+	Cactus::String	_strResItemID;
 };
+
+struct SCPointLess
+{
+	bool operator()(const CPoint& l, const CPoint& r) const
+	{
+		return( l.x + l.y < r.x + r.y );
+	}
+};
+
 
 typedef Cactus::vector<STile>::type		TileVectorType;
 
@@ -15,7 +24,7 @@ class MapLayer : public PropertySys::SupportRTTI<MapLayer, MapBaseObject>
 {
 	friend class Map;
 	friend class Map_xmlHandler;
-	friend class MapView;
+
 public:
 	MapLayer();
 	~MapLayer();
@@ -42,11 +51,12 @@ public:
 protected:
 	Map*				_pParentMap;
 
-	Cactus::String		_strName;
 	bool				_bEnable;
+	bool				_bVisible;
 
 	typedef Cactus::map<Cactus::String, TileVectorType>::type	TileGroupMapType;	//ResourceTile key
 	TileGroupMapType	_GroupTiles;
 
-	bool				_bVisible;
+	typedef Cactus::multimap<CPoint, STile*>::type		TileMultiMapType;
+	TileMultiMapType	_PosIndexedTiles;
 };
