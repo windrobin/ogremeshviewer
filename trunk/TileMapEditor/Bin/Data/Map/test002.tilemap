@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="gb2312"?><tilemap version="1" name="map_xx" width="20" height="20" wUnitTile="64" hUnitTile="64" footnotes="请输入备注。" backgroundcolor="0" curlayer="layer_npc" >
+<?xml version="1.0" encoding="gb2312"?><tilemap version="1" name="map_xx" width="20" height="20" wUnitTile="64" hUnitTile="64" footnotes="请输入备注。" backgroundcolor="0" curlayer="layer_xx" >
 	<layers >
-		<layer name="layer_xx" enable="true" drawgrid="true" visible="false" >
+		<layer name="layer_xx" enable="true" drawgrid="true" visible="true" >
 			<tilegroup reskey="tile2" >
 				<tile posx="2" posy="0" id="000" />
 				<tile posx="3" posy="0" id="000" />
