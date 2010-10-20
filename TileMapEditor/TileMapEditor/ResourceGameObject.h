@@ -15,10 +15,16 @@ public:
 	virtual bool		Load(const Cactus::String& strTile);
 
 protected:
-	Cactus::String		_strName;	//名字
-	Cactus::String		_ArtResID;	//依赖的子图像资源名称
+	Cactus::String		_strName;		//名字
+	Cactus::String		_ArtResID;		//依赖的子图像资源名称
+	CPoint				_ptOffset;		//对象定位在(xOffset, yOffset)，图像左上角离定位点的偏差，定位点所在的格子是(0, 0)
+	float				_xBaryCentric;	//所有阻挡点的均值
+	float				_yBaryCentric;
 
-	EGameObjectType		_eType;		//类型
+	typedef Cactus::list<CPoint>::type	ObstacleListType;
+	ObstacleListType	_obstacle;		//所有的阻挡点
+
+	EGameObjectType		_eType;			//GameObject类型
 };
 
 //--------------------------------------------------------------------------------------------------------
