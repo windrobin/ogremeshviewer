@@ -23,7 +23,8 @@ bool ResourceGameObject::Load(const Cactus::String& strTile)
 //--------------------------------------------------------------------------------------------------------
 ResourceGameObjectGroup::ResourceGameObjectGroup()
 {
-	_eResType = eResTypeGameObject;
+	_eResType	= eResTypeGameObject;
+	_szUnitTile	= CPoint(64, 64);
 }
 
 ResourceGameObjectGroup::~ResourceGameObjectGroup()
@@ -40,8 +41,9 @@ void ResourceGameObjectGroup::RegisterReflection()
 	BaseProperty* pProp = 0;
 
 	M_ReflectionInit(0);
-	
+
 	pProp = M_RegisterPropertySimple(Cactus::String, ArtResKey, ResourceGameObjectGroup, Resource, "图标的来源.", BaseProperty::eReadOnly, _strArtResKey);
+	pProp = M_RegisterPropertySimple(CPoint, UnitTileSize, ResourceGameObjectGroup, Resource, "单元格的大小.", BaseProperty::eReadOnly, _szUnitTile);
 }
 
 void ResourceGameObjectGroup::OnPropertyChanged(const std::string& propName)
