@@ -556,6 +556,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MapBase.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MapBase.h"
 					>
 				</File>

@@ -79,9 +79,9 @@ public:
 		{
 			//<tile posx="0" posy="0" id="0"/>
 			STile tile;
-			tile._posX	= attributes.getValueAsInteger("posx");
-			tile._posY	= attributes.getValueAsInteger("posy");
-			tile._strID	= attributes.getValueAsString("id");
+			tile._posX			= attributes.getValueAsInteger("posx");
+			tile._posY			= attributes.getValueAsInteger("posy");
+			tile._strResItemID	= attributes.getValueAsString("id");
 			_tiles.push_back(tile);
 		}
 	}
@@ -158,8 +158,6 @@ void Map::RegisterReflection()
 	BaseProperty* pProp = 0;
 
 	M_ReflectionInit(0);
-
-	pProp = M_RegisterPropertySimple(Cactus::String, Name, Map, Map, "地图名.", BaseProperty::eDefault, _strName);
 
 	pProp = M_RegisterPropertySimple(int, Version, Map, Map, "地图版本.", BaseProperty::eReadOnly, _iVersion);
 	pProp = M_RegisterPropertySimple(Cactus::String, Footnotes, Map, Map, "地图备注.", BaseProperty::eDefault, _strFootnotes);
@@ -266,7 +264,7 @@ void Map::Save(const Cactus::String& strPathName)
 					xmlOut.NodeBegin("tile");
 						xmlOut.AddAttribute("posx", tile._posX);
 						xmlOut.AddAttribute("posy", tile._posY);
-						xmlOut.AddAttribute("id", tile._strID);
+						xmlOut.AddAttribute("id", tile._strResItemID);
 					xmlOut.NodeEnd("tile");
 				}
 				xmlOut.NodeEnd("tilegroup");

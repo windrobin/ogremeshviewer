@@ -27,8 +27,8 @@ void MapLayer::RegisterReflection()
 
 	M_ReflectionInit(0);
 
-	pProp = M_RegisterPropertySimple(Cactus::String, Name, MapLayer, Map, "Layer名.", BaseProperty::eDefault, _strName);
 	pProp = M_RegisterPropertySimple(bool, Enable, MapLayer, Map, "是否激活，不激活将不会导出到游戏地图.", BaseProperty::eDefault, _bEnable);
+	pProp = M_RegisterPropertySimple(bool, Visible, MapLayer, Map, "是否显示.", BaseProperty::eDefault, _bVisible);
 }
 
 void MapLayer::OnPropertyChanged(const std::string& propName)
@@ -55,7 +55,7 @@ void MapLayer::Draw(CDC* pDC)
 				STile& tile = it->second[t];
 
 				CRect rc = _pParentMap->GetPixelCoordRect(CPoint(tile._posX, tile._posY));
-				pRes->Draw(pDC, rc.left, rc.top, tile._strID);
+				pRes->Draw(pDC, rc.left, rc.top, tile._strResItemID);
 			}
 		}
 	}
@@ -87,13 +87,13 @@ bool MapLayer::ModifyTile(int gridX, int gridY, const Cactus::String& resKey, co
 			STile& tile = it->second[t];
 			if(tile._posX == gridX && tile._posY == gridY)
 			{
-				if(tile._strID == strID && resKey == it->first)
+				if(tile._strResItemID == strID && resKey == it->first)
 				{
 					return false;
 				}
 				else if (resKey == it->first)
 				{
-					tile._strID = strID;
+					tile._strResItemID = strID;
 					return true;
 				}
 				else
@@ -109,7 +109,7 @@ bool MapLayer::ModifyTile(int gridX, int gridY, const Cactus::String& resKey, co
 		STile newTile;
 		newTile._posX = gridX;
 		newTile._posY = gridY;
-		newTile._strID = strID;
+		newTile._strResItemID = strID;
 
 		_GroupTiles[resKey].push_back(newTile);
 	}
