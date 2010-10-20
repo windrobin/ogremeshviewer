@@ -58,25 +58,29 @@ void ResourceGameObjectGroup::CreateImageList(CDC* pDC)
 		pResTile->CreateImageList(pDC);
 		CImageList* pImageList = pResTile->GetImageList();
 
+		//从ResourceTile资源复制一份
 		_imageList.Create(pImageList);
 
-		Cactus::map<int, ResourceGameObject*>::type IDGamObject;
+		Cactus::StringVector* pCaps = pResTile->GetCaptions();
+
+		size_t iIndex = 0;
 		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
 		{
-			IDGamObject[(*it)->_ArtResID] = *it;
-		}
-
-		int iIndex = 0;
-		for (Cactus::map<int, ResourceGameObject*>::type::iterator it = IDGamObject.begin(); it != IDGamObject.end(); ++it)
-		{
-			if (it->first != iIndex)
+			if ((*it)->_ArtResID != (*pCaps)[iIndex])
 			{
-				_imageList.Copy(iIndex, it->first, ILCF_SWAP);
+				for (size_t t = 0; t < (*pCaps).size(); ++t)	//找到引用的图片索引
+				{
+					if( (*it)->_ArtResID == (*pCaps)[t] )
+					{
+						_imageList.Copy(iIndex, t, ILCF_SWAP);	//交换位置
+						break;
+					}
+				}
 			}
 
 			iIndex++;
 
-			_captions.push_back( it->second->_strName );
+			_captions.push_back( (*it)->_strName );
 		}
 
 		int iCount = _imageList.GetImageCount();

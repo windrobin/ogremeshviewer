@@ -35,3 +35,8 @@ void ResourceTile::RegisterReflection()
 void ResourceTile::OnPropertyChanged(const std::string& propName)
 {
 }
+
+bool ResourceTile::IsResItemValid(const Cactus::String& strName)
+{
+	return ( _BitmapTiles.find(strName) != _BitmapTiles.end() );
+}

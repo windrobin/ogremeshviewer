@@ -166,7 +166,7 @@ public:
 			//<item name="npc01" iconres="tile1" iconid="15" />
 			ResourceGameObject* p = new ResourceGameObject;
 			p->_strName			= attributes.getValueAsString("name");
-			p->_ArtResID		= attributes.getValueAsInteger("iconid");
+			p->_ArtResID		= attributes.getValueAsString("iconid");
 		
 			p->_eType			= _eType;
 
@@ -359,13 +359,13 @@ void ResourceManager::Reset()
 	_ResGameObjectGroups.clear();
 }
 
-bool ResourceManager::IsResTileIDValid(const Cactus::String& tile, int ID)
+bool ResourceManager::IsResTileIDValid(const Cactus::String& tile, const Cactus::String& strID)
 {
 	ResTileType::iterator it = _ResTiles.find(tile);
 	if (it != _ResTiles.end())
 	{
 		ResourceTile* pTile = it->second;
-		return ID < pTile->_tilesCount;
+		return pTile->IsResItemValid(strID);
 	}
 
 	return false;

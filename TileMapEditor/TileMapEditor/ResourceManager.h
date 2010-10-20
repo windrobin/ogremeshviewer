@@ -21,7 +21,7 @@ public:
 
 	Cactus::String	GetRootFolder(){ return _strRootFolder; }
 
-	bool	IsResTileIDValid(const Cactus::String& tile, int ID);
+	bool	IsResTileIDValid(const Cactus::String& tile, const Cactus::String& strID);
 
 	ResourceTile*	GetResourceTile(const Cactus::String& tile);
 

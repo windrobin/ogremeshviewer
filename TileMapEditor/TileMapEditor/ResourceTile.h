@@ -15,6 +15,8 @@ public:
 
 	virtual Cactus::String	GetResourceName(){ return _strName; }
 
+	bool					IsResItemValid(const Cactus::String& strName);
+
 protected:
 	Cactus::String		_strName;
 	int					_tilesCount;
