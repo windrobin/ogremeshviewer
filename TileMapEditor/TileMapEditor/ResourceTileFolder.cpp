@@ -110,12 +110,12 @@ void ResourceTileFolder::CreateImageList(CDC* pDC)
 			if (iW > iH)
 			{
 				float fR = 1.0f * _iIconSize / iW;
-				it->second->Draw(dcMem.GetSafeHdc(), 0, 0, _iIconSize, iH * fR, 0, true);
+				it->second->Draw(dcMem.GetSafeHdc(), 0, 0, _iIconSize, int(iH * fR), 0, true);
 			}
 			else
 			{
 				float fR = 1.0f * _iIconSize / iH;
-				it->second->Draw(dcMem.GetSafeHdc(), (_iIconSize - fR * iW)/2, 0, fR * iW, _iIconSize, 0, true);
+				it->second->Draw(dcMem.GetSafeHdc(), int((_iIconSize - fR * iW)/2), 0, int(fR * iW), _iIconSize, 0, true);
 			}
 		}
 		else
