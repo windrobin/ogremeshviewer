@@ -49,6 +49,7 @@ protected:
 	ResGameObjectListType	_ResGameObjects;
 
 	Cactus::String			_strArtResKey;	//依赖的图像资源名称
+	CPoint					_szUnitTile;	//单元格的大小
 };
 
 

@@ -131,7 +131,7 @@ void ResourceTileSingleImage::Draw(CDC* pDC, int posX, int posY, const Cactus::S
 	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
 
 	//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
-	pDC->TransparentBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, _tileWidth, _tileHeight, 0);
+	pDC->TransparentBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, _tileWidth, _tileHeight, RGB(255,255,255));
 
 	memDC.SelectObject(pOldBmp);
 

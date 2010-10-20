@@ -157,6 +157,8 @@ public:
 			pGameObjectGroup = new ResourceGameObjectGroup;
 			pGameObjectGroup->_strName = element;
 			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
+			pGameObjectGroup->_szUnitTile.x = attributes.getValueAsInteger("unitTileW");
+			pGameObjectGroup->_szUnitTile.y = attributes.getValueAsInteger("unitTileH");
 		}
 		else if (element == "item" && _eType != eGameObjectMax)
 		{
