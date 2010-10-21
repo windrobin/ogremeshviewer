@@ -139,8 +139,6 @@ void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 	BITMAP bmpInfo;
 	pBmp->GetBitmap(&bmpInfo);
 
-
-	CRect rcDest;
 	if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
@@ -148,6 +146,39 @@ void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 		//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
 		pDC->TransparentBlt(curTile.left, curTile.top, bmpInfo.bmWidth, bmpInfo.bmHeight
 			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255,255,255));
+
+	}
+	else
+	{
+		//如果是菱形地图，按照图片中间顶端对齐
+
+		int startX = curTile.CenterPoint().x - bmpInfo.bmWidth/2;
+		int startY = curTile.CenterPoint().y - bmpInfo.bmHeight/2;
+
+		//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
+		pDC->TransparentBlt(startX, startY, bmpInfo.bmWidth, bmpInfo.bmHeight
+			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255,255,255));
+	}
+	memDC.SelectObject(pOldBmp);
+}
+
+CRect ResourceTileSingleImage::GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strID)
+{
+	if (_BitmapTiles.find(strID) == _BitmapTiles.end())
+	{
+		Log_Error("ResourceTileSingleImage::GetResItemBoundingRect, can not find Resource for " << strID);
+		return CRect(0, 0, 1, 1);
+	}
+
+	CBitmap* pBmp = _BitmapTiles[strID];
+
+	BITMAP bmpInfo;
+	pBmp->GetBitmap(&bmpInfo);
+
+	CRect rcDest;
+	if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
+	{
+		//如果是井形地图，按照图片左上角对齐
 
 		rcDest = curTile;
 		rcDest.right	= rcDest.left + bmpInfo.bmWidth;
@@ -160,14 +191,8 @@ void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 		int startX = curTile.CenterPoint().x - bmpInfo.bmWidth/2;
 		int startY = curTile.CenterPoint().y - bmpInfo.bmHeight/2;
 
-		CRect rcDest(startX, startY, startX + bmpInfo.bmWidth, startY + bmpInfo.bmHeight);
-
-		//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
-		pDC->TransparentBlt(startX, startY, bmpInfo.bmWidth, bmpInfo.bmHeight
-			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255,255,255));
+		rcDest = CRect(startX, startY, startX + bmpInfo.bmWidth, startY + bmpInfo.bmHeight);
 	}
-	memDC.SelectObject(pOldBmp);
 
-	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
-	pView->LogicInvalidate(rcDest);
+	return rcDest;
 }

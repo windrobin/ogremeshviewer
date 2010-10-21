@@ -60,6 +60,12 @@ public:
 	//获取子资源的名称
 	Cactus::StringVector*	GetCaptions(){ return &_captions; }
 
+	/**获取子资源的包围区域
+	*	@param curTile	当前Tile的包围矩形
+	*	@param strID	子资源名
+	*/
+	virtual CRect			GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strID){ return CRect(0, 0, 1, 1); }
+
 protected:
 	Cactus::String			_strName;			//资源组名称
 	CImageList				_imageList;			//用于ResouceListView的图像列表

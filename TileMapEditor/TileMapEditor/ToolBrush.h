@@ -21,4 +21,6 @@ public:
 protected:
 	Cactus::String		_strResKey;
 	Cactus::String		_strResID;
+
+	CRect				_rcOldSelected;
 };
