@@ -4,6 +4,10 @@
 #include "TileMapEditorView.h"
 #include "MainFrm.h"
 
+#include "ToolManager.h"
+#include "TileMapEditorDoc.h"
+#include "Map.h"
+
 using namespace Cactus;
 using namespace PropertySys;
 
@@ -150,13 +154,29 @@ void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const Cactus::Stri
 
 	CxImage* pImage = _images[strID];
 
-	int startX = curTile.CenterPoint().x - pImage->GetWidth()/2;
-	int startY = curTile.CenterPoint().y - pImage->GetHeight()/2;
+	CRect rcDest;
+	if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
+	{
+		//如果是井形地图，按照图片左上角对齐
 
-	pImage->Draw(pDC->GetSafeHdc(), startX, startY);
+		pImage->Draw(pDC->GetSafeHdc(), curTile.left, curTile.top);
 
-	CRect rcDest(startX, startY, startX + pImage->GetWidth(), startY + pImage->GetHeight());
+		rcDest = curTile;
+		rcDest.right	= rcDest.left + pImage->GetWidth();
+		rcDest.bottom	= rcDest.top + pImage->GetHeight();
+	}
+	else
+	{
+		//如果是菱形地图，按照图片中间顶端对齐
+
+		int startX = curTile.CenterPoint().x - pImage->GetWidth()/2;
+		int startY = curTile.top;
+
+		pImage->Draw(pDC->GetSafeHdc(), startX, startY);
+
+		rcDest = CRect(startX, startY, startX + pImage->GetWidth(), startY + pImage->GetHeight());
+	}
+
 	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
 	pView->LogicInvalidate(rcDest);
-
 }
