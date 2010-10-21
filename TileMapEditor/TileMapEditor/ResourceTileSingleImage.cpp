@@ -4,6 +4,10 @@
 #include "TileMapEditorView.h"
 #include "MainFrm.h"
 
+#include "ToolManager.h"
+#include "TileMapEditorDoc.h"
+#include "Map.h"
+
 using namespace Cactus;
 using namespace PropertySys;
 
@@ -132,22 +136,38 @@ void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 	
 	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
 
-
 	BITMAP bmpInfo;
 	pBmp->GetBitmap(&bmpInfo);
 
-	int startX = curTile.CenterPoint().x - bmpInfo.bmWidth/2;
-	int startY = curTile.CenterPoint().y - bmpInfo.bmHeight/2;
 
-	CRect rcDest(startX, startY, startX + bmpInfo.bmWidth, startY + bmpInfo.bmHeight);
+	CRect rcDest;
+	if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
+	{
+		//如果是井形地图，按照图片左上角对齐
 
-	//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
-	pDC->TransparentBlt(startX, startY, rcDest.Width(), rcDest.Height()
-		, &memDC, 0, 0, rcDest.Width(),rcDest.Height(), RGB(255,255,255));
+		//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
+		pDC->TransparentBlt(curTile.left, curTile.top, bmpInfo.bmWidth, bmpInfo.bmHeight
+			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255,255,255));
 
+		rcDest = curTile;
+		rcDest.right	= rcDest.left + bmpInfo.bmWidth;
+		rcDest.bottom	= rcDest.top + bmpInfo.bmHeight;
+	}
+	else
+	{
+		//如果是菱形地图，按照图片中间顶端对齐
+
+		int startX = curTile.CenterPoint().x - bmpInfo.bmWidth/2;
+		int startY = curTile.CenterPoint().y - bmpInfo.bmHeight/2;
+
+		CRect rcDest(startX, startY, startX + bmpInfo.bmWidth, startY + bmpInfo.bmHeight);
+
+		//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
+		pDC->TransparentBlt(startX, startY, bmpInfo.bmWidth, bmpInfo.bmHeight
+			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255,255,255));
+	}
 	memDC.SelectObject(pOldBmp);
 
 	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
 	pView->LogicInvalidate(rcDest);
-
 }
