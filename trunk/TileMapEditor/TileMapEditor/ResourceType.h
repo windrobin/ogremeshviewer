@@ -17,7 +17,9 @@ enum EGameObjectType
 	eGameObjectMax
 };
 
-//资源组：拥有若干子资源
+/**
+*	资源组基类：一个资源组拥有若干子资源
+*/
 class Resource : public PropertySys::SupportRTTI<Resource, PropertySys::RTTIObject>
 {
 public:
@@ -33,14 +35,21 @@ public:
 	//创建用于ResouceListView需要的图像列表
 	virtual void			CreateImageList(CDC* pDC){}
 
-	//子资源是否有效
+	/** 子资源是否有效
+	*	@param strName	子资源名
+	*	@return true是有效
+	*/ 
 	virtual bool			IsResItemValid(const Cactus::String& strName){ return false; }
 
 	//获取图像列表
 	CImageList*				GetImageList(){ return &_imageList; }
 
-	//绘制编号为strID的子资源
-	virtual void			Draw(CDC* pDC, int posCenterX, int posCenterY, const Cactus::String& strID){}
+	/** 绘制编号为strID的子资源
+	*	@param pDC		绘制的设备
+	*	@param curTile	当前Tile的包围矩形
+	*	@param strID	子资源名
+	*/ 
+	virtual void			Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID){}
 
 	//获取资源组名称
 	Cactus::String			GetResourceName(){ return _strName; }

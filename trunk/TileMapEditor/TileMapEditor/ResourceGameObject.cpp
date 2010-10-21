@@ -97,7 +97,7 @@ void ResourceGameObjectGroup::CreateImageList(CDC* pDC)
 	_bHasImageList = true;
 }
 
-void ResourceGameObjectGroup::Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID)
+void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 
@@ -108,10 +108,7 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, int posX, int posY, const Cactus::S
 		{
 			if( (*it)->_strName == strID )
 			{
-				Cactus::ostringstream os;
-				os << (*it)->_ArtResID;
-				pResTile->Draw(pDC, posX, posY, os.str());
-
+				pResTile->Draw(pDC, curTile, (*it)->_ArtResID);
 				break;
 			}
 		}

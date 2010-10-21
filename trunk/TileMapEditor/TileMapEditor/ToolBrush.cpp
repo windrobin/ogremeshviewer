@@ -29,7 +29,7 @@ void ToolBrush::Draw(CDC* pDC)
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(CPoint(_iGridX, _iGridY));
-		pRes->Draw(pDC, rc.CenterPoint().x, rc.CenterPoint().y, _strResID);
+		pRes->Draw(pDC, rc, _strResID);
 	}
 
 	ToolBase::Draw(pDC);
