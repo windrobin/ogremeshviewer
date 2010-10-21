@@ -154,12 +154,37 @@ void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const Cactus::Stri
 
 	CxImage* pImage = _images[strID];
 
-	CRect rcDest;
 	if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
 
 		pImage->Draw(pDC->GetSafeHdc(), curTile.left, curTile.top);
+	}
+	else
+	{
+		//如果是菱形地图，按照图片中间顶端对齐
+
+		int startX = curTile.CenterPoint().x - pImage->GetWidth()/2;
+		int startY = curTile.top;
+
+		pImage->Draw(pDC->GetSafeHdc(), startX, startY);
+	}
+}
+
+CRect ResourceTileFolder::GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strID)
+{
+	if (_images.find(strID) == _images.end())
+	{
+		Log_Error("ResourceTileFolder::GetResItemBoundingRect, can not find Resource for " << strID);
+		return CRect(0, 0, 1, 1);
+	}
+
+	CxImage* pImage = _images[strID];
+
+	CRect rcDest;
+	if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
+	{
+		//如果是井形地图，按照图片左上角对齐
 
 		rcDest = curTile;
 		rcDest.right	= rcDest.left + pImage->GetWidth();
@@ -172,11 +197,8 @@ void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const Cactus::Stri
 		int startX = curTile.CenterPoint().x - pImage->GetWidth()/2;
 		int startY = curTile.top;
 
-		pImage->Draw(pDC->GetSafeHdc(), startX, startY);
-
 		rcDest = CRect(startX, startY, startX + pImage->GetWidth(), startY + pImage->GetHeight());
 	}
 
-	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
-	pView->LogicInvalidate(rcDest);
+	return rcDest;
 }

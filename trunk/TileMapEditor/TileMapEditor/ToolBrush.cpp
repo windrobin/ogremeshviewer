@@ -13,7 +13,8 @@
 
 ToolBrush::ToolBrush()
 {
-	_refCursor = RGB(192, 192, 0);
+	_refCursor		= RGB(192, 192, 0);
+	_rcOldSelected.SetRectEmpty();
 }
 
 ToolBrush::~ToolBrush()
@@ -64,7 +65,19 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 	ToolBase::OnMouseMove(nFlags, point);
 
 	if (!_bDrawCursor)
+	{
+		if (!_rcOldSelected.IsRectEmpty())
+		{
+			CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
+			pView->LogicInvalidate(_rcOldSelected);
+
+			_rcOldSelected.SetRectEmpty();
+		}
+
 		return;
+	}
+
+	CRect rcDirty = _rcOldSelected;
 
 	if ( (nFlags & MK_LBUTTON) == MK_LBUTTON)
 	{
@@ -74,9 +87,24 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 
 		if( pLayer->ModifyTile(_iGridX, _iGridY, _strResKey, _strResID) )
 		{
-			CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
-			pView->LogicInvalidate(_rcTile);
+			rcDirty.UnionRect(&rcDirty, _rcTile);
 		}
+	}
+
+	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResKey);
+	if (pRes)
+	{
+		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(CPoint(_iGridX, _iGridY));
+		CRect rcDest = pRes->GetResItemBoundingRect(rc, _strResID);
+
+		rcDirty.UnionRect(&rcDirty, rcDest);
+		_rcOldSelected = rcDest;
+	}
+
+	if (!rcDirty.IsRectEmpty())
+	{
+		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
+		pView->LogicInvalidate(rcDirty);
 	}
 }
 
@@ -91,6 +119,11 @@ void ToolBrush::OnTurnOff()
 {
 	ToolBase::OnTurnOff();
 
+	if (!_rcOldSelected.IsRectEmpty())
+	{
+		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
+		pView->LogicInvalidate(_rcOldSelected);
+	}
 }
 
 void ToolBrush::SetResource(const Cactus::String& strRes, const Cactus::String& strID)
