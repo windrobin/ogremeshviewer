@@ -115,10 +115,9 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 	_bHasImageList = true;
 }
 
-void ResourceTileSingleImage::Draw(CDC* pDC, int posCenterX, int posCenterY, const Cactus::String& strID)
+void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
-
 
 	if (_BitmapTiles.find(strID) == _BitmapTiles.end())
 	{
@@ -137,8 +136,8 @@ void ResourceTileSingleImage::Draw(CDC* pDC, int posCenterX, int posCenterY, con
 	BITMAP bmpInfo;
 	pBmp->GetBitmap(&bmpInfo);
 
-	int startX = posCenterX - bmpInfo.bmWidth/2;
-	int startY = posCenterY - bmpInfo.bmHeight/2;
+	int startX = curTile.CenterPoint().x - bmpInfo.bmWidth/2;
+	int startY = curTile.CenterPoint().y - bmpInfo.bmHeight/2;
 
 	CRect rcDest(startX, startY, startX + bmpInfo.bmWidth, startY + bmpInfo.bmHeight);
 

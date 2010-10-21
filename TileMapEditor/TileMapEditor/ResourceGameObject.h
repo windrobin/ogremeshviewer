@@ -39,7 +39,7 @@ public:
 
 	virtual bool			Load(){ return _ResGameObjects.size() != 0; }
 	virtual void			CreateImageList(CDC* pDC);
-	virtual void			Draw(CDC* pDC, int posX, int posY, const Cactus::String& strID);
+	virtual void			Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID);
 
 	static void				RegisterReflection();
 	virtual void			OnPropertyChanged(const std::string& propName);

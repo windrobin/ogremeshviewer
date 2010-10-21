@@ -55,7 +55,7 @@ void MapLayer::Draw(CDC* pDC)
 				STile& tile = it->second[t];
 
 				CRect rc = _pParentMap->GetPixelCoordRect(CPoint(tile._posX, tile._posY));
-				pRes->Draw(pDC, rc.left, rc.top, tile._strResItemID);
+				pRes->Draw(pDC, rc, tile._strResItemID);
 			}
 		}
 	}
