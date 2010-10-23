@@ -114,3 +114,20 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 		}
 	}
 }
+
+CRect ResourceGameObjectGroup::GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strID)
+{
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTile(_strArtResKey);
+	if (pResTile)
+	{
+		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
+		{
+			if( (*it)->_strName == strID )
+			{
+				return pResTile->GetResItemBoundingRect(curTile, (*it)->_ArtResID);
+			}
+		}
+	}
+
+	return Resource::GetResItemBoundingRect(curTile, strID);
+}

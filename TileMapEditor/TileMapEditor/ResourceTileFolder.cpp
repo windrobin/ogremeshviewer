@@ -192,7 +192,7 @@ CRect ResourceTileFolder::GetResItemBoundingRect(const CRect& curTile, const Cac
 	}
 	else
 	{
-		//如果是菱形地图，按照图片中间顶端对齐
+		//如果是菱形地图，按照图片水平中间、垂直顶端对齐
 
 		int startX = curTile.CenterPoint().x - pImage->GetWidth()/2;
 		int startY = curTile.top;
