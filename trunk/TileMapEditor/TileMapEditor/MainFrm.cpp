@@ -57,7 +57,6 @@ END_MESSAGE_MAP()
 
 CMainFrame::CMainFrame()
 {
-	// TODO: 在此添加成员初始化代码
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_OFF_2007_BLUE);
 }
 
@@ -134,6 +133,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//_GameObjectResView.EnableDocking(CBRS_ALIGN_RIGHT);
 	//DockPane(&_GameObjectResView);
 	//_GameObjectResView.AttachToTabWnd(&m_wndProperties, DM_SHOW, FALSE, &pTabbedBar);
+
+
 
 	return 0;
 }
