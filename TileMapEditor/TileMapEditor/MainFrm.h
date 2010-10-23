@@ -32,6 +32,8 @@ public:
 	TileResView*	GetTileResView(){ return &_TileResView; }
 	MapView*		GetMapView(){ return &_MapPanel; }
 	CPropertiesWnd*	GetPropertyWnd(){ return &m_wndProperties; }
+	LayerView*		GetMapLayerView(){ return &_LayerPanel; }
+
 	void			SetCurLayerName(const Cactus::String& strLayerName);
 	void			SetCursorPosition(int x, int y);
 

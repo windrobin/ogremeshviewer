@@ -83,6 +83,8 @@ IDI_OUTPUT_WND          ICON                    "res\\output_wnd.ico"
 IDI_OUTPUT_WND_HC       ICON                    "res\\output_wnd_hc.ico"
 IDI_PROPERTIES_WND      ICON                    "res\\properties_wnd.ico"
 IDI_PROPERTIES_WND_HC   ICON                    "res\\properties_wnd_hc.ico"
+IDI_MAPLAYER            ICON                    "res\\MapLayer.ico"
+IDI_MAPLAYER_HC         ICON                    "res\\MapLayer_hc.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -223,7 +225,7 @@ BEGIN
     END
     POPUP "帮助(&H)"
     BEGIN
-        MENUITEM "关于 Tile Map Editor(&A)...",     ID_APP_ABOUT
+        MENUITEM "关于 Tile Map Editor(&A)...",   ID_APP_ABOUT
     END
 END
 
@@ -636,6 +638,7 @@ BEGIN
     IDS_EXPLORER            "资源管理器"
     IDS_EDIT_MENU           "编辑"
     IDS_RES_DETAIL          "资源"
+    IDS_MAPLAYER_PANEL      "地层"
     IDS_RES_PANEL           "资源树"
     IDS_MAP_PANEL           "地图"
     IDS_OUTPUT_WND          "输出"
@@ -651,7 +654,6 @@ BEGIN
     IDS_RIBBON_SAVEAS       "另存为(&A)..."
     IDS_RIBBON_PRINT        "打印"
     IDS_RIBBON_PRINT_LABEL  "预览并打印文档"
-    IDS_MAPLAYER_PANEL      "地层"
 END
 
 #endif    // Chinese (P.R.C.) resources
