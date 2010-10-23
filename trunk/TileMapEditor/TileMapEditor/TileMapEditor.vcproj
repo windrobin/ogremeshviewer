@@ -245,7 +245,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\icon1.ico"
+				>
+			</File>
+			<File
 				RelativePath=".\res\main.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\MapLayer.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\MapLayer_hc.ico"
 				>
 			</File>
 			<File

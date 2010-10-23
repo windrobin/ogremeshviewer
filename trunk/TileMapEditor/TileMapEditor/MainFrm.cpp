@@ -255,7 +255,7 @@ void CMainFrame::InitializeRibbon()
 	CMFCRibbonLabel* pLabel = new CMFCRibbonLabel("当前层：");
 	pPanelMapEdit->Add(pLabel);
 
-	_pCurLayerLabel = new CMFCRibbonLabel("                ");
+	_pCurLayerLabel = new CMFCRibbonLabel("MMMMMMMMMMMM");
 	pPanelMapEdit->Add(_pCurLayerLabel);
 
 	_pCurPositionLabel = new CMFCRibbonLabel("光标位置：(xxxx, xxxx)");
@@ -403,8 +403,11 @@ void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 	HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
 	_ResTreePanel.SetIcon(hFileViewIcon, FALSE);
 
-	HICON hClassViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_CLASS_VIEW_HC : IDI_CLASS_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	_MapPanel.SetIcon(hClassViewIcon, FALSE);
+	HICON hMapViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_CLASS_VIEW_HC : IDI_CLASS_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	_MapPanel.SetIcon(hMapViewIcon, FALSE);
+
+	HICON hMapLayerViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_MAPLAYER_HC : IDI_MAPLAYER), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	_LayerPanel.SetIcon(hMapLayerViewIcon, FALSE);
 
 	HICON hOutputBarIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_OUTPUT_WND_HC : IDI_OUTPUT_WND), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
 	m_wndOutput.SetIcon(hOutputBarIcon, FALSE);

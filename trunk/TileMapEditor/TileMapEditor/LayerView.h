@@ -2,11 +2,15 @@
 
 #include "PanelToolBar.h"
 
+class MapLayer;
+
 class LayerView : public CDockablePane
 {
 public:
 	LayerView();
 	virtual ~LayerView();
+
+	void	SetCurrentLayer(MapLayer* pLayer);
 
 protected:
 	CClassToolBar	m_wndToolBar;

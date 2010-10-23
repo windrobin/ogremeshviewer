@@ -5,8 +5,7 @@
 #include "Resource.h"
 #include "TileMapEditor.h"
 
-#include "ToolManager.h"
-#include "ToolBrush.h"
+#include "MapLayer.h"
 
 using namespace Cactus;
 
@@ -58,9 +57,14 @@ int LayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 所有命令将通过此控件路由，而不是通过主框架路由:
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_LIST;
+	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_REPORT;
 	_listObjects.Create(dwViewStyle, CRect(0, 0, 100, 100), this, M_ListCtrl_ID);
 	//_listObjects.SetBkColor(0);
+
+	_listObjects.InsertColumn(0, "资源类"	, LVCFMT_LEFT, 60);
+	_listObjects.InsertColumn(1, "资源ID"	, LVCFMT_LEFT, 60);
+	_listObjects.InsertColumn(2, "网格X坐标", LVCFMT_LEFT, 80);
+	_listObjects.InsertColumn(3, "网格Y坐标", LVCFMT_LEFT, 80);
 
 	return 0;
 }
@@ -108,3 +112,13 @@ void LayerView::OnClassAddMemberFunction()
 	AfxMessageBox(_T("添加成员函数..."));
 }
 
+void LayerView::SetCurrentLayer(MapLayer* pLayer)
+{
+	if (pLayer)
+	{
+	}
+	else
+	{
+
+	}
+}

@@ -84,6 +84,9 @@
 #define IDR_MENU_BRUSH_OP               179
 #define IDR_MENU_MAP_OP                 180
 #define IDD_DIALOG_NEWLAYER             181
+#define IDI_MAPLAYER                    183
+#define IDI_ICON1                       184
+#define IDI_MAPLAYER_HC                 184
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
 #define IDC_EDIT_FOOTNOTES              1002
@@ -147,10 +150,10 @@
 #define ID_MAPOP_DEFINEBRUSH            32817
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        182
+#define _APS_NEXT_RESOURCE_VALUE        185
 #define _APS_NEXT_COMMAND_VALUE         32818
 #define _APS_NEXT_CONTROL_VALUE         1013
 #define _APS_NEXT_SYMED_VALUE           1113
