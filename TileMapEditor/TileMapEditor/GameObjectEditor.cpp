@@ -1,29 +1,23 @@
-
 #include "stdafx.h"
-#include "MainFrm.h"
-#include "LayerView.h"
-#include "Resource.h"
-#include "TileMapEditor.h"
+#include "GameObjectEditor.h"
 
-#include "MapLayer.h"
+#include "Resource.h"
 
 using namespace Cactus;
-
-#define M_ListCtrl_ID	(WM_USER + 100)
 
 //////////////////////////////////////////////////////////////////////
 // 构造/析构
 //////////////////////////////////////////////////////////////////////
 
-LayerView::LayerView()
+GameObjectEditor::GameObjectEditor()
 {
 }
 
-LayerView::~LayerView()
+GameObjectEditor::~GameObjectEditor()
 {
 }
 
-BEGIN_MESSAGE_MAP(LayerView, CDockablePane)
+BEGIN_MESSAGE_MAP(GameObjectEditor, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
@@ -31,14 +25,12 @@ BEGIN_MESSAGE_MAP(LayerView, CDockablePane)
 	ON_WM_SETFOCUS()
 	ON_COMMAND(ID_CLASS_ADD_MEMBER_FUNCTION, OnClassAddMemberFunction)
 
-	//ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
-	//ON_UPDATE_COMMAND_UI_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnUpdateSort)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CClassView 消息处理程序
 
-int LayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int GameObjectEditor::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -57,19 +49,10 @@ int LayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 所有命令将通过此控件路由，而不是通过主框架路由:
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_REPORT | LVS_SORTASCENDING;
-	_listObjects.Create(dwViewStyle, CRect(0, 0, 100, 100), this, M_ListCtrl_ID);
-	//_listObjects.SetBkColor(0);
-
-	_listObjects.InsertColumn(0, "资源类"	, LVCFMT_LEFT, 60);
-	_listObjects.InsertColumn(1, "资源ID"	, LVCFMT_LEFT, 60);
-	_listObjects.InsertColumn(2, "网格X坐标", LVCFMT_LEFT, 80);
-	_listObjects.InsertColumn(3, "网格Y坐标", LVCFMT_LEFT, 80);
-
 	return 0;
 }
 
-void LayerView::OnSize(UINT nType, int cx, int cy)
+void GameObjectEditor::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 
@@ -86,39 +69,28 @@ void LayerView::OnSize(UINT nType, int cx, int cy)
 	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 
 	rectClient.top += cyTlb;
-	_listObjects.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_NOACTIVATE | SWP_NOZORDER);
-	_listObjects.Arrange(LVA_DEFAULT);
+	//_listObjects.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_NOACTIVATE | SWP_NOZORDER);
+	//_listObjects.Arrange(LVA_DEFAULT);
 }
 
-BOOL LayerView::PreTranslateMessage(MSG* pMsg)
+BOOL GameObjectEditor::PreTranslateMessage(MSG* pMsg)
 {
 	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
-void LayerView::OnPaint()
+void GameObjectEditor::OnPaint()
 {
 	CPaintDC dc(this); // 用于绘制的设备上下文
 
 }
 
-void LayerView::OnSetFocus(CWnd* pOldWnd)
+void GameObjectEditor::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
 
 }
 
-void LayerView::OnClassAddMemberFunction()
+void GameObjectEditor::OnClassAddMemberFunction()
 {
 	AfxMessageBox(_T("添加成员函数..."));
-}
-
-void LayerView::SetCurrentLayer(MapLayer* pLayer)
-{
-	if (pLayer)
-	{
-	}
-	else
-	{
-
-	}
 }

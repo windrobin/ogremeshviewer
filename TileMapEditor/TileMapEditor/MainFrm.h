@@ -9,6 +9,7 @@
 #include "PropertiesWnd.h"
 #include "TileResView.h"
 #include "LayerView.h"
+#include "GameObjectEditor.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -50,6 +51,7 @@ protected:  // 控件条嵌入成员
 	MapView				_MapPanel;
 	TileResView			_TileResView;
 	LayerView			_LayerPanel;
+	GameObjectEditor	_GameObjectEditor;
 
 	CMFCRibbonLabel*	_pCurLayerLabel;
 	CMFCRibbonLabel*	_pCurPositionLabel;

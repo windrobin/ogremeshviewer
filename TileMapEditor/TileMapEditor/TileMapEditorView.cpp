@@ -57,9 +57,6 @@ void CTileMapEditorView::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 
-	if (pDoc->_bInNewMapDlg)
-		return;
-
 	pDC->OffsetViewportOrg(M_Margin, M_Margin);
 
 	MemDC memDC(pDC);
