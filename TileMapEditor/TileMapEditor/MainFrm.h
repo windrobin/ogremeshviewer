@@ -8,6 +8,7 @@
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
 #include "TileResView.h"
+#include "LayerView.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -36,16 +37,17 @@ public:
 
 
 protected:  // 控件条嵌入成员
-	CMFCRibbonBar     m_wndRibbonBar;
-	CMFCRibbonApplicationButton m_MainButton;
-	CMFCToolBarImages m_PanelImages;
-	CMFCRibbonStatusBar  m_wndStatusBar;
-	COutputWnd			m_wndOutput;
-	CPropertiesWnd		m_wndProperties;
+	CMFCRibbonBar				m_wndRibbonBar;
+	CMFCRibbonApplicationButton	m_MainButton;
+	CMFCToolBarImages			m_PanelImages;
+	CMFCRibbonStatusBar			m_wndStatusBar;
+	COutputWnd					m_wndOutput;
+	CPropertiesWnd				m_wndProperties;
 
 	ResourceTreeView	_ResTreePanel;
 	MapView				_MapPanel;
 	TileResView			_TileResView;
+	LayerView			_LayerPanel;
 
 	CMFCRibbonLabel*	_pCurLayerLabel;
 	CMFCRibbonLabel*	_pCurPositionLabel;
@@ -66,6 +68,8 @@ protected:
 	afx_msg void OnUpdateView_OutputPanel(CCmdUI* pCmdUI);
 	afx_msg void OnView_PropertyPanel();
 	afx_msg void OnUpdateView_PropertyPanel(CCmdUI* pCmdUI);
+	afx_msg void OnView_MayLayerPanel();
+	afx_msg void OnUpdateView_MayLayerPanel(CCmdUI* pCmdUI);
 
 	afx_msg void OnTool_Select();
 	afx_msg void OnUpdateButton_Select(CCmdUI* pCmdUI);
