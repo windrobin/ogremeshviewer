@@ -417,6 +417,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\LayerView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LayerView.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MapView.cpp"
 				>
 			</File>

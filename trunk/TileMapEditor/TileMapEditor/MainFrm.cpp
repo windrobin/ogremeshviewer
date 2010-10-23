@@ -40,6 +40,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_VIEW_PROPERTIESWND, &CMainFrame::OnView_PropertyPanel)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PROPERTIESWND, &CMainFrame::OnUpdateView_PropertyPanel)
 
+	ON_COMMAND(ID_VIEW_MAPLAYER_PANEL, &CMainFrame::OnView_MayLayerPanel)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_MAPLAYER_PANEL, &CMainFrame::OnUpdateView_MayLayerPanel)
+
 	ON_COMMAND(M_TOOL_SELECT, &CMainFrame::OnTool_Select)
 	ON_UPDATE_COMMAND_UI(M_TOOL_SELECT, &CMainFrame::OnUpdateButton_Select)
 	ON_COMMAND(M_TOOL_BRUSH, &CMainFrame::OnTool_Brush)
@@ -107,11 +110,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//Left
 	_ResTreePanel.EnableDocking(CBRS_ALIGN_ANY);
 	_MapPanel.EnableDocking(CBRS_ALIGN_ANY);
+	_LayerPanel.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&_ResTreePanel);
 
 	CDockablePane* pTabbedBar = NULL;
 	_MapPanel.AttachToTabWnd(&_ResTreePanel, DM_SHOW, TRUE, &pTabbedBar);
-	
+
+	_LayerPanel.AttachToTabWnd(&_ResTreePanel, DM_SHOW, TRUE, &pTabbedBar);
 
 	//Bottom
 	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
@@ -276,6 +281,7 @@ void CMainFrame::InitializeRibbon()
 
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_RES_PANEL, ID_VIEW_RES_PANEL);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_MAP_PANEL, ID_VIEW_MAP_PANEL);
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_MAPLAYER_PANEL, ID_VIEW_MAPLAYER_PANEL);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_RES_DETAIL, ID_VIEW_RES_DETAIL_PANEL);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_PROPERTIES_WND, ID_VIEW_PROPERTIESWND);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_OUTPUT_WND, ID_VIEW_OUTPUTWND);
@@ -327,7 +333,7 @@ BOOL CMainFrame::CreateDockingWindows()
 		return FALSE; // 未能创建
 	}
 
-	// 创建文件视图
+	// 创建资源树视图
 	CString strFileView;
 	bNameValid = strFileView.LoadString(IDS_RES_PANEL);
 	ASSERT(bNameValid);
@@ -336,6 +342,18 @@ BOOL CMainFrame::CreateDockingWindows()
 		TRACE0("未能创建“资源”窗口\n");
 		return FALSE; // 未能创建
 	}
+
+	
+	// 创建MapLayer视图
+	CString strLayerView;
+	bNameValid = strLayerView.LoadString(IDS_MAPLAYER_PANEL);
+	ASSERT(bNameValid);
+	if (!_LayerPanel.Create(strLayerView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_MAPLAYER_PANEL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
+	{
+		TRACE0("未能创建“地图层”窗口\n");
+		return FALSE; // 未能创建
+	}
+
 
 	// 创建输出窗口
 	CString strOutputWnd;
@@ -522,6 +540,16 @@ void CMainFrame::OnUpdateView_PropertyPanel(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndProperties.IsVisible());
 }
+
+void CMainFrame::OnView_MayLayerPanel()
+{
+	_LayerPanel.ShowPane(!_LayerPanel.IsVisible(), FALSE, !_LayerPanel.IsVisible());
+}
+void CMainFrame::OnUpdateView_MayLayerPanel(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(_LayerPanel.IsVisible());
+}
+
 
 void CMainFrame::SetCurLayerName(const Cactus::String& strLayerName)
 {
