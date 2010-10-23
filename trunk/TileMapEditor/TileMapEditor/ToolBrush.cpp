@@ -66,6 +66,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 
 	if (!_bDrawCursor)
 	{
+		//清除上一次绘制的拖动内容
 		if (!_rcOldSelected.IsRectEmpty())
 		{
 			CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
@@ -81,6 +82,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 
 	if ( (nFlags & MK_LBUTTON) == MK_LBUTTON)
 	{
+		//编辑
 		MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
 		if (!pLayer)
 			return;
@@ -91,6 +93,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 		}
 	}
 
+	//绘制拖动内容
 	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResKey);
 	if (pRes)
 	{
