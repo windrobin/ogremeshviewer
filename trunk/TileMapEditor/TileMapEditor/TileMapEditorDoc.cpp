@@ -30,7 +30,6 @@ END_MESSAGE_MAP()
 
 CTileMapEditorDoc::CTileMapEditorDoc()
 {
-	_bInNewMapDlg = false;
 }
 
 CTileMapEditorDoc::~CTileMapEditorDoc()
@@ -43,13 +42,10 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 		return FALSE;
 
 	DialogFileNew dlg;
-	_bInNewMapDlg = true;
 	if( dlg.DoModal() != IDOK)
 	{
-		_bInNewMapDlg = false;
 		return FALSE;
 	}
-	_bInNewMapDlg = false;
 
 	Map map;
 	_theMap = map;

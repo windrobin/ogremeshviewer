@@ -496,6 +496,26 @@
 				RelativePath=".\ViewTree.h"
 				>
 			</File>
+			<Filter
+				Name="GameObjectEditor"
+				>
+				<File
+					RelativePath=".\GameObjectEditor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GameObjectEditor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GameObjectEditorView.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GameObjectEditorView.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Object"
