@@ -111,7 +111,7 @@ IDR_MENU_IMAGES         BITMAP                  "res\\menuimages.bmp"
 IDB_MENU_IMAGES_24      BITMAP                  "res\\menuimages_hc.bmp"
 IDR_PROPERTIES          BITMAP                  "res\\properties.bmp"
 IDB_PROPERTIES_HC       BITMAP                  "res\\properties_hc.bmp"
-IDR_TOOLBAR_GOEDITOR    BITMAP                  "res\\toolbar_goeditor.bmp"
+IDR_TOOLBAR_RESDETAIL   BITMAP                  "res\\toolbar_ResDetail.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -176,6 +176,17 @@ BEGIN
     BUTTON      ID_SORTPROPERTIES
     BUTTON      ID_PROPERTIES1
     BUTTON      ID_PROPERTIES2
+END
+
+IDR_TOOLBAR_RESDETAIL TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_TOOLBAR_RESDETAIL_RESGROUP_C
+    BUTTON      ID_TOOLBAR_REDETAIL_RESGROUP
+    SEPARATOR
+    BUTTON      ID_TOOLBAR_RESDETAIL_TYPE_C
+    BUTTON      ID_TOOLBAR_RESDETAIL_TYPE
+    SEPARATOR
+    BUTTON      ID_TOOLBAR_RESDETAIL_EDIT
 END
 
 

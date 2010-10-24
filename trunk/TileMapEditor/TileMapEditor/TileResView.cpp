@@ -12,6 +12,60 @@ using namespace Cactus;
 
 #define M_ListCtrl_ID	(WM_USER + 100)
 
+
+/*
+BUTTON      ID_TOOLBAR_RESDETAIL_RESGROUP_C
+BUTTON      ID_TOOLBAR_REDETAIL_RESGROUP
+SEPARATOR
+BUTTON      ID_TOOLBAR_RESDETAIL_TYPE_C
+BUTTON      ID_TOOLBAR_RESDETAIL_TYPE
+SEPARATOR
+BUTTON      ID_TOOLBAR_RESDETAIL_EDIT
+*/
+
+
+void ResDetailToolBar::CreateControls()
+{
+
+	_font.CreateStockObject(DEFAULT_GUI_FONT);
+
+	int iIndex = 0;
+	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_RESGROUP_C) iIndex++;
+
+	CRect rc(5, 2, 55, 20);
+	_editResGroupC.Create(WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | ES_LEFT | ES_READONLY, rc, this, ID_TOOLBAR_RESDETAIL_RESGROUP_C);
+	_editResGroupC.SetFont(&_font);
+	_editResGroupC.SetWindowText("资源组：");
+
+
+	while ( GetItemID(iIndex) != ID_TOOLBAR_REDETAIL_RESGROUP) iIndex++;
+	rc.left		= rc.right + 5;
+	rc.right	= rc.left + 60;
+	_editResGroup.Create(WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | ES_LEFT | ES_READONLY, rc, this, ID_TOOLBAR_REDETAIL_RESGROUP);
+	_editResGroup.SetFont(&_font);
+
+	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_TYPE_C) iIndex++;
+	rc.left		= rc.right + 5;
+	rc.right	= rc.left + 50;
+	_editResTypeC.Create(WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | ES_LEFT | ES_READONLY, rc, this, ID_TOOLBAR_RESDETAIL_TYPE_C);
+	_editResTypeC.SetFont(&_font);
+	_editResTypeC.SetWindowText("资源类型：");
+
+	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_TYPE) iIndex++;
+	rc.left		= rc.right + 5;
+	rc.right	= rc.left + 50;
+	_editResType.Create(WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | ES_LEFT | ES_READONLY, rc, this, ID_TOOLBAR_RESDETAIL_TYPE);
+	_editResType.SetFont(&_font);
+
+
+	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_EDIT) iIndex++;
+	rc.left		= rc.right + 5;
+	rc.right	= rc.left + 36;
+	_btnEdit.Create("编辑", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | BS_PUSHBUTTON, rc, this, ID_TOOLBAR_RESDETAIL_EDIT);
+	_btnEdit.SetFont(&_font);
+}
+
+
 //////////////////////////////////////////////////////////////////////
 // 构造/析构
 //////////////////////////////////////////////////////////////////////
@@ -52,14 +106,16 @@ int TileResView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 
 	// 加载图像:
-	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_SORT);
-	m_wndToolBar.LoadToolBar(IDR_SORT, 0, 0, TRUE /* 已锁定*/);
+	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_TOOLBAR_RESDETAIL);
+	m_wndToolBar.LoadToolBar(IDR_TOOLBAR_RESDETAIL, 0, 0, TRUE /* 已锁定*/);
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() | CBRS_TOOLTIPS | CBRS_FLYBY);
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC | CBRS_BORDER_TOP | CBRS_BORDER_BOTTOM | CBRS_BORDER_LEFT | CBRS_BORDER_RIGHT));
 	m_wndToolBar.SetOwner(this);
 
 	// 所有命令将通过此控件路由，而不是通过主框架路由:
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
+
+	m_wndToolBar.CreateControls();
 
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_ICON;
 	_listImages.Create(dwViewStyle, CRect(0, 0, 100, 100), this, M_ListCtrl_ID);

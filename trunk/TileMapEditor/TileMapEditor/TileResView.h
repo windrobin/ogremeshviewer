@@ -2,6 +2,24 @@
 
 #include "PanelToolBar.h"
 
+class ResDetailToolBar : public CClassToolBar
+{
+public:
+
+	void		CreateControls();
+
+protected:
+	CEdit	_editResGroupC;
+	CEdit	_editResGroup;
+	
+	CEdit	_editResTypeC;
+	CEdit	_editResType;
+
+	CButton	_btnEdit;
+
+	CFont	_font;
+};
+
 class TileResView : public CDockablePane
 {
 public:
@@ -11,10 +29,10 @@ public:
 	void			BuildImageAndInfoes(const Cactus::String& strResKey, CImageList* pImage, const Cactus::StringVector& captions);
 
 protected:
-	CClassToolBar	m_wndToolBar;
-	CListCtrl		_listImages;
-	int				_iOldCheck;
-	Cactus::String	_strResKey;
+	ResDetailToolBar	m_wndToolBar;
+	CListCtrl			_listImages;
+	int					_iOldCheck;
+	Cactus::String		_strResKey;
 
 // ÖØÐ´
 public:
