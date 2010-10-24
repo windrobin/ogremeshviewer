@@ -89,6 +89,7 @@
 #define IDI_MAPLAYER_HC                 184
 #define IDR_TOOLBAR_GOEDITOR            185
 #define IDD_DIALOG_GO_EDITOR            187
+#define IDR_TOOLBAR_RESDETAIL           188
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
 #define IDC_EDIT_FOOTNOTES              1002
@@ -165,14 +166,18 @@
 #define ID_BRUSHOP_SELECTBRUSH          32816
 #define ID_MAPOP_DEFINEBRUSH            32817
 #define ID_VIEW_GAMEOBJECTEDITOR        32818
-
+#define ID_TOOLBAR_REDETAIL_RESGROUP    32819
+#define ID_TOOLBAR_RESDETAIL_TYPE       32820
+#define ID_TOOLBAR_RESDETAIL_RESGROUP_C 32821
+#define ID_TOOLBAR_RESDETAIL_TYPE_C     32822
+#define ID_TOOLBAR_RESDETAIL_EDIT       32823
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        188
-#define _APS_NEXT_COMMAND_VALUE         32819
+#define _APS_NEXT_RESOURCE_VALUE        190
+#define _APS_NEXT_COMMAND_VALUE         32824
 #define _APS_NEXT_CONTROL_VALUE         1023
 #define _APS_NEXT_SYMED_VALUE           1113
 #endif

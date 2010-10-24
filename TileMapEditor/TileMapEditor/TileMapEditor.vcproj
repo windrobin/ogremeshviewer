@@ -321,6 +321,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\toolbar_ResDetail.bmp"
+				>
+			</File>
+			<File
 				RelativePath=".\res\writelarge.bmp"
 				>
 			</File>
