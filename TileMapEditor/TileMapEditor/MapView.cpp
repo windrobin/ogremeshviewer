@@ -165,6 +165,7 @@ void MapView::OnContextMenu(CWnd* pWnd, CPoint point)
 		return;
 	}
 
+	pWndTree->SetFocus();
 	if (point != CPoint(-1, -1))
 	{
 		// 选择已单击的项:
@@ -178,8 +179,6 @@ void MapView::OnContextMenu(CWnd* pWnd, CPoint point)
 			pWndTree->SelectItem(hTreeItem);
 		}
 	}
-
-	pWndTree->SetFocus();
 }
 
 void MapView::AdjustLayout()
@@ -439,7 +438,7 @@ void MapView::OnLayerRemove()
 
 	Cactus::ostringstream os;
 	os << "你确信要删除层: '" << _pSelectedLayer->GetObjectName() << "' 吗？";
-	if( MessageBox(os.str().c_str(), "询问", MB_OK | MB_ICONQUESTION) == IDOK )
+	if( MessageBox(os.str().c_str(), "询问", MB_YESNO | MB_ICONQUESTION) == IDYES )
 	{
 		_TreeMapItem.DeleteItem(_hSelectedItem);
 

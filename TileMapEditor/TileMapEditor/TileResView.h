@@ -8,15 +8,20 @@ public:
 
 	void		CreateControls();
 
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor ); 
+
+	DECLARE_MESSAGE_MAP()
+
 protected:
-	CEdit	_editResGroupC;
-	CEdit	_editResGroup;
+	CStatic	_editResGroupC;
+	CStatic	_editResGroup;
 	
-	CEdit	_editResTypeC;
-	CEdit	_editResType;
+	CStatic	_editResTypeC;
+	CStatic	_editResType;
 
 	CButton	_btnEdit;
 
+	CBrush	_brush;
 	CFont	_font;
 };
 
