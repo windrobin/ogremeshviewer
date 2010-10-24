@@ -321,6 +321,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\toolbar_goeditor.bmp"
+				>
+			</File>
+			<File
 				RelativePath=".\res\writelarge.bmp"
 				>
 			</File>
@@ -499,6 +503,14 @@
 			<Filter
 				Name="GameObjectEditor"
 				>
+				<File
+					RelativePath=".\DialogGameObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\DialogGameObject.h"
+					>
+				</File>
 				<File
 					RelativePath=".\GameObjectEditor.cpp"
 					>

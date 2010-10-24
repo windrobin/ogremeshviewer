@@ -5,6 +5,9 @@
 
 using namespace Cactus;
 
+
+#define M_VIEW_ID	(WM_USER + 10)
+
 //////////////////////////////////////////////////////////////////////
 // 构造/析构
 //////////////////////////////////////////////////////////////////////
@@ -38,16 +41,12 @@ int GameObjectEditor::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
 
+	_dlgPanel.Create(CDialogGameObject::IDD, this);
 
-	// 加载图像:
-	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_SORT);
-	m_wndToolBar.LoadToolBar(IDR_SORT, 0, 0, TRUE /* 已锁定*/);
-	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() | CBRS_TOOLTIPS | CBRS_FLYBY);
-	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC | CBRS_BORDER_TOP | CBRS_BORDER_BOTTOM | CBRS_BORDER_LEFT | CBRS_BORDER_RIGHT));
-	m_wndToolBar.SetOwner(this);
-
-	// 所有命令将通过此控件路由，而不是通过主框架路由:
-	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
+	_pView = new GameObjectEditorView;
+	_pView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, rectDummy, this, M_VIEW_ID);
+	_pView->OnInitialUpdate();
+	_pView->ShowWindow(SW_SHOW);
 
 	return 0;
 }
@@ -63,14 +62,11 @@ void GameObjectEditor::OnSize(UINT nType, int cx, int cy)
 
 	CRect rectClient;
 	GetClientRect(rectClient);
+	rectClient.bottom = 60;
+	_dlgPanel.MoveWindow(&rectClient);
 
-	int cyTlb = m_wndToolBar.CalcFixedLayout(FALSE, TRUE).cy;
-
-	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
-
-	rectClient.top += cyTlb;
-	//_listObjects.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_NOACTIVATE | SWP_NOZORDER);
-	//_listObjects.Arrange(LVA_DEFAULT);
+	rectClient.top = rectClient.bottom;
+	_pView->SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
 BOOL GameObjectEditor::PreTranslateMessage(MSG* pMsg)

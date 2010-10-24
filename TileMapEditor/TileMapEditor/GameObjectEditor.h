@@ -1,6 +1,7 @@
 #pragma once
 
-#include "PanelToolBar.h"
+#include "DialogGameObject.h"
+#include "GameObjectEditorView.h"
 
 class GameObjectEditor : public CDockablePane
 {
@@ -9,7 +10,8 @@ public:
 	virtual ~GameObjectEditor();
 
 protected:
-	CClassToolBar	m_wndToolBar;
+	CDialogGameObject		_dlgPanel;
+	GameObjectEditorView*	_pView;
 
 // ÖØÐ´
 public:

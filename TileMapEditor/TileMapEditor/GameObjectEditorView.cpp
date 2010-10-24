@@ -9,6 +9,8 @@
 
 #define M_Margin	50
 
+IMPLEMENT_DYNAMIC(GameObjectEditorView, CScrollView)
+
 BEGIN_MESSAGE_MAP(GameObjectEditorView, CScrollView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
