@@ -112,6 +112,7 @@ IDB_MENU_IMAGES_24      BITMAP                  "res\\menuimages_hc.bmp"
 IDR_PROPERTIES          BITMAP                  "res\\properties.bmp"
 IDB_PROPERTIES_HC       BITMAP                  "res\\properties_hc.bmp"
 IDR_TOOLBAR_RESDETAIL   BITMAP                  "res\\toolbar_ResDetail.bmp"
+IDR_TOOLBAR_MAPLAYER    BITMAP                  "res\\toolbar_maplayer.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -187,6 +188,13 @@ BEGIN
     BUTTON      ID_TOOLBAR_RESDETAIL_TYPE
     SEPARATOR
     BUTTON      ID_TOOLBAR_RESDETAIL_EDIT
+END
+
+IDR_TOOLBAR_MAPLAYER TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_TOOLBAR_MAPLAYER_SELECT_SIMILAR
+    BUTTON      ID_TOOLBAR_MAPLAYER_INVERT_SELECT
+    BUTTON      ID_TOOLBAR_MAPLAYER_DELETE_SELECT
 END
 
 
@@ -438,9 +446,9 @@ BEGIN
     LTEXT           "美术资源：",IDC_STATIC,139,20,41,8
     COMBOBOX        IDC_COMBO_GO_ARTID,184,19,48,118,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "使用当前画刷资源",IDC_BUTTON_GO_CUR_BRUSH,247,17,78,14
-    CONTROL         "选取模式",IDC_RADIO_GO_SELECT,"Button",BS_AUTORADIOBUTTON,341,19,48,10
-    CONTROL         "设置阻挡",IDC_RADIO_GO_SET_OBSTACLE,"Button",BS_AUTORADIOBUTTON,396,19,48,10
-    CONTROL         "清除阻挡",IDC_RADIO_GO_CLEAR_OBSTACLE,"Button",BS_AUTORADIOBUTTON,449,19,48,10
+    CONTROL         "选取模式",IDC_RADIO_GO_SELECT,"Button",BS_AUTORADIOBUTTON | WS_GROUP,341,19,48,10
+    CONTROL         "设置阻挡",IDC_RADIO_GO_SET_OBSTACLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,396,19,48,10
+    CONTROL         "清除阻挡",IDC_RADIO_GO_CLEAR_OBSTACLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,449,19,48,10
 END
 
 
@@ -698,6 +706,13 @@ BEGIN
     IDS_RIBBON_SAVEAS       "另存为(&A)..."
     IDS_RIBBON_PRINT        "打印"
     IDS_RIBBON_PRINT_LABEL  "预览并打印文档"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_TOOLBAR_MAPLAYER_SELECT_SIMILAR "Select Similar"
+    ID_TOOLBAR_MAPLAYER_INVERT_SELECT "Invert Selection"
+    ID_TOOLBAR_MAPLAYER_DELETE_SELECT "Delete Selection"
 END
 
 #endif    // Chinese (P.R.C.) resources

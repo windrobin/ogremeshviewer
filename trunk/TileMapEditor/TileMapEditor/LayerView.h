@@ -26,6 +26,9 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnClassAddMemberFunction();
+	afx_msg void OnInvertSelect();
+	afx_msg void OnSelectSimilar();
+	afx_msg void OnDeleteSelection();
 
 	DECLARE_MESSAGE_MAP()
 };

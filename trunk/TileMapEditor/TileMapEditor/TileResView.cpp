@@ -23,38 +23,54 @@ SEPARATOR
 BUTTON      ID_TOOLBAR_RESDETAIL_EDIT
 */
 
+BEGIN_MESSAGE_MAP(ResDetailToolBar, CClassToolBar)
+	//ON_WM_CTLCOLOR()
+END_MESSAGE_MAP()
+
+
+HBRUSH ResDetailToolBar::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	if(nCtlColor == CTLCOLOR_STATIC) 
+	{ 
+		//pDC->SetTextColor(RGB(0,0,255)); 
+		pDC->SetBkMode(TRANSPARENT);
+
+		return (HBRUSH)_brush;
+	} 
+
+	return CClassToolBar::OnCtlColor(pDC, pWnd, nCtlColor);
+}
+
 
 void ResDetailToolBar::CreateControls()
 {
-
+	_brush.CreateStockObject(NULL_BRUSH);
 	_font.CreateStockObject(DEFAULT_GUI_FONT);
 
 	int iIndex = 0;
 	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_RESGROUP_C) iIndex++;
 
 	CRect rc(5, 2, 55, 20);
-	_editResGroupC.Create(WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | ES_LEFT | ES_READONLY, rc, this, ID_TOOLBAR_RESDETAIL_RESGROUP_C);
+	_editResGroupC.Create("资源组：", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_RESDETAIL_RESGROUP_C);
 	_editResGroupC.SetFont(&_font);
-	_editResGroupC.SetWindowText("资源组：");
 
 
 	while ( GetItemID(iIndex) != ID_TOOLBAR_REDETAIL_RESGROUP) iIndex++;
 	rc.left		= rc.right + 5;
 	rc.right	= rc.left + 60;
-	_editResGroup.Create(WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | ES_LEFT | ES_READONLY, rc, this, ID_TOOLBAR_REDETAIL_RESGROUP);
+	_editResGroup.Create("", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_REDETAIL_RESGROUP);
 	_editResGroup.SetFont(&_font);
 
 	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_TYPE_C) iIndex++;
 	rc.left		= rc.right + 5;
-	rc.right	= rc.left + 50;
-	_editResTypeC.Create(WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | ES_LEFT | ES_READONLY, rc, this, ID_TOOLBAR_RESDETAIL_TYPE_C);
+	rc.right	= rc.left + 60;
+	_editResTypeC.Create("资源类型：", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_RESDETAIL_TYPE_C);
 	_editResTypeC.SetFont(&_font);
-	_editResTypeC.SetWindowText("资源类型：");
 
 	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_TYPE) iIndex++;
 	rc.left		= rc.right + 5;
 	rc.right	= rc.left + 50;
-	_editResType.Create(WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | ES_LEFT | ES_READONLY, rc, this, ID_TOOLBAR_RESDETAIL_TYPE);
+	_editResType.Create("", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_RESDETAIL_TYPE);
 	_editResType.SetFont(&_font);
 
 
