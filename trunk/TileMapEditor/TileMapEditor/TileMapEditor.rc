@@ -347,8 +347,8 @@ IDR_MENU_GAMEOBJECTGROUP MENU
 BEGIN
     POPUP "GameObjectGroup"
     BEGIN
-        MENUITEM "Add Group",                   ID_GAMEOBJECTGROUP_ADDGROUP
-        MENUITEM "Remove Group",                ID_GAMEOBJECTGROUP_REMOVEGROUP
+        MENUITEM "Add GameObject Group",        ID_GAMEOBJECTGROUP_ADDGROUP
+        MENUITEM "Remove GameObject Group",     ID_GAMEOBJECTGROUP_REMOVEGROUP
     END
 END
 
