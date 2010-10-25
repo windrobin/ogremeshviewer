@@ -43,6 +43,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_VIEW_MAPLAYER_PANEL, &CMainFrame::OnView_MayLayerPanel)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_MAPLAYER_PANEL, &CMainFrame::OnUpdateView_MayLayerPanel)
 
+	ON_COMMAND(ID_VIEW_GAMEOBJECTEDITOR, &CMainFrame::OnView_GameObjectEditorPanel)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_GAMEOBJECTEDITOR, &CMainFrame::OnUpdateView_GameObjectEditorPanel)
+
+
 	ON_COMMAND(M_TOOL_SELECT, &CMainFrame::OnTool_Select)
 	ON_UPDATE_COMMAND_UI(M_TOOL_SELECT, &CMainFrame::OnUpdateButton_Select)
 	ON_COMMAND(M_TOOL_BRUSH, &CMainFrame::OnTool_Brush)
@@ -281,6 +285,7 @@ void CMainFrame::InitializeRibbon()
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_MAP_PANEL, ID_VIEW_MAP_PANEL);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_MAPLAYER_PANEL, ID_VIEW_MAPLAYER_PANEL);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_RES_DETAIL, ID_VIEW_RES_DETAIL_PANEL);
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_GAMEOBJECT_EDITOR, ID_VIEW_GAMEOBJECTEDITOR);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_PROPERTIES_WND, ID_VIEW_PROPERTIESWND);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_OUTPUT_WND, ID_VIEW_OUTPUTWND);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_RIBBON_STATUSBAR, ID_VIEW_STATUS_BAR);
@@ -384,7 +389,9 @@ BOOL CMainFrame::CreateDockingWindows()
 	}
 
 	// 创建_GameObjectEditor窗口
-	if (!_GameObjectEditor.Create("游戏对象编辑器", this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_GAMEOBJECTEDITOR, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_BOTTOM | CBRS_FLOAT_MULTI))
+	bNameValid = strTmp.LoadString(IDS_GAMEOBJECT_EDITOR);
+	ASSERT(bNameValid);
+	if (!_GameObjectEditor.Create("对象编辑器", this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_GAMEOBJECTEDITOR, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_BOTTOM | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("未能创建“游戏对象编辑器”窗口\n");
 		return FALSE; // 未能创建
@@ -549,6 +556,14 @@ void CMainFrame::OnUpdateView_MayLayerPanel(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(_LayerPanel.IsVisible());
 }
 
+void CMainFrame::OnView_GameObjectEditorPanel()
+{
+	_GameObjectEditor.ShowPane(!_GameObjectEditor.IsVisible(), FALSE, !_GameObjectEditor.IsVisible());
+}
+void CMainFrame::OnUpdateView_GameObjectEditorPanel(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(_GameObjectEditor.IsVisible());
+}
 
 void CMainFrame::SetCurLayerName(const Cactus::String& strLayerName)
 {

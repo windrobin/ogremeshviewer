@@ -1,29 +1,29 @@
 #pragma once
 
-#include "PanelToolBar.h"
+#include "DialogResDetail.h"
 
-class ResDetailToolBar : public CClassToolBar
-{
-public:
-
-	void		CreateControls();
-
-	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor ); 
-
-	DECLARE_MESSAGE_MAP()
-
-protected:
-	CStatic	_editResGroupC;
-	CStatic	_editResGroup;
-	
-	CStatic	_editResTypeC;
-	CStatic	_editResType;
-
-	CButton	_btnEdit;
-
-	CBrush	_brush;
-	CFont	_font;
-};
+//class ResDetailToolBar : public CClassToolBar
+//{
+//public:
+//
+//	void		CreateControls();
+//
+//	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor ); 
+//
+//	DECLARE_MESSAGE_MAP()
+//
+//protected:
+//	CStatic	_editResGroupC;
+//	CStatic	_editResGroup;
+//	
+//	CStatic	_editResTypeC;
+//	CStatic	_editResType;
+//
+//	CButton	_btnEdit;
+//
+//	CBrush	_brush;
+//	CFont	_font;
+//};
 
 class TileResView : public CDockablePane
 {
@@ -34,7 +34,7 @@ public:
 	void			BuildImageAndInfoes(const Cactus::String& strResKey, CImageList* pImage, const Cactus::StringVector& captions);
 
 protected:
-	ResDetailToolBar	m_wndToolBar;
+	DialogResDetail		_dialogBar;
 	CListCtrl			_listImages;
 	int					_iOldCheck;
 	Cactus::String		_strResKey;
