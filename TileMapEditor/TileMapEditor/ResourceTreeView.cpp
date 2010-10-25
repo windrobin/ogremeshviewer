@@ -119,15 +119,14 @@ void ResourceTreeView::FillFileView()
 	}
 
 	_treeGameObjectRes	= _ResourceTree.InsertItem(_T("游戏对象"), 0, 0, hRoot);
-
-	HTREEITEM hItem = _ResourceTree.InsertItem(_T("NPC"), 2, 2, _treeGameObjectRes);
-	_ResourceTree.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["npc"]);
-	
-	hItem = _ResourceTree.InsertItem(_T("Monster"), 2, 2, _treeGameObjectRes);
-	_ResourceTree.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["monster"]);
-	
-	hItem = _ResourceTree.InsertItem(_T("Function Point"), 2, 2, _treeGameObjectRes);
-	_ResourceTree.SetItemData(hItem, (DWORD_PTR)ResourceManager::getSingleton()._ResGameObjectGroups["funcpoint"]);
+	for (ResourceManager::ResGameObjectGroupMapType::iterator it = ResourceManager::getSingleton()._ResGameObjectGroups.begin();
+		it != ResourceManager::getSingleton()._ResGameObjectGroups.end();
+		++it
+		)
+	{
+		HTREEITEM hItem = _ResourceTree.InsertItem(it->first.c_str(), 2, 2, _treeGameObjectRes);
+		_ResourceTree.SetItemData(hItem, (DWORD_PTR)it->second);
+	}
 
 	//_treeGameEventRes	= _ResourceTree.InsertItem(_T("游戏事件"), 0, 0, hRoot);
 

@@ -11,8 +11,8 @@ class ResourceManager : public Cactus::Singleton<ResourceManager>
 {
 	friend class ResourceArt_xmlHandler;
 	friend class ResourceGameObject_xmlHandler;
-	friend class ResourceGameEvent_xmlHandler;
 	friend class ResourceTreeView;
+
 public:
 	ResourceManager();
 	~ResourceManager();
@@ -49,5 +49,4 @@ protected:
 
 	bool	_LoadResourceArt(const Cactus::String& strPathName);
 	bool	_LoadResourceGameObject(const Cactus::String& strPathName);
-	bool	_LoadResourceGameEvent(const Cactus::String& strPathName);
 };

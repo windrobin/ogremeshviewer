@@ -130,7 +130,6 @@ class ResourceGameObject_xmlHandler : public Cactus::XMLHandler
 public:
 	ResourceGameObject_xmlHandler(ResourceManager& resMan) : _resManager(resMan)
 	{
-		_eType				= eGameObjectMax;
 		pGameObjectGroup	= 0;
 		pGameObject			= 0;
 	}
@@ -138,29 +137,16 @@ public:
 
 	virtual void elementStart(const Cactus::String& element, const Cactus::XMLAttributes& attributes)
 	{
-		if ( element == "npc"
-			||
-			element == "monster"
-			||
-			element == "funcpoint"
-			)
+		if ( element == "group")
 		{
-			_strType	= element;
-
-			if (element == "npc")
-				_eType		= eGameObjectNPC;
-			else if (element == "monster")
-				_eType		= eGameObjectMonster;
-			else if (element == "funcpoint")
-				_eType		= eGameObjectFunctionPoint;
-
+			//<group name="npc" iconres="tile2" unitTileW="100" unitTileH="50">
 			pGameObjectGroup = new ResourceGameObjectGroup;
-			pGameObjectGroup->_strName = element;
+			pGameObjectGroup->_strName		= attributes.getValueAsString("name");
 			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
 			pGameObjectGroup->_szUnitTile.x = attributes.getValueAsInteger("unitTileW");
 			pGameObjectGroup->_szUnitTile.y = attributes.getValueAsInteger("unitTileH");
 		}
-		else if (element == "item" && _eType != eGameObjectMax)
+		else if (element == "item")
 		{
 			//<item name="npc01" iconid="000" xOffset="25" yOffset="16" xBarycentric="0" yBarycentric="0" >
 			//	<obstacle x="0" y="0"/>
@@ -175,8 +161,6 @@ public:
 			p->_xBaryCentric	= attributes.getValueAsFloat("xBarycentric");
 			p->_yBaryCentric	= attributes.getValueAsFloat("yBarycentric");
 		
-			p->_eType			= _eType;
-
 			if (p->Load(pGameObjectGroup->_strArtResKey))
 			{
 				pGameObjectGroup->_ResGameObjects.push_back(p);
@@ -202,18 +186,14 @@ public:
 
 	virtual void elementEnd(const Cactus::String& element)
 	{
-		if (element == "npc"
-			|| element == "monster"
-			|| element == "funcpoint"
-			)
+		if (element == "group")
 		{
 			if (pGameObjectGroup->Load())
-				_resManager._ResGameObjectGroups[_strType] = pGameObjectGroup;
+				_resManager._ResGameObjectGroups[pGameObjectGroup->_strName] = pGameObjectGroup;
 			else
 				delete pGameObjectGroup;
 
 			pGameObjectGroup = 0;
-			_eType	= eGameObjectMax;
 		}
 		else if (element == "item")
 		{
@@ -225,34 +205,9 @@ public:
 
 private:
 
-	ResourceManager&	_resManager;
-	EGameObjectType		_eType;
-	String				_strType;
+	ResourceManager&			_resManager;
 	ResourceGameObjectGroup*	pGameObjectGroup;
 	ResourceGameObject*			pGameObject;
-};
-
-//---------------------------------------------------------------------------------------------------------
-
-class ResourceGameEvent_xmlHandler : public Cactus::XMLHandler
-{
-public:
-	ResourceGameEvent_xmlHandler(ResourceManager& resMan) : _resManager(resMan){}
-	virtual ~ResourceGameEvent_xmlHandler(){}
-
-	virtual void elementStart(const Cactus::String& element, const Cactus::XMLAttributes& attributes)
-	{
-
-	}
-
-	virtual void elementEnd(const Cactus::String& element)
-	{
-
-	}
-
-	virtual void text(const Cactus::String& content){}
-
-	ResourceManager&	_resManager;
 };
 
 //---------------------------------------------------------------------------------------------------------
@@ -304,25 +259,6 @@ bool ResourceManager::_LoadResourceGameObject(const Cactus::String& strPathName)
 	return true;
 }
 
-bool ResourceManager::_LoadResourceGameEvent(const Cactus::String& strPathName)
-{
-	ResourceGameEvent_xmlHandler handler(*this);
-
-	try
-	{
-		XMLParser xmlParser(handler, strPathName, "");
-	}
-	catch (std::exception e)
-	{
-		Log_Error( "ResourceManager::_LoadResourceGameEvent, Load failed! File : " << strPathName );
-		return false;
-	}
-
-	Log_Info("ResourceManager::_LoadResourceGameEvent, Load OK.");
-
-	return true;
-}
-
 bool ResourceManager::Load(const Cactus::String& strRootPath)
 {
 	_strRootFolder	= strRootPath;
@@ -339,14 +275,6 @@ bool ResourceManager::Load(const Cactus::String& strRootPath)
 
 	strPathName = strRootPath + "Editor/ResourceGameObject.xml";
 	b = _LoadResourceGameObject(strPathName);
-	if (!b)
-	{
-		Reset();
-		return false;
-	}
-
-	strPathName = strRootPath + "Editor/ResourceGameEvent.xml";
-	b = _LoadResourceGameEvent(strPathName);
 	if (!b)
 	{
 		Reset();

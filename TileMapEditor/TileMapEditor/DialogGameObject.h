@@ -26,7 +26,7 @@ public:
 	int _iTileCountX;
 	int _iTileCountY;
 	CString _strCenterOffset;
-	CComboBox _comboArtSource;
+	CString _strArtSource;
 	CComboBox _comboArt;
 	afx_msg void OnBnClickedButtonGoCurBrush();
 	int _iMode;

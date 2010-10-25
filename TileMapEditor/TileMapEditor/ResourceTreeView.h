@@ -1,17 +1,7 @@
-
 #pragma once
 
 #include "ViewTree.h"
-
-class CFileViewToolBar : public CMFCToolBar
-{
-	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
-	{
-		CMFCToolBar::OnUpdateCmdUI((CFrameWnd*) GetOwner(), bDisableIfNoHndler);
-	}
-
-	virtual BOOL AllowShowOnList() const { return FALSE; }
-};
+#include "PanelToolBar.h"
 
 class ResourceTreeView : public CDockablePane
 {
@@ -25,7 +15,7 @@ public:
 //  Ù–‘
 protected:
 
-	CFileViewToolBar m_wndToolBar;
+	CClassToolBar m_wndToolBar;
 
 	CViewTree	_ResourceTree;
 	CImageList	_TreeImageList;
