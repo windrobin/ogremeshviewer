@@ -437,6 +437,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DialogResDetail.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DialogResDetail.h"
+				>
+			</File>
+			<File
 				RelativePath=".\LayerView.cpp"
 				>
 			</File>

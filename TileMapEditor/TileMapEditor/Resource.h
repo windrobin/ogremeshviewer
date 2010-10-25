@@ -88,9 +88,11 @@
 #define IDI_MAPLAYER                    183
 #define IDI_MAPLAYER_HC                 184
 #define IDR_TOOLBAR_GOEDITOR            185
+#define IDS_GAMEOBJECT_EDITOR           186
 #define IDD_DIALOG_GO_EDITOR            187
 #define IDR_TOOLBAR_RESDETAIL           188
 #define IDR_TOOLBAR_MAPLAYER            190
+#define IDD_DIALOG_RES_DETAIL           191
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
 #define IDC_EDIT_FOOTNOTES              1002
@@ -101,9 +103,7 @@
 #define IDC_EDIT_LAYERNAME              1007
 #define IDC_EDIT_TILE_WIDTH             1008
 #define IDC_COMBO1                      1009
-#define IDC_COMBO_GO_ARTGROUP           1009
-#define IDC_COMBO_TYPE                  1010
-#define IDC_COMBO_GO_ARTID              1010
+#define IDC_COMBO_GO_ARTGROUP           1010
 #define IDC_CHECK1                      1011
 #define IDC_CHECK_CREATE_LAYER          1012
 #define IDC_EDIT_GO_GROUP               1013
@@ -114,10 +114,15 @@
 #define IDC_EDIT_GO_TILE_COUNT_Y        1018
 #define IDC_EDIT_GO_CENTER_POS          1019
 #define IDC_BUTTON_GO_CUR_BRUSH         1020
+#define IDC_COMBO_TYPE                  1021
 #define IDC_RADIO_GO_SELECT             1022
 #define IDC_RADIO_GO_SET_OBSTACLE       1023
-#define IDC_RADIO_GO_SELECT3            1024
-#define IDC_RADIO_GO_CLEAR_OBSTACLE     1024
+#define IDC_COMBO_GO_ARTID              1024
+#define IDC_RADIO_GO_SELECT3            1025
+#define IDC_RADIO_GO_CLEAR_OBSTACLE     1026
+#define IDC_EDIT_RES_DETAIL_GROUPNAME   1027
+#define IDC_EDIT_RES_DETAIL_GROUPNAME2  1028
+#define IDC_EDIT_RES_DETAIL_RESTYPE        1028
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771
 #define ID_STATUSBAR_PANE2              32772
@@ -167,22 +172,17 @@
 #define ID_BRUSHOP_SELECTBRUSH          32816
 #define ID_MAPOP_DEFINEBRUSH            32817
 #define ID_VIEW_GAMEOBJECTEDITOR        32818
-#define ID_TOOLBAR_REDETAIL_RESGROUP    32819
-#define ID_TOOLBAR_RESDETAIL_TYPE       32820
-#define ID_TOOLBAR_RESDETAIL_RESGROUP_C 32821
-#define ID_TOOLBAR_RESDETAIL_TYPE_C     32822
-#define ID_TOOLBAR_RESDETAIL_EDIT       32823
-#define ID_TOOLBAR_MAPLAYER_SELECT_SIMILAR 32824
-#define ID_TOOLBAR_MAPLAYER_INVERT_SELECT 32825
-#define ID_TOOLBAR_MAPLAYER_DELETE_SELECT 32826
+#define ID_TOOLBAR_MAPLAYER_SELECT_SIMILAR 32819
+#define ID_TOOLBAR_MAPLAYER_INVERT_SELECT 32820
+#define ID_TOOLBAR_MAPLAYER_DELETE_SELECT 32821
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        192
-#define _APS_NEXT_COMMAND_VALUE         32827
-#define _APS_NEXT_CONTROL_VALUE         1023
-#define _APS_NEXT_SYMED_VALUE           1113
+#define _APS_NEXT_COMMAND_VALUE         32822
+#define _APS_NEXT_CONTROL_VALUE         1028
+#define _APS_NEXT_SYMED_VALUE           1127
 #endif
 #endif

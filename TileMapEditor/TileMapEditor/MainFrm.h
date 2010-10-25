@@ -74,6 +74,8 @@ protected:
 	afx_msg void OnUpdateView_PropertyPanel(CCmdUI* pCmdUI);
 	afx_msg void OnView_MayLayerPanel();
 	afx_msg void OnUpdateView_MayLayerPanel(CCmdUI* pCmdUI);
+	afx_msg void OnView_GameObjectEditorPanel();
+	afx_msg void OnUpdateView_GameObjectEditorPanel(CCmdUI* pCmdUI);
 
 	afx_msg void OnTool_Select();
 	afx_msg void OnUpdateButton_Select(CCmdUI* pCmdUI);

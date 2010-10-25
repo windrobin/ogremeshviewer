@@ -22,64 +22,63 @@ BUTTON      ID_TOOLBAR_RESDETAIL_TYPE
 SEPARATOR
 BUTTON      ID_TOOLBAR_RESDETAIL_EDIT
 */
+//
+//BEGIN_MESSAGE_MAP(ResDetailToolBar, CClassToolBar)
+//	//ON_WM_CTLCOLOR()
+//END_MESSAGE_MAP()
 
-BEGIN_MESSAGE_MAP(ResDetailToolBar, CClassToolBar)
-	//ON_WM_CTLCOLOR()
-END_MESSAGE_MAP()
-
-
-HBRUSH ResDetailToolBar::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
-{
-	if(nCtlColor == CTLCOLOR_STATIC) 
-	{ 
-		//pDC->SetTextColor(RGB(0,0,255)); 
-		pDC->SetBkMode(TRANSPARENT);
-
-		return (HBRUSH)_brush;
-	} 
-
-	return CClassToolBar::OnCtlColor(pDC, pWnd, nCtlColor);
-}
-
-
-void ResDetailToolBar::CreateControls()
-{
-	_brush.CreateStockObject(NULL_BRUSH);
-	_font.CreateStockObject(DEFAULT_GUI_FONT);
-
-	int iIndex = 0;
-	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_RESGROUP_C) iIndex++;
-
-	CRect rc(5, 2, 55, 20);
-	_editResGroupC.Create("资源组：", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_RESDETAIL_RESGROUP_C);
-	_editResGroupC.SetFont(&_font);
-
-
-	while ( GetItemID(iIndex) != ID_TOOLBAR_REDETAIL_RESGROUP) iIndex++;
-	rc.left		= rc.right + 5;
-	rc.right	= rc.left + 60;
-	_editResGroup.Create("", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_REDETAIL_RESGROUP);
-	_editResGroup.SetFont(&_font);
-
-	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_TYPE_C) iIndex++;
-	rc.left		= rc.right + 5;
-	rc.right	= rc.left + 60;
-	_editResTypeC.Create("资源类型：", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_RESDETAIL_TYPE_C);
-	_editResTypeC.SetFont(&_font);
-
-	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_TYPE) iIndex++;
-	rc.left		= rc.right + 5;
-	rc.right	= rc.left + 50;
-	_editResType.Create("", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_RESDETAIL_TYPE);
-	_editResType.SetFont(&_font);
-
-
-	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_EDIT) iIndex++;
-	rc.left		= rc.right + 5;
-	rc.right	= rc.left + 36;
-	_btnEdit.Create("编辑", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | BS_PUSHBUTTON, rc, this, ID_TOOLBAR_RESDETAIL_EDIT);
-	_btnEdit.SetFont(&_font);
-}
+//HBRUSH ResDetailToolBar::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+//{
+//	if(nCtlColor == CTLCOLOR_STATIC) 
+//	{ 
+//		//pDC->SetTextColor(RGB(0,0,255)); 
+//		pDC->SetBkMode(TRANSPARENT);
+//
+//		return (HBRUSH)_brush;
+//	} 
+//
+//	return CClassToolBar::OnCtlColor(pDC, pWnd, nCtlColor);
+//}
+//
+//
+//void ResDetailToolBar::CreateControls()
+//{
+//	_brush.CreateStockObject(NULL_BRUSH);
+//	_font.CreateStockObject(DEFAULT_GUI_FONT);
+//
+//	int iIndex = 0;
+//	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_RESGROUP_C) iIndex++;
+//
+//	CRect rc(5, 2, 55, 20);
+//	_editResGroupC.Create("资源组：", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_RESDETAIL_RESGROUP_C);
+//	_editResGroupC.SetFont(&_font);
+//
+//
+//	while ( GetItemID(iIndex) != ID_TOOLBAR_REDETAIL_RESGROUP) iIndex++;
+//	rc.left		= rc.right + 5;
+//	rc.right	= rc.left + 60;
+//	_editResGroup.Create("", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_REDETAIL_RESGROUP);
+//	_editResGroup.SetFont(&_font);
+//
+//	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_TYPE_C) iIndex++;
+//	rc.left		= rc.right + 5;
+//	rc.right	= rc.left + 60;
+//	_editResTypeC.Create("资源类型：", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_RESDETAIL_TYPE_C);
+//	_editResTypeC.SetFont(&_font);
+//
+//	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_TYPE) iIndex++;
+//	rc.left		= rc.right + 5;
+//	rc.right	= rc.left + 50;
+//	_editResType.Create("", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rc, this, ID_TOOLBAR_RESDETAIL_TYPE);
+//	_editResType.SetFont(&_font);
+//
+//
+//	while ( GetItemID(iIndex) != ID_TOOLBAR_RESDETAIL_EDIT) iIndex++;
+//	rc.left		= rc.right + 5;
+//	rc.right	= rc.left + 36;
+//	_btnEdit.Create("编辑", WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | BS_PUSHBUTTON, rc, this, ID_TOOLBAR_RESDETAIL_EDIT);
+//	_btnEdit.SetFont(&_font);
+//}
 
 
 //////////////////////////////////////////////////////////////////////
@@ -121,17 +120,8 @@ int TileResView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 
-	// 加载图像:
-	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_TOOLBAR_RESDETAIL);
-	m_wndToolBar.LoadToolBar(IDR_TOOLBAR_RESDETAIL, 0, 0, TRUE /* 已锁定*/);
-	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() | CBRS_TOOLTIPS | CBRS_FLYBY);
-	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC | CBRS_BORDER_TOP | CBRS_BORDER_BOTTOM | CBRS_BORDER_LEFT | CBRS_BORDER_RIGHT));
-	m_wndToolBar.SetOwner(this);
-
-	// 所有命令将通过此控件路由，而不是通过主框架路由:
-	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
-
-	m_wndToolBar.CreateControls();
+	//创建工具条
+	_dialogBar.Create(DialogResDetail::IDD, this);
 
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_ICON;
 	_listImages.Create(dwViewStyle, CRect(0, 0, 100, 100), this, M_ListCtrl_ID);
@@ -153,9 +143,9 @@ void TileResView::OnSize(UINT nType, int cx, int cy)
 	CRect rectClient;
 	GetClientRect(rectClient);
 
-	int cyTlb = m_wndToolBar.CalcFixedLayout(FALSE, TRUE).cy;
+	int cyTlb = 30;
 
-	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
+	_dialogBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 
 	rectClient.top += cyTlb;
 	_listImages.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_NOACTIVATE | SWP_NOZORDER);
