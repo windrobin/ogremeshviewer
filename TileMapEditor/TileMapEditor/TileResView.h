@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DialogResDetail.h"
+#include "ResourceType.h"
 
 //class ResDetailToolBar : public CClassToolBar
 //{
@@ -31,13 +32,15 @@ public:
 	TileResView();
 	virtual ~TileResView();
 
-	void			BuildImageAndInfoes(const Cactus::String& strResKey, CImageList* pImage, const Cactus::StringVector& captions);
+	void			BuildImageAndInfoes(const Cactus::String& strResKey, EResourceType eType
+		, CImageList* pImage, const Cactus::StringVector& captions);
 
 protected:
 	DialogResDetail		_dialogBar;
 	CListCtrl			_listImages;
 	int					_iOldCheck;
 	Cactus::String		_strResKey;
+	EResourceType		_eType;
 
 // ÖØÐ´
 public:
@@ -50,7 +53,12 @@ protected:
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnNMDblclkListItem(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMRclickListItem(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnClassAddMemberFunction();
+	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	afx_msg void OnItemAdd();
+	afx_msg void OnItemEdit();
+	afx_msg void OnItemRemove();
 
 	DECLARE_MESSAGE_MAP()
 };

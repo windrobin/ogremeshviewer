@@ -103,6 +103,11 @@ BEGIN_MESSAGE_MAP(TileResView, CDockablePane)
 	ON_COMMAND(ID_CLASS_ADD_MEMBER_FUNCTION, OnClassAddMemberFunction)
 	ON_NOTIFY(LVN_ITEMCHANGED, M_ListCtrl_ID, OnItemChanged)
 	ON_NOTIFY(NM_DBLCLK, M_ListCtrl_ID, &TileResView::OnNMDblclkListItem)
+	ON_NOTIFY(NM_RCLICK, M_ListCtrl_ID, &TileResView::OnNMRclickListItem)
+
+	ON_COMMAND(ID_MENU_RESVIEW_ADD, OnItemAdd)
+	ON_COMMAND(ID_MENU_RESVIEW_EDIT, OnItemEdit)
+	ON_COMMAND(ID_MENU_RESVIEW_REMOVE, OnItemRemove)
 
 	//ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
 	//ON_UPDATE_COMMAND_UI_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnUpdateSort)
@@ -174,12 +179,24 @@ void TileResView::OnClassAddMemberFunction()
 	AfxMessageBox(_T("添加成员函数..."));
 }
 
-void TileResView::BuildImageAndInfoes(const Cactus::String& strResKey, CImageList* pImage, const Cactus::StringVector& captions)
+void TileResView::BuildImageAndInfoes(const Cactus::String& strResKey, EResourceType eType, CImageList* pImage, const Cactus::StringVector& captions)
 {
 	_listImages.DeleteAllItems();
 
 	_iOldCheck	= -1;
 	_strResKey	= strResKey;
+	_eType		= eType;
+
+	_dialogBar._strGroupName	= _strResKey.c_str();
+	if (_eType == eResTypeArt)
+	{
+		_dialogBar._strResType	= "美术资源";
+	}
+	else if (_eType == eResTypeGameObject)
+	{
+		_dialogBar._strResType	= "游戏对象";
+	}
+	_dialogBar.UpdateData(FALSE);
 
 	//Clear brush tool
 	ToolManager::getSingleton().SelectTool(eToolSelect);
@@ -190,6 +207,21 @@ void TileResView::BuildImageAndInfoes(const Cactus::String& strResKey, CImageLis
 	{
 		_listImages.InsertItem(t, captions[t].c_str(), t);
 	}
+}
+
+
+void TileResView::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+	CListCtrl* pWndList = (CListCtrl*)&_listImages;
+	ASSERT_VALID(pWndList);
+
+	if (pWnd != pWndList)
+	{
+		CDockablePane::OnContextMenu(pWnd, point);
+		return;
+	}
+
+	pWndList->SetFocus();
 }
 
 void TileResView::OnItemChanged(NMHDR *pNMHDR, LRESULT *pResult)
@@ -250,4 +282,43 @@ void TileResView::OnNMDblclkListItem(NMHDR *pNMHDR, LRESULT *pResult)
 	//pBrush->SetResource(_strResKey, (LPCTSTR)str);
 
 	*pResult = 0;
+}
+
+
+void TileResView::OnNMRclickListItem(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	if (_eType == eResTypeArt)
+	{
+		*pResult = 0;
+		return;
+	}
+
+	LPNMITEMACTIVATE pia = (LPNMITEMACTIVATE)pNMHDR;
+	CPoint point(pia->ptAction);
+
+	// Select the item the user clicked on.
+	UINT uFlags;
+	int nItem = _listImages.HitTest(point, &uFlags);
+	if (uFlags & LVHT_ONITEMICON)
+	{
+		_listImages.ClientToScreen(&point);
+		theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_POPUP_RESVIEW, point.x, point.y, this, TRUE);
+	}
+
+	*pResult = 0;
+}
+
+void TileResView::OnItemAdd()
+{
+
+}
+
+void TileResView::OnItemEdit()
+{
+
+}
+
+void TileResView::OnItemRemove()
+{
+
 }

@@ -204,7 +204,8 @@ void CTileMapEditorApp::PreLoadState()
 	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EXPLORER);
 	GetContextMenuManager()->AddMenu(strName, IDR_MENU_LAYER_OP);
 	GetContextMenuManager()->AddMenu(strName, IDR_MENU_MAP_OP);
-	
+	GetContextMenuManager()->AddMenu(strName, IDR_MENU_POPUP_RESVIEW);
+
 }
 
 void CTileMapEditorApp::LoadCustomState()
