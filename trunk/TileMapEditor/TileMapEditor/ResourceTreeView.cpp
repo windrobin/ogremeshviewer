@@ -270,7 +270,17 @@ void ResourceTreeView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 	CPoint point;
 	GetCursorPos(&point);
 
-	HTREEITEM hItem = _ResourceTree.GetSelectedItem();
+	CPoint pointScreen = point;
+	_ResourceTree.ScreenToClient(&pointScreen);
+
+	UINT uFlags;
+	HTREEITEM hItem = _ResourceTree.HitTest(pointScreen, &uFlags);
+	if (hItem == 0)
+	{
+		*pResult = 0;
+		return;
+	}
+
 	if (hItem == _treeGameObjectRes)
 	{
 		_hSelectedItem = hItem;
@@ -282,10 +292,10 @@ void ResourceTreeView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 	DWORD_PTR ptr = _ResourceTree.GetItemData(hItem);
 	if (ptr)
 	{
-		ResourceGameObjectGroup* pGroup = (ResourceGameObjectGroup*)ptr;
-		if (pGroup)
+		Resource* pGroup = (Resource*)ptr;
+		if (pGroup && pGroup->GetResourceType() == eResTypeGameObject)
 		{
-			_pSelectedGroup = pGroup;
+			_pSelectedGroup = (ResourceGameObjectGroup *)pGroup;
 			_hSelectedItem	= hItem;
 			theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_GAMEOBJECTGROUP, point.x, point.y, this, TRUE);
 		}
@@ -304,7 +314,7 @@ void ResourceTreeView::OnGameObjectGroupAdd()
 }
 void ResourceTreeView::OnUpdateCmdUI_GroupAdd(CCmdUI* pCmdUI)
 {
-	//pCmdUI->Enable(_pSelectedGroup || _hSelectedItem == _treeGameObjectRes);
+	pCmdUI->Enable(_pSelectedGroup || _hSelectedItem == _treeGameObjectRes);
 }
 
 

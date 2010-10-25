@@ -305,7 +305,7 @@ BEGIN
     POPUP "LayerOP"
     BEGIN
         MENUITEM "设置为当前(&C)",                   ID_LAYEROP_SETCURRENT
-        MENUITEM "添加新层(&A)",                    ID_LAYEROP_INSERT
+        MENUITEM "添加地层(&A)",                    ID_LAYEROP_INSERT
         MENUITEM "显示(&S)",                      ID_LAYEROP_SHOW
         MENUITEM "隐藏(&H)",                      ID_LAYEROP_HIDE
         MENUITEM "删除(&R)",                      ID_LAYEROP_REMOVE
@@ -327,7 +327,7 @@ IDR_MENU_MAP_OP MENU
 BEGIN
     POPUP "MapOP"
     BEGIN
-        MENUITEM "添加新层(&A)",                    ID_LAYEROP_INSERT
+        MENUITEM "添加地层(&A)",                    ID_LAYEROP_INSERT
         MENUITEM "定义画刷(&B)",                    ID_MAPOP_DEFINEBRUSH
         MENUITEM "属性(&P)...",                   ID_PROPERTIES
     END
