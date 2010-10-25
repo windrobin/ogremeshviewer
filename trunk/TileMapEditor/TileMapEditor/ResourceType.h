@@ -7,16 +7,6 @@ enum EResourceType
 	eResTypeMax
 };
 
-
-enum EGameObjectType
-{
-	eGameObjectNPC,
-	eGameObjectMonster,
-	eGameObjectFunctionPoint,
-	eGameObjectEvent,
-	eGameObjectMax
-};
-
 /**
 *	资源组基类：一个资源组拥有若干子资源
 */

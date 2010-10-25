@@ -19,6 +19,7 @@ CDialogGameObject::CDialogGameObject(CWnd* pParent /*=NULL*/)
 	, _iTileCountX(0)
 	, _iTileCountY(0)
 	, _strCenterOffset(_T(""))
+	, _strArtSource(_T(""))
 	, _iMode(0)
 {
 
@@ -38,7 +39,7 @@ void CDialogGameObject::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_GO_TILE_COUNT_X, _iTileCountX);
 	DDX_Text(pDX, IDC_EDIT_GO_TILE_COUNT_Y, _iTileCountY);
 	DDX_Text(pDX, IDC_EDIT_GO_CENTER_POS, _strCenterOffset);
-	DDX_Control(pDX, IDC_COMBO_GO_ARTGROUP, _comboArtSource);
+	DDX_Text(pDX, IDC_EDIT_GO_ARTGROUP, _strArtSource);
 	DDX_Control(pDX, IDC_COMBO_GO_ARTID, _comboArt);
 	DDX_Radio(pDX, IDC_RADIO_GO_SELECT, _iMode);
 }

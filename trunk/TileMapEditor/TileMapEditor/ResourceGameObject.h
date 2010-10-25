@@ -24,10 +24,20 @@ protected:
 	typedef Cactus::list<CPoint>::type	ObstacleListType;
 	ObstacleListType	_obstacle;		//所有的阻挡点
 
-	EGameObjectType		_eType;			//GameObject类型
+	//EGameObjectType		_eType;			//GameObject类型
 };
 
 //--------------------------------------------------------------------------------------------------------
+/*
+<!--
+iconres是依赖的美术ResourceTile名称；
+unitTileW和unitTileH用来检查是否和地图tile的尺寸是否匹配；
+iconid是子资源名；
+对象定位在(xOffset,yOffset)，图像左上角离定位点的偏差，定位点所在的格子是(0,0)；
+重心坐标是所有阻挡点均值，float类型；
+如果obstacle为空，对象不影响阻挡信息。
+-->
+*/
 //游戏对象组，一个游戏对象组只能依赖一个图像资源对象
 class ResourceGameObjectGroup : public PropertySys::SupportRTTI<ResourceGameObjectGroup, Resource>
 {
