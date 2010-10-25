@@ -140,14 +140,10 @@ void MapView::FillClassView()
 	HTREEITEM hClass = _TreeMapItem.InsertItem(_T("±³¾°"), 3, 3, hRoot);
 	_TreeMapItem.Expand(hRoot, TVE_EXPAND);
 
-	_hLayerRoot = _TreeMapItem.InsertItem(_T("²ã"), 1, 1, hRoot);
-	//_TreeMapItem.InsertItem(_T("Layer0"), 3, 3, _hLayerRoot);
-	//_TreeMapItem.InsertItem(_T("Layer1"), 3, 3, _hLayerRoot);
-	//_TreeMapItem.InsertItem(_T("Layer2"), 3, 3, _hLayerRoot);
+	_hLayerRoot = _TreeMapItem.InsertItem(_T("µØ²ã"), 1, 1, hRoot);
 	
 	_hBrushRoot = _TreeMapItem.InsertItem(_T("»­Ë¢"), 1, 1, hRoot);
-	//_TreeMapItem.InsertItem(_T("Brush0"), 3, 3, _hBrushRoot);
-	//_TreeMapItem.InsertItem(_T("Brush1"), 3, 3, _hBrushRoot);
+
 	_TreeMapItem.Expand(_hBrushRoot, TVE_EXPAND);
 
 	//¿ÉÓÃIcon : 2, 5, 6
@@ -347,7 +343,30 @@ void MapView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 	CPoint point;
 	GetCursorPos(&point);
 
-	HTREEITEM hItem = _TreeMapItem.GetSelectedItem();
+	CPoint pointScreen = point;
+	_TreeMapItem.ScreenToClient(&pointScreen);
+
+	UINT uFlags;
+	HTREEITEM hItem = _TreeMapItem.HitTest(pointScreen, &uFlags);
+	if (hItem == 0)
+	{
+		*pResult = 0;
+		return;
+	}
+
+	if (hItem == _TreeMapItem.GetRootItem())
+	{
+		theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_MAP_OP, point.x, point.y, this, TRUE);
+	}
+	else if (hItem == _hLayerRoot)
+	{
+		_hSelectedItem	= hItem;
+		theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_LAYER_OP, point.x, point.y, this, TRUE);
+
+		*pResult = 0;
+		return;
+	}
+
 	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
 	if (ptr)
 	{
@@ -363,10 +382,6 @@ void MapView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 
 		}
-	}
-	else
-	{
-		theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_MAP_OP, point.x, point.y, this, TRUE);
 	}
 
 	*pResult = 0;
