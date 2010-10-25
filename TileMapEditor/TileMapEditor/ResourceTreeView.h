@@ -48,6 +48,7 @@ protected:
 	afx_msg void OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult);
 
 	afx_msg void OnGameObjectGroupAdd();
+	afx_msg void OnUpdateCmdUI_GroupAdd(CCmdUI* pCmdUI);
 	afx_msg void OnGameObjectGroupRemove();
 	afx_msg void OnUpdateCmdUI_GroupRemove(CCmdUI* pCmdUI);
 
