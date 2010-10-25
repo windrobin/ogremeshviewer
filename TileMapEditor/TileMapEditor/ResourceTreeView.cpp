@@ -153,6 +153,7 @@ void ResourceTreeView::OnContextMenu(CWnd* pWnd, CPoint point)
 		return;
 	}
 
+	pWndTree->SetFocus();
 	if (point != CPoint(-1, -1))
 	{
 		// 选择已单击的项:
@@ -166,8 +167,6 @@ void ResourceTreeView::OnContextMenu(CWnd* pWnd, CPoint point)
 			pWndTree->SelectItem(hTreeItem);
 		}
 	}
-
-	pWndTree->SetFocus();
 }
 
 void ResourceTreeView::AdjustLayout()
@@ -272,7 +271,6 @@ void ResourceTreeView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 	GetCursorPos(&point);
 
 	HTREEITEM hItem = _ResourceTree.GetSelectedItem();
-
 	if (hItem == _treeGameObjectRes)
 	{
 		_hSelectedItem = hItem;
@@ -298,9 +296,6 @@ void ResourceTreeView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 
 void ResourceTreeView::OnGameObjectGroupAdd()
 {
-	if(!_pSelectedGroup || _hSelectedItem != _treeGameObjectRes)
-		return;
-
 	DialogAddGameObjectGroup dlg;
 	if(dlg.DoModal() == IDOK)
 	{
@@ -309,7 +304,7 @@ void ResourceTreeView::OnGameObjectGroupAdd()
 }
 void ResourceTreeView::OnUpdateCmdUI_GroupAdd(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(_pSelectedGroup || _hSelectedItem == _treeGameObjectRes);
+	//pCmdUI->Enable(_pSelectedGroup || _hSelectedItem == _treeGameObjectRes);
 }
 
 
