@@ -24,6 +24,7 @@ static char THIS_FILE[]=__FILE__;
 
 ResourceTreeView::ResourceTreeView()
 : _pSelectedGroup(0)
+, _hSelectedItem(0)
 {
 }
 
@@ -38,6 +39,7 @@ BEGIN_MESSAGE_MAP(ResourceTreeView, CDockablePane)
 	ON_COMMAND(ID_PROPERTIES, OnProperties)
 	
 	ON_COMMAND(ID_GAMEOBJECTGROUP_ADDGROUP, OnGameObjectGroupAdd)
+	ON_UPDATE_COMMAND_UI(ID_GAMEOBJECTGROUP_ADDGROUP, OnUpdateCmdUI_GroupAdd)
 	ON_COMMAND(ID_GAMEOBJECTGROUP_REMOVEGROUP, OnGameObjectGroupRemove)
 	ON_UPDATE_COMMAND_UI(ID_GAMEOBJECTGROUP_REMOVEGROUP, OnUpdateCmdUI_GroupRemove)
 
@@ -264,6 +266,7 @@ void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResul
 void ResourceTreeView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	_pSelectedGroup = 0;
+	_hSelectedItem	= 0;
 
 	CPoint point;
 	GetCursorPos(&point);
@@ -272,6 +275,7 @@ void ResourceTreeView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 
 	if (hItem == _treeGameObjectRes)
 	{
+		_hSelectedItem = hItem;
 		theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_GAMEOBJECTGROUP, point.x, point.y, this, TRUE);
 		*pResult = 0;
 		return;
@@ -294,12 +298,20 @@ void ResourceTreeView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 
 void ResourceTreeView::OnGameObjectGroupAdd()
 {
+	if(!_pSelectedGroup || _hSelectedItem != _treeGameObjectRes)
+		return;
+
 	DialogAddGameObjectGroup dlg;
 	if(dlg.DoModal() == IDOK)
 	{
 
 	}
 }
+void ResourceTreeView::OnUpdateCmdUI_GroupAdd(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(_pSelectedGroup || _hSelectedItem == _treeGameObjectRes);
+}
+
 
 void ResourceTreeView::OnGameObjectGroupRemove()
 {
