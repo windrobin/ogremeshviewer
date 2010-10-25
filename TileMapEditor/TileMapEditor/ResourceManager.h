@@ -35,6 +35,14 @@ public:
 	//获取名字为key的Resource
 	Resource*		GetResource(const Cactus::String& key);
 
+	/**获取名字为所有ResourceTile名字
+	*/
+	Cactus::StringVector	GetResourceTileNames();
+
+	/**判断GameObjectGroup名字是否有效
+	*/
+	bool			IsGameObjectGroupNameValid(const Cactus::String& strName);
+
 protected:
 	Cactus::String				_strRootFolder;			//数据根目录
 

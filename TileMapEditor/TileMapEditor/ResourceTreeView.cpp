@@ -6,8 +6,9 @@
 #include "TileMapEditor.h"
 
 #include "ResourceManager.h"
-
 #include "TileResView.h"
+
+#include "DialogAddGameObjectGroup.h"
 
 #define M_TreeID	(WM_USER + 100)
 
@@ -22,6 +23,7 @@ static char THIS_FILE[]=__FILE__;
 // ArtSourceTreeView
 
 ResourceTreeView::ResourceTreeView()
+: _pSelectedGroup(0)
 {
 }
 
@@ -34,15 +36,15 @@ BEGIN_MESSAGE_MAP(ResourceTreeView, CDockablePane)
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
 	ON_COMMAND(ID_PROPERTIES, OnProperties)
-	//ON_COMMAND(ID_OPEN, OnFileOpen)
-	//ON_COMMAND(ID_OPEN_WITH, OnFileOpenWith)
-	//ON_COMMAND(ID_DUMMY_COMPILE, OnDummyCompile)
-	//ON_COMMAND(ID_EDIT_CUT, OnEditCut)
-	//ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-	//ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
+	
+	ON_COMMAND(ID_GAMEOBJECTGROUP_ADDGROUP, OnGameObjectGroupAdd)
+	ON_COMMAND(ID_GAMEOBJECTGROUP_REMOVEGROUP, OnGameObjectGroupRemove)
+	ON_UPDATE_COMMAND_UI(ID_GAMEOBJECTGROUP_REMOVEGROUP, OnUpdateCmdUI_GroupRemove)
+
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 	ON_NOTIFY(TVN_SELCHANGED, M_TreeID, &ResourceTreeView::OnTvnSelchangedTreeDetails)
+	ON_NOTIFY(NM_RCLICK, M_TreeID, &ResourceTreeView::OnNMRclickTree)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -100,7 +102,7 @@ void ResourceTreeView::FillFileView()
 	HTREEITEM hRoot = _ResourceTree.InsertItem(_T("Root"), 0, 0);
 	_ResourceTree.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hArtSrc = _ResourceTree.InsertItem(_T("美术"), 0, 0, hRoot);
+	HTREEITEM hArtSrc = _ResourceTree.InsertItem(_T("美术资源"), 0, 0, hRoot);
 
 	_treeArtBackgroundRes	= _ResourceTree.InsertItem(_T("背景资源"), 0, 0, hArtSrc);
 	for (ResourceManager::ResBackgroundType::iterator it = ResourceManager::getSingleton()._ResBackgrounds.begin(); 
@@ -118,7 +120,7 @@ void ResourceTreeView::FillFileView()
 		_ResourceTree.SetItemData(hItem, (DWORD_PTR)it->second);
 	}
 
-	_treeGameObjectRes	= _ResourceTree.InsertItem(_T("游戏对象"), 0, 0, hRoot);
+	_treeGameObjectRes	= _ResourceTree.InsertItem(_T("游戏对象组"), 0, 0, hRoot);
 	for (ResourceManager::ResGameObjectGroupMapType::iterator it = ResourceManager::getSingleton()._ResGameObjectGroups.begin();
 		it != ResourceManager::getSingleton()._ResGameObjectGroups.end();
 		++it
@@ -127,8 +129,6 @@ void ResourceTreeView::FillFileView()
 		HTREEITEM hItem = _ResourceTree.InsertItem(it->first.c_str(), 2, 2, _treeGameObjectRes);
 		_ResourceTree.SetItemData(hItem, (DWORD_PTR)it->second);
 	}
-
-	//_treeGameEventRes	= _ResourceTree.InsertItem(_T("游戏事件"), 0, 0, hRoot);
 
 	_ResourceTree.Expand(hRoot, TVE_EXPAND);
 
@@ -166,7 +166,6 @@ void ResourceTreeView::OnContextMenu(CWnd* pWnd, CPoint point)
 	}
 
 	pWndTree->SetFocus();
-	//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
 }
 
 void ResourceTreeView::AdjustLayout()
@@ -187,30 +186,8 @@ void ResourceTreeView::AdjustLayout()
 
 void ResourceTreeView::OnProperties()
 {
-	AfxMessageBox(_T("属性...."));
-
+	//AfxMessageBox(_T("属性...."));
 }
-
-/*
-void ResourceTreeView::OnFileOpen()
-{
-}
-void ResourceTreeView::OnFileOpenWith()
-{
-}
-void ResourceTreeView::OnDummyCompile()
-{
-}
-void ResourceTreeView::OnEditCut()
-{
-}
-void ResourceTreeView::OnEditCopy()
-{
-}
-void ResourceTreeView::OnEditClear()
-{
-}
-*/
 
 void ResourceTreeView::OnPaint()
 {
@@ -284,3 +261,51 @@ void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResul
 	*pResult = 0;
 }
 
+void ResourceTreeView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	_pSelectedGroup = 0;
+
+	CPoint point;
+	GetCursorPos(&point);
+
+	HTREEITEM hItem = _ResourceTree.GetSelectedItem();
+
+	if (hItem == _treeGameObjectRes)
+	{
+		theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_GAMEOBJECTGROUP, point.x, point.y, this, TRUE);
+		*pResult = 0;
+		return;
+	}
+
+	DWORD_PTR ptr = _ResourceTree.GetItemData(hItem);
+	if (ptr)
+	{
+		ResourceGameObjectGroup* pGroup = (ResourceGameObjectGroup*)ptr;
+		if (pGroup)
+		{
+			_pSelectedGroup = pGroup;
+			_hSelectedItem	= hItem;
+			theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_GAMEOBJECTGROUP, point.x, point.y, this, TRUE);
+		}
+	}
+
+	*pResult = 0;
+}
+
+void ResourceTreeView::OnGameObjectGroupAdd()
+{
+	DialogAddGameObjectGroup dlg;
+	if(dlg.DoModal() == IDOK)
+	{
+
+	}
+}
+
+void ResourceTreeView::OnGameObjectGroupRemove()
+{
+
+}
+void ResourceTreeView::OnUpdateCmdUI_GroupRemove(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(_pSelectedGroup != 0);
+}

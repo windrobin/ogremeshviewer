@@ -353,3 +353,20 @@ Resource* ResourceManager::GetResource(const Cactus::String& key)
 
 	return 0;
 }
+
+Cactus::StringVector ResourceManager::GetResourceTileNames()
+{
+	StringVector vs;
+
+	for (ResTileType::iterator it = _ResourceTiles.begin(); it != _ResourceTiles.end(); ++it)
+	{
+		vs.push_back(it->first);
+	}
+
+	return vs;
+}
+
+bool ResourceManager::IsGameObjectGroupNameValid(const Cactus::String& strName)
+{
+	return (_ResGameObjectGroups.find(strName) == _ResGameObjectGroups.end());
+}

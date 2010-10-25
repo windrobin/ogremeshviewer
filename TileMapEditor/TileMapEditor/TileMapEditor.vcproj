@@ -421,6 +421,14 @@
 			Name="UI"
 			>
 			<File
+				RelativePath=".\DialogAddGameObjectGroup.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DialogAddGameObjectGroup.h"
+				>
+			</File>
+			<File
 				RelativePath=".\DialogFileNew.cpp"
 				>
 			</File>
