@@ -19,5 +19,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CString _strGroupName;
-	CString _strResName;
+	CString _strResType;
 };

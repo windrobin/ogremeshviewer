@@ -333,6 +333,16 @@ BEGIN
     END
 END
 
+IDR_MENU_POPUP_RESVIEW MENU 
+BEGIN
+    POPUP "RESVIEW_POPPU"
+    BEGIN
+        MENUITEM "Add",                         ID_MENU_RESVIEW_ADD
+        MENUITEM "Edit",                        ID_MENU_RESVIEW_EDIT
+        MENUITEM "Remove",                      ID_MENU_RESVIEW_REMOVE
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

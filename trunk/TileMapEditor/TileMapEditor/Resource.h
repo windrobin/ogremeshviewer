@@ -93,6 +93,8 @@
 #define IDR_TOOLBAR_RESDETAIL           188
 #define IDR_TOOLBAR_MAPLAYER            190
 #define IDD_DIALOG_RES_DETAIL           191
+#define IDR_MENU1                       192
+#define IDR_MENU_POPUP_RESVIEW          192
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
 #define IDC_EDIT_FOOTNOTES              1002
@@ -122,7 +124,7 @@
 #define IDC_RADIO_GO_CLEAR_OBSTACLE     1026
 #define IDC_EDIT_RES_DETAIL_GROUPNAME   1027
 #define IDC_EDIT_RES_DETAIL_GROUPNAME2  1028
-#define IDC_EDIT_RES_DETAIL_RESTYPE        1028
+#define IDC_EDIT_RES_DETAIL_RESTYPE     1028
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771
 #define ID_STATUSBAR_PANE2              32772
@@ -175,13 +177,19 @@
 #define ID_TOOLBAR_MAPLAYER_SELECT_SIMILAR 32819
 #define ID_TOOLBAR_MAPLAYER_INVERT_SELECT 32820
 #define ID_TOOLBAR_MAPLAYER_DELETE_SELECT 32821
+#define ID_RESVIEW_REMOVE               32822
+#define ID_RESVIEW_ADD                  32823
+#define ID_RESVIEW_EDIT                 32824
+#define ID_MENU_RESVIEW_ADD             32825
+#define ID_MENU_RESVIEW_EDIT            32826
+#define ID_MENU_RESVIEW_REMOVE          32827
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        192
-#define _APS_NEXT_COMMAND_VALUE         32822
+#define _APS_NEXT_RESOURCE_VALUE        193
+#define _APS_NEXT_COMMAND_VALUE         32828
 #define _APS_NEXT_CONTROL_VALUE         1028
 #define _APS_NEXT_SYMED_VALUE           1127
 #endif
