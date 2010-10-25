@@ -93,6 +93,8 @@
 #define IDR_TOOLBAR_MAPLAYER            190
 #define IDD_DIALOG_RES_DETAIL           191
 #define IDR_MENU_POPUP_RESVIEW          192
+#define IDR_MENU_GAMEOBJECTGROUP        193
+#define IDD_DIALOG_ADD_GAMEOBJECTGRPUP  194
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
 #define IDC_EDIT_FOOTNOTES              1002
@@ -101,7 +103,7 @@
 #define IDC_EDIT_TILE_HEIGHT            1006
 #define IDC_EDIT_LAYERNAME              1007
 #define IDC_EDIT_TILE_WIDTH             1008
-#define IDC_EDIT_GO_ARTGROUP           1010
+#define IDC_EDIT_GO_ARTGROUP            1010
 #define IDC_CHECK_CREATE_LAYER          1012
 #define IDC_EDIT_GO_GROUP               1013
 #define IDC_EDIT_GO_OBJ_NAME            1014
@@ -120,6 +122,11 @@
 #define IDC_EDIT_RES_DETAIL_GROUPNAME   1027
 #define IDC_EDIT_RES_DETAIL_GROUPNAME2  1028
 #define IDC_EDIT_RES_DETAIL_RESTYPE     1028
+#define IDC_EDIT_GROUPNAME              1028
+#define IDC_EDIT_TILEW                  1029
+#define IDC_EDIT_TILEH                  1030
+#define IDC_COMBO1                      1031
+#define IDC_COMBO_ARTRES                1031
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771
 #define ID_STATUSBAR_PANE2              32772
@@ -178,14 +185,16 @@
 #define ID_MENU_RESVIEW_ADD             32825
 #define ID_MENU_RESVIEW_EDIT            32826
 #define ID_MENU_RESVIEW_REMOVE          32827
+#define ID_GAMEOBJECTGROUP_ADDGROUP     32828
+#define ID_GAMEOBJECTGROUP_REMOVEGROUP  32829
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        193
-#define _APS_NEXT_COMMAND_VALUE         32828
-#define _APS_NEXT_CONTROL_VALUE         1028
+#define _APS_NEXT_RESOURCE_VALUE        195
+#define _APS_NEXT_COMMAND_VALUE         32830
+#define _APS_NEXT_CONTROL_VALUE         1032
 #define _APS_NEXT_SYMED_VALUE           1127
 #endif
 #endif
