@@ -98,8 +98,11 @@
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
 #define IDC_EDIT_FOOTNOTES              1002
+#define IDC_EDIT_REGION_WIDTH           1003
 #define IDC_EDIT_MAPNAME                1004
 #define IDC_EDIT_TILE_SIZE              1005
+#define IDC_EDIT_HEIGHT2                1005
+#define IDC_EDIT_REGION_HEIGHT          1005
 #define IDC_EDIT_TILE_HEIGHT            1006
 #define IDC_EDIT_LAYERNAME              1007
 #define IDC_EDIT_TILE_WIDTH             1008
@@ -125,7 +128,6 @@
 #define IDC_EDIT_GROUPNAME              1028
 #define IDC_EDIT_TILEW                  1029
 #define IDC_EDIT_TILEH                  1030
-#define IDC_COMBO1                      1031
 #define IDC_COMBO_ARTRES                1031
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771

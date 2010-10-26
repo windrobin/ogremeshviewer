@@ -61,7 +61,14 @@ void CTileMapEditorView::OnDraw(CDC* pDC)
 
 	MemDC memDC(pDC);
 
-	pDoc->GetMap().Draw(&memDC);
+	CRect rcClient;
+	GetClientRect(&rcClient);
+	CPoint ptLP = GetScrollPosition();
+	ptLP.Offset(-M_Margin, -M_Margin);
+	rcClient.OffsetRect(ptLP);
+
+	pDoc->GetMap().Draw(&memDC, rcClient);
+
 	ToolManager::getSingleton().GetCurrentTool()->Draw(&memDC);
 }
 

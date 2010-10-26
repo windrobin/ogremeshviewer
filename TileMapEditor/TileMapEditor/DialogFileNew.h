@@ -30,4 +30,6 @@ public:
 	int _iType;
 	BOOL _bCreateLayer;
 	afx_msg void OnCbnSelchangeComboType();
+	int _iRegionW;
+	int _iRegionH;
 };

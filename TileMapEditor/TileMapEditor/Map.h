@@ -16,7 +16,11 @@ public:
 	Map();
 	~Map();
 
-	void						Draw(CDC* pDC);
+	/**地图的绘制按照地层来进行，一层绘制完成再绘制一层。
+	*	只绘制与当前视口相交的区域。
+	*	同一地层中绘制的所有区域进行总体排序。
+	*/
+	void						Draw(CDC* pDC, const CRect& rcView);
 	bool						Load(const Cactus::String& strPathName);
 	void						Save(const Cactus::String& strPathName);
 	void						Reset();
@@ -55,25 +59,61 @@ public:
 	*/
 	CRect						GetPixelCoordRect(const CPoint& ptGrid);
 
+	/**计算区域信息
+	*/
+	void						CalculateRegionInfo();
+
+
+	/**获取当前网格所在的区域
+	*	@param ptGrid	当前的网格坐标
+	*	@param rcRegion	区域包含的网格范围
+	*	@return -1 为无效点
+	*/
+	int							GetRegionID(const CPoint& ptGrid);
+
+	/**获取编号为ID的网格网格范围
+	*	@param ID			区域的ID
+	*	@param gridRegion	区域包含的网格范围
+	*	@param gridRegion	区域包含的像素范围
+	*/
+	bool						GetRegionGridRect(int ID, CRect& gridRect, CRect& pixelRect);
+
+	/**获取当前像素范围相交和包含的所有区域
+	*	@param rcView	当前的像素范围
+	*/
+	IntVectorType				GetIntersectRegions(const CRect& rcView);
+
 protected:
-	Cactus::String		_strFootnotes;
-	Cactus::String		_strCurLayerName;
-	int					_iWidthInTiles;
-	int					_iHeightInTiles;
-	int					_iUnitTileWidth;
-	int					_iUnitTileHeight;
-	int					_iVersion;
+	Cactus::String		_strFootnotes;		///地图备注
+	Cactus::String		_strCurLayerName;	///当前地层名字
+	int					_iWidthInTiles;		///宽度方向Tile数量
+	int					_iHeightInTiles;	///高度方向Tile数量
+	int					_iUnitTileWidth;	///单位Tile宽度，像素
+	int					_iUnitTileHeight;	///单位Tile高度，像素
+	int					_iVersion;			///地图版本
+	EMapType			_eMapType;			///地图类型，井字格还是菱形
 
-	EMapType			_eMapType;
+	int					_iRegionWidth;		///Region宽度，一个Region宽高应该为显示窗口宽高的1/2
+	int					_iRegionHeight;		///Region高度，一个Region宽高应该为显示窗口宽高的1/2
 
-	COLORREF			_colBKColor;
-	bool				_bDrawGrid;
-	COLORREF			_colGridColor;
+	COLORREF			_colBKColor;		///背景颜色
+	bool				_bDrawGrid;			///是否绘制网格
+	COLORREF			_colGridColor;		///网格颜色
 
-	MapBackground*		_pMapBackground;
+	MapBackground*		_pMapBackground;	///背景图片，暂时不支持
 
 	typedef Cactus::list<MapLayer*>::type		MapLayerListType;
 	MapLayerListType	_layers;
 
-	MapLayer*			_pCurLayer;
+	MapLayer*			_pCurLayer;			///当前地层
+
+	
+	struct SRegionInfo 
+	{
+		int		_regionID;	///Region的编号
+		CRect	_rcGrid;	///Region的Grid范围
+		CRect	_rcPixel;	///Region的Pixel范围
+	};
+	typedef Cactus::map<int, SRegionInfo>::type		RegionMapType;
+	RegionMapType		_regions;
 };

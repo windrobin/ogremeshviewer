@@ -57,6 +57,10 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	_theMap._iUnitTileWidth		= dlg._iUnitTileWidth;
 	_theMap._iUnitTileHeight	= dlg._iUnitTileHeight;
 	_theMap._eMapType			= EMapType(dlg._iType);
+	_theMap._iRegionWidth		= dlg._iRegionW;
+	_theMap._iRegionHeight		= dlg._iRegionH;
+	
+	_theMap.CalculateRegionInfo();
 
 	ToolManager::getSingleton().SetDocument(this);
 

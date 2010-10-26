@@ -22,3 +22,5 @@ protected:
 
 	Cactus::String		_strName;
 };
+
+typedef Cactus::vector<int>::type	IntVectorType;
