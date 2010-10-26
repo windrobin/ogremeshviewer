@@ -84,28 +84,30 @@ public:
 	IntVectorType				GetIntersectRegions(const CRect& rcView);
 
 protected:
-	Cactus::String		_strFootnotes;		///地图备注
-	Cactus::String		_strCurLayerName;	///当前地层名字
-	int					_iWidthInTiles;		///宽度方向Tile数量
-	int					_iHeightInTiles;	///高度方向Tile数量
-	int					_iUnitTileWidth;	///单位Tile宽度，像素
-	int					_iUnitTileHeight;	///单位Tile高度，像素
-	int					_iVersion;			///地图版本
-	EMapType			_eMapType;			///地图类型，井字格还是菱形
+	Cactus::String		_strFootnotes;			///地图备注
+	Cactus::String		_strCurLayerName;		///当前地层名字
+	int					_iWidthInTiles;			///宽度方向Tile数量
+	int					_iHeightInTiles;		///高度方向Tile数量
+	int					_iUnitTileWidth;		///单位Tile宽度，像素
+	int					_iUnitTileHeight;		///单位Tile高度，像素
+	int					_iVersion;				///地图版本
+	EMapType			_eMapType;				///地图类型，井字格还是菱形
 
-	int					_iRegionWidth;		///Region宽度，一个Region宽高应该为显示窗口宽高的1/2
-	int					_iRegionHeight;		///Region高度，一个Region宽高应该为显示窗口宽高的1/2
+	int					_iRegionWidth;			///Region宽度，一个Region宽高应该为显示窗口宽高的1/2
+	int					_iRegionHeight;			///Region高度，一个Region宽高应该为显示窗口宽高的1/2
 
-	COLORREF			_colBKColor;		///背景颜色
-	bool				_bDrawGrid;			///是否绘制网格
-	COLORREF			_colGridColor;		///网格颜色
+	COLORREF			_colBKColor;			///背景颜色
+	bool				_bDrawGrid;				///是否绘制网格
+	COLORREF			_colGridColor;			///网格颜色
+	bool				_bDrawRegionGrid;		///是否绘制区域网格
+	COLORREF			_colRegionGridColor;	///区域网格颜色
 
-	MapBackground*		_pMapBackground;	///背景图片，暂时不支持
+	MapBackground*		_pMapBackground;		///背景图片，暂时不支持
 
 	typedef Cactus::list<MapLayer*>::type		MapLayerListType;
 	MapLayerListType	_layers;
 
-	MapLayer*			_pCurLayer;			///当前地层
+	MapLayer*			_pCurLayer;				///当前地层
 
 	
 	struct SRegionInfo 

@@ -151,6 +151,8 @@ Map::Map()
 , _eMapType(eRectangle)
 , _bDrawGrid(true)
 , _colGridColor(RGB(0, 128, 0))
+, _bDrawRegionGrid(true)
+, _colRegionGridColor(RGB(192, 192, 0))
 {
 }
 
@@ -378,6 +380,30 @@ void Map::Draw(CDC* pDC, const CRect& rcView)
 
 		if (_pCurLayer)
 			_pCurLayer->Draw(pDC, Regions);
+	}
+
+	if(_bDrawRegionGrid)
+	{
+		CPen pen(PS_SOLID, 1, _colRegionGridColor);
+		CPen* pOldPen = pDC->SelectObject(&pen);
+		pDC->SelectStockObject(NULL_BRUSH);
+
+		for(RegionMapType::iterator it = _regions.begin(); it != _regions.end(); ++it)
+		{
+			CRect rcTmp = it->second._rcPixel;
+			rcTmp.DeflateRect(1, 1, 1, 1);
+
+			CString strTmp;
+			strTmp.Format(_T("%d"), it->first);
+
+			pDC->SetTextColor(_colRegionGridColor);
+			pDC->SetBkMode(TRANSPARENT);
+
+			pDC->DrawText(strTmp, rcTmp, DT_LEFT | DT_TOP);
+			pDC->Rectangle(rcTmp);
+		}
+
+		pDC->SelectObject(pOldPen);
 	}
 
 }
