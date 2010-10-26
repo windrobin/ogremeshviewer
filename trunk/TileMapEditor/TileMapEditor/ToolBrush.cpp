@@ -47,7 +47,7 @@ void ToolBrush::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!pLayer)
 		return;
 
-	if( pLayer->ModifyTile(_iGridX, _iGridY, _strResKey, _strResID) )
+	if( pLayer->AddOrModifyTile(_iGridX, _iGridY, _strResKey, _strResID) )
 	{
 		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
 		pView->LogicInvalidate(_rcTile);
@@ -87,7 +87,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 		if (!pLayer)
 			return;
 
-		if( pLayer->ModifyTile(_iGridX, _iGridY, _strResKey, _strResID) )
+		if( pLayer->AddOrModifyTile(_iGridX, _iGridY, _strResKey, _strResID) )
 		{
 			rcDirty.UnionRect(&rcDirty, _rcTile);
 		}

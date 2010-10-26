@@ -4,19 +4,12 @@
 
 struct STile 
 {
-	int				_posX;
-	int				_posY;
-	Cactus::String	_strResItemID;
+	int				_posX;			///网格坐标X
+	int				_posY;			///网格坐标Y
+	int				_regionID;		///所在的RegionID
+	Cactus::String	_strResGroup;	///使用的资源组
+	Cactus::String	_strResItemID;	///使用的资源
 };
-
-struct SCPointLess
-{
-	bool operator()(const CPoint& l, const CPoint& r) const
-	{
-		return( l.x + l.y < r.x + r.y );
-	}
-};
-
 
 typedef Cactus::vector<STile>::type		TileVectorType;
 
@@ -34,7 +27,7 @@ public:
 	static void				RegisterReflection();
 	virtual void			OnPropertyChanged(const std::string& propName);
 
-	void					Draw(CDC* pDC);
+	void					Draw(CDC* pDC, const IntVectorType& regions);
 
 	bool					IsVisible(){ return _bVisible; }
 	void					SetVisible(bool b){ _bVisible = b; }
@@ -44,9 +37,9 @@ public:
 
 	bool					ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc);
 
-	bool					ModifyTile(int gridX, int gridY, const Cactus::String& resKey, const Cactus::String& strID);
+	bool					AddOrModifyTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID);
 	bool					ClearTile(int gridX, int gridY);
-	bool					GetTileInfo(int gridX, int gridY, STile& tile, Cactus::String& resKey);
+	bool					GetTileInfo(int gridX, int gridY, STile& tile);
 
 protected:
 	Map*				_pParentMap;
@@ -54,9 +47,6 @@ protected:
 	bool				_bEnable;
 	bool				_bVisible;
 
-	typedef Cactus::map<Cactus::String, TileVectorType>::type	TileGroupMapType;	//ResourceTile key
-	TileGroupMapType	_GroupTiles;
-
-	typedef Cactus::multimap<CPoint, STile*>::type		TileMultiMapType;
-	TileMultiMapType	_PosIndexedTiles;
+	typedef Cactus::map<int, TileVectorType>::type		RegionTileMapType;
+	RegionTileMapType	_GroupTiles;
 };

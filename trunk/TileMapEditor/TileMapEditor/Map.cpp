@@ -14,14 +14,18 @@ using namespace PropertySys;
 class Map_xmlHandler : public Cactus::XMLHandler
 {
 public:
-	Map_xmlHandler(Map& map) : _map(map){}
+	Map_xmlHandler(Map& map) : _map(map)
+	{
+		_iCurRegionGroupTile = -1;
+	}
 	virtual ~Map_xmlHandler(){}
 
 	virtual void elementStart(const Cactus::String& element, const Cactus::XMLAttributes& attributes)
 	{
 		if ( currentElementMatch("tilemap/") )
 		{
-			//<tilemap version="1" name="test001" width="1024" height="1024" tilew="64" tileh="64" footnotes="这是一个测试地图文件。">
+			//<tilemap version="1" name="map_xx" width="200" height="200" wUnitTile="64" hUnitTile="64" footnotes="请输入备注。" 
+			//backgroundcolor="0" drawgrid="true" gridcolor="32768" curlayer="layer_xx" regionW="10" regionH="10">
 			_map._iVersion				= attributes.getValueAsInteger("version");
 			_map._strName				= attributes.getValueAsString("name");
 			_map._iWidthInTiles			= attributes.getValueAsInteger("width");
@@ -73,7 +77,7 @@ public:
 		else if ( currentElementMatch("tilemap/layers/layer/tilegroup/") )
 		{
 			//<tilegroup reskey="tileres01">
-			_strCurGroupTile	= attributes.getValueAsString("reskey");
+			_iCurRegionGroupTile	= attributes.getValueAsInteger("region");
 		}
 		else if ( currentElementMatch("tilemap/layers/layer/tilegroup/tile/") )
 		{
@@ -81,7 +85,9 @@ public:
 			STile tile;
 			tile._posX			= attributes.getValueAsInteger("posx");
 			tile._posY			= attributes.getValueAsInteger("posy");
-			tile._strResItemID	= attributes.getValueAsString("id");
+			tile._strResGroup	= attributes.getValueAsString("resGroup");
+			tile._strResItemID	= attributes.getValueAsString("resItemID");
+			tile._regionID		= _iCurRegionGroupTile;
 			_tiles.push_back(tile);
 		}
 	}
@@ -104,11 +110,11 @@ public:
 		}
 		else if ( currentElementMatch("tilemap/layers/layer/tilegroup/") )
 		{
-			if (_strCurGroupTile.size())
+			if (_iCurRegionGroupTile != -1)
 			{
-				_pCurLayer->_GroupTiles[_strCurGroupTile] = _tiles;
+				_pCurLayer->_GroupTiles[_iCurRegionGroupTile] = _tiles;
 				_tiles.clear();
-				_strCurGroupTile = "";
+				_iCurRegionGroupTile = -1;
 			}
 		}
 		//else if ( currentElementMatch("tilemap/layers/layer/tilegroup/tile/") )
@@ -123,7 +129,7 @@ protected:
 	Map&			_map;
 
 	MapLayer*		_pCurLayer;
-	String			_strCurGroupTile;
+	int				_iCurRegionGroupTile;
 	TileVectorType	_tiles;
 };
 
@@ -134,6 +140,8 @@ Map::Map()
 , _pMapBackground(0)
 , _iWidthInTiles(1024)
 , _iHeightInTiles(1024)
+, _iRegionWidth(10)
+, _iRegionHeight(10)
 , _iUnitTileWidth(64)
 , _iUnitTileHeight(64)
 , _colBKColor(0)
@@ -193,6 +201,8 @@ bool Map::Load(const Cactus::String& strPathName)
 		return false;
 	}
 
+	CalculateRegionInfo();
+
 	return true;
 }
 
@@ -205,7 +215,7 @@ void Map::Save(const Cactus::String& strPathName)
 		return;
 	}
 
-	String str = "<?xml version=\"1.0\" encoding=\"gb2312\"?>";
+	String str = "<?xml version=\"1.0\" encoding=\"gb2312\"?>\r\n";
 	//os << str;	//这样会先写个长度
 	os.Write(&str[0], str.size());
 
@@ -222,6 +232,8 @@ void Map::Save(const Cactus::String& strPathName)
 		xmlOut.AddAttribute("backgroundcolor", _colBKColor);
 		xmlOut.AddAttribute("drawgrid",	 _bDrawGrid);
 		xmlOut.AddAttribute("gridcolor", _colGridColor);
+		xmlOut.AddAttribute("regionW", _iRegionWidth);
+		xmlOut.AddAttribute("regionH", _iRegionHeight);
 		if (_pCurLayer)
 			xmlOut.AddAttribute("curlayer", _pCurLayer->GetObjectName());
 		else
@@ -253,10 +265,10 @@ void Map::Save(const Cactus::String& strPathName)
 				xmlOut.AddAttribute("enable", pLayer->_bEnable);
 				xmlOut.AddAttribute("visible", pLayer->_bVisible);
 
-			for (MapLayer::TileGroupMapType::iterator itG = pLayer->_GroupTiles.begin(); itG != pLayer->_GroupTiles.end(); ++itG)
+			for (MapLayer::RegionTileMapType::iterator itG = pLayer->_GroupTiles.begin(); itG != pLayer->_GroupTiles.end(); ++itG)
 			{
 				xmlOut.NodeBegin("tilegroup");
-					xmlOut.AddAttribute("reskey", itG->first);
+					xmlOut.AddAttribute("region", itG->first);
 
 				for (size_t t = 0; t < itG->second.size(); ++t)
 				{
@@ -264,7 +276,8 @@ void Map::Save(const Cactus::String& strPathName)
 					xmlOut.NodeBegin("tile");
 						xmlOut.AddAttribute("posx", tile._posX);
 						xmlOut.AddAttribute("posy", tile._posY);
-						xmlOut.AddAttribute("id", tile._strResItemID);
+						xmlOut.AddAttribute("resGroup", tile._strResGroup);
+						xmlOut.AddAttribute("resItemID", tile._strResItemID);
 					xmlOut.NodeEnd("tile");
 				}
 				xmlOut.NodeEnd("tilegroup");
@@ -298,7 +311,7 @@ void Map::Reset()
 	}
 }
 
-void Map::Draw(CDC* pDC)
+void Map::Draw(CDC* pDC, const CRect& rcView)
 {
 	pDC->FillSolidRect(0, 0, _iWidthInTiles * _iUnitTileWidth, _iHeightInTiles * _iUnitTileHeight, _colBKColor);
 
@@ -352,14 +365,17 @@ void Map::Draw(CDC* pDC)
 		pDC->SelectObject(pOldPen);
 	}
 
+	IntVectorType Regions = GetIntersectRegions(rcView);
+	if (Regions.size() == 0)
+		return;
 
 	for(MapLayerListType::iterator it = _layers.begin(); it != _layers.end(); ++it)
 	{
 		if (*it != _pCurLayer)
-			(*it)->Draw(pDC);
+			(*it)->Draw(pDC, Regions);
 
 		if (_pCurLayer)
-			_pCurLayer->Draw(pDC);
+			_pCurLayer->Draw(pDC, Regions);
 	}
 
 }
@@ -561,3 +577,107 @@ CRect Map::GetPixelCoordRect(const CPoint& ptGrid)
 		return CRect(CPoint(xLeft, yTop), CSize(_iUnitTileWidth, _iUnitTileHeight));
 	}
 }
+
+int Map::GetRegionID(const CPoint& ptGrid)
+{
+	for(RegionMapType::iterator it = _regions.begin(); it != _regions.end(); ++it)
+	{
+		if (it->second._rcGrid.PtInRect(ptGrid))
+		{
+			return it->first;
+		}
+	}
+
+	return -1;
+}
+
+bool Map::GetRegionGridRect(int ID, CRect& gridRect, CRect& pixelRect)
+{
+	RegionMapType::iterator it = _regions.find(ID);
+	if (it == _regions.end())
+	{
+		return false;
+	}
+
+	gridRect	= it->second._rcGrid;
+	pixelRect	= it->second._rcPixel;
+
+	return true;
+}
+
+IntVectorType Map::GetIntersectRegions(const CRect& rcView)
+{
+	IntVectorType IDs;
+
+	for(RegionMapType::iterator it = _regions.begin(); it != _regions.end(); ++it)
+	{
+		CRect rcRegion = it->second._rcPixel;
+		CRect rcTmp;
+		if( rcTmp.IntersectRect(rcRegion, rcView) )
+		{
+			IDs.push_back(it->first);
+		}
+	}
+
+	return IDs;
+}
+
+void Map::CalculateRegionInfo()
+{
+	_regions.clear();
+
+	int W = (_iWidthInTiles + _iRegionWidth - 1)/ _iRegionWidth;
+	int H = (_iHeightInTiles + _iRegionHeight - 1)/ _iRegionHeight;
+
+	if (_eMapType == eRectangle)
+	{
+		for (int i = 0; i < W; ++i)
+		{
+			for (int j = 0; j < H; ++j)
+			{
+				SRegionInfo info;
+				info._regionID	= i * W + j;
+				info._rcGrid	= CRect(CPoint(i * _iRegionWidth, j * _iRegionHeight)
+					, CSize(_iRegionWidth, _iRegionHeight)
+					);
+				info._rcPixel	= CRect(CPoint(i * _iRegionWidth * _iUnitTileWidth, j * _iRegionHeight * _iUnitTileHeight)
+					, CSize(_iRegionWidth * _iUnitTileWidth, _iRegionHeight * _iUnitTileHeight)
+					);
+
+				_regions[info._regionID] = info;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < W; ++i)
+		{
+			for (int j = 0; j < H; ++j)
+			{
+				SRegionInfo info;
+				info._regionID	= i * W + j;
+				info._rcGrid	= CRect(CPoint(i * _iRegionWidth, j * _iRegionHeight)
+					, CSize(_iRegionWidth, _iRegionHeight)
+					);
+
+				CRect rcLeft	= GetPixelCoordRect(CPoint(i * _iRegionWidth , (j + 1) * _iRegionHeight));
+				CRect rcTop		= GetPixelCoordRect(CPoint(i * _iRegionWidth , j * _iRegionHeight));
+				CRect rcRight	= GetPixelCoordRect(CPoint((i + 1) * _iRegionWidth , j * _iRegionHeight));
+				CRect rcBottom	= GetPixelCoordRect(CPoint((i + 1) * _iRegionWidth , (j + 1) * _iRegionHeight));
+
+				CPoint ptPixel;
+				ptPixel.x = rcLeft.TopLeft().x;
+				ptPixel.y = rcTop.TopLeft().y;
+
+				CSize szPixel;
+				szPixel.cx = rcRight.TopLeft().x - rcLeft.TopLeft().x;
+				szPixel.cy = rcBottom.TopLeft().y - rcTop.TopLeft().y;
+
+				info._rcPixel	= CRect(ptPixel, szPixel);
+
+				_regions[info._regionID] = info;
+			}
+		}
+	}
+}
+

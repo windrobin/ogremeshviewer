@@ -40,20 +40,24 @@ void MapLayer::OnPropertyChanged(const std::string& propName)
 	}
 }
 
-void MapLayer::Draw(CDC* pDC)
+void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 {
 	if (!_bVisible || !_pParentMap)
 		return;
 
-	for (TileGroupMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
-	{
-		Resource* pRes = ResourceManager::getSingleton().GetResource(it->first);
-		if (pRes)
-		{
-			for (size_t t = 0; t < it->second.size(); ++t)
-			{
-				STile& tile = it->second[t];
+	//TODO : 只绘制区域内容
 
+	for (RegionTileMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	{
+		TileVectorType& tiles = it->second;
+
+		for (size_t t = 0; t < tiles.size(); ++t)
+		{
+			STile& tile = tiles[t];
+
+			Resource* pRes = ResourceManager::getSingleton().GetResource(tile._strResGroup);
+			if (pRes)
+			{
 				CRect rc = _pParentMap->GetPixelCoordRect(CPoint(tile._posX, tile._posY));
 				pRes->Draw(pDC, rc, tile._strResItemID);
 			}
@@ -76,30 +80,30 @@ bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
 	return bInRegion;
 }
 
-bool MapLayer::ModifyTile(int gridX, int gridY, const Cactus::String& resKey, const Cactus::String& strID)
+bool MapLayer::AddOrModifyTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID)
 {
-	bool bFound = false;
+	int regionID = _pParentMap->GetRegionID(CPoint(gridX, gridY));
+	if( regionID == -1 )
+		return false;
 
-	for (TileGroupMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	TileVectorType& tiles = _GroupTiles[regionID];
+
+	bool bFound = false;
+	for (size_t t = 0; t < tiles.size(); ++t)
 	{
-		for (size_t t = 0; t < it->second.size(); ++t)
+		STile& tile = tiles[t];
+
+		if(tile._posX == gridX && tile._posY == gridY)
 		{
-			STile& tile = it->second[t];
-			if(tile._posX == gridX && tile._posY == gridY)
+			if(tile._strResItemID == strItemID && resGroup == tile._strResGroup)
 			{
-				if(tile._strResItemID == strID && resKey == it->first)
-				{
-					return false;
-				}
-				else if (resKey == it->first)
-				{
-					tile._strResItemID = strID;
-					return true;
-				}
-				else
-				{
-					it->second.erase(it->second.begin() + t);
-				}
+				return false;
+			}
+			else
+			{
+				tile._strResGroup	= resGroup;
+				tile._strResItemID	= strItemID;
+				return true;
 			}
 		}
 	}
@@ -107,11 +111,12 @@ bool MapLayer::ModifyTile(int gridX, int gridY, const Cactus::String& resKey, co
 	if (!bFound)
 	{
 		STile newTile;
-		newTile._posX = gridX;
-		newTile._posY = gridY;
-		newTile._strResItemID = strID;
+		newTile._posX			= gridX;
+		newTile._posY			= gridY;
+		newTile._strResItemID	= strItemID;
+		newTile._strResGroup	= resGroup;
 
-		_GroupTiles[resKey].push_back(newTile);
+		tiles.push_back(newTile);
 	}
 
 	return true;
@@ -119,38 +124,47 @@ bool MapLayer::ModifyTile(int gridX, int gridY, const Cactus::String& resKey, co
 
 bool MapLayer::ClearTile(int gridX, int gridY)
 {
-	bool bFound = false;
+	int regionID = _pParentMap->GetRegionID(CPoint(gridX, gridY));
+	if( regionID == -1 )
+		return false;
 
-	for (TileGroupMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	TileVectorType& tiles = _GroupTiles[regionID];
+
+	if (tiles.size() == 0)
+		return false;
+
+	bool bFound = false;
+	for (size_t t = 0; t < tiles.size(); ++t)
 	{
-		for (size_t t = 0; t < it->second.size(); ++t)
+		STile& tile = tiles[t];
+		if(tile._posX == gridX && tile._posY == gridY)
 		{
-			STile& tile = it->second[t];
-			if(tile._posX == gridX && tile._posY == gridY)
-			{
-				it->second.erase(it->second.begin() + t);
-				bFound = true;
-			}
+			tiles.erase(tiles.begin() + t);
+			bFound = true;
 		}
 	}
 
 	return bFound;
 }
 
-bool MapLayer::GetTileInfo(int gridX, int gridY, STile& tile, Cactus::String& resKey)
+bool MapLayer::GetTileInfo(int gridX, int gridY, STile& tile)
 {
-	bool bFound = false;
+	int regionID = _pParentMap->GetRegionID(CPoint(gridX, gridY));
+	if( regionID == -1 )
+		return false;
 
-	for (TileGroupMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	TileVectorType& tiles = _GroupTiles[regionID];
+
+	if (tiles.size() == 0)
+		return false;
+
+	bool bFound = false;
+	for (size_t t = 0; t < tiles.size(); ++t)
 	{
-		for (size_t t = 0; t < it->second.size(); ++t)
+		if(tile._posX == gridX && tile._posY == gridY)
 		{
-			tile = it->second[t];
-			if(tile._posX == gridX && tile._posY == gridY)
-			{
-				resKey = it->first;
-				bFound = true;
-			}
+			tile = tiles[t];
+			bFound = true;
 		}
 	}
 

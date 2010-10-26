@@ -16,6 +16,8 @@ DialogFileNew::DialogFileNew(CWnd* pParent /*=NULL*/)
 	, _strMapName(_T("map_xx"))
 	, _iType(0)
 	, _bCreateLayer(TRUE)
+	, _iRegionW(10)
+	, _iRegionH(10)
 {
 	_iMapWidth			= 20;
 	_iMapHeight			= 20;
@@ -38,6 +40,8 @@ void DialogFileNew::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_MAPNAME, _strMapName);
 	DDX_CBIndex(pDX, IDC_COMBO_TYPE, _iType);
 	DDX_Check(pDX, IDC_CHECK_CREATE_LAYER, _bCreateLayer);
+	DDX_Text(pDX, IDC_EDIT_REGION_WIDTH, _iRegionW);
+	DDX_Text(pDX, IDC_EDIT_REGION_HEIGHT, _iRegionH);
 }
 
 
