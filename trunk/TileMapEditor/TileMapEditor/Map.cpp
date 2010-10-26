@@ -631,12 +631,12 @@ void Map::CalculateRegionInfo()
 
 	if (_eMapType == eRectangle)
 	{
-		for (int i = 0; i < W; ++i)
+		for (int j = 0; j < H; ++j)
 		{
-			for (int j = 0; j < H; ++j)
+			for (int i = 0; i < W; ++i)
 			{
 				SRegionInfo info;
-				info._regionID	= i * W + j;
+				info._regionID	= j * W + i;
 				info._rcGrid	= CRect(CPoint(i * _iRegionWidth, j * _iRegionHeight)
 					, CSize(_iRegionWidth, _iRegionHeight)
 					);
@@ -650,12 +650,12 @@ void Map::CalculateRegionInfo()
 	}
 	else
 	{
-		for (int i = 0; i < W; ++i)
+		for (int j = 0; j < H; ++j)
 		{
-			for (int j = 0; j < H; ++j)
+			for (int i = 0; i < W; ++i)
 			{
 				SRegionInfo info;
-				info._regionID	= i * W + j;
+				info._regionID	= j * W + i;
 				info._rcGrid	= CRect(CPoint(i * _iRegionWidth, j * _iRegionHeight)
 					, CSize(_iRegionWidth, _iRegionHeight)
 					);
