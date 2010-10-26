@@ -2,10 +2,42 @@
 #include "MapLayer.h"
 #include "ResourceManager.h"
 #include "Map.h"
+#include "ResourceGameObject.h"
 
 using namespace Cactus;
 using namespace PropertySys;
 
+//---------------------------------------------------------------------------
+bool STile_less(const STile* p1, const STile* p2)
+{
+#if 0
+	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
+	if (pRes)
+	{
+		if(pRes->GetResourceType() == eResTypeArt)
+		{
+			return _posX + _posY < right._posX + right._posY;
+		}
+		else
+		{
+			//ResourceGameObjectGroup* pGameObjectGroup = (ResourceGameObjectGroup*)pRes;
+			//ResourceGameObject* pObject = pGameObjectGroup->GetGameObject(_strResItemID);
+			//if (pObject)
+			//{
+			//	return pObject->operator < (right);
+			//}
+		}
+	}
+
+	return _posX + _posY < right._posX + right._posY;
+#endif
+
+	return p1->_posX + p1->_posY < p2->_posX + p2->_posY;
+}
+
+
+
+//---------------------------------------------------------------------------
 MapLayer::MapLayer()
 : _bVisible(true)
 {
@@ -45,8 +77,34 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 	if (!_bVisible || !_pParentMap)
 		return;
 
-	//TODO : 只绘制区域内容
+	// 只绘制区域内容
+	Cactus::list<STile*>::type	tilesList;
+	for (size_t t = 0; t < regions.size(); ++t)
+	{
+		TileVectorType& tiles = _GroupTiles[regions[t]];
 
+		for (size_t k = 0; k < tiles.size(); ++k)
+		{
+			STile& tile = tiles[k];
+			tilesList.push_back(&tile);
+		}
+	}
+	if (tilesList.size() > 0)
+		tilesList.sort(STile_less);
+
+	for (Cactus::list<STile*>::type::iterator it = tilesList.begin(); it != tilesList.end(); ++it)
+	{
+		STile& tile = **it;
+
+		Resource* pRes = ResourceManager::getSingleton().GetResource(tile._strResGroup);
+		if (pRes)
+		{
+			CRect rc = _pParentMap->GetPixelCoordRect(CPoint(tile._posX, tile._posY));
+			pRes->Draw(pDC, rc, tile._strResItemID);
+		}
+	}
+
+	/*
 	for (RegionTileMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
 	{
 		TileVectorType& tiles = it->second;
@@ -63,6 +121,7 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 			}
 		}
 	}
+	*/
 }
 
 bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
@@ -115,6 +174,7 @@ bool MapLayer::AddOrModifyTile(int gridX, int gridY, const Cactus::String& resGr
 		newTile._posY			= gridY;
 		newTile._strResItemID	= strItemID;
 		newTile._strResGroup	= resGroup;
+		newTile._regionID		= regionID;
 
 		tiles.push_back(newTile);
 	}

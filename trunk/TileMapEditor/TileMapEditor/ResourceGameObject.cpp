@@ -97,7 +97,7 @@ void ResourceGameObjectGroup::CreateImageList(CDC* pDC)
 	_bHasImageList = true;
 }
 
-void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID)
+void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strItemID)
 {
 	CreateImageList(pDC);
 
@@ -106,7 +106,7 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 	{
 		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
 		{
-			if( (*it)->_strName == strID )
+			if( (*it)->_strName == strItemID )
 			{
 				pResTile->Draw(pDC, curTile, (*it)->_ArtResID);
 				break;
@@ -115,19 +115,32 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 	}
 }
 
-CRect ResourceGameObjectGroup::GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strID)
+CRect ResourceGameObjectGroup::GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strItemID)
 {
 	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTile(_strArtResKey);
 	if (pResTile)
 	{
 		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
 		{
-			if( (*it)->_strName == strID )
+			if( (*it)->_strName == strItemID )
 			{
 				return pResTile->GetResItemBoundingRect(curTile, (*it)->_ArtResID);
 			}
 		}
 	}
 
-	return Resource::GetResItemBoundingRect(curTile, strID);
+	return Resource::GetResItemBoundingRect(curTile, strItemID);
+}
+
+ResourceGameObject* ResourceGameObjectGroup::GetGameObject(const Cactus::String& strItemID)
+{
+	for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
+	{
+		if( (*it)->_strName == strItemID )
+		{
+			return *it;
+		}
+	}
+
+	return 0;
 }

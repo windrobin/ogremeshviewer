@@ -49,11 +49,13 @@ public:
 
 	virtual bool			Load(){ return _ResGameObjects.size() != 0; }
 	virtual void			CreateImageList(CDC* pDC);
-	virtual void			Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID);
-	virtual CRect			GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strID);
+	virtual void			Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strItemID);
+	virtual CRect			GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strItemID);
 
 	static void				RegisterReflection();
 	virtual void			OnPropertyChanged(const std::string& propName);
+
+	ResourceGameObject*		GetGameObject(const Cactus::String& strItemID);
 
 protected:
 	typedef Cactus::list<ResourceGameObject*>::type		ResGameObjectListType;
