@@ -1,35 +1,42 @@
-<?xml version="1.0" encoding="gb2312"?><tilemap version="1" name="map_xx" width="20" height="20" wUnitTile="64" hUnitTile="64" footnotes="请输入备注。" backgroundcolor="0" drawgrid="true" gridcolor="32768" curlayer="layer_xx" >
+<?xml version="1.0" encoding="gb2312"?>
+<tilemap version="1" name="map_xx" width="20" height="20" wUnitTile="64" hUnitTile="64" footnotes="请输入备注。" backgroundcolor="0" drawgrid="true" gridcolor="32768" regionW="10" regionH="10" curlayer="Background" >
 	<layers >
-		<layer name="layer_xx" enable="true" visible="true" >
-			<tilegroup reskey="tile2" >
-				<tile posx="2" posy="0" id="000" />
-				<tile posx="3" posy="0" id="000" />
-				<tile posx="4" posy="0" id="000" />
-				<tile posx="5" posy="0" id="000" />
-				<tile posx="6" posy="0" id="000" />
-				<tile posx="7" posy="0" id="000" />
-				<tile posx="8" posy="0" id="000" />
-				<tile posx="9" posy="0" id="000" />
+		<layer name="Background" enable="true" visible="true" >
+			<tilegroup region="0" >
+				<tile posx="9" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="8" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="7" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="6" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="5" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="4" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="3" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="2" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="2" posy="2" resGroup="tile2" resItemID="000" />
+				<tile posx="2" posy="3" resGroup="tile2" resItemID="000" />
+				<tile posx="2" posy="4" resGroup="tile2" resItemID="000" />
+				<tile posx="3" posy="4" resGroup="tile2" resItemID="000" />
+				<tile posx="4" posy="4" resGroup="tile2" resItemID="000" />
+				<tile posx="5" posy="4" resGroup="tile2" resItemID="000" />
+				<tile posx="6" posy="4" resGroup="tile2" resItemID="000" />
+				<tile posx="7" posy="4" resGroup="tile2" resItemID="000" />
+				<tile posx="8" posy="4" resGroup="tile2" resItemID="000" />
+				<tile posx="9" posy="4" resGroup="tile2" resItemID="000" />
+				<tile posx="9" posy="3" resGroup="tile2" resItemID="000" />
+				<tile posx="9" posy="2" resGroup="tile2" resItemID="000" />
+				<tile posx="0" posy="0" resGroup="tile2" resItemID="001" />
+				<tile posx="0" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="1" posy="0" resGroup="tile2" resItemID="000" />
+				<tile posx="1" posy="1" resGroup="tile2" resItemID="000" />
 			</tilegroup>
-		</layer>
-		<layer name="layer_npc" enable="true" visible="true" >
-			<tilegroup reskey="npc" >
-				<tile posx="2" posy="2" id="npc03" />
-				<tile posx="3" posy="2" id="npc03" />
-				<tile posx="4" posy="2" id="npc03" />
-				<tile posx="5" posy="2" id="npc03" />
-				<tile posx="6" posy="2" id="npc03" />
-				<tile posx="7" posy="2" id="npc03" />
-				<tile posx="8" posy="2" id="npc03" />
-				<tile posx="9" posy="2" id="npc03" />
-				<tile posx="3" posy="4" id="npc02" />
-				<tile posx="4" posy="4" id="npc02" />
-				<tile posx="5" posy="4" id="npc02" />
-				<tile posx="6" posy="4" id="npc02" />
-				<tile posx="7" posy="4" id="npc02" />
-				<tile posx="8" posy="4" id="npc02" />
-				<tile posx="2" posy="4" id="npc02" />
-				<tile posx="9" posy="4" id="npc02" />
+			<tilegroup region="2" >
+				<tile posx="11" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="10" posy="1" resGroup="tile2" resItemID="000" />
+				<tile posx="10" posy="3" resGroup="tile2" resItemID="000" />
+				<tile posx="10" posy="2" resGroup="tile2" resItemID="000" />
+				<tile posx="11" posy="2" resGroup="tile2" resItemID="000" />
+				<tile posx="11" posy="3" resGroup="tile2" resItemID="000" />
+				<tile posx="11" posy="4" resGroup="tile2" resItemID="000" />
+				<tile posx="10" posy="4" resGroup="tile2" resItemID="000" />
 			</tilegroup>
 		</layer>
 	</layers>
