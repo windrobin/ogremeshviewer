@@ -37,6 +37,7 @@ public:
 			_map._strCurLayerName		= attributes.getValueAsString("curlayer");
 			_map._bDrawGrid				= attributes.getValueAsBool("drawgrid");
 			_map._colGridColor			= attributes.getValueAsInteger("gridcolor");
+			_map._eMapType				= EMapType( attributes.getValueAsInteger("type") );
 		}
 		else if ( currentElementMatch("tilemap/background/") )
 		{
@@ -224,6 +225,7 @@ void Map::Save(const Cactus::String& strPathName)
 	xmlOut.NodeBegin("tilemap");
 		xmlOut.AddAttribute("version", _iVersion);
 		xmlOut.AddAttribute("name", _strName);
+		xmlOut.AddAttribute("type", _eMapType);
 		xmlOut.AddAttribute("width", _iWidthInTiles);
 		xmlOut.AddAttribute("height", _iHeightInTiles);
 		xmlOut.AddAttribute("wUnitTile", _iUnitTileWidth);
