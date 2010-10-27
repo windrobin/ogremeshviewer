@@ -13,9 +13,9 @@ protected: // 仅从序列化创建
 	CTileMapEditorView();
 	DECLARE_DYNCREATE(CTileMapEditorView)
 
-	CBitmap		_bmpBackup;
-	CBitmap*	_pOldBmp;
-	CDC			_memDC;
+	//CBitmap		_bmpBackup;
+	//CBitmap*	_pOldBmp;
+	//CDC			_memDC;
 	CRect		_rcClient;
 
 public:
@@ -27,7 +27,9 @@ public:
 	virtual ~CTileMapEditorView();
 
 	void	LogicInvalidate(CRect rc);
-	CDC* 	GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptScroll);
+	//CDC* 	GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptScroll);
+	void 	GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptScroll);
+	void	OffsetScrollPos(CPoint pt);
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;
