@@ -4,6 +4,10 @@
 #include "Resource.h"
 #include "TileMapEditor.h"
 
+#include "TileMapEditorView.h"
+
+#include "MemDC.h"
+
 using namespace Cactus;
 
 
@@ -60,10 +64,49 @@ void MapThumbnailView::OnPaint()
 {
 	CPaintDC dc(this); // 用于绘制的设备上下文
 
+
+	MemDC memDC(&dc);
+
 	CRect rcClient;
 	GetClientRect(rcClient);
 
-	dc.FillSolidRect(rcClient, RGB(0, 0, 0));
+	memDC.FillSolidRect(rcClient, RGB(255, 255, 255));
+
+	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
+	if (pView)
+	{
+		CRect rcView;
+		CSize szDoc;
+		CPoint ptScroll;
+		CDC* pDC = pView->GetDrawingContent(rcView, szDoc, ptScroll);
+		if (pDC)
+		{
+			float fRatio1 = 1.0f * rcClient.Width() / szDoc.cx;
+			float fRatio2 = 1.0f * rcClient.Height() / szDoc.cy;
+			float fRatio = fRatio1;
+			if (fRatio1 > fRatio2)
+				fRatio = fRatio2;
+
+			//绘制文档范围
+			CRect rcDoc = CRect( CPoint( (rcClient.Width() - fRatio * szDoc.cx)/2
+				, (rcClient.Height() - fRatio * szDoc.cy)/2 )
+				, CSize( szDoc.cx * fRatio, szDoc.cy * fRatio )
+				);
+
+			CPen pen(PS_SOLID, 1, RGB(0, 255, 0));
+			CPen* pOldPen = dc.SelectObject(&pen);
+			memDC.Rectangle(rcDoc);
+			memDC.SelectObject(pOldPen);
+
+
+			//绘制地图内容
+			memDC.SetStretchBltMode(HALFTONE);
+			memDC.StretchBlt( rcDoc.TopLeft().x + fRatio * ptScroll.x, rcDoc.TopLeft().y + fRatio * ptScroll.y
+				, rcView.Width() * fRatio, rcView.Height() * fRatio
+				, pDC, 0, 0, rcView.Width(), rcView.Height(), SRCCOPY
+				);
+		}
+	}
 }
 
 void MapThumbnailView::OnSetFocus(CWnd* pOldWnd)

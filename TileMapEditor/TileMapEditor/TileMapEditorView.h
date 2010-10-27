@@ -13,6 +13,11 @@ protected: // 仅从序列化创建
 	CTileMapEditorView();
 	DECLARE_DYNCREATE(CTileMapEditorView)
 
+	CBitmap		_bmpBackup;
+	CBitmap*	_pOldBmp;
+	CDC			_memDC;
+	CRect		_rcClient;
+
 public:
 	CTileMapEditorDoc* GetDocument() const;
 
@@ -22,6 +27,7 @@ public:
 	virtual ~CTileMapEditorView();
 
 	void	LogicInvalidate(CRect rc);
+	CDC* 	GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptScroll);
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -40,8 +46,9 @@ protected:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	DECLARE_MESSAGE_MAP()
-public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+public:
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 
 #ifndef _DEBUG  // TileMapEditorView.cpp 中的调试版本

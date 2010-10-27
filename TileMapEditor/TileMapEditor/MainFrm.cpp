@@ -129,8 +129,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	_MapThumbnailPanel.EnableDocking(CBRS_ALIGN_RIGHT);
 
 	DockPane(&m_wndProperties);
-	_MapThumbnailPanel.DockToWindow(&m_wndProperties, CBRS_ALIGN_TOP, CRect(0, 0, 200, 150));
-	_TileResView.DockToWindow(&m_wndProperties, CBRS_ALIGN_TOP, CRect(0, 0, 200, 200));
+	_TileResView.DockToWindow(&m_wndProperties, CBRS_ALIGN_TOP, CRect(0, 0, 200, 150));
+	_MapThumbnailPanel.DockToWindow(&m_wndProperties, CBRS_ALIGN_BOTTOM, CRect(0, 0, 200, 150));
 
 
 	//Bottom
