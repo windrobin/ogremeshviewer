@@ -184,6 +184,10 @@ void Map::RegisterReflection()
 	pProp = M_RegisterPropertySimple(bool, DrawGrid, Map, Map, "是否绘制网格.", BaseProperty::eDefault, _bDrawGrid);
 	pProp = M_RegisterPropertySimple(int, GridColor, Map, Map, "网格颜色.", BaseProperty::eDefault, _colGridColor);
 	pProp->SetValueSpecify(eValueColor, "");
+
+	pProp = M_RegisterPropertySimple(bool, DrawRegionGrid, Map, Map, "是否绘制区域网格.", BaseProperty::eDefault, _bDrawRegionGrid);
+	pProp = M_RegisterPropertySimple(int, RegionGridColor, Map, Map, "区域网格颜色.", BaseProperty::eDefault, _colRegionGridColor);
+	pProp->SetValueSpecify(eValueColor, "");
 }
 
 void Map::OnPropertyChanged(const std::string& propName)
@@ -319,6 +323,7 @@ void Map::Draw(CDC* pDC, const CRect& rcView)
 {
 	pDC->FillSolidRect(0, 0, _iWidthInTiles * _iUnitTileWidth, _iHeightInTiles * _iUnitTileHeight, _colBKColor);
 
+	//绘制网格
 	if (_bDrawGrid)
 	{
 		CPen pen(PS_SOLID, 1, _colGridColor);
@@ -369,6 +374,7 @@ void Map::Draw(CDC* pDC, const CRect& rcView)
 		pDC->SelectObject(pOldPen);
 	}
 
+	//绘制MapLayer
 	IntVectorType Regions = GetIntersectRegions(rcView);
 	if (Regions.size() == 0)
 		return;
@@ -382,6 +388,7 @@ void Map::Draw(CDC* pDC, const CRect& rcView)
 			_pCurLayer->Draw(pDC, Regions);
 	}
 
+	//绘制区域网格
 	if(_bDrawRegionGrid)
 	{
 		CPen pen(PS_SOLID, 1, _colRegionGridColor);
@@ -390,8 +397,8 @@ void Map::Draw(CDC* pDC, const CRect& rcView)
 
 		for(RegionMapType::iterator it = _regions.begin(); it != _regions.end(); ++it)
 		{
-			CRect rcTmp = it->second._rcPixel;
-			rcTmp.DeflateRect(1, 1, 1, 1);
+			CRect rc = it->second._rcPixel;
+			rc.DeflateRect(1, 1, 1, 1);
 
 			CString strTmp;
 			strTmp.Format(_T("%d"), it->first);
@@ -399,8 +406,29 @@ void Map::Draw(CDC* pDC, const CRect& rcView)
 			pDC->SetTextColor(_colRegionGridColor);
 			pDC->SetBkMode(TRANSPARENT);
 
-			pDC->DrawText(strTmp, rcTmp, DT_LEFT | DT_TOP);
-			pDC->Rectangle(rcTmp);
+			if (_eMapType == eRectangle)
+			{
+				pDC->DrawText(strTmp, rc, DT_LEFT | DT_TOP);
+				pDC->Rectangle(rc);
+			}
+			else
+			{
+				rc.DeflateRect(1, 1, 1, 1);
+
+				CRect rcText = rc;
+				rcText.left	= rc.left + rc.Width()/2 - 5;
+				rcText.top	+= 10;
+
+				pDC->DrawText(strTmp, rcText, DT_LEFT | DT_TOP);
+
+				CPoint pts[4];
+				pts[0] = CPoint(rc.left, rc.top + rc.Height()/2);
+				pts[1] = CPoint(rc.left + rc.Width()/2, rc.top);
+				pts[2] = CPoint(rc.right, rc.top + rc.Height()/2);
+				pts[3] = CPoint(rc.left + rc.Width()/2, rc.bottom);
+
+				pDC->Polygon(pts, 4);
+			}
 		}
 
 		pDC->SelectObject(pOldPen);
@@ -688,9 +716,9 @@ void Map::CalculateRegionInfo()
 					, CSize(_iRegionWidth, _iRegionHeight)
 					);
 
-				CRect rcLeft	= GetPixelCoordRect(CPoint(i * _iRegionWidth , (j + 1) * _iRegionHeight));
+				CRect rcLeft	= GetPixelCoordRect(CPoint(i * _iRegionWidth , (j + 1) * _iRegionHeight - 1 ));
 				CRect rcTop		= GetPixelCoordRect(CPoint(i * _iRegionWidth , j * _iRegionHeight));
-				CRect rcRight	= GetPixelCoordRect(CPoint((i + 1) * _iRegionWidth , j * _iRegionHeight));
+				CRect rcRight	= GetPixelCoordRect(CPoint((i + 1) * _iRegionWidth - 1, j * _iRegionHeight));
 				CRect rcBottom	= GetPixelCoordRect(CPoint((i + 1) * _iRegionWidth , (j + 1) * _iRegionHeight));
 
 				CPoint ptPixel;
@@ -698,7 +726,7 @@ void Map::CalculateRegionInfo()
 				ptPixel.y = rcTop.TopLeft().y;
 
 				CSize szPixel;
-				szPixel.cx = rcRight.TopLeft().x - rcLeft.TopLeft().x;
+				szPixel.cx = rcRight.BottomRight().x - rcLeft.TopLeft().x;
 				szPixel.cy = rcBottom.TopLeft().y - rcTop.TopLeft().y;
 
 				info._rcPixel	= CRect(ptPixel, szPixel);
