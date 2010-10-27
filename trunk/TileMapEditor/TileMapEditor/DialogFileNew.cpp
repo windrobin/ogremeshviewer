@@ -74,6 +74,12 @@ void DialogFileNew::OnOK()
 		return;
 	}
 
+	if (_iType == 1 && _iMapWidth != _iMapHeight)
+	{
+		MessageBox("菱形地图逻辑宽高需要相同！", "提示", MB_OK | MB_ICONINFORMATION);
+		return;
+	}
+
 	if (_iMapWidth < 1 || _iMapHeight < 1
 		|| _iUnitTileWidth < 1 || _iUnitTileHeight < 1)
 	{
