@@ -21,6 +21,7 @@ using namespace Cactus;
 MapThumbnailView::MapThumbnailView()
 : _bHold(false)
 , _fRatio(1)
+, _bEnableHoriz(true)
 {
 }
 
@@ -77,7 +78,7 @@ void MapThumbnailView::OnPaint()
 	MemDC memDC(&dc);
 	memDC.FillSolidRect(rcClient, RGB(255, 255, 255));
 
-	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST( CMainFrame, AfxGetMainWnd() );
 	if (!pMainFrame)
 		return;
 
@@ -105,6 +106,8 @@ void MapThumbnailView::OnPaint()
 		_rcThumbView = CRect(CPoint(rcDoc.TopLeft().x + _fRatio * ptScroll.x, rcDoc.TopLeft().y + _fRatio * ptScroll.y)
 			, CSize(rcView.Width() * _fRatio, rcView.Height() * _fRatio)
 			);
+
+		_bEnableHoriz = rcDoc.Width() > _rcThumbView.Width();
 
 		//»æÖÆµØÍ¼ÄÚÈÝ
 		//memDC.SetStretchBltMode(HALFTONE);
@@ -178,10 +181,13 @@ void MapThumbnailView::OnMouseMove(UINT nFlags, CPoint point)
 		CPoint ptOffset = point - _ptOld;
 		_ptOld = point;
 
+		if (!_bEnableHoriz)
+			ptOffset.x = 0;
+
 		ptOffset.x /= _fRatio;
 		ptOffset.y /= _fRatio;
 
-		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST( CMainFrame, AfxGetMainWnd() );
 		if (!pMainFrame)
 			return;
 
