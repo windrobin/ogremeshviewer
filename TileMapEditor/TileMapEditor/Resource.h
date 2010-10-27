@@ -84,6 +84,7 @@
 #define IDR_MENU_BRUSH_OP               179
 #define IDR_MENU_MAP_OP                 180
 #define IDD_DIALOG_NEWLAYER             181
+#define IDS_MAP_THUMBNAIL               182
 #define IDI_MAPLAYER                    183
 #define IDI_MAPLAYER_HC                 184
 #define IDR_TOOLBAR_GOEDITOR            185
@@ -101,12 +102,12 @@
 #define IDC_EDIT_REGION_WIDTH           1003
 #define IDC_EDIT_MAPNAME                1004
 #define IDC_EDIT_TILE_SIZE              1005
-#define IDC_EDIT_HEIGHT2                1005
-#define IDC_EDIT_REGION_HEIGHT          1005
 #define IDC_EDIT_TILE_HEIGHT            1006
 #define IDC_EDIT_LAYERNAME              1007
 #define IDC_EDIT_TILE_WIDTH             1008
+#define IDC_EDIT_HEIGHT2                1009
 #define IDC_EDIT_GO_ARTGROUP            1010
+#define IDC_EDIT_REGION_HEIGHT          1011
 #define IDC_CHECK_CREATE_LAYER          1012
 #define IDC_EDIT_GO_GROUP               1013
 #define IDC_EDIT_GO_OBJ_NAME            1014
@@ -124,11 +125,11 @@
 #define IDC_RADIO_GO_CLEAR_OBSTACLE     1026
 #define IDC_EDIT_RES_DETAIL_GROUPNAME   1027
 #define IDC_EDIT_RES_DETAIL_GROUPNAME2  1028
-#define IDC_EDIT_RES_DETAIL_RESTYPE     1028
-#define IDC_EDIT_GROUPNAME              1028
 #define IDC_EDIT_TILEW                  1029
 #define IDC_EDIT_TILEH                  1030
 #define IDC_COMBO_ARTRES                1031
+#define IDC_EDIT_RES_DETAIL_RESTYPE     1032
+#define IDC_EDIT_GROUPNAME              1033
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771
 #define ID_STATUSBAR_PANE2              32772
@@ -189,14 +190,15 @@
 #define ID_MENU_RESVIEW_REMOVE          32827
 #define ID_GAMEOBJECTGROUP_ADDGROUP     32828
 #define ID_GAMEOBJECTGROUP_REMOVEGROUP  32829
+#define ID_VIEW_MAP_THUMBNAIL_PANEL     32830
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        195
-#define _APS_NEXT_COMMAND_VALUE         32830
-#define _APS_NEXT_CONTROL_VALUE         1032
-#define _APS_NEXT_SYMED_VALUE           1127
+#define _APS_NEXT_COMMAND_VALUE         32831
+#define _APS_NEXT_CONTROL_VALUE         1034
+#define _APS_NEXT_SYMED_VALUE           1134
 #endif
 #endif

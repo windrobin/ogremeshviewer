@@ -10,6 +10,7 @@
 #include "TileResView.h"
 #include "LayerView.h"
 #include "GameObjectEditor.h"
+#include "MapThumbnailView.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -52,6 +53,7 @@ protected:  // 控件条嵌入成员
 	TileResView			_TileResView;
 	LayerView			_LayerPanel;
 	GameObjectEditor	_GameObjectEditor;
+	MapThumbnailView	_MapThumbnailPanel;
 
 	CMFCRibbonLabel*	_pCurLayerLabel;
 	CMFCRibbonLabel*	_pCurPositionLabel;
@@ -76,6 +78,8 @@ protected:
 	afx_msg void OnUpdateView_MayLayerPanel(CCmdUI* pCmdUI);
 	afx_msg void OnView_GameObjectEditorPanel();
 	afx_msg void OnUpdateView_GameObjectEditorPanel(CCmdUI* pCmdUI);
+	afx_msg void OnView_MapThumbnailPanel();
+	afx_msg void OnUpdateView_MapThumbnailPanel(CCmdUI* pCmdUI);
 
 	afx_msg void OnTool_Select();
 	afx_msg void OnUpdateButton_Select(CCmdUI* pCmdUI);

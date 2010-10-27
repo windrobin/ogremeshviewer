@@ -752,6 +752,7 @@ BEGIN
     IDS_MAP_PANEL           "µÿÕº"
     IDS_OUTPUT_WND          " ‰≥ˆ"
     IDS_PROPERTIES_WND      " Ù–‘"
+	IDS_MAP_THUMBNAIL       "Àı¬‘Õº"
 END
 
 STRINGTABLE 

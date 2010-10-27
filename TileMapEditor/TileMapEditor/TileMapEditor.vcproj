@@ -461,6 +461,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MapThumbnailView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MapThumbnailView.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MapView.cpp"
 				>
 			</File>

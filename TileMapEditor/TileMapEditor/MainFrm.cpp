@@ -40,6 +40,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_VIEW_PROPERTIESWND, &CMainFrame::OnView_PropertyPanel)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PROPERTIESWND, &CMainFrame::OnUpdateView_PropertyPanel)
 
+	ON_COMMAND(ID_VIEW_MAP_THUMBNAIL_PANEL, &CMainFrame::OnView_MapThumbnailPanel)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_MAP_THUMBNAIL_PANEL, &CMainFrame::OnUpdateView_MapThumbnailPanel)
+	
 	ON_COMMAND(ID_VIEW_MAPLAYER_PANEL, &CMainFrame::OnView_MayLayerPanel)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_MAPLAYER_PANEL, &CMainFrame::OnUpdateView_MayLayerPanel)
 
@@ -114,27 +117,26 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	_ResTreePanel.EnableDocking(CBRS_ALIGN_ANY);
 	_MapPanel.EnableDocking(CBRS_ALIGN_ANY);
 	_LayerPanel.EnableDocking(CBRS_ALIGN_ANY);
+
 	DockPane(&_ResTreePanel);
+	_LayerPanel.DockToWindow(&_ResTreePanel, CBRS_ALIGN_BOTTOM, CRect(0, 0, 200, 200));
+	_MapPanel.DockToWindow(&_ResTreePanel, CBRS_ALIGN_BOTTOM, CRect(0, 0, 200, 200));
 
-	CDockablePane* pTabbedBar = NULL;
-	_MapPanel.AttachToTabWnd(&_ResTreePanel, DM_SHOW, TRUE, &pTabbedBar);
-
-	_LayerPanel.AttachToTabWnd(&_ResTreePanel, DM_SHOW, TRUE, &pTabbedBar);
-
-	//Bottom
-	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndOutput);
-	
 
 	//Right
 	m_wndProperties.EnableDocking(CBRS_ALIGN_RIGHT);
-	DockPane(&m_wndProperties);
-
 	_TileResView.EnableDocking(CBRS_ALIGN_RIGHT);
-	DockPane(&_TileResView);
-	_TileResView.AttachToTabWnd(&m_wndProperties, DM_SHOW, FALSE, &pTabbedBar);
+	_MapThumbnailPanel.EnableDocking(CBRS_ALIGN_RIGHT);
 
+	DockPane(&m_wndProperties);
+	_MapThumbnailPanel.DockToWindow(&m_wndProperties, CBRS_ALIGN_TOP, CRect(0, 0, 200, 150));
+	_TileResView.DockToWindow(&m_wndProperties, CBRS_ALIGN_TOP, CRect(0, 0, 200, 200));
+
+
+	//Bottom
+	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
 	_GameObjectEditor.EnableDocking(CBRS_ALIGN_BOTTOM);
+	DockPane(&m_wndOutput);
 	DockPane(&_GameObjectEditor);
 
 	return 0;
@@ -284,12 +286,14 @@ void CMainFrame::InitializeRibbon()
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_RES_PANEL, ID_VIEW_RES_PANEL);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_MAP_PANEL, ID_VIEW_MAP_PANEL);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_MAPLAYER_PANEL, ID_VIEW_MAPLAYER_PANEL);
+
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_RES_DETAIL, ID_VIEW_RES_DETAIL_PANEL);
-	M_Add_Ribbon_CheckBox(pPanelView, IDS_GAMEOBJECT_EDITOR, ID_VIEW_GAMEOBJECTEDITOR);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_PROPERTIES_WND, ID_VIEW_PROPERTIESWND);
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_MAP_THUMBNAIL, ID_VIEW_MAP_THUMBNAIL_PANEL);
+
+	M_Add_Ribbon_CheckBox(pPanelView, IDS_GAMEOBJECT_EDITOR, ID_VIEW_GAMEOBJECTEDITOR);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_OUTPUT_WND, ID_VIEW_OUTPUTWND);
 	M_Add_Ribbon_CheckBox(pPanelView, IDS_RIBBON_STATUSBAR, ID_VIEW_STATUS_BAR);
-
 
 	
 	// 将元素添加到选项卡右侧:
@@ -380,11 +384,19 @@ BOOL CMainFrame::CreateDockingWindows()
 
 	// 创建TileResView窗口
 	CString strTmp;
-	bNameValid = strTmp.LoadString(IDS_RES_DETAIL);	//IDS_PANEL_TILERES
+	bNameValid = strTmp.LoadString(IDS_RES_DETAIL);
 	ASSERT(bNameValid);
 	if (!_TileResView.Create(strTmp, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_RES_DETAIL_PANEL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("未能创建“TileResView”窗口\n");
+		return FALSE; // 未能创建
+	}
+
+	bNameValid = strTmp.LoadString(IDS_MAP_THUMBNAIL);
+	ASSERT(bNameValid);
+	if (!_MapThumbnailPanel.Create(strTmp, this, CRect(0, 0, 200, 150), TRUE, ID_VIEW_MAP_THUMBNAIL_PANEL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("未能创建“缩略图”窗口\n");
 		return FALSE; // 未能创建
 	}
 
@@ -545,6 +557,15 @@ void CMainFrame::OnView_PropertyPanel()
 void CMainFrame::OnUpdateView_PropertyPanel(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndProperties.IsVisible());
+}
+
+void CMainFrame::OnView_MapThumbnailPanel()
+{
+	_MapThumbnailPanel.ShowPane(!_MapThumbnailPanel.IsVisible(), FALSE, !_MapThumbnailPanel.IsVisible());
+}
+void CMainFrame::OnUpdateView_MapThumbnailPanel(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(_MapThumbnailPanel.IsVisible());
 }
 
 void CMainFrame::OnView_MayLayerPanel()
