@@ -94,6 +94,16 @@ public:
 			m_hDC = m_hAttribDC = NULL;
 		}	
 	}
+
+	void PeakBuffer(CDC* pDC)
+	{
+		if (m_bMemDC)
+		{
+			// Copy the offscreen bitmap onto the pDC.
+			pDC->BitBlt(0, 0, m_rect.Width(), m_rect.Height(),
+				this, m_rect.left, m_rect.top, SRCCOPY);			
+		}
+	}
 	
 	// Allow usage as a pointer	
 	MemDC* operator->() 

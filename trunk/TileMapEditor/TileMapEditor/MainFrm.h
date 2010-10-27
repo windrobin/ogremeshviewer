@@ -31,13 +31,14 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	TileResView*	GetTileResView(){ return &_TileResView; }
-	MapView*		GetMapView(){ return &_MapPanel; }
-	CPropertiesWnd*	GetPropertyWnd(){ return &m_wndProperties; }
-	LayerView*		GetMapLayerView(){ return &_LayerPanel; }
+	TileResView*		GetTileResView(){ return &_TileResView; }
+	MapView*			GetMapView(){ return &_MapPanel; }
+	CPropertiesWnd*		GetPropertyWnd(){ return &m_wndProperties; }
+	LayerView*			GetMapLayerView(){ return &_LayerPanel; }
+	MapThumbnailView*	GetMapThumbnailView(){ return &_MapThumbnailPanel; }
 
-	void			SetCurLayerName(const Cactus::String& strLayerName);
-	void			SetCursorPosition(int x, int y);
+	void				SetCurLayerName(const Cactus::String& strLayerName);
+	void				SetCursorPosition(int x, int y);
 
 
 protected:  // 控件条嵌入成员
