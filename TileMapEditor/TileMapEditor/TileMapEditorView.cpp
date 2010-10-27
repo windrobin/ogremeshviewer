@@ -98,10 +98,9 @@ CDC* CTileMapEditorView::GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptSc
 
 	rc	= _rcClient;
 	ptScroll = GetScrollPosition();
-	ptScroll.Offset(-M_Margin, -M_Margin);
 
-	szDoc.cx	= GetDocument()->GetMap().GetPixelWidth();
-	szDoc.cy	= GetDocument()->GetMap().GetPixelHeight();
+	szDoc.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
+	szDoc.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
 
 	return &_memDC;
 }
@@ -200,13 +199,13 @@ void CTileMapEditorView::LogicInvalidate(CRect rc)
 
 	InvalidateRect(rc);
 
-	//CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
-	//if (pMainFrame)
-	//{
-	//	MapThumbnailView* pMapThumbView = pMainFrame->GetMapThumbnailView(); 
-	//	if (pMapThumbView->GetSafeHwnd())
-	//		pMapThumbView->Invalidate(TRUE);
-	//}
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	if (pMainFrame)
+	{
+		MapThumbnailView* pMapThumbView = pMainFrame->GetMapThumbnailView(); 
+		if (pMapThumbView->GetSafeHwnd())
+			pMapThumbView->Invalidate(TRUE);
+	}
 }
 
 BOOL CTileMapEditorView::OnEraseBkgnd(CDC* pDC)

@@ -29,6 +29,9 @@ BEGIN_MESSAGE_MAP(MapThumbnailView, CDockablePane)
 	ON_WM_CONTEXTMENU()
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -51,8 +54,7 @@ void MapThumbnailView::OnSize(UINT nType, int cx, int cy)
 		return;
 	}
 
-	CRect rectClient;
-	GetClientRect(rectClient);
+	Invalidate();
 }
 
 BOOL MapThumbnailView::PreTranslateMessage(MSG* pMsg)
@@ -87,24 +89,35 @@ void MapThumbnailView::OnPaint()
 			if (fRatio1 > fRatio2)
 				fRatio = fRatio2;
 
-			//ªÊ÷∆Œƒµµ∑∂Œß
 			CRect rcDoc = CRect( CPoint( (rcClient.Width() - fRatio * szDoc.cx)/2
 				, (rcClient.Height() - fRatio * szDoc.cy)/2 )
 				, CSize( szDoc.cx * fRatio, szDoc.cy * fRatio )
 				);
 
-			CPen pen(PS_SOLID, 1, RGB(0, 255, 0));
-			CPen* pOldPen = dc.SelectObject(&pen);
+			CRect rcThumbView = CRect(CPoint(rcDoc.TopLeft().x + fRatio * ptScroll.x, rcDoc.TopLeft().y + fRatio * ptScroll.y)
+				, CSize(rcView.Width() * fRatio, rcView.Height() * fRatio)
+				);
+
+			//ªÊ÷∆µÿÕºƒ⁄»›
+			//memDC.SetStretchBltMode(HALFTONE);
+			//memDC.StretchBlt( rcDoc.TopLeft().x + fRatio * ptScroll.x + 1, rcDoc.TopLeft().y + fRatio * ptScroll.y + 1
+			//	, rcView.Width() * fRatio - 1, rcView.Height() * fRatio - 1
+			//	, pDC, 0, 0, rcView.Width(), rcView.Height(), SRCCOPY
+			//	);
+
+			//ªÊ÷∆Œƒµµ∑∂Œß
+			CPen pen(PS_SOLID, 1, RGB(0, 0, 255));
+			CPen* pOldPen = memDC.SelectObject(&pen);
+			memDC.SelectStockObject(NULL_BRUSH);
 			memDC.Rectangle(rcDoc);
 			memDC.SelectObject(pOldPen);
 
-
-			//ªÊ÷∆µÿÕºƒ⁄»›
-			memDC.SetStretchBltMode(HALFTONE);
-			memDC.StretchBlt( rcDoc.TopLeft().x + fRatio * ptScroll.x, rcDoc.TopLeft().y + fRatio * ptScroll.y
-				, rcView.Width() * fRatio, rcView.Height() * fRatio
-				, pDC, 0, 0, rcView.Width(), rcView.Height(), SRCCOPY
-				);
+			//ªÊ÷∆ ‘Õº∑∂Œß
+			CPen pen2(PS_SOLID, 1, RGB(0, 255, 0));
+			CPen* pOldPen2 = memDC.SelectObject(&pen2);
+			memDC.SelectStockObject(LTGRAY_BRUSH);
+			memDC.Rectangle(rcThumbView);
+			memDC.SelectObject(pOldPen2);
 		}
 	}
 }
@@ -117,4 +130,25 @@ void MapThumbnailView::OnSetFocus(CWnd* pOldWnd)
 
 void MapThumbnailView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
+}
+
+void MapThumbnailView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CDockablePane::OnLButtonDown(nFlags, point);
+}
+
+void MapThumbnailView::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CDockablePane::OnLButtonUp(nFlags, point);
+}
+
+void MapThumbnailView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CDockablePane::OnMouseMove(nFlags, point);
 }
