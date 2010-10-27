@@ -27,5 +27,6 @@ protected:
 	CPoint	_ptOld;
 	bool	_bHold;
 	float	_fRatio;
+	bool	_bEnableHoriz;
 };
 

@@ -89,6 +89,16 @@ void CTileMapEditorView::OnDraw(CDC* pDC)
 
 		//memDC->PeakBuffer(&_memDC);
 	}
+
+
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	if (pMainFrame)
+	{
+		MapThumbnailView* pMapThumbView = pMainFrame->GetMapThumbnailView(); 
+		if (pMapThumbView->GetSafeHwnd())
+			pMapThumbView->Invalidate();
+	}
+
 }
 
 //CDC* CTileMapEditorView::GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptScroll)
@@ -206,14 +216,6 @@ void CTileMapEditorView::LogicInvalidate(CRect rc)
 	rc.OffsetRect(M_Margin, M_Margin);
 
 	InvalidateRect(rc);
-
-	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
-	if (pMainFrame)
-	{
-		MapThumbnailView* pMapThumbView = pMainFrame->GetMapThumbnailView(); 
-		if (pMapThumbView->GetSafeHwnd())
-			pMapThumbView->Invalidate();
-	}
 }
 
 BOOL CTileMapEditorView::OnEraseBkgnd(CDC* pDC)
