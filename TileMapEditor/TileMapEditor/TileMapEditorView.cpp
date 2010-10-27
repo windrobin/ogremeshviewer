@@ -41,12 +41,12 @@ CTileMapEditorView::CTileMapEditorView()
 
 CTileMapEditorView::~CTileMapEditorView()
 {
-	if( _bmpBackup.GetSafeHandle() )
-	{
-		_memDC.SelectObject(_pOldBmp);
-		_memDC.DeleteDC();
-		_bmpBackup.DeleteObject();
-	}
+	//if( _bmpBackup.GetSafeHandle() )
+	//{
+	//	_memDC.SelectObject(_pOldBmp);
+	//	_memDC.DeleteDC();
+	//	_bmpBackup.DeleteObject();
+	//}
 }
 
 BOOL CTileMapEditorView::PreCreateWindow(CREATESTRUCT& cs)
@@ -58,6 +58,8 @@ BOOL CTileMapEditorView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CTileMapEditorView::OnDraw(CDC* pDC)
 {
+	GetClientRect(_rcClient);
+
 	CTileMapEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
@@ -65,15 +67,13 @@ void CTileMapEditorView::OnDraw(CDC* pDC)
 
 	pDC->OffsetViewportOrg(M_Margin, M_Margin);
 
-	GetClientRect(_rcClient);
+	//if( !_bmpBackup.GetSafeHandle() )
+	//{
+	//	_bmpBackup.CreateCompatibleBitmap(pDC, _rcClient.Width(), _rcClient.Height());
 
-	if( !_bmpBackup.GetSafeHandle() )
-	{
-		_bmpBackup.CreateCompatibleBitmap(pDC, _rcClient.Width(), _rcClient.Height());
-
-		_memDC.CreateCompatibleDC(pDC);
-		_pOldBmp = _memDC.SelectObject(&_bmpBackup);
-	}
+	//	_memDC.CreateCompatibleDC(pDC);
+	//	_pOldBmp = _memDC.SelectObject(&_bmpBackup);
+	//}
 
 	{
 		MemDC memDC(pDC);
@@ -87,22 +87,30 @@ void CTileMapEditorView::OnDraw(CDC* pDC)
 		pDoc->GetMap().Draw(&memDC, rc);
 		ToolManager::getSingleton().GetCurrentTool()->Draw(&memDC);
 
-		memDC->PeakBuffer(&_memDC);
+		//memDC->PeakBuffer(&_memDC);
 	}
 }
 
-CDC* CTileMapEditorView::GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptScroll)
+//CDC* CTileMapEditorView::GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptScroll)
+//{
+//	if( !_bmpBackup.GetSafeHandle() )
+//		return 0;
+//
+//	rc	= _rcClient;
+//	ptScroll = GetScrollPosition();
+//
+//	szDoc.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
+//	szDoc.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
+//
+//	return &_memDC;
+//}
+void CTileMapEditorView::GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptScroll)
 {
-	if( !_bmpBackup.GetSafeHandle() )
-		return 0;
-
 	rc	= _rcClient;
 	ptScroll = GetScrollPosition();
 
 	szDoc.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
 	szDoc.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
-
-	return &_memDC;
 }
 
 
@@ -204,14 +212,12 @@ void CTileMapEditorView::LogicInvalidate(CRect rc)
 	{
 		MapThumbnailView* pMapThumbView = pMainFrame->GetMapThumbnailView(); 
 		if (pMapThumbView->GetSafeHwnd())
-			pMapThumbView->Invalidate(TRUE);
+			pMapThumbView->Invalidate();
 	}
 }
 
 BOOL CTileMapEditorView::OnEraseBkgnd(CDC* pDC)
 {
-	//return CScrollView::OnEraseBkgnd(pDC);
-
 	return TRUE;
 }
 
@@ -219,10 +225,26 @@ void CTileMapEditorView::OnSize(UINT nType, int cx, int cy)
 {
 	CScrollView::OnSize(nType, cx, cy);
 
-	if( _bmpBackup.GetSafeHandle() )
+	//if( _bmpBackup.GetSafeHandle() )
+	//{
+	//	_memDC.SelectObject(_pOldBmp);
+	//	_memDC.DeleteDC();
+	//	_bmpBackup.DeleteObject();
+	//}
+}
+
+void CTileMapEditorView::OffsetScrollPos(CPoint pt)
+{
+	CPoint ptScroll = GetScrollPosition();
+	ptScroll.Offset(pt);
+
+	ScrollToPosition(ptScroll);
+
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	if (pMainFrame)
 	{
-		_memDC.SelectObject(_pOldBmp);
-		_memDC.DeleteDC();
-		_bmpBackup.DeleteObject();
+		MapThumbnailView* pMapThumbView = pMainFrame->GetMapThumbnailView(); 
+		if (pMapThumbView->GetSafeHwnd())
+			pMapThumbView->Invalidate();
 	}
 }
