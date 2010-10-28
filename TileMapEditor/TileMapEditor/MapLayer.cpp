@@ -4,6 +4,9 @@
 #include "Map.h"
 #include "ResourceGameObject.h"
 
+#include "MainFrm.h"
+#include "TileMapEditorView.h"
+
 using namespace Cactus;
 using namespace PropertySys;
 
@@ -45,6 +48,15 @@ MapLayer::MapLayer()
 
 MapLayer::~MapLayer()
 {
+	for (RegionTileMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	{
+		TileVectorType& tiles = it->second;
+
+		for (size_t t = 0; t < tiles.size(); ++t)
+		{
+			delete tiles[t];
+		}
+	}
 }
 
 void MapLayer::Init(const Cactus::String& strName, Map* pParent)
@@ -85,8 +97,8 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 
 		for (size_t k = 0; k < tiles.size(); ++k)
 		{
-			STile& tile = tiles[k];
-			tilesList.push_back(&tile);
+			STile* pTile = tiles[k];
+			tilesList.push_back(pTile);
 		}
 	}
 	if (tilesList.size() > 0)
@@ -94,13 +106,13 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 
 	for (Cactus::list<STile*>::type::iterator it = tilesList.begin(); it != tilesList.end(); ++it)
 	{
-		STile& tile = **it;
+		STile* pTile = *it;
 
-		Resource* pRes = ResourceManager::getSingleton().GetResource(tile._strResGroup);
+		Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
 		if (pRes)
 		{
-			CRect rc = _pParentMap->GetPixelCoordRect(CPoint(tile._posX, tile._posY));
-			pRes->Draw(pDC, rc, tile._strResItemID);
+			CRect rc = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
+			pRes->Draw(pDC, rc, pTile->_strResItemID);
 		}
 	}
 
@@ -113,33 +125,68 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 		{
 			STile& tile = tiles[t];
 
-			Resource* pRes = ResourceManager::getSingleton().GetResource(tile._strResGroup);
+			Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
 			if (pRes)
 			{
-				CRect rc = _pParentMap->GetPixelCoordRect(CPoint(tile._posX, tile._posY));
-				pRes->Draw(pDC, rc, tile._strResItemID);
+				CRect rc = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
+				pRes->Draw(pDC, rc, pTile->_strResItemID);
 			}
 		}
 	}
 	*/
 }
 
-bool MapLayer::ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc)
+bool MapLayer::ToolHitTest(CPoint ptPixel, int& gridX, int& gridY, CRect& rcPixel)
 {
 	CPoint ptGrid;
-	bool bInRegion = _pParentMap->GetGridCoord(pt, ptGrid);
+	bool bInRegion = _pParentMap->GetGridCoord(ptPixel, ptGrid);
 	if (bInRegion)
 	{
 		gridX = ptGrid.x;
 		gridY = ptGrid.y;
 
-		rc = _pParentMap->GetPixelCoordRect(ptGrid);
+		rcPixel = _pParentMap->GetPixelCoordRect(ptGrid);
 	}
 
 	return bInRegion;
 }
 
-bool MapLayer::AddOrModifyTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID)
+void MapLayer::UpdateTileInfoInMapLayer(STile* pTile, ETileOp e/* = eTileOpAdd*/)
+{
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST( CMainFrame, AfxGetMainWnd() );
+	if (pMainFrame)
+	{
+		//更新地层列表
+		LayerView* pView = pMainFrame->GetMapLayerView(); 
+		if (pView)
+		{
+			if (e == eTileOpAdd)
+				pView->AddTileInfo(pTile);
+			else if (e == eTileOpRemove)
+				pView->RemoveTileInfo(pTile);
+			else
+				pView->UpdateTileInfo(pTile);
+		}
+	}
+}
+
+void MapLayer::UpdateTileVisual(STile* pTile)
+{
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST( CMainFrame, AfxGetMainWnd() );
+	if (pMainFrame)
+	{
+		//更新绘制
+		CTileMapEditorView* pMapView = (CTileMapEditorView*)pMainFrame->GetActiveView();
+		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
+
+		Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
+		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, pTile->_strResItemID);
+		pMapView->LogicInvalidate(rcDest);
+	}
+}
+
+
+bool MapLayer::AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID)
 {
 	int regionID = _pParentMap->GetRegionID(CPoint(gridX, gridY));
 	if( regionID == -1 )
@@ -150,18 +197,23 @@ bool MapLayer::AddOrModifyTile(int gridX, int gridY, const Cactus::String& resGr
 	bool bFound = false;
 	for (size_t t = 0; t < tiles.size(); ++t)
 	{
-		STile& tile = tiles[t];
+		STile* pTile = tiles[t];
 
-		if(tile._posX == gridX && tile._posY == gridY)
+		if(pTile->_posX == gridX && pTile->_posY == gridY)
 		{
-			if(tile._strResItemID == strItemID && resGroup == tile._strResGroup)
+			if(pTile->_strResItemID == strItemID && resGroup == pTile->_strResGroup)
 			{
 				return false;
 			}
 			else
 			{
-				tile._strResGroup	= resGroup;
-				tile._strResItemID	= strItemID;
+				pTile->_strResGroup		= resGroup;
+				pTile->_strResItemID	= strItemID;
+
+				UpdateTileInfoInMapLayer(pTile, eTileOpUpdate);
+
+				UpdateTileVisual(pTile);
+
 				return true;
 			}
 		}
@@ -169,20 +221,24 @@ bool MapLayer::AddOrModifyTile(int gridX, int gridY, const Cactus::String& resGr
 
 	if (!bFound)
 	{
-		STile newTile;
-		newTile._posX			= gridX;
-		newTile._posY			= gridY;
-		newTile._strResItemID	= strItemID;
-		newTile._strResGroup	= resGroup;
-		newTile._regionID		= regionID;
+		STile* pTile = new STile;
+		pTile->_posX			= gridX;
+		pTile->_posY			= gridY;
+		pTile->_strResItemID	= strItemID;
+		pTile->_strResGroup		= resGroup;
+		pTile->_regionID		= regionID;
 
-		tiles.push_back(newTile);
+		tiles.push_back(pTile);
+
+		UpdateTileInfoInMapLayer(pTile, eTileOpAdd);
+
+		UpdateTileVisual(pTile);
 	}
 
 	return true;
 }
 
-bool MapLayer::ClearTile(int gridX, int gridY)
+bool MapLayer::RemoveTile(int gridX, int gridY)
 {
 	int regionID = _pParentMap->GetRegionID(CPoint(gridX, gridY));
 	if( regionID == -1 )
@@ -196,10 +252,14 @@ bool MapLayer::ClearTile(int gridX, int gridY)
 	bool bFound = false;
 	for (size_t t = 0; t < tiles.size(); ++t)
 	{
-		STile& tile = tiles[t];
-		if(tile._posX == gridX && tile._posY == gridY)
+		STile* pTile = tiles[t];
+		if(pTile->_posX == gridX && pTile->_posY == gridY)
 		{
 			tiles.erase(tiles.begin() + t);
+
+			UpdateTileInfoInMapLayer(pTile, eTileOpRemove);
+
+			delete pTile;
 			bFound = true;
 		}
 	}
@@ -207,26 +267,48 @@ bool MapLayer::ClearTile(int gridX, int gridY)
 	return bFound;
 }
 
-bool MapLayer::GetTileInfo(int gridX, int gridY, STile& tile)
+STile* MapLayer::GetTileInfo(int gridX, int gridY)
 {
 	int regionID = _pParentMap->GetRegionID(CPoint(gridX, gridY));
 	if( regionID == -1 )
-		return false;
+		return 0;
 
 	TileVectorType& tiles = _GroupTiles[regionID];
 
 	if (tiles.size() == 0)
-		return false;
+		return 0;
 
 	bool bFound = false;
 	for (size_t t = 0; t < tiles.size(); ++t)
 	{
-		if(tile._posX == gridX && tile._posY == gridY)
+		if(tiles[t]->_posX == gridX && tiles[t]->_posY == gridY)
 		{
-			tile = tiles[t];
-			bFound = true;
+			return tiles[t];
 		}
 	}
 
-	return bFound;
+	return 0;
+}
+
+
+void MapLayer::FillMapLayerList()
+{
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST( CMainFrame, AfxGetMainWnd() );
+	if (!pMainFrame)
+		return;
+
+	LayerView* pView = pMainFrame->GetMapLayerView(); 
+	if (!pView)
+		return;
+
+	for (RegionTileMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	{
+		TileVectorType& tiles = it->second;
+
+		for (size_t t = 0; t < tiles.size(); ++t)
+		{
+			pView->AddTileInfo(tiles[t]);
+		}
+	}
+
 }

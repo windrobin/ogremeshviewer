@@ -83,13 +83,13 @@ public:
 		else if ( currentElementMatch("tilemap/layers/layer/tilegroup/tile/") )
 		{
 			//<tile posx="0" posy="0" id="0"/>
-			STile tile;
-			tile._posX			= attributes.getValueAsInteger("posx");
-			tile._posY			= attributes.getValueAsInteger("posy");
-			tile._strResGroup	= attributes.getValueAsString("resGroup");
-			tile._strResItemID	= attributes.getValueAsString("resItemID");
-			tile._regionID		= _iCurRegionGroupTile;
-			_tiles.push_back(tile);
+			STile* pTile = new STile;
+			pTile->_posX			= attributes.getValueAsInteger("posx");
+			pTile->_posY			= attributes.getValueAsInteger("posy");
+			pTile->_strResGroup		= attributes.getValueAsString("resGroup");
+			pTile->_strResItemID	= attributes.getValueAsString("resItemID");
+			pTile->_regionID		= _iCurRegionGroupTile;
+			_tiles.push_back(pTile);
 		}
 	}
 
@@ -175,8 +175,8 @@ void Map::RegisterReflection()
 
 	pProp = M_RegisterPropertySimple(int, WidthInTiles, Map, Map, "地图宽度.", BaseProperty::eDefault, _iWidthInTiles);
 	pProp = M_RegisterPropertySimple(int, HeightInTiles, Map, Map, "地图高度.", BaseProperty::eDefault, _iHeightInTiles);
-	pProp = M_RegisterPropertySimple(int, UnitTileWidth, Map, Map, "最小Tile的宽度.", BaseProperty::eDefault, _iUnitTileHeight);
-	pProp = M_RegisterPropertySimple(int, UnitTileHeight, Map, Map, "最小Tile的高度.", BaseProperty::eDefault, _iUnitTileHeight);
+	pProp = M_RegisterPropertySimple(int, UnitTileWidth, Map, Map, "单位Tile的宽度，像素.", BaseProperty::eDefault, _iUnitTileWidth);
+	pProp = M_RegisterPropertySimple(int, UnitTileHeight, Map, Map, "单位Tile的高度，像素.", BaseProperty::eDefault, _iUnitTileHeight);
 
 	pProp = M_RegisterPropertySimple(int, BackgroundColor, Map, Map, "背景颜色.", BaseProperty::eDefault, _colBKColor);
 	pProp->SetValueSpecify(eValueColor, "");
@@ -280,12 +280,12 @@ void Map::Save(const Cactus::String& strPathName)
 
 				for (size_t t = 0; t < itG->second.size(); ++t)
 				{
-					STile& tile = itG->second[t];
+					STile* pTile = itG->second[t];
 					xmlOut.NodeBegin("tile");
-						xmlOut.AddAttribute("posx", tile._posX);
-						xmlOut.AddAttribute("posy", tile._posY);
-						xmlOut.AddAttribute("resGroup", tile._strResGroup);
-						xmlOut.AddAttribute("resItemID", tile._strResItemID);
+						xmlOut.AddAttribute("posx", pTile->_posX);
+						xmlOut.AddAttribute("posy", pTile->_posY);
+						xmlOut.AddAttribute("resGroup", pTile->_strResGroup);
+						xmlOut.AddAttribute("resItemID", pTile->_strResItemID);
 					xmlOut.NodeEnd("tile");
 				}
 				xmlOut.NodeEnd("tilegroup");
@@ -446,11 +446,11 @@ void Map::SetCurLayer(MapLayer* pLayer)
 	if (_pCurLayer)
 	{
 		_pCurLayer->SetVisible(true);
-		pMainFrame->SetCurLayerName(_pCurLayer->GetObjectName());
+		pMainFrame->SetCurLayer(_pCurLayer);
 	}
 	else
 	{
-		pMainFrame->SetCurLayerName("");
+		pMainFrame->SetCurLayer(0);
 	}
 
 	if (pOldLayer || _pCurLayer)
@@ -525,7 +525,7 @@ void Map::ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent)
 	else if (bMakeCurrent || _layers.size() == 1)
 	{
 		_pCurLayer = pLayer;
-		pMainFrame->SetCurLayerName(_pCurLayer->GetObjectName());
+		pMainFrame->SetCurLayer(_pCurLayer);
 	}
 
 	CView* pView = pMainFrame->GetActiveView(); 

@@ -3,6 +3,7 @@
 #include "PanelToolBar.h"
 
 class MapLayer;
+struct STile;
 
 class LayerView : public CDockablePane
 {
@@ -12,9 +13,15 @@ public:
 
 	void	SetCurrentLayer(MapLayer* pLayer);
 
+	void	AddTileInfo(STile* pTile);
+	bool	UpdateTileInfo(STile* pTile);
+	bool	RemoveTileInfo(STile* pTile);
+
 protected:
 	CClassToolBar	m_wndToolBar;
 	CListCtrl		_listObjects;
+
+	MapLayer*		_pLayer;
 
 // ÖØÐ´
 public:
@@ -29,6 +36,10 @@ protected:
 	afx_msg void OnInvertSelect();
 	afx_msg void OnSelectSimilar();
 	afx_msg void OnDeleteSelection();
+
+	afx_msg void OnLvnColumnclickList(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMclickList(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnItemStateChanged(NMHDR *pNMHDR, LRESULT *pResult);
 
 	DECLARE_MESSAGE_MAP()
 };

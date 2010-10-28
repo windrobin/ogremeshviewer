@@ -752,11 +752,11 @@ BEGIN
     IDS_MAP_PANEL           "地图"
     IDS_OUTPUT_WND          "输出"
     IDS_PROPERTIES_WND      "属性"
-	IDS_MAP_THUMBNAIL       "缩略图"
 END
 
 STRINGTABLE 
 BEGIN
+    IDS_MAP_THUMBNAIL       "导航图"
     IDS_GAMEOBJECT_EDITOR   "对象编辑器"
 END
 

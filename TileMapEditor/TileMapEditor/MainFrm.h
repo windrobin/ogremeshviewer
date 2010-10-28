@@ -37,7 +37,7 @@ public:
 	LayerView*			GetMapLayerView(){ return &_LayerPanel; }
 	MapThumbnailView*	GetMapThumbnailView(){ return &_MapThumbnailPanel; }
 
-	void				SetCurLayerName(const Cactus::String& strLayerName);
+	void				SetCurLayer(MapLayer* pLayer);
 	void				SetCursorPosition(int x, int y);
 
 

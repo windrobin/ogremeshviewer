@@ -7,6 +7,7 @@
 
 #include "MainFrm.h"
 #include "ToolManager.h"
+#include "MapLayer.h"
 
 #define M_TOOL_SELECT	(WM_USER + 100)
 #define M_TOOL_BRUSH	(WM_USER + 101)
@@ -396,7 +397,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	ASSERT(bNameValid);
 	if (!_MapThumbnailPanel.Create(strTmp, this, CRect(0, 0, 200, 150), TRUE, ID_VIEW_MAP_THUMBNAIL_PANEL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
 	{
-		TRACE0("未能创建“缩略图”窗口\n");
+		TRACE0("未能创建“导航图”窗口\n");
 		return FALSE; // 未能创建
 	}
 
@@ -586,9 +587,19 @@ void CMainFrame::OnUpdateView_GameObjectEditorPanel(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(_GameObjectEditor.IsVisible());
 }
 
-void CMainFrame::SetCurLayerName(const Cactus::String& strLayerName)
+void CMainFrame::SetCurLayer(MapLayer* pLayer)
 {
-	_pCurLayerLabel->SetText(strLayerName.c_str());
+	if(pLayer)
+	{
+		_pCurLayerLabel->SetText(pLayer->GetObjectName().c_str());
+		_LayerPanel.SetCurrentLayer(pLayer);
+	}
+	else
+	{
+		_pCurLayerLabel->SetText("");
+		_LayerPanel.SetCurrentLayer(0);
+	}
+
 	_pCurLayerLabel->Redraw();
 }
 

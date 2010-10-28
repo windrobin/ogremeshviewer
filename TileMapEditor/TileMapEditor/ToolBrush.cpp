@@ -26,7 +26,7 @@ void ToolBrush::Draw(CDC* pDC)
 	if (!_bDrawCursor)
 		return;
 
-	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResKey);
+	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(CPoint(_iGridX, _iGridY));
@@ -47,10 +47,9 @@ void ToolBrush::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!pLayer)
 		return;
 
-	if( pLayer->AddOrModifyTile(_iGridX, _iGridY, _strResKey, _strResID) )
+	if( pLayer->AddOrUpdateTile(_iGridX, _iGridY, _strResGroup, _strResID) )
 	{
-		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
-		pView->LogicInvalidate(_rcTile);
+		Log_Info("添加或者修改Tile成功，位置: (" << _iGridX << ", " << _iGridY << ") 资源组：" << _strResGroup << " : " << _strResID);
 	}
 }
 
@@ -78,8 +77,6 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 		return;
 	}
 
-	CRect rcDirty = _rcOldSelected;
-
 	if ( (nFlags & MK_LBUTTON) == MK_LBUTTON)
 	{
 		//编辑
@@ -87,14 +84,16 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 		if (!pLayer)
 			return;
 
-		if( pLayer->AddOrModifyTile(_iGridX, _iGridY, _strResKey, _strResID) )
+		if( pLayer->AddOrUpdateTile(_iGridX, _iGridY, _strResGroup, _strResID) )
 		{
-			rcDirty.UnionRect(&rcDirty, _rcTile);
+			Log_Info("添加或者修改Tile成功，位置: (" << _iGridX << ", " << _iGridY << ") 资源组：" << _strResGroup << " : " << _strResID);
 		}
 	}
 
+	CRect rcDirty = _rcOldSelected;
+
 	//绘制拖动内容
-	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResKey);
+	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(CPoint(_iGridX, _iGridY));
@@ -131,6 +130,6 @@ void ToolBrush::OnTurnOff()
 
 void ToolBrush::SetResource(const Cactus::String& strRes, const Cactus::String& strID)
 {
-	_strResKey	= strRes;
+	_strResGroup	= strRes;
 	_strResID	= strID;
 }

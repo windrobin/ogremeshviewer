@@ -35,10 +35,9 @@ void ToolRemove::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!pLayer)
 		return;
 
-	if( pLayer->ClearTile(_iGridX, _iGridY) )
+	if( pLayer->RemoveTile(_iGridX, _iGridY) )
 	{
-		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
-		pView->LogicInvalidate(_rcTile);
+		Log_Info("删除Tile成功，位置: (" << _iGridX << ", " << _iGridY << ")" );
 	}
 }
 
@@ -61,10 +60,9 @@ void ToolRemove::OnMouseMove(UINT nFlags, CPoint point)
 		if (!pLayer)
 			return;
 
-		if( pLayer->ClearTile(_iGridX, _iGridY) )
+		if( pLayer->RemoveTile(_iGridX, _iGridY) )
 		{
-			CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
-			pView->LogicInvalidate(_rcTile);
+			Log_Info("删除Tile成功，位置: (" << _iGridX << ", " << _iGridY << ")" );
 		}
 	}
 }
