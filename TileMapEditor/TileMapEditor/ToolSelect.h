@@ -1,6 +1,8 @@
 #pragma once
 #include "toolbase.h"
 
+struct STile;
+
 class ToolSelect : public ToolBase
 {
 public:
@@ -14,4 +16,10 @@ public:
 	virtual void OnMouseMove(UINT nFlags, CPoint point);
 	virtual void OnTurnOn();
 	virtual void OnTurnOff();
+
+	void	SelectTile(STile* pTile, bool bSelect = true);
+
+
+protected:
+	STile*	_pSelectedTile;
 };

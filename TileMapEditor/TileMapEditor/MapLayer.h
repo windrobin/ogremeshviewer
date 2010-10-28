@@ -49,6 +49,11 @@ public:
 	*/
 	bool					ToolHitTest(CPoint ptPixel, int& gridX, int& gridY, CRect& rcPixel);
 
+	/**获取当前像素点的Tile
+	*	@return	如果有多个返回第一个，无则返回0
+	*/
+	STile*					TileHitTest(CPoint ptPixel);
+
 	/**在当前网格坐标增加或修改STile，并更新视图
 	*/
 	bool					AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID);
@@ -76,7 +81,7 @@ public:
 
 	/**更新制定STile视图绘制
 	*/
-	void					UpdateTileVisual(STile* pTile);
+	void					UpdateTileVisual(STile* pTile, bool bEnsureVisible = false);
 
 protected:
 	Map*				_pParentMap;

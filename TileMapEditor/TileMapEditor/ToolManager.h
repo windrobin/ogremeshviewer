@@ -24,6 +24,8 @@ public:
 	ToolBase*			GetCurrentTool();
 	EToolType			GetCurrentToolType(){ return _eCurToolType; }
 
+	ToolBase*			GetTool(EToolType e);
+
 protected:
 
 	CTileMapEditorDoc*	_pDoc;
