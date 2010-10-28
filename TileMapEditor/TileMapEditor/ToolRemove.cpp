@@ -11,7 +11,8 @@
 
 ToolRemove::ToolRemove()
 {
-	_refCursor = RGB(192, 0, 0);
+	_refCursor		= RGB(192, 0, 0);
+	_bDrawCursor	= true;
 }
 
 ToolRemove::~ToolRemove()
@@ -28,7 +29,7 @@ void ToolRemove::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	ToolBase::OnLButtonDown(nFlags, point);
 
-	if (!_bDrawCursor)
+	if (!_bInRegion)
 		return;
 
 	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
@@ -51,7 +52,7 @@ void ToolRemove::OnMouseMove(UINT nFlags, CPoint point)
 {
 	ToolBase::OnMouseMove(nFlags, point);
 
-	if (!_bDrawCursor)
+	if (!_bInRegion)
 		return;
 
 	if ( (nFlags & MK_LBUTTON) == MK_LBUTTON)

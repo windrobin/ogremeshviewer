@@ -10,7 +10,8 @@
 #include "TileMapEditorView.h"
 
 ToolBase::ToolBase()
-: _bDrawCursor(false)
+: _bInRegion(false)
+, _bDrawCursor(false)
 {
 }
 
@@ -20,7 +21,7 @@ ToolBase::~ToolBase()
 
 void ToolBase::Draw(CDC* pDC)
 {
-	if (_bDrawCursor)
+	if (_bInRegion && _bDrawCursor)
 	{
 		CPen pen(PS_SOLID, 2, _refCursor);
 
@@ -58,7 +59,7 @@ void ToolBase::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!pLayer)
 		return;
 
-	_bDrawCursor = pLayer->ToolHitTest(point, _iGridX, _iGridY, _rcTile);
+	_bInRegion = pLayer->ToolHitTest(point, _iGridX, _iGridY, _rcTile);
 }
 
 void ToolBase::OnLButtonUp(UINT nFlags, CPoint point)
@@ -71,7 +72,7 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
 	if (!pLayer)
 	{
-		_bDrawCursor = false;
+		_bInRegion = false;
 		return;
 	}
 
@@ -81,13 +82,13 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 	CRect rc;
 	if(!pLayer->ToolHitTest(point, gridX, gridY, rc))
 	{
-		if (_bDrawCursor)
+		if (_bInRegion)
 			pView->LogicInvalidate(&_rcTile);	//刷新老的
 
 		_iGridX = -1;
 		_iGridY = -1;
 
-		_bDrawCursor = false;
+		_bInRegion = false;
 
 		((CMainFrame*)AfxGetMainWnd())->SetCursorPosition(0, 0);
 
@@ -96,7 +97,7 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 
 	if (gridX != _iGridX || gridY != _iGridY)
 	{
-		if (_bDrawCursor)
+		if (_bInRegion)
 			pView->LogicInvalidate(&_rcTile);	//刷新老的
 
 		_rcTile = rc;
@@ -106,7 +107,7 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 	_iGridX = gridX;
 	_iGridY = gridY;
 	_rcTile = rc;
-	_bDrawCursor = true;
+	_bInRegion = true;
 
 	((CMainFrame*)AfxGetMainWnd())->SetCursorPosition(_iGridX, _iGridY);
 }
@@ -119,9 +120,9 @@ void ToolBase::OnTurnOn()
 
 void ToolBase::OnTurnOff()
 {
-	if (_bDrawCursor)
+	if (_bInRegion)
 	{
-		_bDrawCursor = false;
+		_bInRegion = false;
 
 		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
 		pView->LogicInvalidate(&_rcTile);	//刷新老的
