@@ -17,7 +17,9 @@ public:
 
 protected:
 
+	bool				_bInRegion;
 	bool				_bDrawCursor;
+
 	CRect				_rcTile;
 	int					_iGridX;
 	int					_iGridY;

@@ -14,6 +14,7 @@
 ToolBrush::ToolBrush()
 {
 	_refCursor		= RGB(192, 192, 0);
+	_bDrawCursor	= true;
 	_rcOldSelected.SetRectEmpty();
 }
 
@@ -23,7 +24,7 @@ ToolBrush::~ToolBrush()
 
 void ToolBrush::Draw(CDC* pDC)
 {
-	if (!_bDrawCursor)
+	if (!_bInRegion)
 		return;
 
 	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
@@ -40,7 +41,7 @@ void ToolBrush::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	ToolBase::OnLButtonDown(nFlags, point);
 
-	if (!_bDrawCursor)
+	if (!_bInRegion)
 		return;
 
 	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
@@ -63,7 +64,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 {
 	ToolBase::OnMouseMove(nFlags, point);
 
-	if (!_bDrawCursor)
+	if (!_bInRegion)
 	{
 		//清除上一次绘制的拖动内容
 		if (!_rcOldSelected.IsRectEmpty())

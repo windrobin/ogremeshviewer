@@ -18,7 +18,7 @@ ToolSelect::~ToolSelect()
 
 void ToolSelect::Draw(CDC* pDC)
 {
-	//ToolBase::Draw(pDC);
+	ToolBase::Draw(pDC);
 
 }
 
