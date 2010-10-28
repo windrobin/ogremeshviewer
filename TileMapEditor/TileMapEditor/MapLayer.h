@@ -52,11 +52,13 @@ public:
 	/**获取当前像素点的Tile
 	*	@return	如果有多个返回第一个，无则返回0
 	*/
-	STile*					TileHitTest(CPoint ptPixel);
+	STile*					TileHitTest(CPoint ptPixel, CPoint& ptGrid);
 
 	/**在当前网格坐标增加或修改STile，并更新视图
 	*/
 	bool					AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID);
+
+	bool					MoveTile(STile* pTile, CPoint ptNewGrid);
 
 	/**删除当前网格坐标的STile，并更新视图
 	*/

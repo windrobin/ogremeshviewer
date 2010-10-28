@@ -30,7 +30,7 @@ void ToolSelect::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!pLayer)
 		return;
 
-	STile* pTile = pLayer->TileHitTest(point);
+	STile* pTile = pLayer->TileHitTest(point, _ptStartGrid);
 	if (!pTile)
 		return;
 
@@ -46,6 +46,28 @@ void ToolSelect::OnLButtonUp(UINT nFlags, CPoint point)
 void ToolSelect::OnMouseMove(UINT nFlags, CPoint point)
 {
 	ToolBase::OnMouseMove(nFlags, point);
+
+	if ( _pSelectedTile && (nFlags & MK_LBUTTON) == MK_LBUTTON)
+	{
+		//编辑
+		MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+		if (!pLayer)
+			return;
+
+		CPoint ptCurGrid = CPoint(_iGridX, _iGridY);
+		CPoint ptOffset = ptCurGrid - _ptStartGrid;
+		if (ptOffset.x != 0 || ptOffset.y != 0 )
+		{
+			CPoint ptNew = CPoint(_pSelectedTile->_posX, _pSelectedTile->_posY);
+			ptNew.Offset(ptOffset);
+			_ptStartGrid = ptCurGrid;
+
+			if( pLayer->MoveTile(_pSelectedTile, ptNew) )
+			{
+				Log_Info("Tile移动成功，位置: (" << _pSelectedTile->_posX << ", " << _pSelectedTile->_posY << ") 资源组：" << _pSelectedTile->_strResGroup << " : " << _pSelectedTile->_strResItemID);
+			}
+		}
+	}
 
 }
 

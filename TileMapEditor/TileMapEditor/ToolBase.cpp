@@ -79,8 +79,8 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView();
 
 	int gridX, gridY;
-	CRect rc;
-	if(!pLayer->ToolHitTest(point, gridX, gridY, rc))
+	CRect rcPixel;
+	if(!pLayer->ToolHitTest(point, gridX, gridY, rcPixel))
 	{
 		if (_bInRegion)
 			pView->LogicInvalidate(&_rcTile);	//刷新老的
@@ -100,13 +100,13 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 		if (_bInRegion)
 			pView->LogicInvalidate(&_rcTile);	//刷新老的
 
-		_rcTile = rc;
+		_rcTile = rcPixel;
 		pView->LogicInvalidate(&_rcTile);		//绘制新的
 	}
 
 	_iGridX = gridX;
 	_iGridY = gridY;
-	_rcTile = rc;
+	_rcTile = rcPixel;
 	_bInRegion = true;
 
 	((CMainFrame*)AfxGetMainWnd())->SetCursorPosition(_iGridX, _iGridY);
