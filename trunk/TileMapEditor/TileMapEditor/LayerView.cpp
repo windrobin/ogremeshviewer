@@ -6,6 +6,8 @@
 #include "TileMapEditor.h"
 
 #include "MapLayer.h"
+#include "ToolManager.h"
+#include "ToolSelect.h"
 
 using namespace Cactus;
 
@@ -182,11 +184,17 @@ void LayerView::OnItemStateChanged(NMHDR *pNMHDR, LRESULT *pResult)
 
 		if (lpView->uNewState & LVIS_SELECTED)
 		{
-			pData->_bSelected = true;
+			Log_Info("选择Tile，位置: (" << pData->_posX << ", " << pData->_posY << ") 资源组：" << pData->_strResGroup << " : " << pData->_strResItemID);
+
+			ToolSelect* pSelectTool = (ToolSelect*)ToolManager::getSingleton().GetTool(eToolSelect);
+			pSelectTool->SelectTile(pData, true);
 		}
 		else if (lpView->uOldState & LVIS_SELECTED)
 		{
-			pData->_bSelected = false;
+			Log_Info("选择Tile，位置: (" << pData->_posX << ", " << pData->_posY << ") 资源组：" << pData->_strResGroup << " : " << pData->_strResItemID);
+
+			ToolSelect* pSelectTool = (ToolSelect*)ToolManager::getSingleton().GetTool(eToolSelect);
+			pSelectTool->SelectTile(pData, false);
 		}
 	}
 

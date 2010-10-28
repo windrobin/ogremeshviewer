@@ -104,6 +104,10 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 	if (tilesList.size() > 0)
 		tilesList.sort(STile_less);
 
+	CPen pen(PS_SOLID, 1, RGB(231, 165, 25));
+	CPen* pOldPen = pDC->SelectObject(&pen);
+	pDC->SelectStockObject(NULL_BRUSH);
+
 	for (Cactus::list<STile*>::type::iterator it = tilesList.begin(); it != tilesList.end(); ++it)
 	{
 		STile* pTile = *it;
@@ -111,29 +115,17 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 		Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
 		if (pRes)
 		{
-			CRect rc = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
-			pRes->Draw(pDC, rc, pTile->_strResItemID);
-		}
-	}
+			CRect rcPixel = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
+			pRes->Draw(pDC, rcPixel, pTile->_strResItemID);
 
-	/*
-	for (RegionTileMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
-	{
-		TileVectorType& tiles = it->second;
-
-		for (size_t t = 0; t < tiles.size(); ++t)
-		{
-			STile& tile = tiles[t];
-
-			Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
-			if (pRes)
+			if (pTile->_bSelected)
 			{
-				CRect rc = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
-				pRes->Draw(pDC, rc, pTile->_strResItemID);
+				CRect rcDest = pRes->GetResItemBoundingRect(rcPixel, pTile->_strResItemID);
+				pDC->Rectangle(rcDest);
 			}
 		}
 	}
-	*/
+	pDC->SelectObject(pOldPen);
 }
 
 bool MapLayer::ToolHitTest(CPoint ptPixel, int& gridX, int& gridY, CRect& rcPixel)
@@ -150,6 +142,45 @@ bool MapLayer::ToolHitTest(CPoint ptPixel, int& gridX, int& gridY, CRect& rcPixe
 
 	return bInRegion;
 }
+
+STile* MapLayer::TileHitTest(CPoint ptPixel)
+{
+	CPoint ptGrid;
+	bool bInRegion = _pParentMap->GetGridCoord(ptPixel, ptGrid);
+	if (!bInRegion)
+		return 0;
+
+	int regionID = _pParentMap->GetRegionID(ptGrid);
+	if( regionID == -1 )
+		return 0;
+
+	TileVectorType& tiles = _GroupTiles[regionID];
+
+	for (size_t t = 0; t < tiles.size(); ++t)
+	{
+		STile* pTile = tiles[t];
+
+		if(pTile->_posX == ptGrid.x && pTile->_posY == ptGrid.y)
+		{
+			return pTile;
+		}
+		else
+		{
+			Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
+
+			CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
+			CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, pTile->_strResItemID);
+
+			if (rcDest.PtInRect(ptPixel))
+			{
+				return pTile;
+			}
+		}
+	}
+
+	return 0;
+}
+
 
 void MapLayer::UpdateTileInfoInMapLayer(STile* pTile, ETileOp e/* = eTileOpAdd*/)
 {
@@ -170,7 +201,7 @@ void MapLayer::UpdateTileInfoInMapLayer(STile* pTile, ETileOp e/* = eTileOpAdd*/
 	}
 }
 
-void MapLayer::UpdateTileVisual(STile* pTile)
+void MapLayer::UpdateTileVisual(STile* pTile, bool bEnsureVisible/* = false*/)
 {
 	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST( CMainFrame, AfxGetMainWnd() );
 	if (pMainFrame)
@@ -182,6 +213,11 @@ void MapLayer::UpdateTileVisual(STile* pTile)
 		Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
 		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, pTile->_strResItemID);
 		pMapView->LogicInvalidate(rcDest);
+
+		if (bEnsureVisible)
+		{
+			// TODO
+		}
 	}
 }
 

@@ -30,6 +30,12 @@ ToolManager::~ToolManager()
 	}
 }
 
+ToolBase* ToolManager::GetTool(EToolType e)
+{
+	return _tools[e];
+}
+
+
 void ToolManager::SetDocument(CTileMapEditorDoc* pDoc)
 {
 	_pDoc = pDoc;
