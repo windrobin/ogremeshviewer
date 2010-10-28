@@ -140,7 +140,7 @@ void MapThumbnailView::OnPaint()
 		//ªÊ÷∆ ‘Õº∑∂Œß
 		CPen pen2(PS_SOLID, 1, RGB(0, 0, 255));
 		CPen* pOldPen2 = memDC.SelectObject(&pen2);
-		memDC.SelectStockObject(LTGRAY_BRUSH);
+		//memDC.SelectStockObject(LTGRAY_BRUSH);
 		memDC.Rectangle(_rcThumbView);
 		memDC.SelectObject(pOldPen2);
 	}

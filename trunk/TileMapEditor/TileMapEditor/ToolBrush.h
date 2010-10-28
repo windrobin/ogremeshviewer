@@ -19,7 +19,7 @@ public:
 
 
 protected:
-	Cactus::String		_strResKey;
+	Cactus::String		_strResGroup;
 	Cactus::String		_strResID;
 
 	CRect				_rcOldSelected;

@@ -17,6 +17,7 @@ using namespace Cactus;
 //////////////////////////////////////////////////////////////////////
 
 LayerView::LayerView()
+: _pLayer(0)
 {
 }
 
@@ -34,10 +35,11 @@ BEGIN_MESSAGE_MAP(LayerView, CDockablePane)
 	ON_COMMAND(ID_TOOLBAR_MAPLAYER_SELECT_SIMILAR, OnInvertSelect)
 	ON_COMMAND(ID_TOOLBAR_MAPLAYER_INVERT_SELECT, OnSelectSimilar)
 	ON_COMMAND(ID_TOOLBAR_MAPLAYER_DELETE_SELECT, OnDeleteSelection)
-	
 
-	//ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
-	//ON_UPDATE_COMMAND_UI_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnUpdateSort)
+	ON_NOTIFY(LVN_COLUMNCLICK, M_ListCtrl_ID, OnLvnColumnclickList)
+	ON_NOTIFY(NM_CLICK, M_ListCtrl_ID, OnNMclickList)
+	ON_NOTIFY(LVN_ITEMCHANGED, M_ListCtrl_ID, OnItemStateChanged)
+
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -65,12 +67,13 @@ int LayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_REPORT | LVS_SORTASCENDING;
 	_listObjects.Create(dwViewStyle, CRect(0, 0, 100, 100), this, M_ListCtrl_ID);
 	//_listObjects.SetBkColor(0);
+	_listObjects.SetExtendedStyle(LVS_EX_FULLROWSELECT);
 
-	_listObjects.InsertColumn(0, "资源类"	, LVCFMT_LEFT, 60);
-	_listObjects.InsertColumn(1, "资源ID"	, LVCFMT_LEFT, 60);
-	_listObjects.InsertColumn(2, "网格X坐标", LVCFMT_LEFT, 80);
-	_listObjects.InsertColumn(3, "网格Y坐标", LVCFMT_LEFT, 80);
-	_listObjects.InsertColumn(4, "区域"	, LVCFMT_LEFT, 60);
+	_listObjects.InsertColumn(0, "资源类"	, LVCFMT_LEFT, 50);
+	_listObjects.InsertColumn(1, "资源ID"	, LVCFMT_LEFT, 70);
+	_listObjects.InsertColumn(2, "X", LVCFMT_LEFT, 25);
+	_listObjects.InsertColumn(3, "Y", LVCFMT_LEFT, 25);
+	_listObjects.InsertColumn(4, "区域"	, LVCFMT_LEFT, 40);
 
 	return 0;
 }
@@ -118,15 +121,150 @@ void LayerView::OnClassAddMemberFunction()
 	AfxMessageBox(_T("添加成员函数..."));
 }
 
+int CALLBACK MyCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+	STile* pData1 = (STile*)lParam1;
+	STile* pData2 = (STile*)lParam2;
+
+	int iColum = (int)lParamSort;
+	if (iColum == 0)		//资源类
+	{
+		return pData1->_strResGroup > pData2->_strResGroup;
+	}
+	else if (iColum == 1)	//资源ID
+	{
+		return pData1->_strResItemID > pData2->_strResItemID;
+	}
+	else if (iColum == 2)	//X
+	{
+		return pData1->_posX - pData2->_posX;
+	}
+	else if (iColum == 3)	//Y
+	{
+		return pData1->_posY - pData2->_posY;
+	}
+	else if (iColum == 4)	//区域
+	{
+		return pData1->_regionID - pData2->_regionID;
+	}
+
+	return (int)(lParam1 - lParam2);
+}
+
+
+void LayerView::OnLvnColumnclickList(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+
+	_listObjects.SortItems(MyCompareProc, pNMLV->iSubItem);
+
+	*pResult = 0;
+}
+
+void LayerView::OnNMclickList(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	POSITION pos = _listObjects.GetFirstSelectedItemPosition();
+	if(pos != NULL)
+	{
+		int nItem = _listObjects.GetNextSelectedItem(pos);
+	}
+
+	*pResult = 0;
+}
+
+void LayerView::OnItemStateChanged(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW lpView = (LPNMLISTVIEW) pNMHDR;
+
+	if (lpView->iItem != -1 && lpView->uChanged != 0)
+	{
+		STile* pData = (STile*)_listObjects.GetItemData(lpView->iItem);
+
+		if (lpView->uNewState & LVIS_SELECTED)
+		{
+			pData->_bSelected = true;
+		}
+		else if (lpView->uOldState & LVIS_SELECTED)
+		{
+			pData->_bSelected = false;
+		}
+	}
+
+	*pResult = 0;
+}
+
 void LayerView::SetCurrentLayer(MapLayer* pLayer)
 {
-	if (pLayer)
-	{
-	}
-	else
-	{
+	if (_pLayer == pLayer)
+		return;
 
+	_pLayer = pLayer;
+	_listObjects.DeleteAllItems();
+
+	if (_pLayer)
+	{
+		_pLayer->FillMapLayerList();
 	}
+}
+
+void LayerView::AddTileInfo(STile* pTile)
+{
+	int iIndex = _listObjects.InsertItem(_listObjects.GetItemCount(), _T(""));
+
+	_listObjects.SetItemText(iIndex, 0, pTile->_strResGroup.c_str());
+	_listObjects.SetItemText(iIndex, 1, pTile->_strResItemID.c_str());
+	
+	CString strTmp;
+	strTmp.Format("%d", pTile->_posX);
+	_listObjects.SetItemText(iIndex, 2, strTmp);
+
+	strTmp.Format("%d", pTile->_posY);
+	_listObjects.SetItemText(iIndex, 3, strTmp);
+
+	strTmp.Format("%d", pTile->_regionID);
+	_listObjects.SetItemText(iIndex, 4, strTmp);
+
+	_listObjects.SetItemData(iIndex, DWORD_PTR(pTile));
+}
+
+bool LayerView::UpdateTileInfo(STile* pTile)
+{
+	for (size_t t = 0; t < _listObjects.GetItemCount(); ++t)
+	{
+		STile* pData = (STile*)_listObjects.GetItemData(t);
+		if (pTile == pData)
+		{
+			CString strTmp;
+			strTmp.Format("%d", pTile->_posX);
+			_listObjects.SetItemText(t, 2, strTmp);
+
+			strTmp.Format("%d", pTile->_posY);
+			_listObjects.SetItemText(t, 3, strTmp);
+
+			strTmp.Format("%d", pTile->_regionID);
+			_listObjects.SetItemText(t, 4, strTmp);
+			
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool LayerView::RemoveTileInfo(STile* pTile)
+{
+	for (size_t t = 0; t < _listObjects.GetItemCount(); ++t)
+	{
+		STile* pData = (STile*)_listObjects.GetItemData(t);
+		if (pTile == pData)
+		{
+			_listObjects.DeleteItem(t);
+			
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void LayerView::OnInvertSelect()
@@ -139,5 +277,4 @@ void LayerView::OnSelectSimilar()
 
 void LayerView::OnDeleteSelection()
 {
-
 }

@@ -4,14 +4,20 @@
 
 struct STile 
 {
+	STile()
+	{
+		_bSelected = false;
+	}
+
 	int				_posX;			///网格坐标X
 	int				_posY;			///网格坐标Y
 	int				_regionID;		///所在的RegionID
 	Cactus::String	_strResGroup;	///使用的资源组
 	Cactus::String	_strResItemID;	///使用的资源
+	bool			_bSelected;
 };
 
-typedef Cactus::vector<STile>::type		TileVectorType;
+typedef Cactus::vector<STile*>::type		TileVectorType;
 
 class MapLayer : public PropertySys::SupportRTTI<MapLayer, MapBaseObject>
 {
@@ -35,11 +41,42 @@ public:
 	virtual Cactus::String	GetObjectName(){ return _strName; }
 	virtual bool			IsLayer(){ return true; }
 
-	bool					ToolHitTest(CPoint pt, int& gridX, int& gridY, CRect& rc);
+	/**获取当前像素点的网格坐标和网格像素范围
+	*	@param	ptPixel	当前像素坐标
+	*	@param	girdX	返回的网格X坐标
+	*	@param	girdY	返回的网格Y坐标
+	*	@param	rcPixel	返回的网格的像素范围
+	*/
+	bool					ToolHitTest(CPoint ptPixel, int& gridX, int& gridY, CRect& rcPixel);
 
-	bool					AddOrModifyTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID);
-	bool					ClearTile(int gridX, int gridY);
-	bool					GetTileInfo(int gridX, int gridY, STile& tile);
+	/**在当前网格坐标增加或修改STile，并更新视图
+	*/
+	bool					AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID);
+
+	/**删除当前网格坐标的STile，并更新视图
+	*/
+	bool					RemoveTile(int gridX, int gridY);
+
+	/**获取当前网格坐标的STile信息
+	*/
+	STile*					GetTileInfo(int gridX, int gridY);
+
+	enum ETileOp
+	{
+		eTileOpAdd,
+		eTileOpRemove,
+		eTileOpUpdate
+	};
+	/**填充地层面板中STile列表
+	*/
+	void					FillMapLayerList();
+	/**填充地层面板中STile列表
+	*/
+	void					UpdateTileInfoInMapLayer(STile* pTile, ETileOp e = eTileOpAdd);
+
+	/**更新制定STile视图绘制
+	*/
+	void					UpdateTileVisual(STile* pTile);
 
 protected:
 	Map*				_pParentMap;
