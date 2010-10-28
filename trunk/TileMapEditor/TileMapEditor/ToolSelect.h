@@ -22,4 +22,5 @@ public:
 
 protected:
 	STile*	_pSelectedTile;
+	CPoint	_ptStartGrid;
 };

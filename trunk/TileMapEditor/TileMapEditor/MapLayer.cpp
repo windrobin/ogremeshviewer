@@ -143,9 +143,8 @@ bool MapLayer::ToolHitTest(CPoint ptPixel, int& gridX, int& gridY, CRect& rcPixe
 	return bInRegion;
 }
 
-STile* MapLayer::TileHitTest(CPoint ptPixel)
+STile* MapLayer::TileHitTest(CPoint ptPixel, CPoint& ptGrid)
 {
-	CPoint ptGrid;
 	bool bInRegion = _pParentMap->GetGridCoord(ptPixel, ptGrid);
 	if (!bInRegion)
 		return 0;
@@ -220,6 +219,44 @@ void MapLayer::UpdateTileVisual(STile* pTile, bool bEnsureVisible/* = false*/)
 		}
 	}
 }
+
+
+bool MapLayer::MoveTile(STile* pTile, CPoint ptNewGrid)
+{
+	int regionID = _pParentMap->GetRegionID(ptNewGrid);
+	if( regionID == -1 )
+		return false;
+
+	if (regionID != pTile->_regionID)
+	{
+		TileVectorType& tiles = _GroupTiles[pTile->_regionID];
+
+		for (size_t t = 0; t < tiles.size(); ++t)
+		{
+			if(pTile == tiles[t])
+			{
+				tiles.erase(tiles.begin() + t);
+				break;
+			}
+		}
+
+		_GroupTiles[regionID].push_back(pTile);
+	}
+
+	STile tileOld = *pTile;
+
+	pTile->_regionID	= regionID;
+	pTile->_posX		= ptNewGrid.x;
+	pTile->_posY		= ptNewGrid.y;
+
+	UpdateTileInfoInMapLayer(pTile, eTileOpUpdate);
+
+	UpdateTileVisual(&tileOld);
+	UpdateTileVisual(pTile);
+
+	return true;
+}
+
 
 
 bool MapLayer::AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID)
