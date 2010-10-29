@@ -26,7 +26,7 @@ void ToolSelect::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	ToolBase::OnLButtonDown(nFlags, point);
 
-	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+	MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 	if (!pLayer)
 		return;
 
@@ -50,7 +50,7 @@ void ToolSelect::OnMouseMove(UINT nFlags, CPoint point)
 	if ( _pSelectedTile && (nFlags & MK_LBUTTON) == MK_LBUTTON)
 	{
 		//±à¼­
-		MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+		MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 		if (!pLayer)
 			return;
 
@@ -84,7 +84,7 @@ void ToolSelect::OnTurnOff()
 
 	if (_pSelectedTile)
 	{
-		MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+		MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 		if (!pLayer)
 			return;
 
@@ -97,7 +97,7 @@ void ToolSelect::OnTurnOff()
 
 void ToolSelect::SelectTile(STile* pTile, bool bSelect/* = true*/)
 {
-	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+	MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 	if (!pLayer)
 		return;
 

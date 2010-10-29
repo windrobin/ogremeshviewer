@@ -30,7 +30,7 @@ void ToolBrush::Draw(CDC* pDC)
 	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
 	if (pRes)
 	{
-		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(_ptGrid);
+		CRect rc = ToolManager::getSingleton().GetMap()->GetPixelCoordRect(_ptGrid);
 		pRes->Draw(pDC, rc, _strResID);
 	}
 
@@ -44,7 +44,7 @@ void ToolBrush::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!_bInRegion)
 		return;
 
-	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+	MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 	if (!pLayer)
 		return;
 
@@ -81,7 +81,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 	if ( (nFlags & MK_LBUTTON) == MK_LBUTTON)
 	{
 		//±à¼­
-		MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+		MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 		if (!pLayer)
 			return;
 
@@ -97,7 +97,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
 	if (pRes)
 	{
-		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(_ptGrid);
+		CRect rc = ToolManager::getSingleton().GetMap()->GetPixelCoordRect(_ptGrid);
 		CRect rcDest = pRes->GetResItemBoundingRect(rc, _strResID);
 
 		rcDirty.UnionRect(&rcDirty, rcDest);

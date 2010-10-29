@@ -5,7 +5,6 @@
 #include "MainFrm.h"
 
 #include "ToolManager.h"
-#include "TileMapEditorDoc.h"
 #include "Map.h"
 
 using namespace Cactus;
@@ -154,7 +153,7 @@ void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const Cactus::Stri
 
 	CxImage* pImage = _images[strID];
 
-	if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
+	if (ToolManager::getSingleton().GetMap()->GetType() == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
 
@@ -182,7 +181,7 @@ CRect ResourceTileFolder::GetResItemBoundingRect(const CRect& curTile, const Cac
 	CxImage* pImage = _images[strID];
 
 	CRect rcDest;
-	if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
+	if (ToolManager::getSingleton().GetMap()->GetType() == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
 

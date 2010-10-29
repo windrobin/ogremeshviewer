@@ -6,7 +6,6 @@
 
 #include "TileMapEditorView.h"
 #include "ToolManager.h"
-#include "TileMapEditorDoc.h"
 #include "Map.h"
 
 #include "MemDC.h"
@@ -121,7 +120,7 @@ void MapThumbnailView::OnPaint()
 		CPen* pOldPen = memDC.SelectObject(&pen);
 		memDC.SelectStockObject(NULL_BRUSH);
 
-		if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
+		if (ToolManager::getSingleton().GetMap()->GetType() == eRectangle)
 		{
 			memDC.Rectangle(rcDoc);
 		}

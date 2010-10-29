@@ -62,7 +62,7 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	
 	_theMap.CalculateRegionInfo();
 
-	ToolManager::getSingleton().SetDocument(this);
+	ToolManager::getSingleton().OnNewMap(&_theMap);
 
 	if (dlg._bCreateLayer)
 	{

@@ -5,15 +5,14 @@
 #include "ToolBrush.h"
 #include "ToolRemove.h"
 
-#include "TileMapEditorDoc.h"
-
 using namespace Cactus;
 
 ToolManager* Cactus::Singleton<ToolManager>::s_pSingleton = 0;
 
 ToolManager::ToolManager()
 : _eCurToolType(eToolSelect)
-, _pDoc(0)
+, _pCurMap(0)
+, _pCurLayer(0)
 {
 	_tools[eToolSelect]	= new ToolSelect;
 	_tools[eToolBrush]	= new ToolBrush;
@@ -35,12 +34,6 @@ ToolBase* ToolManager::GetTool(EToolType e)
 	return _tools[e];
 }
 
-
-void ToolManager::SetDocument(CTileMapEditorDoc* pDoc)
-{
-	_pDoc = pDoc;
-}
-
 ToolBase* ToolManager::SelectTool(EToolType e)
 {
 	if (e != _eCurToolType)
@@ -60,3 +53,21 @@ ToolBase* ToolManager::GetCurrentTool()
 	return _tools[_eCurToolType];
 }
 
+void ToolManager::OnNewMap(Map* pMap)
+{
+	_pCurMap = pMap;
+
+	_tools[_eCurToolType]->OnNewMap(_pCurMap);
+}
+
+void ToolManager::OnMapClose(Map* pMap)
+{
+	_pCurMap = 0;
+	_tools[_eCurToolType]->OnMapClose(pMap);
+}
+
+void ToolManager::OnCurrentMapLayer(MapLayer* pLayer)
+{
+	_pCurLayer = pLayer;
+	_tools[_eCurToolType]->OnCurrentMapLayer(pLayer);
+}

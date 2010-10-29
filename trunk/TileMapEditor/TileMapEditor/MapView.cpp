@@ -8,8 +8,6 @@
 #include "Map.h"
 
 #include "ToolManager.h"
-#include "TileMapEditorDoc.h"
-
 #include "DialogNewLayer.h"
 
 #define M_TreeID	(WM_USER + 100)
@@ -282,11 +280,11 @@ void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 			BOOL b = _TreeMapItem.GetCheck(hItem);	//得到的状态是点击前的...
 			if (b == TRUE)
 			{
-				ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(pLayer, false);
+				ToolManager::getSingleton().GetMap()->ShowLayer(pLayer, false);
 			}
 			else
 			{
-				ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(pLayer, true, true);
+				ToolManager::getSingleton().GetMap()->ShowLayer(pLayer, true, true);
 			}
 		}
 	}
@@ -302,7 +300,7 @@ void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 				MapLayer* pLayer = (MapLayer*)pObject;
 
 				if (pLayer->IsVisible())
-					ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(pLayer);
+					ToolManager::getSingleton().GetMap()->SetCurLayer(pLayer);
 			}
 		}
 	}
@@ -329,7 +327,7 @@ void MapView::OnNMDblclkTree(NMHDR *pNMHDR, LRESULT *pResult)
 				_TreeMapItem.SetCheck(hItem);
 			}
 
-			ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(pLayer);
+			ToolManager::getSingleton().GetMap()->SetCurLayer(pLayer);
 		}
 	}
 
@@ -393,7 +391,7 @@ void MapView::OnLayerSetCurrent()
 	if(_pSelectedLayer)
 	{
 		_TreeMapItem.SetCheck(_hSelectedItem);
-		ToolManager::getSingleton().GetDocument()->GetMap().SetCurLayer(_pSelectedLayer);
+		ToolManager::getSingleton().GetMap()->SetCurLayer(_pSelectedLayer);
 	}
 }
 
@@ -403,9 +401,9 @@ void MapView::OnLayerInsert()
 	if (dlg.DoModal() == IDOK)
 	{
 		MapLayer* pLayer = new MapLayer;
-		pLayer->Init((LPCTSTR)dlg._strLayerName, &ToolManager::getSingleton().GetDocument()->GetMap());
+		pLayer->Init((LPCTSTR)dlg._strLayerName, ToolManager::getSingleton().GetMap());
 
-		if( ToolManager::getSingleton().GetDocument()->GetMap().AddLayer(pLayer) )
+		if( ToolManager::getSingleton().GetMap()->AddLayer(pLayer) )
 		{
 			HTREEITEM hItem = _TreeMapItem.InsertItem(pLayer->GetObjectName().c_str(), 3, 3, _hLayerRoot);
 			_TreeMapItem.SetItemData(hItem, (DWORD_PTR)pLayer);
@@ -428,7 +426,7 @@ void MapView::OnLayerShow()
 		{
 			_TreeMapItem.SetCheck(_hSelectedItem);
 
-			ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(_pSelectedLayer, true, false);
+			ToolManager::getSingleton().GetMap()->ShowLayer(_pSelectedLayer, true, false);
 		}
 	}
 }
@@ -441,7 +439,7 @@ void MapView::OnLayerHide()
 		{
 			_TreeMapItem.SetCheck(_hSelectedItem, 0);
 
-			ToolManager::getSingleton().GetDocument()->GetMap().ShowLayer(_pSelectedLayer, false, false);
+			ToolManager::getSingleton().GetMap()->ShowLayer(_pSelectedLayer, false, false);
 		}
 	}
 }
@@ -457,7 +455,7 @@ void MapView::OnLayerRemove()
 	{
 		_TreeMapItem.DeleteItem(_hSelectedItem);
 
-		ToolManager::getSingleton().GetDocument()->GetMap().RemoveLayer(_pSelectedLayer);
+		ToolManager::getSingleton().GetMap()->RemoveLayer(_pSelectedLayer);
 	}
 }
 
