@@ -36,9 +36,9 @@ void ToolRemove::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!pLayer)
 		return;
 
-	if( pLayer->RemoveTile(_iGridX, _iGridY) )
+	if( pLayer->RemoveTile(_ptGrid) )
 	{
-		Log_Info("删除Tile成功，位置: (" << _iGridX << ", " << _iGridY << ")" );
+		Log_Info("删除Tile成功，位置: (" << _ptGrid.x << ", " << _ptGrid.y << ")" );
 	}
 }
 
@@ -61,9 +61,9 @@ void ToolRemove::OnMouseMove(UINT nFlags, CPoint point)
 		if (!pLayer)
 			return;
 
-		if( pLayer->RemoveTile(_iGridX, _iGridY) )
+		if( pLayer->RemoveTile(_ptGrid) )
 		{
-			Log_Info("删除Tile成功，位置: (" << _iGridX << ", " << _iGridY << ")" );
+			Log_Info("删除Tile成功，位置: (" << _ptGrid.x << ", " << _ptGrid.y << ")" );
 		}
 	}
 }

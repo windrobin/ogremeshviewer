@@ -9,8 +9,7 @@ struct STile
 		_bSelected = false;
 	}
 
-	int				_posX;			///网格坐标X
-	int				_posY;			///网格坐标Y
+	CPoint			_ptGrid;		///网格坐标
 	int				_regionID;		///所在的RegionID
 	Cactus::String	_strResGroup;	///使用的资源组
 	Cactus::String	_strResItemID;	///使用的资源
@@ -43,11 +42,10 @@ public:
 
 	/**获取当前像素点的网格坐标和网格像素范围
 	*	@param	ptPixel	当前像素坐标
-	*	@param	girdX	返回的网格X坐标
-	*	@param	girdY	返回的网格Y坐标
+	*	@param	ptGrid	返回的网格坐标
 	*	@param	rcPixel	返回的网格的像素范围
 	*/
-	bool					ToolHitTest(CPoint ptPixel, int& gridX, int& gridY, CRect& rcPixel);
+	bool					ToolHitTest(CPoint ptPixel, CPoint& ptGrid, CRect& rcPixel);
 
 	/**获取当前像素点的Tile
 	*	@return	如果有多个返回第一个，无则返回0
@@ -56,17 +54,17 @@ public:
 
 	/**在当前网格坐标增加或修改STile，并更新视图
 	*/
-	bool					AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID);
+	bool					AddOrUpdateTile(CPoint ptGrid, const Cactus::String& resGroup, const Cactus::String& strItemID);
 
 	bool					MoveTile(STile* pTile, CPoint ptNewGrid);
 
 	/**删除当前网格坐标的STile，并更新视图
 	*/
-	bool					RemoveTile(int gridX, int gridY);
+	bool					RemoveTile(CPoint ptGrid);
 
 	/**获取当前网格坐标的STile信息
 	*/
-	STile*					GetTileInfo(int gridX, int gridY);
+	STile*					GetTileInfo(CPoint ptGrid);
 
 	enum ETileOp
 	{

@@ -38,7 +38,7 @@ public:
 	MapThumbnailView*	GetMapThumbnailView(){ return &_MapThumbnailPanel; }
 
 	void				SetCurLayer(MapLayer* pLayer);
-	void				SetCursorPosition(int x, int y);
+	void				SetCursorPosition(const CPoint& pt);
 
 
 protected:  // 控件条嵌入成员

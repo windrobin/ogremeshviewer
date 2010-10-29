@@ -54,17 +54,17 @@ void ToolSelect::OnMouseMove(UINT nFlags, CPoint point)
 		if (!pLayer)
 			return;
 
-		CPoint ptCurGrid = CPoint(_iGridX, _iGridY);
+		CPoint ptCurGrid = _ptGrid;
 		CPoint ptOffset = ptCurGrid - _ptStartGrid;
 		if (ptOffset.x != 0 || ptOffset.y != 0 )
 		{
-			CPoint ptNew = CPoint(_pSelectedTile->_posX, _pSelectedTile->_posY);
+			CPoint ptNew = _pSelectedTile->_ptGrid;
 			ptNew.Offset(ptOffset);
 			_ptStartGrid = ptCurGrid;
 
 			if( pLayer->MoveTile(_pSelectedTile, ptNew) )
 			{
-				Log_Info("Tile移动成功，位置: (" << _pSelectedTile->_posX << ", " << _pSelectedTile->_posY << ") 资源组：" << _pSelectedTile->_strResGroup << " : " << _pSelectedTile->_strResItemID);
+				Log_Info("Tile移动成功，位置: (" << _pSelectedTile->_ptGrid.x << ", " << _pSelectedTile->_ptGrid.y << ") 资源组：" << _pSelectedTile->_strResGroup << " : " << _pSelectedTile->_strResItemID);
 			}
 		}
 	}

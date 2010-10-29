@@ -28,7 +28,7 @@ void ToolBase::Draw(CDC* pDC)
 		pDC->SelectStockObject(NULL_BRUSH);
 		CPen* pOldPen = pDC->SelectObject(&pen);
 
-		CRect rc = _rcTile;
+		CRect rc = _rcTilePixel;
 
 		if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
 		{
@@ -59,7 +59,7 @@ void ToolBase::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!pLayer)
 		return;
 
-	_bInRegion = pLayer->ToolHitTest(point, _iGridX, _iGridY, _rcTile);
+	_bInRegion = pLayer->ToolHitTest(point, _ptGrid, _rcTilePixel);
 }
 
 void ToolBase::OnLButtonUp(UINT nFlags, CPoint point)
@@ -78,38 +78,33 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 
 	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView();
 
-	int gridX, gridY;
 	CRect rcPixel;
-	if(!pLayer->ToolHitTest(point, gridX, gridY, rcPixel))
+	CPoint ptOldGird = _ptGrid;
+	if(!pLayer->ToolHitTest(point, _ptGrid, rcPixel))
 	{
 		if (_bInRegion)
-			pView->LogicInvalidate(&_rcTile);	//刷新老的
+			pView->LogicInvalidate(&_rcTilePixel);	//刷新老的
 
-		_iGridX = -1;
-		_iGridY = -1;
+		_bInRegion	= false;
 
-		_bInRegion = false;
-
-		((CMainFrame*)AfxGetMainWnd())->SetCursorPosition(0, 0);
+		((CMainFrame*)AfxGetMainWnd())->SetCursorPosition(CPoint(0, 0));
 
 		return;
 	}
 
-	if (gridX != _iGridX || gridY != _iGridY)
+	if (ptOldGird != _ptGrid)
 	{
 		if (_bInRegion)
-			pView->LogicInvalidate(&_rcTile);	//刷新老的
+			pView->LogicInvalidate(&_rcTilePixel);	//刷新老的
 
-		_rcTile = rcPixel;
-		pView->LogicInvalidate(&_rcTile);		//绘制新的
+		_rcTilePixel = rcPixel;
+		pView->LogicInvalidate(&_rcTilePixel);		//绘制新的
 	}
 
-	_iGridX = gridX;
-	_iGridY = gridY;
-	_rcTile = rcPixel;
+	_rcTilePixel = rcPixel;
 	_bInRegion = true;
 
-	((CMainFrame*)AfxGetMainWnd())->SetCursorPosition(_iGridX, _iGridY);
+	((CMainFrame*)AfxGetMainWnd())->SetCursorPosition(_ptGrid);
 }
 
 
@@ -125,7 +120,7 @@ void ToolBase::OnTurnOff()
 		_bInRegion = false;
 
 		CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView(); 
-		pView->LogicInvalidate(&_rcTile);	//刷新老的
+		pView->LogicInvalidate(&_rcTilePixel);	//刷新老的
 	}
 
 }
