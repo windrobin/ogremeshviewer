@@ -32,7 +32,7 @@ void ToolRemove::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!_bInRegion)
 		return;
 
-	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+	MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 	if (!pLayer)
 		return;
 
@@ -57,7 +57,7 @@ void ToolRemove::OnMouseMove(UINT nFlags, CPoint point)
 
 	if ( (nFlags & MK_LBUTTON) == MK_LBUTTON)
 	{
-		MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+		MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 		if (!pLayer)
 			return;
 

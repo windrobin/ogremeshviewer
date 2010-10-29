@@ -1,5 +1,8 @@
 #pragma once
 
+class Map;
+class MapLayer;
+
 class ToolBase
 {
 public:
@@ -14,6 +17,10 @@ public:
 
 	virtual void OnTurnOn();
 	virtual void OnTurnOff();
+
+	virtual void OnNewMap(Map* pMap){}
+	virtual void OnMapClose(Map* pMap){}
+	virtual void OnCurrentMapLayer(MapLayer* pLayer){}
 
 protected:
 

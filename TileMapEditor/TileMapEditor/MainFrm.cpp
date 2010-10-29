@@ -600,6 +600,8 @@ void CMainFrame::SetCurLayer(MapLayer* pLayer)
 		_LayerPanel.SetCurrentLayer(0);
 	}
 
+	ToolManager::getSingleton().OnCurrentMapLayer(pLayer);
+
 	_pCurLayerLabel->Redraw();
 }
 

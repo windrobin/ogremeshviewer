@@ -30,7 +30,7 @@ void ToolBase::Draw(CDC* pDC)
 
 		CRect rc = _rcTilePixel;
 
-		if (ToolManager::getSingleton().GetDocument()->GetMap().GetType() == eRectangle)
+		if (ToolManager::getSingleton().GetMap()->GetType() == eRectangle)
 		{
 			rc.DeflateRect(1, 1, 0, 0);
 
@@ -55,7 +55,7 @@ void ToolBase::Draw(CDC* pDC)
 
 void ToolBase::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+	MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 	if (!pLayer)
 		return;
 
@@ -69,7 +69,7 @@ void ToolBase::OnLButtonUp(UINT nFlags, CPoint point)
 
 void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 {
-	MapLayer* pLayer = ToolManager::getSingleton().GetDocument()->GetMap().GetCurLayer();
+	MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 	if (!pLayer)
 	{
 		_bInRegion = false;

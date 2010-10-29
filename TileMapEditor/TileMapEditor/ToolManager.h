@@ -9,7 +9,8 @@ enum EToolType
 };
 
 class ToolBase;
-class CTileMapEditorDoc;
+class Map;
+class MapLayer;
 
 class ToolManager : public Cactus::Singleton<ToolManager>
 {
@@ -17,8 +18,11 @@ public:
 	ToolManager();
 	~ToolManager();
 
-	void				SetDocument(CTileMapEditorDoc* pDoc);
-	CTileMapEditorDoc*	GetDocument(){ return _pDoc; }
+	void	OnNewMap(Map* pMap);
+	void	OnMapClose(Map* pMap);
+	void	OnCurrentMapLayer(MapLayer* pLayer);
+
+	Map*				GetMap(){ return _pCurMap; }
 
 	ToolBase*			SelectTool(EToolType e);
 	ToolBase*			GetCurrentTool();
@@ -28,8 +32,8 @@ public:
 
 protected:
 
-	CTileMapEditorDoc*	_pDoc;
-
+	Map*				_pCurMap;
+	MapLayer*			_pCurLayer;
 	EToolType			_eCurToolType;
 
 	typedef Cactus::map<EToolType, ToolBase*>::type		TypToolMapType;
