@@ -55,19 +55,18 @@ ToolBase* ToolManager::GetCurrentTool()
 
 void ToolManager::OnNewMap(Map* pMap)
 {
-	_pCurMap = pMap;
-
 	_tools[_eCurToolType]->OnNewMap(_pCurMap);
+	_pCurMap = pMap;
 }
 
 void ToolManager::OnMapClose(Map* pMap)
 {
-	_pCurMap = 0;
 	_tools[_eCurToolType]->OnMapClose(pMap);
+	_pCurMap = 0;
 }
 
 void ToolManager::OnCurrentMapLayer(MapLayer* pLayer)
 {
-	_pCurLayer = pLayer;
 	_tools[_eCurToolType]->OnCurrentMapLayer(pLayer);
+	_pCurLayer = pLayer;
 }
