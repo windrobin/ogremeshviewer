@@ -603,10 +603,10 @@ void CMainFrame::SetCurLayer(MapLayer* pLayer)
 	_pCurLayerLabel->Redraw();
 }
 
-void CMainFrame::SetCursorPosition(int x, int y)
+void CMainFrame::SetCursorPosition(const CPoint& pt)
 {
 	CString str;
-	str.Format("光标位置：(%d, %d)", x, y);
+	str.Format("光标位置：(%d, %d)", pt.x, pt.y);
 	_pCurPositionLabel->SetText(str);
 	_pCurPositionLabel->Redraw();
 }

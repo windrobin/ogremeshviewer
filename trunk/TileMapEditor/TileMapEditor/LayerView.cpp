@@ -139,11 +139,11 @@ int CALLBACK MyCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 	}
 	else if (iColum == 2)	//X
 	{
-		return pData1->_posX - pData2->_posX;
+		return pData1->_ptGrid.x - pData2->_ptGrid.x;
 	}
 	else if (iColum == 3)	//Y
 	{
-		return pData1->_posY - pData2->_posY;
+		return pData1->_ptGrid.y - pData2->_ptGrid.y;
 	}
 	else if (iColum == 4)	//区域
 	{
@@ -184,14 +184,14 @@ void LayerView::OnItemStateChanged(NMHDR *pNMHDR, LRESULT *pResult)
 
 		if (lpView->uNewState & LVIS_SELECTED)
 		{
-			Log_Info("选择Tile，位置: (" << pData->_posX << ", " << pData->_posY << ") 资源组：" << pData->_strResGroup << " : " << pData->_strResItemID);
+			Log_Info("选择Tile，位置: (" << pData->_ptGrid.x << ", " << pData->_ptGrid.y << ") 资源组：" << pData->_strResGroup << " : " << pData->_strResItemID);
 
 			ToolSelect* pSelectTool = (ToolSelect*)ToolManager::getSingleton().GetTool(eToolSelect);
 			pSelectTool->SelectTile(pData, true);
 		}
 		else if (lpView->uOldState & LVIS_SELECTED)
 		{
-			Log_Info("选择Tile，位置: (" << pData->_posX << ", " << pData->_posY << ") 资源组：" << pData->_strResGroup << " : " << pData->_strResItemID);
+			Log_Info("选择Tile，位置: (" << pData->_ptGrid.x << ", " << pData->_ptGrid.y << ") 资源组：" << pData->_strResGroup << " : " << pData->_strResItemID);
 
 			ToolSelect* pSelectTool = (ToolSelect*)ToolManager::getSingleton().GetTool(eToolSelect);
 			pSelectTool->SelectTile(pData, false);
@@ -223,10 +223,10 @@ void LayerView::AddTileInfo(STile* pTile)
 	_listObjects.SetItemText(iIndex, 1, pTile->_strResItemID.c_str());
 	
 	CString strTmp;
-	strTmp.Format("%d", pTile->_posX);
+	strTmp.Format("%d", pTile->_ptGrid.x);
 	_listObjects.SetItemText(iIndex, 2, strTmp);
 
-	strTmp.Format("%d", pTile->_posY);
+	strTmp.Format("%d", pTile->_ptGrid.y);
 	_listObjects.SetItemText(iIndex, 3, strTmp);
 
 	strTmp.Format("%d", pTile->_regionID);
@@ -243,10 +243,10 @@ bool LayerView::UpdateTileInfo(STile* pTile)
 		if (pTile == pData)
 		{
 			CString strTmp;
-			strTmp.Format("%d", pTile->_posX);
+			strTmp.Format("%d", pTile->_ptGrid.x);
 			_listObjects.SetItemText(t, 2, strTmp);
 
-			strTmp.Format("%d", pTile->_posY);
+			strTmp.Format("%d", pTile->_ptGrid.y);
 			_listObjects.SetItemText(t, 3, strTmp);
 
 			strTmp.Format("%d", pTile->_regionID);

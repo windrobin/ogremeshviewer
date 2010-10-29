@@ -84,8 +84,8 @@ public:
 		{
 			//<tile posx="0" posy="0" id="0"/>
 			STile* pTile = new STile;
-			pTile->_posX			= attributes.getValueAsInteger("posx");
-			pTile->_posY			= attributes.getValueAsInteger("posy");
+			pTile->_ptGrid.x		= attributes.getValueAsInteger("posx");
+			pTile->_ptGrid.y		= attributes.getValueAsInteger("posy");
 			pTile->_strResGroup		= attributes.getValueAsString("resGroup");
 			pTile->_strResItemID	= attributes.getValueAsString("resItemID");
 			pTile->_regionID		= _iCurRegionGroupTile;
@@ -282,8 +282,8 @@ void Map::Save(const Cactus::String& strPathName)
 				{
 					STile* pTile = itG->second[t];
 					xmlOut.NodeBegin("tile");
-						xmlOut.AddAttribute("posx", pTile->_posX);
-						xmlOut.AddAttribute("posy", pTile->_posY);
+						xmlOut.AddAttribute("posx", pTile->_ptGrid.x);
+						xmlOut.AddAttribute("posy", pTile->_ptGrid.y);
 						xmlOut.AddAttribute("resGroup", pTile->_strResGroup);
 						xmlOut.AddAttribute("resItemID", pTile->_strResItemID);
 					xmlOut.NodeEnd("tile");

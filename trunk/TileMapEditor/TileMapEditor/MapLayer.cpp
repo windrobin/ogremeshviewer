@@ -19,7 +19,7 @@ bool STile_less(const STile* p1, const STile* p2)
 	{
 		if(pRes->GetResourceType() == eResTypeArt)
 		{
-			return _posX + _posY < right._posX + right._posY;
+			return _ptGrid.x + _ptGrid.y < right._ptGrid.x + right._ptGrid.y;
 		}
 		else
 		{
@@ -32,10 +32,10 @@ bool STile_less(const STile* p1, const STile* p2)
 		}
 	}
 
-	return _posX + _posY < right._posX + right._posY;
+	return _ptGrid.x + _ptGrid.y < right._ptGrid.x + right._ptGrid.y;
 #endif
 
-	return p1->_posX + p1->_posY < p2->_posX + p2->_posY;
+	return p1->_ptGrid.x + p1->_ptGrid.y < p2->_ptGrid.x + p2->_ptGrid.y;
 }
 
 
@@ -115,7 +115,7 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 		Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
 		if (pRes)
 		{
-			CRect rcPixel = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
+			CRect rcPixel = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
 			pRes->Draw(pDC, rcPixel, pTile->_strResItemID);
 
 			if (pTile->_bSelected)
@@ -128,16 +128,17 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 	pDC->SelectObject(pOldPen);
 }
 
-bool MapLayer::ToolHitTest(CPoint ptPixel, int& gridX, int& gridY, CRect& rcPixel)
+bool MapLayer::ToolHitTest(CPoint ptPixel, CPoint& ptGrid, CRect& rcPixel)
 {
-	CPoint ptGrid;
 	bool bInRegion = _pParentMap->GetGridCoord(ptPixel, ptGrid);
 	if (bInRegion)
 	{
-		gridX = ptGrid.x;
-		gridY = ptGrid.y;
-
 		rcPixel = _pParentMap->GetPixelCoordRect(ptGrid);
+	}
+	else
+	{
+		ptGrid.x	= -1;
+		ptGrid.y	= -1;
 	}
 
 	return bInRegion;
@@ -155,25 +156,30 @@ STile* MapLayer::TileHitTest(CPoint ptPixel, CPoint& ptGrid)
 
 	TileVectorType& tiles = _GroupTiles[regionID];
 
+	//先判断点击点是否有Tile
 	for (size_t t = 0; t < tiles.size(); ++t)
 	{
 		STile* pTile = tiles[t];
 
-		if(pTile->_posX == ptGrid.x && pTile->_posY == ptGrid.y)
+		if(pTile->_ptGrid.x == ptGrid.x && pTile->_ptGrid.y == ptGrid.y)
 		{
 			return pTile;
 		}
-		else
+	}
+	
+	//再判断点击点是否在某个Tile的包围盒范围内；目前只搜索当前Region，以后可以增加相邻Region
+	for (size_t t = 0; t < tiles.size(); ++t)
+	{
+		STile* pTile = tiles[t];
+
+		Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
+
+		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
+		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, pTile->_strResItemID);
+
+		if (rcDest.PtInRect(ptPixel))
 		{
-			Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
-
-			CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
-			CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, pTile->_strResItemID);
-
-			if (rcDest.PtInRect(ptPixel))
-			{
-				return pTile;
-			}
+			return pTile;
 		}
 	}
 
@@ -207,7 +213,7 @@ void MapLayer::UpdateTileVisual(STile* pTile, bool bEnsureVisible/* = false*/)
 	{
 		//更新绘制
 		CTileMapEditorView* pMapView = (CTileMapEditorView*)pMainFrame->GetActiveView();
-		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_posX, pTile->_posY));
+		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
 
 		Resource* pRes = ResourceManager::getSingleton().GetResource(pTile->_strResGroup);
 		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, pTile->_strResItemID);
@@ -246,8 +252,8 @@ bool MapLayer::MoveTile(STile* pTile, CPoint ptNewGrid)
 	STile tileOld = *pTile;
 
 	pTile->_regionID	= regionID;
-	pTile->_posX		= ptNewGrid.x;
-	pTile->_posY		= ptNewGrid.y;
+	pTile->_ptGrid.x		= ptNewGrid.x;
+	pTile->_ptGrid.y		= ptNewGrid.y;
 
 	UpdateTileInfoInMapLayer(pTile, eTileOpUpdate);
 
@@ -259,9 +265,9 @@ bool MapLayer::MoveTile(STile* pTile, CPoint ptNewGrid)
 
 
 
-bool MapLayer::AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGroup, const Cactus::String& strItemID)
+bool MapLayer::AddOrUpdateTile(CPoint ptGrid, const Cactus::String& resGroup, const Cactus::String& strItemID)
 {
-	int regionID = _pParentMap->GetRegionID(CPoint(gridX, gridY));
+	int regionID = _pParentMap->GetRegionID(ptGrid);
 	if( regionID == -1 )
 		return false;
 
@@ -272,7 +278,7 @@ bool MapLayer::AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGr
 	{
 		STile* pTile = tiles[t];
 
-		if(pTile->_posX == gridX && pTile->_posY == gridY)
+		if(pTile->_ptGrid == ptGrid)
 		{
 			if(pTile->_strResItemID == strItemID && resGroup == pTile->_strResGroup)
 			{
@@ -295,8 +301,7 @@ bool MapLayer::AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGr
 	if (!bFound)
 	{
 		STile* pTile = new STile;
-		pTile->_posX			= gridX;
-		pTile->_posY			= gridY;
+		pTile->_ptGrid			= ptGrid;
 		pTile->_strResItemID	= strItemID;
 		pTile->_strResGroup		= resGroup;
 		pTile->_regionID		= regionID;
@@ -311,9 +316,9 @@ bool MapLayer::AddOrUpdateTile(int gridX, int gridY, const Cactus::String& resGr
 	return true;
 }
 
-bool MapLayer::RemoveTile(int gridX, int gridY)
+bool MapLayer::RemoveTile(CPoint ptGrid)
 {
-	int regionID = _pParentMap->GetRegionID(CPoint(gridX, gridY));
+	int regionID = _pParentMap->GetRegionID(ptGrid);
 	if( regionID == -1 )
 		return false;
 
@@ -326,7 +331,7 @@ bool MapLayer::RemoveTile(int gridX, int gridY)
 	for (size_t t = 0; t < tiles.size(); ++t)
 	{
 		STile* pTile = tiles[t];
-		if(pTile->_posX == gridX && pTile->_posY == gridY)
+		if(pTile->_ptGrid == ptGrid)
 		{
 			tiles.erase(tiles.begin() + t);
 
@@ -340,9 +345,9 @@ bool MapLayer::RemoveTile(int gridX, int gridY)
 	return bFound;
 }
 
-STile* MapLayer::GetTileInfo(int gridX, int gridY)
+STile* MapLayer::GetTileInfo(CPoint ptGrid)
 {
-	int regionID = _pParentMap->GetRegionID(CPoint(gridX, gridY));
+	int regionID = _pParentMap->GetRegionID(ptGrid);
 	if( regionID == -1 )
 		return 0;
 
@@ -354,7 +359,7 @@ STile* MapLayer::GetTileInfo(int gridX, int gridY)
 	bool bFound = false;
 	for (size_t t = 0; t < tiles.size(); ++t)
 	{
-		if(tiles[t]->_posX == gridX && tiles[t]->_posY == gridY)
+		if(tiles[t]->_ptGrid == ptGrid)
 		{
 			return tiles[t];
 		}

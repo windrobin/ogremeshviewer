@@ -30,7 +30,7 @@ void ToolBrush::Draw(CDC* pDC)
 	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
 	if (pRes)
 	{
-		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(CPoint(_iGridX, _iGridY));
+		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(_ptGrid);
 		pRes->Draw(pDC, rc, _strResID);
 	}
 
@@ -48,9 +48,9 @@ void ToolBrush::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!pLayer)
 		return;
 
-	if( pLayer->AddOrUpdateTile(_iGridX, _iGridY, _strResGroup, _strResID) )
+	if( pLayer->AddOrUpdateTile(_ptGrid, _strResGroup, _strResID) )
 	{
-		Log_Info("添加或者修改Tile成功，位置: (" << _iGridX << ", " << _iGridY << ") 资源组：" << _strResGroup << " : " << _strResID);
+		Log_Info("添加或者修改Tile成功，位置: (" << _ptGrid.x << ", " << _ptGrid.y << ") 资源组：" << _strResGroup << " : " << _strResID);
 	}
 }
 
@@ -85,9 +85,9 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 		if (!pLayer)
 			return;
 
-		if( pLayer->AddOrUpdateTile(_iGridX, _iGridY, _strResGroup, _strResID) )
+		if( pLayer->AddOrUpdateTile(_ptGrid, _strResGroup, _strResID) )
 		{
-			Log_Info("添加或者修改Tile成功，位置: (" << _iGridX << ", " << _iGridY << ") 资源组：" << _strResGroup << " : " << _strResID);
+			Log_Info("添加或者修改Tile成功，位置: (" << _ptGrid.x << ", " << _ptGrid.y << ") 资源组：" << _strResGroup << " : " << _strResID);
 		}
 	}
 
@@ -97,7 +97,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
 	if (pRes)
 	{
-		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(CPoint(_iGridX, _iGridY));
+		CRect rc = ToolManager::getSingleton().GetDocument()->GetMap().GetPixelCoordRect(_ptGrid);
 		CRect rcDest = pRes->GetResItemBoundingRect(rc, _strResID);
 
 		rcDirty.UnionRect(&rcDirty, rcDest);

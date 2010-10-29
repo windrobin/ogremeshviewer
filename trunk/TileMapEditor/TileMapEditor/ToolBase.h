@@ -20,9 +20,8 @@ protected:
 	bool				_bInRegion;
 	bool				_bDrawCursor;
 
-	CRect				_rcTile;
-	int					_iGridX;
-	int					_iGridY;
+	CRect				_rcTilePixel;
+	CPoint				_ptGrid;
 
 	COLORREF			_refCursor;
 };
