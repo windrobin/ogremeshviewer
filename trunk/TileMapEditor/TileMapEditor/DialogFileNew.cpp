@@ -14,15 +14,15 @@ DialogFileNew::DialogFileNew(CWnd* pParent /*=NULL*/)
 	: CDialog(DialogFileNew::IDD, pParent)
 	, _strFootnotes(_T("«Î ‰»Î±∏◊¢°£"))
 	, _strMapName(_T("map_xx"))
-	, _iType(0)
+	, _iType(1)
 	, _bCreateLayer(TRUE)
 	, _iRegionW(10)
 	, _iRegionH(10)
 {
-	_iMapWidth			= 20;
-	_iMapHeight			= 20;
+	_iMapWidth			= 50;
+	_iMapHeight			= 50;
 	_iUnitTileWidth		= 64;
-	_iUnitTileHeight	= 64;
+	_iUnitTileHeight	= 32;
 }
 
 DialogFileNew::~DialogFileNew()

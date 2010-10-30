@@ -120,8 +120,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	_LayerPanel.EnableDocking(CBRS_ALIGN_ANY);
 
 	DockPane(&_ResTreePanel);
-	_LayerPanel.DockToWindow(&_ResTreePanel, CBRS_ALIGN_BOTTOM, CRect(0, 0, 200, 200));
-	_MapPanel.DockToWindow(&_ResTreePanel, CBRS_ALIGN_BOTTOM, CRect(0, 0, 200, 200));
+	_LayerPanel.DockToWindow(&_ResTreePanel, CBRS_ALIGN_BOTTOM, CRect(0, 0, 200, 150));
+	_MapPanel.DockToWindow(&_ResTreePanel, CBRS_ALIGN_BOTTOM, CRect(0, 0, 200, 150));
 
 
 	//Right
@@ -139,6 +139,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	_GameObjectEditor.EnableDocking(CBRS_ALIGN_BOTTOM);
 	DockPane(&m_wndOutput);
 	DockPane(&_GameObjectEditor);
+	_GameObjectEditor.ShowPane(FALSE, FALSE, FALSE);
 
 	return 0;
 }

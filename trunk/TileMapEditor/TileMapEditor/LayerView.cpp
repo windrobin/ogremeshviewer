@@ -73,8 +73,8 @@ int LayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	_listObjects.InsertColumn(0, "资源类"	, LVCFMT_LEFT, 50);
 	_listObjects.InsertColumn(1, "资源ID"	, LVCFMT_LEFT, 70);
-	_listObjects.InsertColumn(2, "X", LVCFMT_LEFT, 25);
-	_listObjects.InsertColumn(3, "Y", LVCFMT_LEFT, 25);
+	_listObjects.InsertColumn(2, "X", LVCFMT_LEFT, 30);
+	_listObjects.InsertColumn(3, "Y", LVCFMT_LEFT, 30);
 	_listObjects.InsertColumn(4, "区域"	, LVCFMT_LEFT, 40);
 
 	return 0;
