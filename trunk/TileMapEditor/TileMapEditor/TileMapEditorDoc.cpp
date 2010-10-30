@@ -23,6 +23,7 @@
 IMPLEMENT_DYNCREATE(CTileMapEditorDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CTileMapEditorDoc, CDocument)
+	ON_COMMAND(ID_FILE_NEW, &CTileMapEditorDoc::OnFileNew)
 END_MESSAGE_MAP()
 
 
@@ -41,35 +42,9 @@ BOOL CTileMapEditorDoc::OnNewDocument()
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
-	DialogFileNew dlg;
-	if( dlg.DoModal() != IDOK)
-	{
-		return FALSE;
-	}
-
-	Map map;
-	_theMap = map;
-
-	_theMap._strName			= (LPCTSTR)dlg._strMapName;
-	_theMap._strFootnotes		= (LPCTSTR)dlg._strFootnotes;
-	_theMap._iWidthInTiles		= dlg._iMapWidth;
-	_theMap._iHeightInTiles		= dlg._iMapHeight;
-	_theMap._iUnitTileWidth		= dlg._iUnitTileWidth;
-	_theMap._iUnitTileHeight	= dlg._iUnitTileHeight;
-	_theMap._eMapType			= EMapType(dlg._iType);
-	_theMap._iRegionWidth		= dlg._iRegionW;
-	_theMap._iRegionHeight		= dlg._iRegionH;
-	
 	_theMap.CalculateRegionInfo();
 
 	ToolManager::getSingleton().OnNewMap(&_theMap);
-
-	if (dlg._bCreateLayer)
-	{
-		MapLayer* pLayer = new MapLayer;
-		pLayer->Init("Background", &_theMap);
-		_theMap.AddLayer(pLayer);
-	}
 
 	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 	pMainFrame->GetMapView()->Reset();
@@ -145,4 +120,43 @@ BOOL CTileMapEditorDoc::OnSaveDocument(LPCTSTR lpszPathName)
 
 	//return CDocument::OnSaveDocument(lpszPathName);
 	return TRUE;
+}
+
+void CTileMapEditorDoc::OnFileNew()
+{
+	DialogFileNew dlg;
+	if( dlg.DoModal() != IDOK)
+	{
+		return;
+	}
+
+	Map map;
+	_theMap = map;
+
+	_theMap._strName			= (LPCTSTR)dlg._strMapName;
+	_theMap._strFootnotes		= (LPCTSTR)dlg._strFootnotes;
+	_theMap._iWidthInTiles		= dlg._iMapWidth;
+	_theMap._iHeightInTiles		= dlg._iMapHeight;
+	_theMap._iUnitTileWidth		= dlg._iUnitTileWidth;
+	_theMap._iUnitTileHeight	= dlg._iUnitTileHeight;
+	_theMap._eMapType			= EMapType(dlg._iType);
+	_theMap._iRegionWidth		= dlg._iRegionW;
+	_theMap._iRegionHeight		= dlg._iRegionH;
+
+	if (dlg._bCreateLayer)
+	{
+		MapLayer* pLayer = new MapLayer;
+		pLayer->Init("Background", &_theMap);
+		_theMap.AddLayer(pLayer);
+	}
+
+	_theMap.CalculateRegionInfo();
+
+	ToolManager::getSingleton().OnNewMap(&_theMap);
+
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	pMainFrame->GetMapView()->Reset();
+	pMainFrame->GetPropertyWnd()->Reset();
+
+	pMainFrame->GetMapView()->SetMapObject(&_theMap);
 }
