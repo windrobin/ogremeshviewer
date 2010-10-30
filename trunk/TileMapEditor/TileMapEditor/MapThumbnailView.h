@@ -28,5 +28,6 @@ protected:
 	bool	_bHold;
 	float	_fRatio;
 	bool	_bEnableHoriz;
+	bool	_bEnableVert;
 };
 

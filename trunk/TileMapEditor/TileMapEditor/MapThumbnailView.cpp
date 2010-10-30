@@ -21,6 +21,7 @@ MapThumbnailView::MapThumbnailView()
 : _bHold(false)
 , _fRatio(1)
 , _bEnableHoriz(true)
+, _bEnableVert(true)
 {
 }
 
@@ -108,6 +109,8 @@ void MapThumbnailView::OnPaint()
 
 		_bEnableHoriz = rcDoc.Width() > _rcThumbView.Width();
 
+		_bEnableVert = rcDoc.Height() > _rcThumbView.Height();
+
 		//»æÖÆµØÍ¼ÄÚÈÝ
 		//memDC.SetStretchBltMode(HALFTONE);
 		//memDC.StretchBlt( rcDoc.TopLeft().x + fRatio * ptScroll.x + 1, rcDoc.TopLeft().y + fRatio * ptScroll.y + 1
@@ -182,6 +185,12 @@ void MapThumbnailView::OnMouseMove(UINT nFlags, CPoint point)
 
 		if (!_bEnableHoriz)
 			ptOffset.x = 0;
+
+		if (!_bEnableVert)
+			ptOffset.y = 0;
+
+		if (!_bEnableHoriz && !_bEnableVert)
+			return;
 
 		ptOffset.x /= _fRatio;
 		ptOffset.y /= _fRatio;
