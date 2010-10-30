@@ -261,10 +261,10 @@ void CMainFrame::InitializeRibbon()
 	CMFCRibbonLabel* pLabel = new CMFCRibbonLabel("当前层：");
 	pPanelMapEdit->Add(pLabel);
 
-	_pCurLayerLabel = new CMFCRibbonLabel("MMMMMMMMMMMM");
+	_pCurLayerLabel = new CMFCRibbonLabel("N/A          ");
 	pPanelMapEdit->Add(_pCurLayerLabel);
 
-	_pCurPositionLabel = new CMFCRibbonLabel("光标位置：(xxxx, xxxx)");
+	_pCurPositionLabel = new CMFCRibbonLabel("光标位置：(N/A  , N/A  )");
 	pPanelMapEdit->Add( _pCurPositionLabel  );
 
 	pPanelMapEdit->Add(new CMFCRibbonButton(M_TOOL_SELECT, "选取", 0, 6));
