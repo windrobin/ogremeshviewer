@@ -45,6 +45,7 @@ class ResourceGameObjectGroup : public PropertySys::SupportRTTI<ResourceGameObje
 	friend class ResourceGameObject_xmlHandler;
 public:
 	ResourceGameObjectGroup();
+	ResourceGameObjectGroup(const Cactus::String& strName, const Cactus::String& strArtGroup, CPoint szTile);
 	~ResourceGameObjectGroup();
 
 	virtual bool			Load(){ return _ResGameObjects.size() != 0; }

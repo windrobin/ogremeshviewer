@@ -51,6 +51,7 @@ protected:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // TileMapEditorView.cpp 中的调试版本

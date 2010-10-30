@@ -323,9 +323,9 @@ bool ResourceManager::IsResourceTileIDValid(const Cactus::String& tile, const Ca
 	return false;
 }
 
-ResourceTile* ResourceManager::GetResourceTile(const Cactus::String& strName)
+ResourceTile* ResourceManager::GetResourceTileGroup(const Cactus::String& strGroupName)
 {
-	ResTileType::iterator it = _ResourceTiles.find(strName);
+	ResTileType::iterator it = _ResourceTiles.find(strGroupName);
 	if (it != _ResourceTiles.end())
 	{
 		return it->second;
@@ -334,7 +334,7 @@ ResourceTile* ResourceManager::GetResourceTile(const Cactus::String& strName)
 	return 0;
 }
 
-Resource* ResourceManager::GetResource(const Cactus::String& key)
+Resource* ResourceManager::GetResourceGroup(const Cactus::String& key)
 {
 	if (_ResBackgrounds.find(key) != _ResBackgrounds.end())
 	{
@@ -369,4 +369,27 @@ Cactus::StringVector ResourceManager::GetResourceTileNames()
 bool ResourceManager::IsGameObjectGroupNameValid(const Cactus::String& strName)
 {
 	return (_ResGameObjectGroups.find(strName) == _ResGameObjectGroups.end());
+}
+
+bool ResourceManager::AddGameObjectGroup(ResourceGameObjectGroup* p)
+{
+	_ResGameObjectGroups[p->_strName] = p;
+
+	return true;
+}
+
+
+bool ResourceManager::RemoveGameObjectGroup(const Cactus::String& strName)
+{
+
+	ResGameObjectGroupMapType::iterator it = _ResGameObjectGroups.find(strName);
+	if(it != _ResGameObjectGroups.end())
+	{
+		delete it->second;
+		_ResGameObjectGroups.erase(it);
+		
+		return true;
+	}
+
+	return false;
 }

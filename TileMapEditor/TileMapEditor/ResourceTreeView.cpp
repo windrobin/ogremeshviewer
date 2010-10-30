@@ -7,6 +7,7 @@
 
 #include "ResourceManager.h"
 #include "TileResView.h"
+#include "ResourceGameObject.h"
 
 #include "DialogAddGameObjectGroup.h"
 
@@ -309,7 +310,17 @@ void ResourceTreeView::OnGameObjectGroupAdd()
 	DialogAddGameObjectGroup dlg;
 	if(dlg.DoModal() == IDOK)
 	{
+		ResourceGameObjectGroup* pGO = new ResourceGameObjectGroup((LPCSTR)dlg._strGroupName, dlg._strArtGroup, CPoint(dlg._iTileW, dlg._iTileH));
+		if (!ResourceManager::getSingleton().AddGameObjectGroup(pGO))
+		{
+			delete pGO;
+			MessageBox("添加游戏对象组失败！", "错误", MB_OK | MB_ICONHAND);
 
+			return;
+		}
+
+		HTREEITEM hItem = _ResourceTree.InsertItem(pGO->GetResourceName().c_str(), 2, 2, _treeGameObjectRes);
+		_ResourceTree.SetItemData(hItem, (DWORD_PTR)pGO);
 	}
 }
 void ResourceTreeView::OnUpdateCmdUI_GroupAdd(CCmdUI* pCmdUI)

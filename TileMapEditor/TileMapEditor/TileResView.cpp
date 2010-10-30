@@ -304,6 +304,11 @@ void TileResView::OnNMRclickListItem(NMHDR* pNMHDR, LRESULT* pResult)
 		_listImages.ClientToScreen(&point);
 		theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_POPUP_RESVIEW, point.x, point.y, this, TRUE);
 	}
+	else if (uFlags & LVHT_NOWHERE)
+	{
+		_listImages.ClientToScreen(&point);
+		theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_POPUP_GAMEOBJECT_ADD, point.x, point.y, this, TRUE);
+	}
 
 	*pResult = 0;
 }

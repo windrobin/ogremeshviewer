@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(CTileMapEditorView, CScrollView)
 	ON_WM_MOUSEMOVE()
 	ON_WM_ERASEBKGND()
 	ON_WM_SIZE()
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 // CTileMapEditorView ¹¹Ôì/Îö¹¹
@@ -249,4 +250,12 @@ void CTileMapEditorView::OffsetScrollPos(CPoint pt)
 		if (pMapThumbView->GetSafeHwnd())
 			pMapThumbView->Invalidate();
 	}
+}
+
+void CTileMapEditorView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: Add your message handler code here and/or call default
+	//VK_ESCAPE VK_DELETE VK_SHIFT
+
+	CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
 }

@@ -27,7 +27,7 @@ void ToolBrush::Draw(CDC* pDC)
 	if (!_bInRegion)
 		return;
 
-	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
+	Resource* pRes = ResourceManager::getSingleton().GetResourceGroup(_strResGroup);
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetMap()->GetPixelCoordRect(_ptGrid);
@@ -94,7 +94,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 	CRect rcDirty = _rcOldSelected;
 
 	//»æÖÆÍÏ¶¯ÄÚÈÝ
-	Resource* pRes = ResourceManager::getSingleton().GetResource(_strResGroup);
+	Resource* pRes = ResourceManager::getSingleton().GetResourceGroup(_strResGroup);
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetMap()->GetPixelCoordRect(_ptGrid);

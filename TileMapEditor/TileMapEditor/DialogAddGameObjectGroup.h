@@ -21,9 +21,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CString _strGroupName;
+	Cactus::String	_strArtGroup;
 	CComboBox _comboArList;
 	int _iTileW;
 	int _iTileH;
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedOk();
+
+	Cactus::StringVector	_ArtGroups;
 };
