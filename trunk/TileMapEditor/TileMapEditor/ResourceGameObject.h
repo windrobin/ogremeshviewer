@@ -7,6 +7,7 @@ class ResourceGameObject
 {
 	friend class ResourceGameObject_xmlHandler;
 	friend class ResourceGameObjectGroup;
+	friend class GameObjectEditor;
 public:
 	ResourceGameObject();
 	~ResourceGameObject();
@@ -43,6 +44,7 @@ class ResourceGameObjectGroup : public PropertySys::SupportRTTI<ResourceGameObje
 {
 	friend class ResourceManager;
 	friend class ResourceGameObject_xmlHandler;
+	friend class GameObjectEditor;
 public:
 	ResourceGameObjectGroup();
 	ResourceGameObjectGroup(const Cactus::String& strName, const Cactus::String& strArtGroup, CPoint szTile);

@@ -7,6 +7,10 @@
 
 #include "ToolManager.h"
 #include "ToolBrush.h"
+#include "GameObjectEditor.h"
+
+#include "ResourceManager.h"
+#include "ResourceGameObject.h"
 
 using namespace Cactus;
 
@@ -86,7 +90,8 @@ BUTTON      ID_TOOLBAR_RESDETAIL_EDIT
 //////////////////////////////////////////////////////////////////////
 
 TileResView::TileResView()
-: _iOldCheck(-1)
+: _iCurSelectItem(-1)
+, _iOldCheck(-1)
 {
 }
 
@@ -184,10 +189,10 @@ void TileResView::BuildImageAndInfoes(const Cactus::String& strResKey, EResource
 	_listImages.DeleteAllItems();
 
 	_iOldCheck	= -1;
-	_strResKey	= strResKey;
+	_strResGroup	= strResKey;
 	_eType		= eType;
 
-	_dialogBar._strGroupName	= _strResKey.c_str();
+	_dialogBar._strGroupName	= _strResGroup.c_str();
 	if (_eType == eResTypeArt)
 	{
 		_dialogBar._strResType	= "美术资源";
@@ -244,7 +249,7 @@ void TileResView::OnItemChanged(NMHDR *pNMHDR, LRESULT *pResult)
 
 		//Set brush tool
 		ToolBrush* pBrush = (ToolBrush*)ToolManager::getSingleton().SelectTool(eToolBrush);
-		pBrush->SetResource(_strResKey, (LPCTSTR)str);
+		pBrush->SetResource(_strResGroup, (LPCTSTR)str);
 	} 
 	else if((pNMLV->uOldState & INDEXTOSTATEIMAGEMASK(2)) /* old state : checked */ 
 		&& (pNMLV->uNewState & INDEXTOSTATEIMAGEMASK(1)) /* new state : unchecked */ 
@@ -279,7 +284,7 @@ void TileResView::OnNMDblclkListItem(NMHDR *pNMHDR, LRESULT *pResult)
 
 	////Set brush tool
 	//ToolBrush* pBrush = (ToolBrush*)ToolManager::getSingleton().SelectTool(eToolBrush);
-	//pBrush->SetResource(_strResKey, (LPCTSTR)str);
+	//pBrush->SetResource(_strResGroup, (LPCTSTR)str);
 
 	*pResult = 0;
 }
@@ -287,6 +292,8 @@ void TileResView::OnNMDblclkListItem(NMHDR *pNMHDR, LRESULT *pResult)
 
 void TileResView::OnNMRclickListItem(NMHDR* pNMHDR, LRESULT* pResult)
 {
+	_iCurSelectItem = -1;
+
 	if (_eType == eResTypeArt)
 	{
 		*pResult = 0;
@@ -298,7 +305,7 @@ void TileResView::OnNMRclickListItem(NMHDR* pNMHDR, LRESULT* pResult)
 
 	// Select the item the user clicked on.
 	UINT uFlags;
-	int nItem = _listImages.HitTest(point, &uFlags);
+	_iCurSelectItem = _listImages.HitTest(point, &uFlags);
 	if (uFlags & LVHT_ONITEMICON)
 	{
 		_listImages.ClientToScreen(&point);
@@ -315,15 +322,41 @@ void TileResView::OnNMRclickListItem(NMHDR* pNMHDR, LRESULT* pResult)
 
 void TileResView::OnItemAdd()
 {
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 
+	GameObjectEditor* pGOEditor = pMainFrame->GetGameObjectEditor();
+	pGOEditor->ShowPane(TRUE, FALSE, TRUE);
+
+	ResourceGameObjectGroup* pGOGroup = (ResourceGameObjectGroup*)ResourceManager::getSingleton().GetResourceGroup(_strResGroup);
+	if (pGOGroup)
+		pGOEditor->AddGameObject(pGOGroup);
 }
 
 void TileResView::OnItemEdit()
 {
+	if (_iCurSelectItem != -1)
+	{
+		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 
+		GameObjectEditor* pGOEditor = pMainFrame->GetGameObjectEditor();
+		pGOEditor->ShowPane(TRUE, FALSE, TRUE);
+
+		CString str = _listImages.GetItemText(_iCurSelectItem, 0);
+		ResourceGameObjectGroup* pGOGroup = (ResourceGameObjectGroup*)ResourceManager::getSingleton().GetResourceGroup(_strResGroup);
+		if (pGOGroup)
+		{
+			ResourceGameObject* pGO = pGOGroup->GetGameObject((LPCTSTR)str);
+			if (pGO)
+			{
+				pGOEditor->EditGameObject(pGOGroup, pGO);
+			}
+		}
+	}
 }
 
 void TileResView::OnItemRemove()
 {
-
+	if (_iCurSelectItem != -1)
+	{
+	}
 }

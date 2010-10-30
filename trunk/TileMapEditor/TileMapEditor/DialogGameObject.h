@@ -3,6 +3,8 @@
 #include "resource.h"
 #include "afxwin.h"
 
+class ResourceGameObject;
+
 class CDialogGameObject : public CDialog
 {
 	DECLARE_DYNAMIC(CDialogGameObject)

@@ -39,7 +39,8 @@ protected:
 	DialogResDetail		_dialogBar;
 	CListCtrl			_listImages;
 	int					_iOldCheck;
-	Cactus::String		_strResKey;
+	int					_iCurSelectItem;
+	Cactus::String		_strResGroup;
 	EResourceType		_eType;
 
 // ÖØÐ´

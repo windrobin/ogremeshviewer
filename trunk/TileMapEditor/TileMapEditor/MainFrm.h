@@ -36,6 +36,7 @@ public:
 	CPropertiesWnd*		GetPropertyWnd(){ return &m_wndProperties; }
 	LayerView*			GetMapLayerView(){ return &_LayerPanel; }
 	MapThumbnailView*	GetMapThumbnailView(){ return &_MapThumbnailPanel; }
+	GameObjectEditor*	GetGameObjectEditor(){ return &_GameObjectEditor; }
 
 	void				SetCurLayer(MapLayer* pLayer);
 	void				SetCursorPosition(const CPoint& pt);
