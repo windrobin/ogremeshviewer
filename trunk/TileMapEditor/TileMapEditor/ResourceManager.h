@@ -29,11 +29,11 @@ public:
 	//ResourceTile的子资源十分有效
 	bool			IsResourceTileIDValid(const Cactus::String& tile, const Cactus::String& strID);
 
-	//获取名字为tile的ResourceTile
-	ResourceTile*	GetResourceTile(const Cactus::String& strName);
+	//获取名字为strGroupName的ResourceTileGroup
+	ResourceTile*	GetResourceTileGroup(const Cactus::String& strGroupName);
 
 	//获取名字为key的Resource
-	Resource*		GetResource(const Cactus::String& key);
+	Resource*		GetResourceGroup(const Cactus::String& key);
 
 	/**获取名字为所有ResourceTile名字
 	*/
@@ -42,6 +42,14 @@ public:
 	/**判断GameObjectGroup名字是否有效
 	*/
 	bool			IsGameObjectGroupNameValid(const Cactus::String& strName);
+
+	/**增加一个名字为strName的游戏对象组
+	*/
+	bool			AddGameObjectGroup(ResourceGameObjectGroup* p);
+
+	/**删除名字为strName的游戏对象组
+	*/
+	bool			RemoveGameObjectGroup(const Cactus::String& strName);
 
 protected:
 	Cactus::String				_strRootFolder;			//数据根目录

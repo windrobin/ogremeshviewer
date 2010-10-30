@@ -27,6 +27,16 @@ ResourceGameObjectGroup::ResourceGameObjectGroup()
 	_szUnitTile	= CPoint(64, 64);
 }
 
+ResourceGameObjectGroup::ResourceGameObjectGroup(const Cactus::String& strName, const Cactus::String& strArtGroup, CPoint szTile)
+{
+	_eResType	= eResTypeGameObject;
+
+	_strName		= strName;
+	_strArtResKey	= strArtGroup;
+	_szUnitTile		= szTile;
+}
+
+
 ResourceGameObjectGroup::~ResourceGameObjectGroup()
 {
 	for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
@@ -55,7 +65,7 @@ void ResourceGameObjectGroup::CreateImageList(CDC* pDC)
 	if (_bHasImageList)
 		return;
 
-	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTile(_strArtResKey);
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup(_strArtResKey);
 	if (pResTile)
 	{
 		pResTile->CreateImageList(pDC);
@@ -101,7 +111,7 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 {
 	CreateImageList(pDC);
 
-	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTile(_strArtResKey);
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup(_strArtResKey);
 	if (pResTile)
 	{
 		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
@@ -117,7 +127,7 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 
 CRect ResourceGameObjectGroup::GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strItemID)
 {
-	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTile(_strArtResKey);
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup(_strArtResKey);
 	if (pResTile)
 	{
 		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)

@@ -337,9 +337,16 @@ IDR_MENU_POPUP_RESVIEW MENU
 BEGIN
     POPUP "RESVIEW_POPPU"
     BEGIN
-        MENUITEM "Add",                         ID_MENU_RESVIEW_ADD
-        MENUITEM "Edit",                        ID_MENU_RESVIEW_EDIT
-        MENUITEM "Remove",                      ID_MENU_RESVIEW_REMOVE
+        MENUITEM "编辑",                          ID_MENU_RESVIEW_EDIT
+        MENUITEM "删除",                          ID_MENU_RESVIEW_REMOVE
+    END
+END
+
+IDR_MENU_POPUP_GAMEOBJECT_ADD MENU 
+BEGIN
+    POPUP "RESVIEW_POPPU"
+    BEGIN
+        MENUITEM "添加",                          ID_MENU_RESVIEW_ADD
     END
 END
 
@@ -347,8 +354,8 @@ IDR_MENU_GAMEOBJECTGROUP MENU
 BEGIN
     POPUP "GameObjectGroup"
     BEGIN
-        MENUITEM "Add GameObject Group",        ID_GAMEOBJECTGROUP_ADDGROUP
-        MENUITEM "Remove GameObject Group",     ID_GAMEOBJECTGROUP_REMOVEGROUP
+        MENUITEM "添加游戏对象组",                     ID_GAMEOBJECTGROUP_ADDGROUP
+        MENUITEM "删除游戏对象组",                     ID_GAMEOBJECTGROUP_REMOVEGROUP
     END
 END
 

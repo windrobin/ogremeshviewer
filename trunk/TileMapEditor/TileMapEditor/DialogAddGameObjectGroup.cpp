@@ -50,13 +50,13 @@ BOOL DialogAddGameObjectGroup::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	StringVector vs = ResourceManager::getSingleton().GetResourceTileNames();
-	for (size_t t = 0; t < vs.size(); ++t)
+	_ArtGroups = ResourceManager::getSingleton().GetResourceTileNames();
+	for (size_t t = 0; t < _ArtGroups.size(); ++t)
 	{
-		_comboArList.InsertString(t, vs[t].c_str());
+		_comboArList.InsertString(t, _ArtGroups[t].c_str());
 	}
 
-	if (vs.size() != 0)
+	if (_ArtGroups.size() != 0)
 	{
 		_comboArList.SetCurSel(0);
 	}
@@ -74,6 +74,8 @@ void DialogAddGameObjectGroup::OnBnClickedOk()
 		MessageBox("对象组名已经存在！", "错误", MB_OK | MB_ICONHAND);
 		return;
 	}
+
+	_strArtGroup = _ArtGroups[_comboArList.GetCurSel()];
 	
 	OnOK();
 }

@@ -96,6 +96,7 @@
 #define IDR_MENU_POPUP_RESVIEW          192
 #define IDR_MENU_GAMEOBJECTGROUP        193
 #define IDD_DIALOG_ADD_GAMEOBJECTGRPUP  194
+#define IDR_MENU_POPUP_GAMEOBJECT_ADD  195
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
 #define IDC_EDIT_FOOTNOTES              1002
@@ -196,7 +197,7 @@
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        195
+#define _APS_NEXT_RESOURCE_VALUE        196
 #define _APS_NEXT_COMMAND_VALUE         32831
 #define _APS_NEXT_CONTROL_VALUE         1034
 #define _APS_NEXT_SYMED_VALUE           1134
