@@ -2,6 +2,8 @@
 #include "GameObjectEditor.h"
 
 #include "Resource.h"
+#include "ResourceGameObject.h"
+
 
 using namespace Cactus;
 
@@ -89,4 +91,22 @@ void GameObjectEditor::OnSetFocus(CWnd* pOldWnd)
 void GameObjectEditor::OnClassAddMemberFunction()
 {
 	AfxMessageBox(_T("添加成员函数..."));
+}
+
+
+void GameObjectEditor::AddGameObject(ResourceGameObjectGroup* pGOGroup)
+{
+
+}
+
+void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, ResourceGameObject* pGO)
+{
+	_dlgPanel._strGOGroupName	= pGOGroup->GetResourceName().c_str();
+	_dlgPanel._strGOName		= pGO->_strName.c_str();
+	_dlgPanel._iTileW			= pGOGroup->_szUnitTile.x;
+	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
+	_dlgPanel._strArtSource		= pGOGroup->_strArtResKey.c_str();
+	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_xBaryCentric, pGO->_yBaryCentric);
+
+	_dlgPanel.UpdateData(FALSE);
 }

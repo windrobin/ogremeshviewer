@@ -3,11 +3,16 @@
 #include "DialogGameObject.h"
 #include "GameObjectEditorView.h"
 
+class ResourceGameObjectGroup;
+
 class GameObjectEditor : public CDockablePane
 {
 public:
 	GameObjectEditor();
 	virtual ~GameObjectEditor();
+
+	void	AddGameObject(ResourceGameObjectGroup* pGOGroup);
+	void	EditGameObject(ResourceGameObjectGroup* pGOGroup, ResourceGameObject* pGO);
 
 protected:
 	CDialogGameObject		_dlgPanel;
