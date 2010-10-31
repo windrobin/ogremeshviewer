@@ -46,7 +46,7 @@ int GameObjectEditor::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	_dlgPanel.Create(CDialogGameObject::IDD, this);
 
 	_pView = new GameObjectEditorView;
-	_pView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, rectDummy, this, M_VIEW_ID);
+	_pView->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | AFX_WS_DEFAULT_VIEW, rectDummy, this, M_VIEW_ID);
 	_pView->OnInitialUpdate();
 	_pView->ShowWindow(SW_SHOW);
 
@@ -68,7 +68,8 @@ void GameObjectEditor::OnSize(UINT nType, int cx, int cy)
 	_dlgPanel.MoveWindow(&rectClient);
 
 	rectClient.top = rectClient.bottom;
-	_pView->SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_NOACTIVATE | SWP_NOZORDER);
+	_pView->SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_SHOWWINDOW );
+	//_pView->Invalidate();
 }
 
 BOOL GameObjectEditor::PreTranslateMessage(MSG* pMsg)
