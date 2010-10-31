@@ -3,11 +3,12 @@
 
 #include "MemDC.h"
 
+#define M_Margin	50
+
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
-#define M_Margin	50
 
 IMPLEMENT_DYNAMIC(GameObjectEditorView, CScrollView)
 
@@ -41,6 +42,17 @@ BOOL GameObjectEditorView::PreCreateWindow(CREATESTRUCT& cs)
 void GameObjectEditorView::OnDraw(CDC* pDC)
 {
 	pDC->OffsetViewportOrg(M_Margin, M_Margin);
+
+	CRect rcClient;
+	GetClientRect(rcClient);
+
+	CPoint ptLP = GetScrollPosition();
+	ptLP.Offset(-M_Margin, -M_Margin);
+
+	CRect rc = rcClient;
+	rc.OffsetRect(ptLP);
+
+	pDC->FillSolidRect(0, 0, 10 * 64, 10 * 64, RGB(255, 255, 255));
 
 	//MemDC memDC(pDC);
 }
