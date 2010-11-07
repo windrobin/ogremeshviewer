@@ -25,6 +25,7 @@ ResourceGameObjectGroup::ResourceGameObjectGroup()
 {
 	_eResType	= eResTypeGameObject;
 	_szUnitTile	= CPoint(64, 64);
+	_iMapType	= 0;
 }
 
 ResourceGameObjectGroup::ResourceGameObjectGroup(const Cactus::String& strName, const Cactus::String& strArtGroup, CPoint szTile)

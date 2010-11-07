@@ -19,6 +19,7 @@ DialogAddGameObjectGroup::DialogAddGameObjectGroup(CWnd* pParent /*=NULL*/)
 	, _strGroupName(_T("newtype"))
 	, _iTileW(64)
 	, _iTileH(64)
+	, _iMapType(0)
 {
 
 }
@@ -36,6 +37,7 @@ void DialogAddGameObjectGroup::DoDataExchange(CDataExchange* pDX)
 	DDV_MinMaxInt(pDX, _iTileW, 1, 1024);
 	DDX_Text(pDX, IDC_EDIT_TILEH, _iTileH);
 	DDV_MinMaxInt(pDX, _iTileH, 1, 1024);
+	DDX_Radio(pDX, IDC_RADIO_MAPTYPE, _iMapType);
 }
 
 

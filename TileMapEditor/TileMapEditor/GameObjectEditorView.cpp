@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "GameObjectEditorView.h"
 
-#include "MemDC.h"
+#include "GameObjectEditorObjects.h"
+#include "ToolManager.h"
+#include "Map.h"
 
-#define M_Margin	50
+#include "MemDC.h"
 
 
 #ifdef _DEBUG
@@ -17,6 +19,7 @@ BEGIN_MESSAGE_MAP(GameObjectEditorView, CScrollView)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_WM_ERASEBKGND()
+	ON_WM_MOUSEACTIVATE()
 END_MESSAGE_MAP()
 
 // GameObjectEditorView 构造/析构
@@ -43,18 +46,62 @@ void GameObjectEditorView::OnDraw(CDC* pDC)
 {
 	CRect rcClient;
 	GetClientRect(rcClient);
-	pDC->FillSolidRect(rcClient, RGB(255, 255, 255));
 
-	pDC->OffsetViewportOrg(M_Margin, M_Margin);
+	MemDC memDC(pDC);
+	memDC.FillSolidRect(rcClient, RGB(255, 255, 255));
 
-	CPoint ptLP = GetScrollPosition();
-	ptLP.Offset(-M_Margin, -M_Margin);
+	Map* pMap = ToolManager::getSingleton().GetMap();
+	if (pMap)
+	{
+		CDialogGameObject* pDlg = GetGODlg();
 
-	CRect rc = rcClient;
-	rc.OffsetRect(ptLP);
+		CPen pen(PS_SOLID, 1, RGB(0, 255, 0));
+		CPen* pOldPen = memDC.SelectObject(&pen);
 
+		int iMapW = pDlg->_iTileW * pDlg->_iTileCountX;
+		int iMapH = pDlg->_iTileH * pDlg->_iTileCountY;
 
-	//MemDC memDC(pDC);
+		if (pMap->GetType() == eRectangle)
+		{
+			//画横线
+			for (int i = 0; i <= pDlg->_iTileCountY; i++)
+			{
+				memDC.MoveTo(0, i * pDlg->_iTileH);
+				memDC.LineTo(iMapW, i * pDlg->_iTileH);
+			}
+
+			//画竖线
+			for (int i = 0; i <= pDlg->_iTileCountX; i++)
+			{
+				memDC.MoveTo(i * pDlg->_iTileW, 0);
+				memDC.LineTo(i * pDlg->_iTileW, iMapH);
+			}
+		}
+		else
+		{
+			//画斜横线
+			for (int i = 0; i <= pDlg->_iTileCountY; i++)
+			{
+				memDC.MoveTo(iMapW/2 - i * pDlg->_iTileW / 2
+					, i * pDlg->_iTileH / 2);
+
+				memDC.LineTo(iMapW - i * pDlg->_iTileW / 2
+					, iMapH/2 + i * pDlg->_iTileH / 2);
+			}
+
+			//画斜竖线
+			for (int i = 0; i <= pDlg->_iTileCountX; i++)
+			{
+				memDC.MoveTo(i * pDlg->_iTileW / 2
+					, iMapH/2 + i * pDlg->_iTileH / 2);
+
+				memDC.LineTo(iMapW/2 + i * pDlg->_iTileW / 2
+					, i * pDlg->_iTileH / 2);
+			}
+		}
+
+		memDC.SelectObject(pOldPen);
+	}
 }
 
 void GameObjectEditorView::OnInitialUpdate()
@@ -62,8 +109,8 @@ void GameObjectEditorView::OnInitialUpdate()
 	CScrollView::OnInitialUpdate();
 
 	CSize sizeTotal;
-	sizeTotal.cx	= 500 + M_Margin * 2;
-	sizeTotal.cy	= 500 + M_Margin * 2;
+	sizeTotal.cx	= 500;
+	sizeTotal.cy	= 500;
 	SetScrollSizes(MM_TEXT, sizeTotal);
 }
 
@@ -76,38 +123,17 @@ void GameObjectEditorView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 
 void GameObjectEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	CPoint ptLP = point;
-	ptLP.Offset( GetScrollPosition() );
-	ptLP.Offset(-M_Margin, -M_Margin);
-
 	CScrollView::OnLButtonDown(nFlags, point);
 }
 
 void GameObjectEditorView::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	CPoint ptLP = point;
-	ptLP.Offset( GetScrollPosition() );
-	ptLP.Offset(-M_Margin, -M_Margin);
-
 	CScrollView::OnLButtonUp(nFlags, point);
 }
 
 void GameObjectEditorView::OnMouseMove(UINT nFlags, CPoint point)
 {
-	CPoint ptLP = point;
-	ptLP.Offset( GetScrollPosition() );
-	ptLP.Offset(-M_Margin, -M_Margin);
-
 	CScrollView::OnMouseMove(nFlags, point);
-}
-
-void GameObjectEditorView::LogicInvalidate(CRect rc)
-{
-	CPoint pt = GetScrollPosition();
-	rc.OffsetRect(-pt);
-	rc.OffsetRect(M_Margin, M_Margin);
-
-	InvalidateRect(rc);
 }
 
 BOOL GameObjectEditorView::OnEraseBkgnd(CDC* pDC)
@@ -115,4 +141,11 @@ BOOL GameObjectEditorView::OnEraseBkgnd(CDC* pDC)
 	//return CScrollView::OnEraseBkgnd(pDC);
 
 	return TRUE;
+}
+
+int GameObjectEditorView::OnMouseActivate(CWnd* pDesktopWnd, UINT nHitTest, UINT message)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	return CWnd::OnMouseActivate(pDesktopWnd, nHitTest, message);
 }

@@ -96,7 +96,7 @@
 #define IDR_MENU_POPUP_RESVIEW          192
 #define IDR_MENU_GAMEOBJECTGROUP        193
 #define IDD_DIALOG_ADD_GAMEOBJECTGRPUP  194
-#define IDR_MENU_POPUP_GAMEOBJECT_ADD  195
+#define IDR_MENU_POPUP_GAMEOBJECT_ADD   195
 #define IDC_EDIT_WIDTH                  1000
 #define IDC_EDIT_HEIGHT                 1001
 #define IDC_EDIT_FOOTNOTES              1002
@@ -131,6 +131,8 @@
 #define IDC_COMBO_ARTRES                1031
 #define IDC_EDIT_RES_DETAIL_RESTYPE     1032
 #define IDC_EDIT_GROUPNAME              1033
+#define IDC_RADIO_MAPTYPE               1034
+#define IDC_RADIO_MAPTYPE2              1035
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771
 #define ID_STATUSBAR_PANE2              32772
@@ -194,12 +196,12 @@
 #define ID_VIEW_MAP_THUMBNAIL_PANEL     32830
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        196
 #define _APS_NEXT_COMMAND_VALUE         32831
-#define _APS_NEXT_CONTROL_VALUE         1034
+#define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           1134
 #endif
 #endif

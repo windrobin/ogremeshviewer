@@ -13,8 +13,6 @@ public:
 
 	virtual void OnInitialUpdate(); // 构造后第一次调用
 
-	void	LogicInvalidate(CRect rc);
-
 protected:
 	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
 
@@ -25,5 +23,7 @@ protected:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+public:
+	afx_msg int OnMouseActivate(CWnd* pDesktopWnd, UINT nHitTest, UINT message);
 };
 
