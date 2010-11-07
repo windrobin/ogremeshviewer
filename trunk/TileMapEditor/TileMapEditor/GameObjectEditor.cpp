@@ -117,6 +117,4 @@ void GameObjectEditor::OnContextMenu(CWnd* pWnd, CPoint point)
 		CDockablePane::OnContextMenu(pWnd, point);
 		return;
 	}
-
-	_pView->SetFocus();
 }

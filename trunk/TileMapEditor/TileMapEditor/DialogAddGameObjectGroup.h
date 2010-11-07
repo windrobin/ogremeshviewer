@@ -29,4 +29,5 @@ public:
 	afx_msg void OnBnClickedOk();
 
 	Cactus::StringVector	_ArtGroups;
+	int _iMapType;
 };

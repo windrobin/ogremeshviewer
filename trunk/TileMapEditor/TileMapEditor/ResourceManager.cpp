@@ -143,6 +143,7 @@ public:
 			pGameObjectGroup = new ResourceGameObjectGroup;
 			pGameObjectGroup->_strName		= attributes.getValueAsString("name");
 			pGameObjectGroup->_strArtResKey = attributes.getValueAsString("iconres");
+			pGameObjectGroup->_iMapType		= attributes.getValueAsInteger("mapType");
 			pGameObjectGroup->_szUnitTile.x = attributes.getValueAsInteger("unitTileW");
 			pGameObjectGroup->_szUnitTile.y = attributes.getValueAsInteger("unitTileH");
 		}

@@ -14,7 +14,7 @@ public:
 	void	AddGameObject(ResourceGameObjectGroup* pGOGroup);
 	void	EditGameObject(ResourceGameObjectGroup* pGOGroup, ResourceGameObject* pGO);
 
-protected:
+public:
 	CDialogGameObject		_dlgPanel;
 	GameObjectEditorView*	_pView;
 

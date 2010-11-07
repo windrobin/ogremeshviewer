@@ -32,6 +32,7 @@ protected:
 /*
 <!--
 iconres是依赖的美术ResourceTile名称；
+mapType表示用于的Map类型，0是矩形，1是菱形；
 unitTileW和unitTileH用来检查是否和地图tile的尺寸是否匹配；
 iconid是子资源名；
 对象定位在(xOffset,yOffset)，图像左上角离定位点的偏差，定位点所在的格子是(0,0)；
@@ -66,6 +67,7 @@ protected:
 
 	Cactus::String			_strArtResKey;	//依赖的图像资源名称
 	CPoint					_szUnitTile;	//单元格的大小
+	int						_iMapType;		//适用的地图类型
 };
 
 
