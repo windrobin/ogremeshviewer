@@ -17,6 +17,7 @@ public:
 public:
 	CDialogGameObject		_dlgPanel;
 	GameObjectEditorView*	_pView;
+	ResourceGameObject*		_pResGO;
 
 // ÖØÐ´
 public:
@@ -30,5 +31,8 @@ protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 
 	DECLARE_MESSAGE_MAP()
+
+	bool	_bAdd;
+	ResourceGameObjectGroup*	_pGOGroup;
 };
 

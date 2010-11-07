@@ -16,7 +16,9 @@ using namespace Cactus;
 
 GameObjectEditor::GameObjectEditor()
 {
-	_pView = 0;
+	_pView		= 0;
+	_pResGO		= 0;
+	_pGOGroup	= 0;
 }
 
 GameObjectEditor::~GameObjectEditor()
@@ -93,23 +95,6 @@ void GameObjectEditor::OnClassAddMemberFunction()
 }
 
 
-void GameObjectEditor::AddGameObject(ResourceGameObjectGroup* pGOGroup)
-{
-
-}
-
-void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, ResourceGameObject* pGO)
-{
-	_dlgPanel._strGOGroupName	= pGOGroup->GetResourceName().c_str();
-	_dlgPanel._strGOName		= pGO->_strName.c_str();
-	_dlgPanel._iTileW			= pGOGroup->_szUnitTile.x;
-	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
-	_dlgPanel._strArtSource		= pGOGroup->_strArtResKey.c_str();
-	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_xBaryCentric, pGO->_yBaryCentric);
-
-	_dlgPanel.UpdateData(FALSE);
-}
-
 void GameObjectEditor::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	if (pWnd != _pView && pWnd != &_dlgPanel)
@@ -117,4 +102,52 @@ void GameObjectEditor::OnContextMenu(CWnd* pWnd, CPoint point)
 		CDockablePane::OnContextMenu(pWnd, point);
 		return;
 	}
+
+	pWnd->SetFocus();
+}
+
+void GameObjectEditor::AddGameObject(ResourceGameObjectGroup* pGOGroup)
+{
+	_bAdd		= true;
+	_pResGO		= new ResourceGameObject;
+	_pGOGroup	= pGOGroup;
+
+	_dlgPanel._strGOGroupName	= pGOGroup->GetResourceName().c_str();
+	_dlgPanel._strGOName		= "NewName";
+	_dlgPanel._iTileW			= pGOGroup->_szUnitTile.x;
+	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
+	_dlgPanel._strArtSource		= pGOGroup->_strArtResKey.c_str();
+	_dlgPanel._iMapType			= pGOGroup->_iMapType;
+	_dlgPanel._strCenterOffset	= "(n/a, n/a)";
+
+	if (_dlgPanel._iMapType == 0)
+		_dlgPanel._strMapType = "矩形";
+	else
+		_dlgPanel._strMapType = "菱形";
+
+	_dlgPanel.UpdateData(FALSE);
+	_pView->Invalidate();
+}
+
+void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, ResourceGameObject* pGO)
+{
+	_bAdd		= false;
+	_pResGO		= pGO;
+	_pGOGroup	= pGOGroup;
+
+	_dlgPanel._strGOGroupName	= pGOGroup->GetResourceName().c_str();
+	_dlgPanel._strGOName		= pGO->_strName.c_str();
+	_dlgPanel._iTileW			= pGOGroup->_szUnitTile.x;
+	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
+	_dlgPanel._strArtSource		= pGOGroup->_strArtResKey.c_str();
+	_dlgPanel._iMapType			= pGOGroup->_iMapType;
+	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_xBaryCentric, pGO->_yBaryCentric);
+
+	if (_dlgPanel._iMapType == 0)
+		_dlgPanel._strMapType = "矩形";
+	else
+		_dlgPanel._strMapType = "菱形";
+
+	_dlgPanel.UpdateData(FALSE);
+	_pView->Invalidate();
 }
