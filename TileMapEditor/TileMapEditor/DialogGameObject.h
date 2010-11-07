@@ -21,6 +21,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+
 	CString _strGOGroupName;
 	CString _strGOName;
 	int _iTileW;
@@ -30,6 +31,12 @@ public:
 	CString _strCenterOffset;
 	CString _strArtSource;
 	CComboBox _comboArt;
-	afx_msg void OnBnClickedButtonGoCurBrush();
 	int _iMode;
+	int _iMapType;
+	CString _strMapType;
+	CComboBox _comboAIType;
+
+	afx_msg void OnBnClickedButtonGoCurBrush();
+	afx_msg void OnBnClickedButtonGoOk();
+	afx_msg void OnBnClickedButtonGoCancel();
 };

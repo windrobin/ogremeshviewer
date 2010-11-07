@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "GameObjectEditorView.h"
-
 #include "GameObjectEditorObjects.h"
-#include "ToolManager.h"
-#include "Map.h"
-
 #include "MemDC.h"
 
 
@@ -50,8 +46,8 @@ void GameObjectEditorView::OnDraw(CDC* pDC)
 	MemDC memDC(pDC);
 	memDC.FillSolidRect(rcClient, RGB(255, 255, 255));
 
-	Map* pMap = ToolManager::getSingleton().GetMap();
-	if (pMap)
+	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
+	if (pGO)
 	{
 		CDialogGameObject* pDlg = GetGODlg();
 
@@ -61,7 +57,7 @@ void GameObjectEditorView::OnDraw(CDC* pDC)
 		int iMapW = pDlg->_iTileW * pDlg->_iTileCountX;
 		int iMapH = pDlg->_iTileH * pDlg->_iTileCountY;
 
-		if (pMap->GetType() == eRectangle)
+		if (pDlg->_iMapType == 0)
 		{
 			//ª≠∫·œﬂ
 			for (int i = 0; i <= pDlg->_iTileCountY; i++)

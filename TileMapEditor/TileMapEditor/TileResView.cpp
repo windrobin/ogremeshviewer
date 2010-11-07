@@ -329,7 +329,9 @@ void TileResView::OnItemAdd()
 
 	ResourceGameObjectGroup* pGOGroup = (ResourceGameObjectGroup*)ResourceManager::getSingleton().GetResourceGroup(_strResGroup);
 	if (pGOGroup)
+	{
 		pGOEditor->AddGameObject(pGOGroup);
+	}
 }
 
 void TileResView::OnItemEdit()
