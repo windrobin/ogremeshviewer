@@ -41,10 +41,11 @@ BOOL GameObjectEditorView::PreCreateWindow(CREATESTRUCT& cs)
 
 void GameObjectEditorView::OnDraw(CDC* pDC)
 {
-	pDC->OffsetViewportOrg(M_Margin, M_Margin);
-
 	CRect rcClient;
 	GetClientRect(rcClient);
+	pDC->FillSolidRect(rcClient, RGB(255, 255, 255));
+
+	pDC->OffsetViewportOrg(M_Margin, M_Margin);
 
 	CPoint ptLP = GetScrollPosition();
 	ptLP.Offset(-M_Margin, -M_Margin);
@@ -52,7 +53,6 @@ void GameObjectEditorView::OnDraw(CDC* pDC)
 	CRect rc = rcClient;
 	rc.OffsetRect(ptLP);
 
-	pDC->FillSolidRect(0, 0, 10 * 64, 10 * 64, RGB(255, 255, 255));
 
 	//MemDC memDC(pDC);
 }
@@ -61,10 +61,10 @@ void GameObjectEditorView::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
 
-	//CSize sizeTotal;
-	//sizeTotal.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
-	//sizeTotal.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
-	//SetScrollSizes(MM_TEXT, sizeTotal);
+	CSize sizeTotal;
+	sizeTotal.cx	= 500 + M_Margin * 2;
+	sizeTotal.cy	= 500 + M_Margin * 2;
+	SetScrollSizes(MM_TEXT, sizeTotal);
 }
 
 // GameObjectEditorView 消息处理程序

@@ -16,6 +16,7 @@ using namespace Cactus;
 
 GameObjectEditor::GameObjectEditor()
 {
+	_pView = 0;
 }
 
 GameObjectEditor::~GameObjectEditor()
@@ -27,7 +28,6 @@ BEGIN_MESSAGE_MAP(GameObjectEditor, CDockablePane)
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
 	ON_WM_PAINT()
-	ON_WM_SETFOCUS()
 	ON_COMMAND(ID_CLASS_ADD_MEMBER_FUNCTION, OnClassAddMemberFunction)
 
 END_MESSAGE_MAP()
@@ -64,12 +64,15 @@ void GameObjectEditor::OnSize(UINT nType, int cx, int cy)
 
 	CRect rectClient;
 	GetClientRect(rectClient);
-	rectClient.bottom = 60;
-	_dlgPanel.MoveWindow(&rectClient);
 
-	rectClient.top = rectClient.bottom;
-	_pView->SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_SHOWWINDOW );
-	//_pView->Invalidate();
+	CRect rcDlg = rectClient;
+	rcDlg.bottom = 60;
+	_dlgPanel.MoveWindow(&rcDlg);
+
+	CRect rcView = rectClient;
+	rcView.top = rcDlg.bottom;
+	_pView->SetWindowPos(&_dlgPanel, rcView.left, rcView.top, rcView.Width(), rcView.Height(), SWP_NOACTIVATE | SWP_NOZORDER);
+	_pView->Invalidate();
 }
 
 BOOL GameObjectEditor::PreTranslateMessage(MSG* pMsg)
@@ -83,11 +86,6 @@ void GameObjectEditor::OnPaint()
 
 }
 
-void GameObjectEditor::OnSetFocus(CWnd* pOldWnd)
-{
-	CDockablePane::OnSetFocus(pOldWnd);
-
-}
 
 void GameObjectEditor::OnClassAddMemberFunction()
 {
@@ -110,4 +108,15 @@ void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, Resourc
 	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_xBaryCentric, pGO->_yBaryCentric);
 
 	_dlgPanel.UpdateData(FALSE);
+}
+
+void GameObjectEditor::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+	if (pWnd != _pView && pWnd != &_dlgPanel)
+	{
+		CDockablePane::OnContextMenu(pWnd, point);
+		return;
+	}
+
+	_pView->SetFocus();
 }
