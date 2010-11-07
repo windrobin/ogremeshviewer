@@ -120,8 +120,16 @@ void CTileMapEditorView::GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptSc
 	rc	= _rcClient;
 	ptScroll = GetScrollPosition();
 
-	szDoc.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
-	szDoc.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
+	if (GetDocument())
+	{
+		szDoc.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
+		szDoc.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
+	}
+	else
+	{
+		szDoc.cx	= M_Margin * 2;
+		szDoc.cy	= M_Margin * 2;
+	}
 }
 
 
@@ -162,7 +170,7 @@ void CTileMapEditorView::Dump(CDumpContext& dc) const
 
 CTileMapEditorDoc* CTileMapEditorView::GetDocument() const // 非调试版本是内联的
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CTileMapEditorDoc)));
+	//ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CTileMapEditorDoc)));
 	return (CTileMapEditorDoc*)m_pDocument;
 }
 #endif //_DEBUG
