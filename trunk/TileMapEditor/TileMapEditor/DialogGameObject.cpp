@@ -92,6 +92,57 @@ void CDialogGameObject::OnBnClickedButtonGoCancel()
 	// TODO: Add your control notification handler code here
 }
 
+
+void CDialogGameObject::OnEnChangeEditGoTileCount()
+{
+	UpdateData(TRUE);
+
+	if (_iTileCount < 10)
+	{
+		_iTileCount = 10;
+		UpdateData(FALSE);
+	}
+
+	GameObjectEditorView* pView = GetGOView();
+
+	CSize sizeTotal;
+	sizeTotal.cx	= GetPixelWidth();
+	sizeTotal.cy	= GetPixelHeight();
+	pView->SetScrollSizes(MM_TEXT, sizeTotal);
+
+	pView->Invalidate(TRUE);
+}
+
+void CDialogGameObject::OnCbnSelchangeComboGoArtid()
+{
+	CString strLabel;
+	_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
+
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strResArtGroup);
+	if (pResTile)
+	{
+		CRect rc = CRect(_ptSelected, _szSelected);
+
+		rc = pResTile->GetResItemBoundingRect(rc, eGridNone, (LPCTSTR)strLabel);
+		_szSelected = rc.Size();
+
+		GameObjectEditorView* pView = GetGOView();
+		pView->Invalidate();
+	}
+}
+
+void CDialogGameObject::OnBnClickedRadioGoSetObstacle()
+{
+	_iMode = 1;
+}
+
+void CDialogGameObject::OnBnClickedRadioGoClearObstacle()
+{
+	_iMode = 2;
+}
+
+
+//----------------------------------------------------------------------------------------------------------
 void CDialogGameObject::EnumArtResItem(const Cactus::String& strResItem)
 {
 	_comboArt.ResetContent();
@@ -217,40 +268,6 @@ void CDialogGameObject::DrawEditingObject(CDC* pDC)
 
 }
 
-void CDialogGameObject::OnEnChangeEditGoTileCount()
-{
-	UpdateData(TRUE);
-
-	if (_iTileCount < 10)
-	{
-		_iTileCount = 10;
-		UpdateData(FALSE);
-	}
-
-	GameObjectEditorView* pView = GetGOView();
-
-	CSize sizeTotal;
-	sizeTotal.cx	= GetPixelWidth();
-	sizeTotal.cy	= GetPixelHeight();
-	pView->SetScrollSizes(MM_TEXT, sizeTotal);
-
-	pView->Invalidate(TRUE);
-}
-
-void CDialogGameObject::OnCbnSelchangeComboGoArtid()
-{
-	CString strLabel;
-	_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
-
-	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strResArtGroup);
-	if (pResTile)
-	{
-		CRect rc = CRect(_ptSelected, _szSelected);
-
-		rc = pResTile->GetResItemBoundingRect(rc, eGridNone, (LPCTSTR)strLabel);
-		_szSelected = rc.Size();
-	}
-}
 
 bool CDialogGameObject::HitTest(CPoint pt)
 {
@@ -283,14 +300,4 @@ void CDialogGameObject::UpdateCenterInfo()
 	_strCenterOffset.Format("(%d, %d)", ptOffset.x, ptOffset.y);
 
 	UpdateData(FALSE);
-}
-
-void CDialogGameObject::OnBnClickedRadioGoSetObstacle()
-{
-	_iMode = 1;
-}
-
-void CDialogGameObject::OnBnClickedRadioGoClearObstacle()
-{
-	_iMode = 2;
 }
