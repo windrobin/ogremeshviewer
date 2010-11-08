@@ -4,6 +4,7 @@
 #include "afxwin.h"
 
 #include "TileMapEditorTypes.h"
+#include "afxcmn.h"
 
 class ResourceGameObject;
 
@@ -62,4 +63,6 @@ public:
 	afx_msg void OnBnClickedButtonGoOk();
 	afx_msg void OnBnClickedButtonGoCancel();
 	afx_msg void OnEnChangeEditGoTileCount();
+	CSpinButtonCtrl _spinTileCount;
+	virtual BOOL OnInitDialog();
 };

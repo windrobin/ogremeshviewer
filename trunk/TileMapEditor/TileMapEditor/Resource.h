@@ -106,7 +106,6 @@
 #define IDC_EDIT_TILE_HEIGHT            1006
 #define IDC_EDIT_LAYERNAME              1007
 #define IDC_EDIT_TILE_WIDTH             1008
-#define IDC_EDIT_HEIGHT2                1009
 #define IDC_EDIT_GO_ARTGROUP            1010
 #define IDC_EDIT_REGION_HEIGHT          1011
 #define IDC_CHECK_CREATE_LAYER          1012
@@ -138,6 +137,7 @@
 #define IDC_EDIT_GROUPNAME              1033
 #define IDC_RADIO_MAPTYPE               1034
 #define IDC_RADIO_MAPTYPE2              1035
+#define IDC_SPIN                        1036
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_STATUSBAR_PANE1              32771
 #define ID_STATUSBAR_PANE2              32772
@@ -206,7 +206,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        196
 #define _APS_NEXT_COMMAND_VALUE         32831
-#define _APS_NEXT_CONTROL_VALUE         1035
+#define _APS_NEXT_CONTROL_VALUE         1036
 #define _APS_NEXT_SYMED_VALUE           1134
 #endif
 #endif
