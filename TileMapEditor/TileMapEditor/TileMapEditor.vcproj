@@ -520,58 +520,6 @@
 				RelativePath=".\ViewTree.h"
 				>
 			</File>
-			<Filter
-				Name="GameObjectEditor"
-				>
-				<File
-					RelativePath=".\DialogAddGameObjectGroup.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\DialogAddGameObjectGroup.h"
-					>
-				</File>
-				<File
-					RelativePath=".\DialogGameObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\DialogGameObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\GameObjectEditor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\GameObjectEditor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\GameObjectEditorObjects.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\GameObjectEditorObjects.h"
-					>
-				</File>
-				<File
-					RelativePath=".\GameObjectEditorView.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\GameObjectEditorView.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ToolGOEditor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ToolGOEditor.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Object"
@@ -730,6 +678,58 @@
 			</File>
 			<File
 				RelativePath=".\MemDC.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="GameObjectEditor"
+			>
+			<File
+				RelativePath=".\DialogAddGameObjectGroup.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DialogAddGameObjectGroup.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DialogGameObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DialogGameObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObjectEditor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObjectEditor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObjectEditorObjects.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObjectEditorObjects.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObjectEditorView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObjectEditorView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ToolGOEditor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ToolGOEditor.h"
 				>
 			</File>
 		</Filter>

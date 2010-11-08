@@ -119,6 +119,7 @@ void GameObjectEditor::AddGameObject(ResourceGameObjectGroup* pGOGroup)
 	_dlgPanel._strArtSource		= pGOGroup->_strArtResKey.c_str();
 	_dlgPanel._iMapType			= pGOGroup->_iMapType;
 	_dlgPanel._strCenterOffset	= "(n/a, n/a)";
+	_dlgPanel._obstacles.clear();
 
 	if (_dlgPanel._iMapType == 0)
 		_dlgPanel._strMapType = "¾ØÐÎ";
@@ -144,6 +145,7 @@ void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, Resourc
 	_dlgPanel._strArtSource		= pGOGroup->_strArtResKey.c_str();
 	_dlgPanel._iMapType			= pGOGroup->_iMapType;
 	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_xBaryCentric, pGO->_yBaryCentric);
+	_dlgPanel._obstacles		= pGO->_obstacles;
 
 	if (_dlgPanel._iMapType == 0)
 		_dlgPanel._strMapType = "¾ØÐÎ";

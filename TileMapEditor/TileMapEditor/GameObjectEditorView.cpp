@@ -53,6 +53,7 @@ void GameObjectEditorView::OnDraw(CDC* pDC)
 		pGODlg->DrawEditingObject(&memDC, CPoint(0, 0));
 
 		_DrawGrid(&memDC);
+		_DrawCenterGrid(&memDC);
 		_tool.Draw(&memDC);
 	}
 }
@@ -145,20 +146,20 @@ void GameObjectEditorView::_DrawGrid(CDC* pDC)
 	CPen pen(PS_SOLID, 1, RGB(0, 255, 0));
 	CPen* pOldPen = pDC->SelectObject(&pen);
 
-	int iMapW = pDlg->_iTileW * pDlg->_iTileCountX;
-	int iMapH = pDlg->_iTileH * pDlg->_iTileCountY;
+	int iMapW = pDlg->_iTileW * pDlg->_iTileCount;
+	int iMapH = pDlg->_iTileH * pDlg->_iTileCount;
 
 	if (pDlg->_iMapType == 0)
 	{
 		//ª≠∫·œﬂ
-		for (int i = 0; i <= pDlg->_iTileCountY; i++)
+		for (int i = 0; i <= pDlg->_iTileCount; i++)
 		{
 			pDC->MoveTo(0, i * pDlg->_iTileH);
 			pDC->LineTo(iMapW, i * pDlg->_iTileH);
 		}
 
 		//ª≠ ˙œﬂ
-		for (int i = 0; i <= pDlg->_iTileCountX; i++)
+		for (int i = 0; i <= pDlg->_iTileCount; i++)
 		{
 			pDC->MoveTo(i * pDlg->_iTileW, 0);
 			pDC->LineTo(i * pDlg->_iTileW, iMapH);
@@ -167,7 +168,7 @@ void GameObjectEditorView::_DrawGrid(CDC* pDC)
 	else
 	{
 		//ª≠–±∫·œﬂ
-		for (int i = 0; i <= pDlg->_iTileCountY; i++)
+		for (int i = 0; i <= pDlg->_iTileCount; i++)
 		{
 			pDC->MoveTo(iMapW/2 - i * pDlg->_iTileW / 2
 				, i * pDlg->_iTileH / 2);
@@ -177,7 +178,7 @@ void GameObjectEditorView::_DrawGrid(CDC* pDC)
 		}
 
 		//ª≠–± ˙œﬂ
-		for (int i = 0; i <= pDlg->_iTileCountX; i++)
+		for (int i = 0; i <= pDlg->_iTileCount; i++)
 		{
 			pDC->MoveTo(i * pDlg->_iTileW / 2
 				, iMapH/2 + i * pDlg->_iTileH / 2);
@@ -185,6 +186,42 @@ void GameObjectEditorView::_DrawGrid(CDC* pDC)
 			pDC->LineTo(iMapW/2 + i * pDlg->_iTileW / 2
 				, i * pDlg->_iTileH / 2);
 		}
+	}
+
+	pDC->SelectObject(pOldPen);
+}
+
+void GameObjectEditorView::_DrawCenterGrid(CDC* pDC)
+{
+	CDialogGameObject* pGODlg = GetGODlg();
+	CPoint ptCenter(pGODlg->_iTileCount/2, pGODlg->_iTileCount/2);
+	CRect rcPixel = pGODlg->GetPixelCoordRect(ptCenter);
+
+	CPen pen(PS_SOLID, 2, RGB(0, 0, 255));
+
+	pDC->SelectStockObject(NULL_BRUSH);
+	CPen* pOldPen = pDC->SelectObject(&pen);
+
+
+	CRect rc = rcPixel;
+
+	if (pGODlg->_iMapType == 0)
+	{
+		rc.DeflateRect(1, 1, 0, 0);
+
+		pDC->Rectangle(rc);
+	}
+	else
+	{
+		rc.DeflateRect(1, 1, 1, 1);
+
+		CPoint pts[4];
+		pts[0] = CPoint(rc.left, rc.top + rc.Height()/2);
+		pts[1] = CPoint(rc.left + rc.Width()/2, rc.top);
+		pts[2] = CPoint(rc.right, rc.top + rc.Height()/2);
+		pts[3] = CPoint(rc.left + rc.Width()/2, rc.bottom);
+
+		pDC->Polygon(pts, 4);
 	}
 
 	pDC->SelectObject(pOldPen);

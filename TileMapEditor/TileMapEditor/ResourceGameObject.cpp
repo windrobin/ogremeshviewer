@@ -30,7 +30,7 @@ void ResourceGameObject::Save(XMLOutStream& xmlOut)
 		xmlOut.AddAttribute("xBarycentric", _xBaryCentric);
 		xmlOut.AddAttribute("yBarycentric", _yBaryCentric);
 
-		for (ObstacleListType::iterator it = _obstacle.begin(); it != _obstacle.end(); ++it)
+		for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
 		{
 			xmlOut.NodeBegin("obstacle");
 				xmlOut.AddAttribute("x", it->x);
