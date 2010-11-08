@@ -3,6 +3,8 @@
 #include "resource.h"
 #include "afxwin.h"
 
+#include "TileMapEditorTypes.h"
+
 class ResourceGameObject;
 
 class CDialogGameObject : public CDialog
@@ -34,8 +36,8 @@ public:
 
 protected:
 
-	int							GetPixelWidth(){ return _iTileW * _iTileCountX; }
-	int							GetPixelHeight(){ return _iTileH * _iTileCountY; }
+	int							GetPixelWidth(){ return _iTileW * _iTileCount; }
+	int							GetPixelHeight(){ return _iTileH * _iTileCount; }
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
@@ -46,8 +48,7 @@ public:
 	CString _strGOName;
 	int _iTileW;
 	int _iTileH;
-	int _iTileCountX;
-	int _iTileCountY;
+	int _iTileCount;
 	CString _strCenterOffset;
 	CString _strArtSource;
 	CComboBox _comboArt;
@@ -55,8 +56,10 @@ public:
 	int _iMapType;
 	CString _strMapType;
 	CComboBox _comboAIType;
+	ObstacleListType	_obstacles;
 
 	afx_msg void OnBnClickedButtonGoCurBrush();
 	afx_msg void OnBnClickedButtonGoOk();
 	afx_msg void OnBnClickedButtonGoCancel();
+	afx_msg void OnEnChangeEditGoTileCount();
 };

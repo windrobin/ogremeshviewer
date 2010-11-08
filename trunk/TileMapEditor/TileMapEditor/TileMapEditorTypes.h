@@ -6,3 +6,5 @@ enum EGridType
 	eDiamond,		//ÁâĞÎÍø¸ñ
 	eGridNone		//ÏñËØ¶ÔÆë
 };
+
+typedef Cactus::list<CPoint>::type	ObstacleListType;

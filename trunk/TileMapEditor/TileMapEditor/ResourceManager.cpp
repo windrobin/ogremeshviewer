@@ -180,7 +180,7 @@ public:
 				CPoint pt;
 				pt.x	= attributes.getValueAsInteger("x");
 				pt.y	= attributes.getValueAsInteger("y");
-				pGameObject->_obstacle.push_back(pt);
+				pGameObject->_obstacles.push_back(pt);
 			}
 		}
 	}

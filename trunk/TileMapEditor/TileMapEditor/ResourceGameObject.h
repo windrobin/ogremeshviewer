@@ -23,8 +23,7 @@ protected:
 	float				_xBaryCentric;	//所有阻挡点的均值
 	float				_yBaryCentric;
 
-	typedef Cactus::list<CPoint>::type	ObstacleListType;
-	ObstacleListType	_obstacle;		//所有的阻挡点
+	ObstacleListType	_obstacles;		//所有的阻挡点
 
 	//EGameObjectType		_eType;			//GameObject类型
 };

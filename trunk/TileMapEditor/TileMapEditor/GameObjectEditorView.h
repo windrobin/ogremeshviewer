@@ -19,6 +19,7 @@ public:
 
 protected:
 	void	_DrawGrid(CDC* pDC);
+	void	_DrawCenterGrid(CDC* pDC);
 
 	ToolGOEditor	_tool;
 

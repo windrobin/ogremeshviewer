@@ -18,8 +18,7 @@ CDialogGameObject::CDialogGameObject(CWnd* pParent /*=NULL*/)
 	, _strGOName(_T(""))
 	, _iTileW(64)
 	, _iTileH(64)
-	, _iTileCountX(10)
-	, _iTileCountY(10)
+	, _iTileCount(15)
 	, _strCenterOffset(_T(""))
 	, _strArtSource(_T(""))
 	, _iMode(0)
@@ -39,8 +38,7 @@ void CDialogGameObject::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_GO_OBJ_NAME, _strGOName);
 	DDX_Text(pDX, IDC_EDIT_GO_TILEW, _iTileW);
 	DDX_Text(pDX, IDC_EDIT_GO_TILEH, _iTileH);
-	DDX_Text(pDX, IDC_EDIT_GO_TILE_COUNT_X, _iTileCountX);
-	DDX_Text(pDX, IDC_EDIT_GO_TILE_COUNT_Y, _iTileCountY);
+	DDX_Text(pDX, IDC_EDIT_GO_TILE_COUNT_X, _iTileCount);
 	DDX_Text(pDX, IDC_EDIT_GO_CENTER_POS, _strCenterOffset);
 	DDX_Text(pDX, IDC_EDIT_GO_ARTGROUP, _strArtSource);
 	DDX_Control(pDX, IDC_COMBO_GO_ARTID, _comboArt);
@@ -54,6 +52,7 @@ BEGIN_MESSAGE_MAP(CDialogGameObject, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_GO_CUR_BRUSH, &CDialogGameObject::OnBnClickedButtonGoCurBrush)
 	ON_BN_CLICKED(IDC_BUTTON_GO_OK, &CDialogGameObject::OnBnClickedButtonGoOk)
 	ON_BN_CLICKED(IDC_BUTTON_GO_CANCEL, &CDialogGameObject::OnBnClickedButtonGoCancel)
+	ON_EN_CHANGE(IDC_EDIT_GO_TILE_COUNT_X, &CDialogGameObject::OnEnChangeEditGoTileCount)
 END_MESSAGE_MAP()
 
 
@@ -191,4 +190,14 @@ void CDialogGameObject::DrawEditingObject(CDC* pDC, CPoint pt)
 		}
 	}
 
+}
+
+void CDialogGameObject::OnEnChangeEditGoTileCount()
+{
+	// TODO:  If this is a RICHEDIT control, the control will not
+	// send this notification unless you override the CDialog::OnInitDialog()
+	// function and call CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
+
+	// TODO:  Add your control notification handler code here
 }
