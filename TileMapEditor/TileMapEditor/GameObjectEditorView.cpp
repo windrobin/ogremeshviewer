@@ -50,7 +50,7 @@ void GameObjectEditorView::OnDraw(CDC* pDC)
 	if (pGO)
 	{
 		CDialogGameObject* pGODlg = GetGODlg();
-		pGODlg->DrawEditingObject(&memDC, CPoint(0, 0));
+		pGODlg->DrawEditingObject(&memDC);
 
 		_DrawGrid(&memDC);
 		_DrawCenterGrid(&memDC);

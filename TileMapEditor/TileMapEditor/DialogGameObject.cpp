@@ -22,11 +22,11 @@ CDialogGameObject::CDialogGameObject(CWnd* pParent /*=NULL*/)
 	, _iTileH(64)
 	, _iTileCount(15)
 	, _strCenterOffset(_T(""))
-	, _strArtSource(_T(""))
+	, _strResArtGroup(_T(""))
 	, _iMode(0)
 	, _strMapType(_T(""))
 {
-
+	_ptSelected = CPoint(0, 0);
 }
 
 CDialogGameObject::~CDialogGameObject()
@@ -42,7 +42,7 @@ void CDialogGameObject::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_GO_TILEH, _iTileH);
 	DDX_Text(pDX, IDC_EDIT_GO_TILE_COUNT_X, _iTileCount);
 	DDX_Text(pDX, IDC_EDIT_GO_CENTER_POS, _strCenterOffset);
-	DDX_Text(pDX, IDC_EDIT_GO_ARTGROUP, _strArtSource);
+	DDX_Text(pDX, IDC_EDIT_GO_ARTGROUP, _strResArtGroup);
 	DDX_Control(pDX, IDC_COMBO_GO_ARTID, _comboArt);
 	DDX_Radio(pDX, IDC_RADIO_GO_SELECT, _iMode);
 	DDX_Text(pDX, IDC_EDIT_GO_MAPTYPE, _strMapType);
@@ -56,6 +56,9 @@ BEGIN_MESSAGE_MAP(CDialogGameObject, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_GO_OK, &CDialogGameObject::OnBnClickedButtonGoOk)
 	ON_BN_CLICKED(IDC_BUTTON_GO_CANCEL, &CDialogGameObject::OnBnClickedButtonGoCancel)
 	ON_EN_CHANGE(IDC_EDIT_GO_TILE_COUNT_X, &CDialogGameObject::OnEnChangeEditGoTileCount)
+	ON_CBN_SELCHANGE(IDC_COMBO_GO_ARTID, &CDialogGameObject::OnCbnSelchangeComboGoArtid)
+	ON_BN_CLICKED(IDC_RADIO_GO_SET_OBSTACLE, &CDialogGameObject::OnBnClickedRadioGoSetObstacle)
+	ON_BN_CLICKED(IDC_RADIO_GO_CLEAR_OBSTACLE, &CDialogGameObject::OnBnClickedRadioGoClearObstacle)
 END_MESSAGE_MAP()
 
 
@@ -65,6 +68,8 @@ BOOL CDialogGameObject::OnInitDialog()
 
 	_spinTileCount.SetRange(10, 300);
 	_spinTileCount.SetBuddy(GetDlgItem(IDC_EDIT_GO_TILE_COUNT_X));
+
+	UpdateCenterInfo();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -91,7 +96,7 @@ void CDialogGameObject::EnumArtResItem(const Cactus::String& strResItem)
 {
 	_comboArt.ResetContent();
 
-	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strArtSource);
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strResArtGroup);
 	if (pResTile)
 	{
 		Cactus::StringVector* vectorCaps = pResTile->GetCaptions();
@@ -108,6 +113,8 @@ void CDialogGameObject::EnumArtResItem(const Cactus::String& strResItem)
 				_comboArt.SetCurSel(0);
 		}
 	}
+
+	OnCbnSelchangeComboGoArtid();
 }
 
 bool CDialogGameObject::GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid)
@@ -186,14 +193,14 @@ CRect CDialogGameObject::GetPixelCoordRect(const CPoint& ptGrid)
 	}
 }
 
-void CDialogGameObject::DrawEditingObject(CDC* pDC, CPoint pt)
+void CDialogGameObject::DrawEditingObject(CDC* pDC)
 {
-	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strArtSource);
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strResArtGroup);
 	if (pResTile)
 	{
 		CRect rc;
-		rc.left = pt.x;
-		rc.top	= pt.y;
+		rc.left = _ptSelected.x;
+		rc.top	= _ptSelected.y;
 
 		CString strLabel;
 		_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
@@ -217,5 +224,69 @@ void CDialogGameObject::OnEnChangeEditGoTileCount()
 	}
 
 	GameObjectEditorView* pView = GetGOView();
+
+	CSize sizeTotal;
+	sizeTotal.cx	= GetPixelWidth();
+	sizeTotal.cy	= GetPixelHeight();
+	pView->SetScrollSizes(MM_TEXT, sizeTotal);
+
 	pView->Invalidate(TRUE);
+}
+
+void CDialogGameObject::OnCbnSelchangeComboGoArtid()
+{
+	CString strLabel;
+	_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
+
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strResArtGroup);
+	if (pResTile)
+	{
+		CRect rc = CRect(_ptSelected, _szSelected);
+
+		rc = pResTile->GetResItemBoundingRect(rc, eGridNone, (LPCTSTR)strLabel);
+		_szSelected = rc.Size();
+	}
+}
+
+bool CDialogGameObject::HitTest(CPoint pt)
+{
+	CRect rc = CRect(_ptSelected, _szSelected);
+
+	return rc.PtInRect(pt) == TRUE;
+}
+
+void CDialogGameObject::MoveGameObject(CPoint ptOffset)
+{
+	CRect rcOld = CRect(_ptSelected, _szSelected);
+
+	_ptSelected.Offset(ptOffset);
+	CRect rcNew = CRect(_ptSelected, _szSelected);
+
+	rcNew.UnionRect(rcNew, rcOld);
+
+	UpdateCenterInfo();
+
+	GameObjectEditorView* pView = GetGOView();
+	pView->LogicInvalidate(&rcNew);
+}
+
+void CDialogGameObject::UpdateCenterInfo()
+{
+	CRect rcCenter = GetPixelCoordRect(CPoint(_iTileCount/2, _iTileCount/2));
+
+	CPoint ptOffset = _ptSelected - rcCenter.CenterPoint();
+	
+	_strCenterOffset.Format("(%d, %d)", ptOffset.x, ptOffset.y);
+
+	UpdateData(FALSE);
+}
+
+void CDialogGameObject::OnBnClickedRadioGoSetObstacle()
+{
+	_iMode = 1;
+}
+
+void CDialogGameObject::OnBnClickedRadioGoClearObstacle()
+{
+	_iMode = 2;
 }

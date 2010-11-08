@@ -31,19 +31,24 @@ public:
 	*/
 	CRect			GetPixelCoordRect(const CPoint& ptGrid);
 
-	void			DrawEditingObject(CDC* pDC, CPoint pt);
+	void			DrawEditingObject(CDC* pDC);
 
 	void			EnumArtResItem(const Cactus::String& strResItem);
 
+	bool			HitTest(CPoint pt);
+	void			MoveGameObject(CPoint ptOffset);
+
 protected:
 
-	int							GetPixelWidth(){ return _iTileW * _iTileCount; }
-	int							GetPixelHeight(){ return _iTileH * _iTileCount; }
+	int				GetPixelWidth(){ return _iTileW * _iTileCount; }
+	int				GetPixelHeight(){ return _iTileH * _iTileCount; }
+	void			UpdateCenterInfo();
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
 public:
+	virtual BOOL OnInitDialog();
 
 	CString _strGOGroupName;
 	CString _strGOName;
@@ -51,18 +56,23 @@ public:
 	int _iTileH;
 	int _iTileCount;
 	CString _strCenterOffset;
-	CString _strArtSource;
+	CString _strResArtGroup;
 	CComboBox _comboArt;
 	int _iMode;
 	int _iMapType;
 	CString _strMapType;
 	CComboBox _comboAIType;
 	ObstacleListType	_obstacles;
+	CSpinButtonCtrl _spinTileCount;
+
+	CPoint		_ptSelected;
+	CSize		_szSelected;
 
 	afx_msg void OnBnClickedButtonGoCurBrush();
 	afx_msg void OnBnClickedButtonGoOk();
 	afx_msg void OnBnClickedButtonGoCancel();
 	afx_msg void OnEnChangeEditGoTileCount();
-	CSpinButtonCtrl _spinTileCount;
-	virtual BOOL OnInitDialog();
+	afx_msg void OnCbnSelchangeComboGoArtid();
+	afx_msg void OnBnClickedRadioGoSetObstacle();
+	afx_msg void OnBnClickedRadioGoClearObstacle();
 };
