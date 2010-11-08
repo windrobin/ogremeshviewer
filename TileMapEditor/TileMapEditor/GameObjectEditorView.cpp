@@ -143,7 +143,7 @@ void GameObjectEditorView::_DrawGrid(CDC* pDC)
 {
 	CDialogGameObject* pDlg = GetGODlg();
 
-	CPen pen(PS_SOLID, 1, RGB(0, 255, 0));
+	CPen pen(PS_SOLID, 1, RGB(0, 192, 0));
 	CPen* pOldPen = pDC->SelectObject(&pen);
 
 	int iMapW = pDlg->_iTileW * pDlg->_iTileCount;
