@@ -16,7 +16,24 @@ public:
 // Dialog Data
 	enum { IDD = IDD_DIALOG_GO_EDITOR };
 
+	/**根据像素坐标，获取网格坐标
+	*	@param ptPixel	当前像素坐标
+	*	@param ptGrid	返回的网格坐标
+	*	@return 如果在地图区域内，函数成功，返回true，否则false
+	*/
+	bool						GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid);
+
+	/**获取当前网格的包围矩形（以像素坐标计算）
+	*	@param ptGrid	当前的网格坐标
+	*/
+	CRect						GetPixelCoordRect(const CPoint& ptGrid);
+
+
 protected:
+
+	int							GetPixelWidth(){ return _iTileW * _iTileCountX; }
+	int							GetPixelHeight(){ return _iTileH * _iTileCountY; }
+
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()

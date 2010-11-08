@@ -219,6 +219,10 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
+	String strPathName = _strRootFolder + "Editor/ResourceGameObject.xml";
+
+	_SaveResourceGameObject(strPathName);
+
 	Reset();
 }
 
@@ -393,4 +397,32 @@ bool ResourceManager::RemoveGameObjectGroup(const Cactus::String& strName)
 	}
 
 	return false;
+}
+
+void ResourceManager::_SaveResourceGameObject(const Cactus::String& strPathName)
+{
+	DataOutStreamOS os;
+	if( !os.Open(strPathName) )
+	{
+		Log_Error("ResourceManager::_SaveResourceGameObject, can not write file : " << strPathName);
+		return;
+	}
+
+	String str = "<?xml version=\"1.0\" encoding=\"gb2312\"?>\r\n";
+	//os << str;	//这样会先写个长度
+	os.Write(&str[0], str.size());
+
+	XMLOutStream xmlOut(&os);
+
+	xmlOut.NodeBegin("resoucegameobject");
+
+	ResGameObjectGroupMapType::iterator it = _ResGameObjectGroups.begin();
+	for(; it != _ResGameObjectGroups.end(); ++it)
+	{
+		ResourceGameObjectGroup* pGOGroup = it->second;
+		pGOGroup->Save(xmlOut);
+	}
+	xmlOut.NodeEnd("resoucegameobject");
+
+	xmlOut.Flush();
 }

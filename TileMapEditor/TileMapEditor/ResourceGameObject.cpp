@@ -20,6 +20,27 @@ bool ResourceGameObject::Load(const Cactus::String& strTile)
 	return ResourceManager::getSingleton().IsResourceTileIDValid(strTile, _ArtResID);
 }
 
+void ResourceGameObject::Save(XMLOutStream& xmlOut)
+{
+	xmlOut.NodeBegin("item");
+		xmlOut.AddAttribute("name", _strName);
+		xmlOut.AddAttribute("iconid", _ArtResID);
+		xmlOut.AddAttribute("xOffset", _ptOffset.x);
+		xmlOut.AddAttribute("yOffset", _ptOffset.y);
+		xmlOut.AddAttribute("xBarycentric", _xBaryCentric);
+		xmlOut.AddAttribute("yBarycentric", _yBaryCentric);
+
+		for (ObstacleListType::iterator it = _obstacle.begin(); it != _obstacle.end(); ++it)
+		{
+			xmlOut.NodeBegin("obstacle");
+				xmlOut.AddAttribute("x", it->x);
+				xmlOut.AddAttribute("y", it->y);
+			xmlOut.NodeEnd("obstacle");
+		}
+
+	xmlOut.NodeEnd("item");
+}
+
 //--------------------------------------------------------------------------------------------------------
 ResourceGameObjectGroup::ResourceGameObjectGroup()
 {
@@ -154,4 +175,25 @@ ResourceGameObject* ResourceGameObjectGroup::GetGameObject(const Cactus::String&
 	}
 
 	return 0;
+}
+
+void ResourceGameObjectGroup::Save(XMLOutStream& xmlOut)
+{
+	xmlOut.NodeBegin("group");
+		xmlOut.AddAttribute("name", _strName);
+		xmlOut.AddAttribute("iconres", _strArtResKey);
+		xmlOut.AddAttribute("mapType", _iMapType);
+		xmlOut.AddAttribute("unitTileW", _szUnitTile.x);
+		xmlOut.AddAttribute("unitTileH", _szUnitTile.y);
+
+	for(ResGameObjectListType::iterator itItem = _ResGameObjects.begin();
+		itItem != _ResGameObjects.end();
+		++itItem)
+	{
+		ResourceGameObject* pGO = *itItem;
+
+		pGO->Save(xmlOut);
+	}
+
+	xmlOut.NodeEnd("group");
 }

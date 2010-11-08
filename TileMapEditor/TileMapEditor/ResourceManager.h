@@ -65,4 +65,5 @@ protected:
 
 	bool	_LoadResourceArt(const Cactus::String& strPathName);
 	bool	_LoadResourceGameObject(const Cactus::String& strPathName);
+	void	_SaveResourceGameObject(const Cactus::String& strPathName);
 };
