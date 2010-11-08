@@ -209,6 +209,10 @@ void CDialogGameObject::DrawEditingObject(CDC* pDC)
 		{
 			pResTile->Draw(pDC, rc, eGridNone, (LPCTSTR)strLabel);
 		}
+
+
+		// TODO : »æÖÆ×èµ²ÐÅÏ¢
+
 	}
 
 }
