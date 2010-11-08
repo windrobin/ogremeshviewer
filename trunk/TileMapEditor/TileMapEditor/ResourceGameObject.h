@@ -14,6 +14,7 @@ public:
 
 	//加载对象
 	virtual bool		Load(const Cactus::String& strTile);
+	void				Save(Cactus::XMLOutStream& xmlOut);
 
 protected:
 	Cactus::String		_strName;		//名字
@@ -60,6 +61,8 @@ public:
 	virtual void			OnPropertyChanged(const std::string& propName);
 
 	ResourceGameObject*		GetGameObject(const Cactus::String& strItemID);
+
+	void					Save(Cactus::XMLOutStream& xmlOut);
 
 protected:
 	typedef Cactus::list<ResourceGameObject*>::type		ResGameObjectListType;

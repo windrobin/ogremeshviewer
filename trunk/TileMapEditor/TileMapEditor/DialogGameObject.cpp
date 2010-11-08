@@ -71,3 +71,79 @@ void CDialogGameObject::OnBnClickedButtonGoCancel()
 {
 	// TODO: Add your control notification handler code here
 }
+
+bool CDialogGameObject::GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid)
+{
+	if (ptPixel.x > GetPixelWidth() || ptPixel.y > GetPixelHeight() || ptPixel.x < 0 || ptPixel.y < 0)
+	{
+		return false;
+	}
+
+	if (_iMapType == 0)
+	{
+		ptGrid.x	= ptPixel.x / _iTileW;
+		ptGrid.y	= ptPixel.y / _iTileH;
+
+		return true;
+	}
+
+	bool bInRegion = false;
+
+	int iMapW = GetPixelWidth();
+	int iMapH = GetPixelHeight();
+
+	int y = 0;
+	float k = 1.0f * iMapH / iMapW;
+	if (ptPixel.x <= iMapW/2)
+	{
+		if ( (ptPixel.y >= -k * ptPixel.x + iMapH/2) && (ptPixel.y <= k * ptPixel.x + iMapH/2) )
+			bInRegion = true;
+	}
+	else
+	{
+		if ( (ptPixel.y >= k * ptPixel.x - iMapH/2) && (ptPixel.y <= -k * ptPixel.x + 1.5 * iMapH) )
+			bInRegion = true;
+	}
+
+	if (bInRegion)
+	{
+		//¼ÆËãy
+		//y = kx + b;	b[-0.5H, 0.5H]
+		float b = 1.0f * -iMapH/2;
+		ptGrid.y = -1;
+		while(ptPixel.y > k * ptPixel.x + b)
+		{
+			b += _iTileH;
+			ptGrid.y++;
+		}
+
+		//¼ÆËãx
+		//y = -kx + b;	b[0.5H, 1.5H]
+		b = 1.0f * iMapH/2;
+		ptGrid.x = -1;
+		while(ptPixel.y > -k * ptPixel.x + b)
+		{
+			b += _iTileH;
+			ptGrid.x++;
+		}
+	}
+
+	return bInRegion;
+}
+
+CRect CDialogGameObject::GetPixelCoordRect(const CPoint& ptGrid)
+{
+	if (_iMapType == 0)
+	{
+		return CRect(CPoint(ptGrid.x * _iTileW, ptGrid.y * _iTileH), CSize(_iTileW, _iTileH));
+	}
+	else
+	{
+		int xOffset = (GetPixelWidth() - _iTileW)/2;
+
+		int xLeft	= xOffset + (ptGrid.x - ptGrid.y) * _iTileW / 2;
+		int yTop	= (ptGrid.x + ptGrid.y) * _iTileH / 2;
+
+		return CRect(CPoint(xLeft, yTop), CSize(_iTileW, _iTileH));
+	}
+}
