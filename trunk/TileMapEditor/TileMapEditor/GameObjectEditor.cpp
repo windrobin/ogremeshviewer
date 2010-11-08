@@ -116,7 +116,7 @@ void GameObjectEditor::AddGameObject(ResourceGameObjectGroup* pGOGroup)
 	_dlgPanel._strGOName		= "NewName";
 	_dlgPanel._iTileW			= pGOGroup->_szUnitTile.x;
 	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
-	_dlgPanel._strArtSource		= pGOGroup->_strArtResKey.c_str();
+	_dlgPanel._strResArtGroup		= pGOGroup->_strArtResKey.c_str();
 	_dlgPanel._iMapType			= pGOGroup->_iMapType;
 	_dlgPanel._strCenterOffset	= "(n/a, n/a)";
 	_dlgPanel._obstacles.clear();
@@ -142,7 +142,7 @@ void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, Resourc
 	_dlgPanel._strGOName		= pGO->_strName.c_str();
 	_dlgPanel._iTileW			= pGOGroup->_szUnitTile.x;
 	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
-	_dlgPanel._strArtSource		= pGOGroup->_strArtResKey.c_str();
+	_dlgPanel._strResArtGroup		= pGOGroup->_strArtResKey.c_str();
 	_dlgPanel._iMapType			= pGOGroup->_iMapType;
 	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_xBaryCentric, pGO->_yBaryCentric);
 	_dlgPanel._obstacles		= pGO->_obstacles;

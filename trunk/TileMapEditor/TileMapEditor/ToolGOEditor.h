@@ -36,4 +36,7 @@ protected:
 	CPoint		_ptGrid;
 
 	COLORREF	_refCursor;
+
+	CPoint		_ptStart;
+	bool		_bSelected;
 };

@@ -77,6 +77,12 @@ void ToolGOEditor::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 
 	_bInRegion = ToolHitTest(point, _ptGrid, _rcTilePixel);
+
+	_bSelected = pGODlg->HitTest(point);
+	if (_bSelected)
+	{
+		_ptStart = point;
+	}
 }
 
 void ToolGOEditor::OnLButtonUp(UINT nFlags, CPoint point)
@@ -94,6 +100,17 @@ void ToolGOEditor::OnMouseMove(UINT nFlags, CPoint point)
 	}
 
 	GameObjectEditorView* pView = GetGOView();
+
+	if ( _bSelected && (nFlags & MK_LBUTTON) == MK_LBUTTON)
+	{
+		CPoint ptOffset = point - _ptStart;
+		if (ptOffset.x != 0 || ptOffset.y != 0 )
+		{
+			_ptStart = point;
+
+			pGODlg->MoveGameObject(ptOffset);
+		}
+	}
 
 	CRect rcPixel;
 	CPoint ptOldGird = _ptGrid;
