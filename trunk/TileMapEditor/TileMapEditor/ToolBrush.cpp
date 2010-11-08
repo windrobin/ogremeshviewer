@@ -31,7 +31,7 @@ void ToolBrush::Draw(CDC* pDC)
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetMap()->GetPixelCoordRect(_ptGrid);
-		pRes->Draw(pDC, rc, _strResID);
+		pRes->Draw(pDC, rc, ToolManager::getSingleton().GetMap()->GetType(), _strResID);
 	}
 
 	ToolBase::Draw(pDC);
@@ -98,7 +98,7 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetMap()->GetPixelCoordRect(_ptGrid);
-		CRect rcDest = pRes->GetResItemBoundingRect(rc, _strResID);
+		CRect rcDest = pRes->GetResItemBoundingRect(rc, ToolManager::getSingleton().GetMap()->GetType(), _strResID);
 
 		rcDirty.UnionRect(&rcDirty, rcDest);
 		_rcOldSelected = rcDest;

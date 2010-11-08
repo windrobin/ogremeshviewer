@@ -1,10 +1,6 @@
 #pragma once
 
-enum EMapType
-{
-	eRectangle,
-	eDiamond
-};
+#include "TileMapEditorTypes.h"
 
 class MapBaseObject : public PropertySys::SupportRTTI<MapBaseObject, PropertySys::RTTIObject>
 {

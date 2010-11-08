@@ -13,8 +13,8 @@ public:
 
 	virtual bool		Load();
 	virtual void		CreateImageList(CDC* pDC);
-	virtual void		Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID);
-	virtual CRect		GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strID);
+	virtual void		Draw(CDC* pDC, const CRect& curTile, EGridType eGrid, const Cactus::String& strID);
+	virtual CRect		GetResItemBoundingRect(const CRect& curTile, EGridType eGrid, const Cactus::String& strID);
 
 	static void			RegisterReflection();
 	virtual void		OnPropertyChanged(const std::string& propName);

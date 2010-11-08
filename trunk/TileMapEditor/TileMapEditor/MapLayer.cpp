@@ -116,11 +116,11 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 		if (pRes)
 		{
 			CRect rcPixel = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
-			pRes->Draw(pDC, rcPixel, pTile->_strResItemID);
+			pRes->Draw(pDC, rcPixel, _pParentMap->GetType(), pTile->_strResItemID);
 
 			if (pTile->_bSelected)
 			{
-				CRect rcDest = pRes->GetResItemBoundingRect(rcPixel, pTile->_strResItemID);
+				CRect rcDest = pRes->GetResItemBoundingRect(rcPixel, _pParentMap->GetType(), pTile->_strResItemID);
 				pDC->Rectangle(rcDest);
 			}
 		}
@@ -175,7 +175,7 @@ STile* MapLayer::TileHitTest(CPoint ptPixel, CPoint& ptGrid)
 		Resource* pRes = ResourceManager::getSingleton().GetResourceGroup(pTile->_strResGroup);
 
 		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
-		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, pTile->_strResItemID);
+		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, _pParentMap->GetType(), pTile->_strResItemID);
 
 		if (rcDest.PtInRect(ptPixel))
 		{
@@ -216,7 +216,7 @@ void MapLayer::UpdateTileVisual(STile* pTile, bool bEnsureVisible/* = false*/)
 		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
 
 		Resource* pRes = ResourceManager::getSingleton().GetResourceGroup(pTile->_strResGroup);
-		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, pTile->_strResItemID);
+		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, _pParentMap->GetType(), pTile->_strResItemID);
 		pMapView->LogicInvalidate(rcDest);
 
 		if (bEnsureVisible)
