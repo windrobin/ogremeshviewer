@@ -49,13 +49,17 @@ ResourceGameObjectGroup::ResourceGameObjectGroup()
 	_iMapType	= 0;
 }
 
-ResourceGameObjectGroup::ResourceGameObjectGroup(const Cactus::String& strName, const Cactus::String& strArtGroup, CPoint szTile)
+ResourceGameObjectGroup::ResourceGameObjectGroup(const Cactus::String& strName
+												 , const Cactus::String& strArtGroup
+												 , CPoint szTile
+												 , int iMapType)
 {
-	_eResType	= eResTypeGameObject;
+	_eResType		= eResTypeGameObject;
 
 	_strName		= strName;
 	_strArtResKey	= strArtGroup;
 	_szUnitTile		= szTile;
+	_iMapType		= iMapType;
 }
 
 

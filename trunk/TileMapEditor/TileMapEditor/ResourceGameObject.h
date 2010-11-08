@@ -49,7 +49,7 @@ class ResourceGameObjectGroup : public PropertySys::SupportRTTI<ResourceGameObje
 	friend class GameObjectEditor;
 public:
 	ResourceGameObjectGroup();
-	ResourceGameObjectGroup(const Cactus::String& strName, const Cactus::String& strArtGroup, CPoint szTile);
+	ResourceGameObjectGroup(const Cactus::String& strName, const Cactus::String& strArtGroup, CPoint szTile, int iMapType);
 	~ResourceGameObjectGroup();
 
 	virtual bool			Load(){ return _ResGameObjects.size() != 0; }

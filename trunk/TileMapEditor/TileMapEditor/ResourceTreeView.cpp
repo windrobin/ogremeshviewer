@@ -310,7 +310,11 @@ void ResourceTreeView::OnGameObjectGroupAdd()
 	DialogAddGameObjectGroup dlg;
 	if(dlg.DoModal() == IDOK)
 	{
-		ResourceGameObjectGroup* pGO = new ResourceGameObjectGroup((LPCSTR)dlg._strGroupName, dlg._strArtGroup, CPoint(dlg._iTileW, dlg._iTileH));
+		ResourceGameObjectGroup* pGO = new ResourceGameObjectGroup((LPCSTR)dlg._strGroupName
+			, dlg._strArtGroup
+			, CPoint(dlg._iTileW, dlg._iTileH)
+			, dlg._iMapType
+			);
 		if (!ResourceManager::getSingleton().AddGameObjectGroup(pGO))
 		{
 			delete pGO;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ToolGOEditor.h"
+
 class GameObjectEditorView : public CScrollView
 {
 	DECLARE_DYNAMIC(GameObjectEditorView)
@@ -14,6 +16,11 @@ public:
 	virtual void OnInitialUpdate(); // 构造后第一次调用
 
 protected:
+	void	_DrawGrid(CDC* pDC);
+
+	ToolGOEditor	_tool;
+
+protected:
 	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
 
 	DECLARE_MESSAGE_MAP()
@@ -23,7 +30,6 @@ protected:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-public:
 	afx_msg int OnMouseActivate(CWnd* pDesktopWnd, UINT nHitTest, UINT message);
 };
 
