@@ -8,6 +8,8 @@
 #include "ResourceManager.h"
 #include "ResourceTile.h"
 
+#include "GameObjectEditorObjects.h"
+
 // CDialogGameObject dialog
 
 IMPLEMENT_DYNAMIC(CDialogGameObject, CDialog)
@@ -45,6 +47,7 @@ void CDialogGameObject::DoDataExchange(CDataExchange* pDX)
 	DDX_Radio(pDX, IDC_RADIO_GO_SELECT, _iMode);
 	DDX_Text(pDX, IDC_EDIT_GO_MAPTYPE, _strMapType);
 	DDX_Control(pDX, IDC_COMBO_GO_AI, _comboAIType);
+	DDX_Control(pDX, IDC_SPIN, _spinTileCount);
 }
 
 
@@ -55,6 +58,17 @@ BEGIN_MESSAGE_MAP(CDialogGameObject, CDialog)
 	ON_EN_CHANGE(IDC_EDIT_GO_TILE_COUNT_X, &CDialogGameObject::OnEnChangeEditGoTileCount)
 END_MESSAGE_MAP()
 
+
+BOOL CDialogGameObject::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+	_spinTileCount.SetRange(10, 300);
+	_spinTileCount.SetBuddy(GetDlgItem(IDC_EDIT_GO_TILE_COUNT_X));
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// EXCEPTION: OCX Property Pages should return FALSE
+}
 
 // CDialogGameObject message handlers
 
@@ -194,10 +208,14 @@ void CDialogGameObject::DrawEditingObject(CDC* pDC, CPoint pt)
 
 void CDialogGameObject::OnEnChangeEditGoTileCount()
 {
-	// TODO:  If this is a RICHEDIT control, the control will not
-	// send this notification unless you override the CDialog::OnInitDialog()
-	// function and call CRichEditCtrl().SetEventMask()
-	// with the ENM_CHANGE flag ORed into the mask.
+	UpdateData(TRUE);
 
-	// TODO:  Add your control notification handler code here
+	if (_iTileCount < 10)
+	{
+		_iTileCount = 10;
+		UpdateData(FALSE);
+	}
+
+	GameObjectEditorView* pView = GetGOView();
+	pView->Invalidate(TRUE);
 }
