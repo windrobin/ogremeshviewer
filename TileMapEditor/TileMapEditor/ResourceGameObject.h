@@ -54,8 +54,8 @@ public:
 
 	virtual bool			Load(){ return _ResGameObjects.size() != 0; }
 	virtual void			CreateImageList(CDC* pDC);
-	virtual void			Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strItemID);
-	virtual CRect			GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strItemID);
+	virtual void			Draw(CDC* pDC, const CRect& curTile, EGridType eGrid, const Cactus::String& strItemID);
+	virtual CRect			GetResItemBoundingRect(const CRect& curTile, EGridType eGrid, const Cactus::String& strItemID);
 
 	static void				RegisterReflection();
 	virtual void			OnPropertyChanged(const std::string& propName);

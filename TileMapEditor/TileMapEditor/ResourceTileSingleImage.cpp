@@ -1,11 +1,6 @@
 #include "StdAfx.h"
 #include "ResourceTileSingleImage.h"
 #include "ResourceManager.h"
-#include "TileMapEditorView.h"
-#include "MainFrm.h"
-
-#include "ToolManager.h"
-#include "Map.h"
 
 using namespace Cactus;
 using namespace PropertySys;
@@ -118,7 +113,7 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC)
 	_bHasImageList = true;
 }
 
-void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID)
+void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, EGridType eGrid, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 
@@ -138,7 +133,14 @@ void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 	BITMAP bmpInfo;
 	pBmp->GetBitmap(&bmpInfo);
 
-	if (ToolManager::getSingleton().GetMap()->GetType() == eRectangle)
+	if (eGrid == eGridNone)
+	{
+		//像素对齐
+
+		pDC->TransparentBlt(curTile.left, curTile.top, bmpInfo.bmWidth, bmpInfo.bmHeight
+			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255,255,255));
+	}
+	else if (eGrid == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
 
@@ -161,7 +163,7 @@ void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const Cactus:
 	memDC.SelectObject(pOldBmp);
 }
 
-CRect ResourceTileSingleImage::GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strID)
+CRect ResourceTileSingleImage::GetResItemBoundingRect(const CRect& curTile, EGridType eGrid, const Cactus::String& strID)
 {
 	if (_BitmapTiles.find(strID) == _BitmapTiles.end())
 	{
@@ -175,7 +177,15 @@ CRect ResourceTileSingleImage::GetResItemBoundingRect(const CRect& curTile, cons
 	pBmp->GetBitmap(&bmpInfo);
 
 	CRect rcDest;
-	if (ToolManager::getSingleton().GetMap()->GetType() == eRectangle)
+	if (eGrid == eGridNone)
+	{
+		//像素对齐
+
+		rcDest = curTile;
+		rcDest.right	= rcDest.left + bmpInfo.bmWidth;
+		rcDest.bottom	= rcDest.top + bmpInfo.bmHeight;
+	}
+	else if (eGrid == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
 

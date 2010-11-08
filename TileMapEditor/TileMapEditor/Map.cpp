@@ -37,7 +37,7 @@ public:
 			_map._strCurLayerName		= attributes.getValueAsString("curlayer");
 			_map._bDrawGrid				= attributes.getValueAsBool("drawgrid");
 			_map._colGridColor			= attributes.getValueAsInteger("gridcolor");
-			_map._eMapType				= EMapType( attributes.getValueAsInteger("type") );
+			_map._eMapType				= EGridType( attributes.getValueAsInteger("type") );
 		}
 		else if ( currentElementMatch("tilemap/background/") )
 		{

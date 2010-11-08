@@ -45,7 +45,7 @@ public:
 	int							GetPixelWidth(){ return _iWidthInTiles * _iUnitTileWidth; }
 	int							GetPixelHeight(){ return _iHeightInTiles * _iUnitTileHeight; }
 
-	EMapType					GetType(){ return _eMapType; }
+	EGridType					GetType(){ return _eMapType; }
 	
 	/**根据像素坐标，获取网格坐标
 	*	@param ptPixel	当前像素坐标
@@ -91,7 +91,7 @@ protected:
 	int					_iUnitTileWidth;		///单位Tile宽度，像素
 	int					_iUnitTileHeight;		///单位Tile高度，像素
 	int					_iVersion;				///地图版本
-	EMapType			_eMapType;				///地图类型，井字格还是菱形
+	EGridType			_eMapType;				///地图类型，井字格还是菱形
 
 	int					_iRegionWidth;			///Region宽度，一个Region宽高应该为显示窗口宽高的1/2
 	int					_iRegionHeight;			///Region高度，一个Region宽高应该为显示窗口宽高的1/2

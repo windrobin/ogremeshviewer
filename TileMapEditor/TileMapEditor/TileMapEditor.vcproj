@@ -576,6 +576,10 @@
 		<Filter
 			Name="Object"
 			>
+			<File
+				RelativePath=".\TileMapEditorTypes.h"
+				>
+			</File>
 			<Filter
 				Name="Resource"
 				>

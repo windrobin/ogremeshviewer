@@ -1,11 +1,6 @@
 #include "StdAfx.h"
 #include "ResourceTileFolder.h"
 #include "ResourceManager.h"
-#include "TileMapEditorView.h"
-#include "MainFrm.h"
-
-#include "ToolManager.h"
-#include "Map.h"
 
 using namespace Cactus;
 using namespace PropertySys;
@@ -141,7 +136,7 @@ void ResourceTileFolder::CreateImageList(CDC* pDC)
 	AfxGetMainWnd()->EndWaitCursor();
 }
 
-void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID)
+void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, EGridType eGrid, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 
@@ -153,7 +148,13 @@ void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const Cactus::Stri
 
 	CxImage* pImage = _images[strID];
 
-	if (ToolManager::getSingleton().GetMap()->GetType() == eRectangle)
+	if (eGrid == eGridNone)
+	{
+		//像素对齐
+
+		pImage->Draw(pDC->GetSafeHdc(), curTile.left, curTile.top);
+	}
+	else if (eGrid == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
 
@@ -170,7 +171,7 @@ void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const Cactus::Stri
 	}
 }
 
-CRect ResourceTileFolder::GetResItemBoundingRect(const CRect& curTile, const Cactus::String& strID)
+CRect ResourceTileFolder::GetResItemBoundingRect(const CRect& curTile, EGridType eGrid, const Cactus::String& strID)
 {
 	if (_images.find(strID) == _images.end())
 	{
@@ -181,7 +182,15 @@ CRect ResourceTileFolder::GetResItemBoundingRect(const CRect& curTile, const Cac
 	CxImage* pImage = _images[strID];
 
 	CRect rcDest;
-	if (ToolManager::getSingleton().GetMap()->GetType() == eRectangle)
+	if (eGrid == eGridNone)
+	{
+		//像素对齐
+
+		rcDest = curTile;
+		rcDest.right	= rcDest.left + pImage->GetWidth();
+		rcDest.bottom	= rcDest.top + pImage->GetHeight();
+	}
+	else if (eGrid == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
 
