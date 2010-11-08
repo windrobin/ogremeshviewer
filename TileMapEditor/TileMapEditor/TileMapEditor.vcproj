@@ -421,14 +421,6 @@
 			Name="UI"
 			>
 			<File
-				RelativePath=".\DialogAddGameObjectGroup.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DialogAddGameObjectGroup.h"
-				>
-			</File>
-			<File
 				RelativePath=".\DialogFileNew.cpp"
 				>
 			</File>
@@ -532,6 +524,14 @@
 				Name="GameObjectEditor"
 				>
 				<File
+					RelativePath=".\DialogAddGameObjectGroup.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\DialogAddGameObjectGroup.h"
+					>
+				</File>
+				<File
 					RelativePath=".\DialogGameObject.cpp"
 					>
 				</File>
@@ -561,6 +561,14 @@
 				</File>
 				<File
 					RelativePath=".\GameObjectEditorView.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolGOEditor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ToolGOEditor.h"
 					>
 				</File>
 			</Filter>

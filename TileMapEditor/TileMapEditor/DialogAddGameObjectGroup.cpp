@@ -77,6 +77,12 @@ void DialogAddGameObjectGroup::OnBnClickedOk()
 		return;
 	}
 
+	if (_iTileW < 1 || _iTileH < 1)
+	{
+		MessageBox("Çë¼ì²éTile´óÐ¡£¡", "´íÎó", MB_OK | MB_ICONHAND);
+		return;
+	}
+
 	_strArtGroup = _ArtGroups[_comboArList.GetCurSel()];
 	
 	OnOK();

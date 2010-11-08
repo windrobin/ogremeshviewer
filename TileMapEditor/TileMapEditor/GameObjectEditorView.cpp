@@ -49,54 +49,9 @@ void GameObjectEditorView::OnDraw(CDC* pDC)
 	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
 	if (pGO)
 	{
-		CDialogGameObject* pDlg = GetGODlg();
+		_DrawGrid(&memDC);
 
-		CPen pen(PS_SOLID, 1, RGB(0, 255, 0));
-		CPen* pOldPen = memDC.SelectObject(&pen);
-
-		int iMapW = pDlg->_iTileW * pDlg->_iTileCountX;
-		int iMapH = pDlg->_iTileH * pDlg->_iTileCountY;
-
-		if (pDlg->_iMapType == 0)
-		{
-			//ª≠∫·œﬂ
-			for (int i = 0; i <= pDlg->_iTileCountY; i++)
-			{
-				memDC.MoveTo(0, i * pDlg->_iTileH);
-				memDC.LineTo(iMapW, i * pDlg->_iTileH);
-			}
-
-			//ª≠ ˙œﬂ
-			for (int i = 0; i <= pDlg->_iTileCountX; i++)
-			{
-				memDC.MoveTo(i * pDlg->_iTileW, 0);
-				memDC.LineTo(i * pDlg->_iTileW, iMapH);
-			}
-		}
-		else
-		{
-			//ª≠–±∫·œﬂ
-			for (int i = 0; i <= pDlg->_iTileCountY; i++)
-			{
-				memDC.MoveTo(iMapW/2 - i * pDlg->_iTileW / 2
-					, i * pDlg->_iTileH / 2);
-
-				memDC.LineTo(iMapW - i * pDlg->_iTileW / 2
-					, iMapH/2 + i * pDlg->_iTileH / 2);
-			}
-
-			//ª≠–± ˙œﬂ
-			for (int i = 0; i <= pDlg->_iTileCountX; i++)
-			{
-				memDC.MoveTo(i * pDlg->_iTileW / 2
-					, iMapH/2 + i * pDlg->_iTileH / 2);
-
-				memDC.LineTo(iMapW/2 + i * pDlg->_iTileW / 2
-					, i * pDlg->_iTileH / 2);
-			}
-		}
-
-		memDC.SelectObject(pOldPen);
+		_tool.Draw(&memDC);
 	}
 }
 
@@ -119,16 +74,34 @@ void GameObjectEditorView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 
 void GameObjectEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
+	if (pGO)
+	{
+		_tool.OnLButtonDown(nFlags, point);
+	}
+
 	CScrollView::OnLButtonDown(nFlags, point);
 }
 
 void GameObjectEditorView::OnLButtonUp(UINT nFlags, CPoint point)
 {
+	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
+	if (pGO)
+	{
+		_tool.OnLButtonUp(nFlags, point);
+	}
+
 	CScrollView::OnLButtonUp(nFlags, point);
 }
 
 void GameObjectEditorView::OnMouseMove(UINT nFlags, CPoint point)
 {
+	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
+	if (pGO)
+	{
+		_tool.OnMouseMove(nFlags, point);
+	}
+
 	CScrollView::OnMouseMove(nFlags, point);
 }
 
@@ -144,4 +117,56 @@ int GameObjectEditorView::OnMouseActivate(CWnd* pDesktopWnd, UINT nHitTest, UINT
 	// TODO: Add your message handler code here and/or call default
 
 	return CWnd::OnMouseActivate(pDesktopWnd, nHitTest, message);
+}
+
+void GameObjectEditorView::_DrawGrid(CDC* pDC)
+{
+	CDialogGameObject* pDlg = GetGODlg();
+
+	CPen pen(PS_SOLID, 1, RGB(0, 255, 0));
+	CPen* pOldPen = pDC->SelectObject(&pen);
+
+	int iMapW = pDlg->_iTileW * pDlg->_iTileCountX;
+	int iMapH = pDlg->_iTileH * pDlg->_iTileCountY;
+
+	if (pDlg->_iMapType == 0)
+	{
+		//ª≠∫·œﬂ
+		for (int i = 0; i <= pDlg->_iTileCountY; i++)
+		{
+			pDC->MoveTo(0, i * pDlg->_iTileH);
+			pDC->LineTo(iMapW, i * pDlg->_iTileH);
+		}
+
+		//ª≠ ˙œﬂ
+		for (int i = 0; i <= pDlg->_iTileCountX; i++)
+		{
+			pDC->MoveTo(i * pDlg->_iTileW, 0);
+			pDC->LineTo(i * pDlg->_iTileW, iMapH);
+		}
+	}
+	else
+	{
+		//ª≠–±∫·œﬂ
+		for (int i = 0; i <= pDlg->_iTileCountY; i++)
+		{
+			pDC->MoveTo(iMapW/2 - i * pDlg->_iTileW / 2
+				, i * pDlg->_iTileH / 2);
+
+			pDC->LineTo(iMapW - i * pDlg->_iTileW / 2
+				, iMapH/2 + i * pDlg->_iTileH / 2);
+		}
+
+		//ª≠–± ˙œﬂ
+		for (int i = 0; i <= pDlg->_iTileCountX; i++)
+		{
+			pDC->MoveTo(i * pDlg->_iTileW / 2
+				, iMapH/2 + i * pDlg->_iTileH / 2);
+
+			pDC->LineTo(iMapW/2 + i * pDlg->_iTileW / 2
+				, i * pDlg->_iTileH / 2);
+		}
+	}
+
+	pDC->SelectObject(pOldPen);
 }
