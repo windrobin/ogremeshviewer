@@ -15,6 +15,8 @@ public:
 
 	virtual void OnInitialUpdate(); // 构造后第一次调用
 
+	void	LogicInvalidate(CRect rc);
+
 protected:
 	void	_DrawGrid(CDC* pDC);
 

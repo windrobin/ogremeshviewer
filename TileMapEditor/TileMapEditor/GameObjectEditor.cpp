@@ -126,6 +126,8 @@ void GameObjectEditor::AddGameObject(ResourceGameObjectGroup* pGOGroup)
 		_dlgPanel._strMapType = "ÁâÐÎ";
 
 	_dlgPanel.UpdateData(FALSE);
+	_dlgPanel.EnumArtResItem("");
+
 	_pView->Invalidate();
 }
 
@@ -149,5 +151,7 @@ void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, Resourc
 		_dlgPanel._strMapType = "ÁâÐÎ";
 
 	_dlgPanel.UpdateData(FALSE);
+	_dlgPanel.EnumArtResItem(pGO->_ArtResID);
+
 	_pView->Invalidate();
 }

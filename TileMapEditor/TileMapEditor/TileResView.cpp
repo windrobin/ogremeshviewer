@@ -327,7 +327,7 @@ void TileResView::OnItemAdd()
 	GameObjectEditor* pGOEditor = pMainFrame->GetGameObjectEditor();
 	pGOEditor->ShowPane(TRUE, FALSE, TRUE);
 
-	ResourceGameObjectGroup* pGOGroup = (ResourceGameObjectGroup*)ResourceManager::getSingleton().GetResourceGroup(_strResGroup);
+	ResourceGameObjectGroup* pGOGroup = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
 	if (pGOGroup)
 	{
 		pGOEditor->AddGameObject(pGOGroup);
@@ -344,7 +344,7 @@ void TileResView::OnItemEdit()
 		pGOEditor->ShowPane(TRUE, FALSE, TRUE);
 
 		CString str = _listImages.GetItemText(_iCurSelectItem, 0);
-		ResourceGameObjectGroup* pGOGroup = (ResourceGameObjectGroup*)ResourceManager::getSingleton().GetResourceGroup(_strResGroup);
+		ResourceGameObjectGroup* pGOGroup = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
 		if (pGOGroup)
 		{
 			ResourceGameObject* pGO = pGOGroup->GetGameObject((LPCTSTR)str);
