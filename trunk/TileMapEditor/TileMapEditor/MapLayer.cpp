@@ -112,7 +112,7 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 	{
 		STile* pTile = *it;
 
-		Resource* pRes = ResourceManager::getSingleton().GetResourceGroup(pTile->_strResGroup);
+		Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(pTile->_strResGroup);
 		if (pRes)
 		{
 			CRect rcPixel = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
@@ -172,7 +172,7 @@ STile* MapLayer::TileHitTest(CPoint ptPixel, CPoint& ptGrid)
 	{
 		STile* pTile = tiles[t];
 
-		Resource* pRes = ResourceManager::getSingleton().GetResourceGroup(pTile->_strResGroup);
+		Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(pTile->_strResGroup);
 
 		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
 		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, _pParentMap->GetType(), pTile->_strResItemID);
@@ -215,7 +215,7 @@ void MapLayer::UpdateTileVisual(STile* pTile, bool bEnsureVisible/* = false*/)
 		CTileMapEditorView* pMapView = (CTileMapEditorView*)pMainFrame->GetActiveView();
 		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
 
-		Resource* pRes = ResourceManager::getSingleton().GetResourceGroup(pTile->_strResGroup);
+		Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(pTile->_strResGroup);
 		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, _pParentMap->GetType(), pTile->_strResItemID);
 		pMapView->LogicInvalidate(rcDest);
 

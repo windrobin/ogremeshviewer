@@ -100,7 +100,7 @@ void ToolGOEditor::OnMouseMove(UINT nFlags, CPoint point)
 	if(!ToolHitTest(point, _ptGrid, rcPixel))
 	{
 		if (_bInRegion)
-			pView->InvalidateRect(&_rcTilePixel);	//刷新老的
+			pView->LogicInvalidate(&_rcTilePixel);	//刷新老的
 
 		_bInRegion	= false;
 
@@ -112,10 +112,10 @@ void ToolGOEditor::OnMouseMove(UINT nFlags, CPoint point)
 	if (ptOldGird != _ptGrid)
 	{
 		if (_bInRegion)
-			pView->InvalidateRect(&_rcTilePixel);	//刷新老的
+			pView->LogicInvalidate(&_rcTilePixel);	//刷新老的
 
 		_rcTilePixel = rcPixel;
-		pView->InvalidateRect(&_rcTilePixel);		//绘制新的
+		pView->LogicInvalidate(&_rcTilePixel);		//绘制新的
 	}
 
 	_rcTilePixel = rcPixel;

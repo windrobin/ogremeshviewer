@@ -21,13 +21,16 @@ public:
 	*	@param ptGrid	返回的网格坐标
 	*	@return 如果在地图区域内，函数成功，返回true，否则false
 	*/
-	bool						GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid);
+	bool			GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid);
 
 	/**获取当前网格的包围矩形（以像素坐标计算）
 	*	@param ptGrid	当前的网格坐标
 	*/
-	CRect						GetPixelCoordRect(const CPoint& ptGrid);
+	CRect			GetPixelCoordRect(const CPoint& ptGrid);
 
+	void			DrawEditingObject(CDC* pDC, CPoint pt);
+
+	void			EnumArtResItem(const Cactus::String& strResItem);
 
 protected:
 

@@ -49,8 +49,10 @@ void GameObjectEditorView::OnDraw(CDC* pDC)
 	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
 	if (pGO)
 	{
-		_DrawGrid(&memDC);
+		CDialogGameObject* pGODlg = GetGODlg();
+		pGODlg->DrawEditingObject(&memDC, CPoint(0, 0));
 
+		_DrawGrid(&memDC);
 		_tool.Draw(&memDC);
 	}
 }
@@ -72,37 +74,54 @@ void GameObjectEditorView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 	CScrollView::OnPrepareDC(pDC, pInfo);
 }
 
+void GameObjectEditorView::LogicInvalidate(CRect rc)
+{
+	CPoint pt = GetScrollPosition();
+	rc.OffsetRect(-pt);
+
+	InvalidateRect(rc);
+}
+
 void GameObjectEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	CPoint ptLP = point;
+	ptLP.Offset( GetScrollPosition() );
+
 	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
 	if (pGO)
 	{
-		_tool.OnLButtonDown(nFlags, point);
+		_tool.OnLButtonDown(nFlags, ptLP);
 	}
 
-	CScrollView::OnLButtonDown(nFlags, point);
+	CScrollView::OnLButtonDown(nFlags, ptLP);
 }
 
 void GameObjectEditorView::OnLButtonUp(UINT nFlags, CPoint point)
 {
+	CPoint ptLP = point;
+	ptLP.Offset( GetScrollPosition() );
+
 	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
 	if (pGO)
 	{
-		_tool.OnLButtonUp(nFlags, point);
+		_tool.OnLButtonUp(nFlags, ptLP);
 	}
 
-	CScrollView::OnLButtonUp(nFlags, point);
+	CScrollView::OnLButtonUp(nFlags, ptLP);
 }
 
 void GameObjectEditorView::OnMouseMove(UINT nFlags, CPoint point)
 {
+	CPoint ptLP = point;
+	ptLP.Offset( GetScrollPosition() );
+
 	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
 	if (pGO)
 	{
-		_tool.OnMouseMove(nFlags, point);
+		_tool.OnMouseMove(nFlags, ptLP);
 	}
 
-	CScrollView::OnMouseMove(nFlags, point);
+	CScrollView::OnMouseMove(nFlags, ptLP);
 }
 
 BOOL GameObjectEditorView::OnEraseBkgnd(CDC* pDC)

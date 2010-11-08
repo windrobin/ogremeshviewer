@@ -339,7 +339,7 @@ ResourceTile* ResourceManager::GetResourceTileGroup(const Cactus::String& strGro
 	return 0;
 }
 
-Resource* ResourceManager::GetResourceGroup(const Cactus::String& key)
+Resource* ResourceManager::GetResourceArtGroup(const Cactus::String& key)
 {
 	if (_ResBackgrounds.find(key) != _ResBackgrounds.end())
 	{
@@ -351,6 +351,11 @@ Resource* ResourceManager::GetResourceGroup(const Cactus::String& key)
 		return _ResourceTiles[key];
 	}
 
+	return 0;
+}
+
+ResourceGameObjectGroup* ResourceManager::GetResourceGameObjectGroup(const Cactus::String& key)
+{
 	if (_ResGameObjectGroups.find(key) != _ResGameObjectGroups.end())
 	{
 		return _ResGameObjectGroups[key];

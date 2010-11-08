@@ -5,6 +5,8 @@
 #include "TileMapEditor.h"
 #include "DialogGameObject.h"
 
+#include "ResourceManager.h"
+#include "ResourceTile.h"
 
 // CDialogGameObject dialog
 
@@ -70,6 +72,29 @@ void CDialogGameObject::OnBnClickedButtonGoOk()
 void CDialogGameObject::OnBnClickedButtonGoCancel()
 {
 	// TODO: Add your control notification handler code here
+}
+
+void CDialogGameObject::EnumArtResItem(const Cactus::String& strResItem)
+{
+	_comboArt.ResetContent();
+
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strArtSource);
+	if (pResTile)
+	{
+		Cactus::StringVector* vectorCaps = pResTile->GetCaptions();
+		for (size_t t = 0; t < vectorCaps->size(); ++t)
+		{
+			_comboArt.InsertString(t, (*vectorCaps)[t].c_str() );
+		}
+
+		if (vectorCaps->size())
+		{
+			if (strResItem.size())
+				_comboArt.SelectString(0, strResItem.c_str());
+			else
+				_comboArt.SetCurSel(0);
+		}
+	}
 }
 
 bool CDialogGameObject::GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid)
@@ -146,4 +171,24 @@ CRect CDialogGameObject::GetPixelCoordRect(const CPoint& ptGrid)
 
 		return CRect(CPoint(xLeft, yTop), CSize(_iTileW, _iTileH));
 	}
+}
+
+void CDialogGameObject::DrawEditingObject(CDC* pDC, CPoint pt)
+{
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strArtSource);
+	if (pResTile)
+	{
+		CRect rc;
+		rc.left = pt.x;
+		rc.top	= pt.y;
+
+		CString strLabel;
+		_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
+
+		if (strLabel.GetLength())
+		{
+			pResTile->Draw(pDC, rc, eGridNone, (LPCTSTR)strLabel);
+		}
+	}
+
 }
