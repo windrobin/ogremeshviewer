@@ -354,7 +354,7 @@ Resource* ResourceManager::GetResourceArtGroup(const Cactus::String& key)
 	return 0;
 }
 
-ResourceGameObjectGroup* ResourceManager::GetResourceGameObjectGroup(const Cactus::String& key)
+Resource* ResourceManager::GetResourceGameObjectGroup(const Cactus::String& key)
 {
 	if (_ResGameObjectGroups.find(key) != _ResGameObjectGroups.end())
 	{

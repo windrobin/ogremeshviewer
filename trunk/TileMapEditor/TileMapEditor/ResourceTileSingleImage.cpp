@@ -130,7 +130,7 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC, bool bForceRecreate/* = 
 	_bHasImageList = true;
 }
 
-void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, EGridType eGrid, const Cactus::String& strID)
+void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const CPoint& ptGrid, EGridType eGrid, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 

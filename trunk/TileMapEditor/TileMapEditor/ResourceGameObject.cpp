@@ -167,7 +167,7 @@ void ResourceGameObjectGroup::CreateImageList(CDC* pDC, bool bForceRecreate/* = 
 	_bHasImageList = true;
 }
 
-void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, EGridType eGrid, const Cactus::String& strItemID)
+void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const CPoint& ptGrid, EGridType eGrid, const Cactus::String& strItemID)
 {
 	CreateImageList(pDC);
 
@@ -178,7 +178,7 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, EGridType eGr
 		{
 			if( (*it)->_strName == strItemID )
 			{
-				pResTile->Draw(pDC, curTile, eGrid, (*it)->_ArtResID);
+				pResTile->Draw(pDC, curTile, ptGrid, eGrid, (*it)->_ArtResID);
 				break;
 			}
 		}

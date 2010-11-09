@@ -118,8 +118,9 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 
 		if (pRes)
 		{
-			CRect rcPixel = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
-			pRes->Draw(pDC, rcPixel, _pParentMap->GetType(), pTile->_strResItemID);
+			CPoint ptGrid	= CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y);
+			CRect rcPixel	= _pParentMap->GetPixelCoordRect(ptGrid);
+			pRes->Draw(pDC, rcPixel, ptGrid, _pParentMap->GetType(), pTile->_strResItemID);
 
 			if (pTile->_bSelected)
 			{

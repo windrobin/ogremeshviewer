@@ -178,7 +178,7 @@ void CDialogGameObject::OnCbnSelchangeComboGoArtid()
 	CString strLabel;
 	_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
 
-	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strResArtGroup);
+	Resource* pResTile = ResourceManager::getSingleton().GetResourceArtGroup((LPCTSTR)_strResArtGroup);
 	if (pResTile)
 	{
 		CRect rc = CRect(_ptSelected, _szSelected);
@@ -384,7 +384,7 @@ void CDialogGameObject::DrawEditingObject(CDC* pDC)
 
 		if (strLabel.GetLength())
 		{
-			pResTile->Draw(pDC, rc, eGridNone, (LPCTSTR)strLabel);
+			pResTile->Draw(pDC, rc, CPoint(0, 0), eGridNone, (LPCTSTR)strLabel);
 		}
 
 		// »æÖÆ×èµ²ÐÅÏ¢

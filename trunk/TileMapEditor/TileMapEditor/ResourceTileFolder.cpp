@@ -153,7 +153,7 @@ void ResourceTileFolder::CreateImageList(CDC* pDC, bool bForceRecreate/* = false
 	AfxGetMainWnd()->EndWaitCursor();
 }
 
-void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, EGridType eGrid, const Cactus::String& strID)
+void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const CPoint& ptGrid, EGridType eGrid, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 
