@@ -372,5 +372,16 @@ void TileResView::OnItemRemove()
 {
 	if (_iCurSelectItem != -1)
 	{
+		CString str = _listImages.GetItemText(_iCurSelectItem, 0);
+		ResourceGameObjectGroup* pGOGroup = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
+		if (pGOGroup)
+		{
+			if( pGOGroup->RemoveGameObject((LPCTSTR)str) )
+			{
+				pGOGroup->CreateImageList(GetDC(), true);
+
+				BuildImageAndInfoes(pGOGroup);
+			}
+		}
 	}
 }

@@ -67,6 +67,7 @@ public:
 
 	bool					UpdateGameObject(ResourceGameObject* pGO);
 	bool					AddGameObject(ResourceGameObject* pGO);
+	bool					RemoveGameObject(const Cactus::String& strName);
 
 protected:
 	typedef Cactus::list<ResourceGameObject*>::type		ResGameObjectListType;

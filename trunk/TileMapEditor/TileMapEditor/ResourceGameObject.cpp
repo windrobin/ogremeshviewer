@@ -262,3 +262,18 @@ bool ResourceGameObjectGroup::AddGameObject(ResourceGameObject* pGO)
 
 	return true;
 }
+
+bool ResourceGameObjectGroup::RemoveGameObject(const Cactus::String& strName)
+{
+	for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
+	{
+		if( (*it)->_strName == strName)
+		{
+			delete *it;
+			_ResGameObjects.erase(it);
+			return true;
+		}
+	}
+
+	return false;
+}
