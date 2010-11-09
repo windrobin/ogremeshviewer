@@ -1,8 +1,8 @@
 #pragma once
 
-#include "TileMapEditorTypes.h"
+#include "GridTypes.h"
 
-class MapBaseObject : public PropertySys::SupportRTTI<MapBaseObject, PropertySys::RTTIObject>
+class MapBaseObject : public PropertySys::SupportRTTI<MapBaseObject, GridObject>
 {
 public:
 	MapBaseObject(){}

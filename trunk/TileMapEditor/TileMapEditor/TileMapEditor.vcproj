@@ -525,7 +525,11 @@
 			Name="Object"
 			>
 			<File
-				RelativePath=".\TileMapEditorTypes.h"
+				RelativePath=".\GridTypes.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GridTypes.h"
 				>
 			</File>
 			<Filter

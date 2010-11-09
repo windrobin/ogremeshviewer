@@ -37,6 +37,8 @@ void ToolBrush::Draw(CDC* pDC)
 		pRes->Draw(pDC, rc, _ptGrid, ToolManager::getSingleton().GetMap()->GetType(), _strResID);
 	}
 
+	//pDC->FillSolidRect(_rcOldSelected, RGB(128, 128, 128));
+
 	ToolBase::Draw(pDC);
 }
 

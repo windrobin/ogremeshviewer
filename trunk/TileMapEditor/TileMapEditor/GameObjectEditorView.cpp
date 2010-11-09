@@ -146,45 +146,45 @@ void GameObjectEditorView::_DrawGrid(CDC* pDC)
 	CPen pen(PS_SOLID, 1, RGB(0, 192, 0));
 	CPen* pOldPen = pDC->SelectObject(&pen);
 
-	int iMapW = pDlg->_iTileW * pDlg->_iTileCount;
-	int iMapH = pDlg->_iTileH * pDlg->_iTileCount;
+	int iMapW = pDlg->_iUnitTileWidth * pDlg->_iWidthInTiles;
+	int iMapH = pDlg->_iUnitTileHeight * pDlg->_iWidthInTiles;
 
-	if (pDlg->_iMapType == 0)
+	if (pDlg->_eGridType == 0)
 	{
 		//ª≠∫·œﬂ
-		for (int i = 0; i <= pDlg->_iTileCount; i++)
+		for (int i = 0; i <= pDlg->_iWidthInTiles; i++)
 		{
-			pDC->MoveTo(0, i * pDlg->_iTileH);
-			pDC->LineTo(iMapW, i * pDlg->_iTileH);
+			pDC->MoveTo(0, i * pDlg->_iUnitTileHeight);
+			pDC->LineTo(iMapW, i * pDlg->_iUnitTileHeight);
 		}
 
 		//ª≠ ˙œﬂ
-		for (int i = 0; i <= pDlg->_iTileCount; i++)
+		for (int i = 0; i <= pDlg->_iWidthInTiles; i++)
 		{
-			pDC->MoveTo(i * pDlg->_iTileW, 0);
-			pDC->LineTo(i * pDlg->_iTileW, iMapH);
+			pDC->MoveTo(i * pDlg->_iUnitTileWidth, 0);
+			pDC->LineTo(i * pDlg->_iUnitTileWidth, iMapH);
 		}
 	}
 	else
 	{
 		//ª≠–±∫·œﬂ
-		for (int i = 0; i <= pDlg->_iTileCount; i++)
+		for (int i = 0; i <= pDlg->_iWidthInTiles; i++)
 		{
-			pDC->MoveTo(iMapW/2 - i * pDlg->_iTileW / 2
-				, i * pDlg->_iTileH / 2);
+			pDC->MoveTo(iMapW/2 - i * pDlg->_iUnitTileWidth / 2
+				, i * pDlg->_iUnitTileHeight / 2);
 
-			pDC->LineTo(iMapW - i * pDlg->_iTileW / 2
-				, iMapH/2 + i * pDlg->_iTileH / 2);
+			pDC->LineTo(iMapW - i * pDlg->_iUnitTileWidth / 2
+				, iMapH/2 + i * pDlg->_iUnitTileHeight / 2);
 		}
 
 		//ª≠–± ˙œﬂ
-		for (int i = 0; i <= pDlg->_iTileCount; i++)
+		for (int i = 0; i <= pDlg->_iWidthInTiles; i++)
 		{
-			pDC->MoveTo(i * pDlg->_iTileW / 2
-				, iMapH/2 + i * pDlg->_iTileH / 2);
+			pDC->MoveTo(i * pDlg->_iUnitTileWidth / 2
+				, iMapH/2 + i * pDlg->_iUnitTileHeight / 2);
 
-			pDC->LineTo(iMapW/2 + i * pDlg->_iTileW / 2
-				, i * pDlg->_iTileH / 2);
+			pDC->LineTo(iMapW/2 + i * pDlg->_iUnitTileWidth / 2
+				, i * pDlg->_iUnitTileHeight / 2);
 		}
 	}
 
@@ -194,5 +194,5 @@ void GameObjectEditorView::_DrawGrid(CDC* pDC)
 void GameObjectEditorView::_DrawCenterGrid(CDC* pDC)
 {
 	CDialogGameObject* pGODlg = GetGODlg();
-	pGODlg->DrawGrid(pDC, CPoint(pGODlg->_iTileCount/2, pGODlg->_iTileCount/2), RGB(0, 0, 255), false);
+	pGODlg->DrawGrid(pDC, CPoint(pGODlg->_iWidthInTiles/2, pGODlg->_iWidthInTiles/2), RGB(0, 0, 255), false);
 }

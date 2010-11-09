@@ -50,7 +50,7 @@ class ResourceGameObjectGroup : public PropertySys::SupportRTTI<ResourceGameObje
 	friend class GameObjectEditor;
 public:
 	ResourceGameObjectGroup();
-	ResourceGameObjectGroup(const Cactus::String& strName, const Cactus::String& strArtGroup, CPoint szTile, int iMapType);
+	ResourceGameObjectGroup(const Cactus::String& strName, const Cactus::String& strArtGroup, CPoint szTile, EGridType e);
 	~ResourceGameObjectGroup();
 
 	virtual bool			Load(){ return _ResGameObjects.size() != 0; }
@@ -75,7 +75,7 @@ protected:
 
 	Cactus::String			_strArtResKey;	//依赖的图像资源名称
 	CPoint					_szUnitTile;	//单元格的大小
-	int						_iMapType;		//适用的地图类型
+	EGridType				_eGridType;		//适用的地图类型
 };
 
 

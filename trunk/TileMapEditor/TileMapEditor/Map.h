@@ -45,20 +45,6 @@ public:
 	int							GetPixelWidth(){ return _iWidthInTiles * _iUnitTileWidth; }
 	int							GetPixelHeight(){ return _iHeightInTiles * _iUnitTileHeight; }
 
-	EGridType					GetType(){ return _eMapType; }
-	
-	/**根据像素坐标，获取网格坐标
-	*	@param ptPixel	当前像素坐标
-	*	@param ptGrid	返回的网格坐标
-	*	@return 如果在地图区域内，函数成功，返回true，否则false
-	*/
-	bool						GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid);
-
-	/**获取当前网格的包围矩形（以像素坐标计算）
-	*	@param ptGrid	当前的网格坐标
-	*/
-	CRect						GetPixelCoordRect(const CPoint& ptGrid);
-
 	/**计算区域信息
 	*/
 	void						CalculateRegionInfo();
@@ -86,12 +72,7 @@ public:
 protected:
 	Cactus::String		_strFootnotes;			///地图备注
 	Cactus::String		_strCurLayerName;		///当前地层名字
-	int					_iWidthInTiles;			///宽度方向Tile数量
-	int					_iHeightInTiles;		///高度方向Tile数量
-	int					_iUnitTileWidth;		///单位Tile宽度，像素
-	int					_iUnitTileHeight;		///单位Tile高度，像素
 	int					_iVersion;				///地图版本
-	EGridType			_eMapType;				///地图类型，井字格还是菱形
 
 	int					_iRegionWidth;			///Region宽度，一个Region宽高应该为显示窗口宽高的1/2
 	int					_iRegionHeight;			///Region高度，一个Region宽高应该为显示窗口宽高的1/2

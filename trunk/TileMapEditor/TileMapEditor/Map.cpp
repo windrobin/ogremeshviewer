@@ -37,7 +37,7 @@ public:
 			_map._strCurLayerName		= attributes.getValueAsString("curlayer");
 			_map._bDrawGrid				= attributes.getValueAsBool("drawgrid");
 			_map._colGridColor			= attributes.getValueAsInteger("gridcolor");
-			_map._eMapType				= EGridType( attributes.getValueAsInteger("type") );
+			_map._eGridType				= EGridType( attributes.getValueAsInteger("type") );
 		}
 		else if ( currentElementMatch("tilemap/background/") )
 		{
@@ -139,16 +139,11 @@ protected:
 Map::Map()
 : _iVersion(1)
 , _pMapBackground(0)
-, _iWidthInTiles(50)
-, _iHeightInTiles(50)
 , _iRegionWidth(10)
 , _iRegionHeight(10)
-, _iUnitTileWidth(64)
-, _iUnitTileHeight(64)
 , _colBKColor(0)
 , _pCurLayer(0)
 , _strCurLayerName("")
-, _eMapType(eDiamond)
 , _bDrawGrid(true)
 , _colGridColor(RGB(0, 128, 0))
 , _bDrawRegionGrid(true)
@@ -172,11 +167,6 @@ void Map::RegisterReflection()
 
 	pProp = M_RegisterPropertySimple(int, Version, Map, Map, "地图版本.", BaseProperty::eReadOnly, _iVersion);
 	pProp = M_RegisterPropertySimple(Cactus::String, Footnotes, Map, Map, "地图备注.", BaseProperty::eDefault, _strFootnotes);
-
-	pProp = M_RegisterPropertySimple(int, WidthInTiles, Map, Map, "地图宽度.", BaseProperty::eDefault, _iWidthInTiles);
-	pProp = M_RegisterPropertySimple(int, HeightInTiles, Map, Map, "地图高度.", BaseProperty::eDefault, _iHeightInTiles);
-	pProp = M_RegisterPropertySimple(int, UnitTileWidth, Map, Map, "单位Tile的宽度，像素.", BaseProperty::eDefault, _iUnitTileWidth);
-	pProp = M_RegisterPropertySimple(int, UnitTileHeight, Map, Map, "单位Tile的高度，像素.", BaseProperty::eDefault, _iUnitTileHeight);
 
 	pProp = M_RegisterPropertySimple(int, BackgroundColor, Map, Map, "背景颜色.", BaseProperty::eDefault, _colBKColor);
 	pProp->SetValueSpecify(eValueColor, "");
@@ -231,7 +221,7 @@ void Map::Save(const Cactus::String& strPathName)
 	xmlOut.NodeBegin("tilemap");
 		xmlOut.AddAttribute("version", _iVersion);
 		xmlOut.AddAttribute("name", _strName);
-		xmlOut.AddAttribute("type", _eMapType);
+		xmlOut.AddAttribute("type", _eGridType);
 		xmlOut.AddAttribute("width", _iWidthInTiles);
 		xmlOut.AddAttribute("height", _iHeightInTiles);
 		xmlOut.AddAttribute("wUnitTile", _iUnitTileWidth);
@@ -406,7 +396,7 @@ void Map::Draw(CDC* pDC, const CRect& rcView)
 			pDC->SetTextColor(_colRegionGridColor);
 			pDC->SetBkMode(TRANSPARENT);
 
-			if (_eMapType == eRectangle)
+			if (_eGridType == eRectangle)
 			{
 				pDC->DrawText(strTmp, rc, DT_LEFT | DT_TOP);
 				pDC->Rectangle(rc);
@@ -532,108 +522,6 @@ void Map::ShowLayer(MapLayer* pLayer, bool bShow, bool bMakeCurrent)
 	pView->Invalidate();
 }
 
-bool Map::GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid)
-{
-	if (ptPixel.x > GetPixelWidth() || ptPixel.y > GetPixelHeight() || ptPixel.x < 0 || ptPixel.y < 0)
-	{
-		return false;
-	}
-
-	if (GetType() == eRectangle)
-	{
-		ptGrid.x	= ptPixel.x / _iUnitTileWidth;
-		ptGrid.y	= ptPixel.y / _iUnitTileHeight;
-
-		return true;
-	}
-
-/*
-	int xOffset = (GetPixelWidth() - _iUnitTileWidth)/2;
-
-	ptGrid.x	= ptPixel.y/_iUnitTileHeight + (ptPixel.x - xOffset) /_iUnitTileWidth;
-	ptGrid.y	= ptPixel.y/_iUnitTileHeight - (ptPixel.x - xOffset) /_iUnitTileWidth;
-
-	return (ptGrid.x >= 0 && ptGrid.y >= 0
-		&& ptGrid.x < _iWidthInTiles && ptGrid.y < _iHeightInTiles
-		);
-*/
-
-/*======================================
-k = H/W;
-
-x[0, 0.5W]
-y >= -kx + 0.5H;
-y <= kx + 0.5H;
-
-x[0.5W, W]
-y >= kx - 0.5H;
-y <= -kx + 1.5H;
-
-//a, b为grid坐标；x, y为像素坐标；
-a - b = 2x/W;
-a + b = 2y/H;
-======================================*/
-	bool bInRegion = false;
-
-	int iMapW = GetPixelWidth();
-	int iMapH = GetPixelHeight();
-
-	int y = 0;
-	float k = 1.0f * iMapH / iMapW;
-	if (ptPixel.x <= iMapW/2)
-	{
-		if ( (ptPixel.y >= -k * ptPixel.x + iMapH/2) && (ptPixel.y <= k * ptPixel.x + iMapH/2) )
-			bInRegion = true;
-	}
-	else
-	{
-		if ( (ptPixel.y >= k * ptPixel.x - iMapH/2) && (ptPixel.y <= -k * ptPixel.x + 1.5 * iMapH) )
-			bInRegion = true;
-	}
-
-	if (bInRegion)
-	{
-		//计算y
-		//y = kx + b;	b[-0.5H, 0.5H]
-		float b = 1.0f * -iMapH/2;
-		ptGrid.y = -1;
-		while(ptPixel.y > k * ptPixel.x + b)
-		{
-			b += _iUnitTileHeight;
-			ptGrid.y++;
-		}
-
-		//计算x
-		//y = -kx + b;	b[0.5H, 1.5H]
-		b = 1.0f * iMapH/2;
-		ptGrid.x = -1;
-		while(ptPixel.y > -k * ptPixel.x + b)
-		{
-			b += _iUnitTileHeight;
-			ptGrid.x++;
-		}
-	}
-
-	return bInRegion;
-}
-
-CRect Map::GetPixelCoordRect(const CPoint& ptGrid)
-{
-	if (GetType() == eRectangle)
-	{
-		return CRect(CPoint(ptGrid.x * _iUnitTileWidth, ptGrid.y * _iUnitTileHeight), CSize(_iUnitTileWidth, _iUnitTileHeight));
-	}
-	else
-	{
-		int xOffset = (GetPixelWidth() - _iUnitTileWidth)/2;
-
-		int xLeft	= xOffset + (ptGrid.x - ptGrid.y) * _iUnitTileWidth / 2;
-		int yTop	= (ptGrid.x + ptGrid.y) * _iUnitTileHeight / 2;
-
-		return CRect(CPoint(xLeft, yTop), CSize(_iUnitTileWidth, _iUnitTileHeight));
-	}
-}
-
 int Map::GetRegionID(const CPoint& ptGrid)
 {
 	for(RegionMapType::iterator it = _regions.begin(); it != _regions.end(); ++it)
@@ -685,7 +573,7 @@ void Map::CalculateRegionInfo()
 	int W = (_iWidthInTiles + _iRegionWidth - 1)/ _iRegionWidth;
 	int H = (_iHeightInTiles + _iRegionHeight - 1)/ _iRegionHeight;
 
-	if (_eMapType == eRectangle)
+	if (_eGridType == eRectangle)
 	{
 		for (int j = 0; j < H; ++j)
 		{
