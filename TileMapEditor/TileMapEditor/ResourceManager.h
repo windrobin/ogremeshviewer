@@ -32,7 +32,7 @@ public:
 	//获取名字为strGroupName的ResourceTileGroup
 	ResourceTile*	GetResourceTileGroup(const Cactus::String& strGroupName);
 
-	//获取名字为key的Resource
+	//获取名字为key的ArtResource
 	Resource*		GetResourceArtGroup(const Cactus::String& key);
 
 	/**获取名字为所有ResourceTile名字
@@ -48,7 +48,7 @@ public:
 	bool			AddGameObjectGroup(ResourceGameObjectGroup* p);
 
 	//获取名字为key的ResourceGameObjectGroup
-	ResourceGameObjectGroup*		GetResourceGameObjectGroup(const Cactus::String& key);
+	Resource*		GetResourceGameObjectGroup(const Cactus::String& key);
 
 	/**删除名字为strName的游戏对象组
 	*/

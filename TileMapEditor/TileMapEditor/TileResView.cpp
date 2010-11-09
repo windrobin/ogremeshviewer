@@ -217,7 +217,7 @@ void TileResView::BuildImageAndInfoes(Resource* pResGroup)
 
 void TileResView::ReBuildContent()
 {
-	ResourceGameObjectGroup* pGOGroup = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
+	ResourceGameObjectGroup* pGOGroup = (ResourceGameObjectGroup*)ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
 	if (pGOGroup)
 	{
 		pGOGroup->CreateImageList(GetDC(), true);
@@ -339,7 +339,7 @@ void TileResView::OnItemAdd()
 	GameObjectEditor* pGOEditor = pMainFrame->GetGameObjectEditor();
 	pGOEditor->ShowPane(TRUE, FALSE, TRUE);
 
-	ResourceGameObjectGroup* pGOGroup = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
+	ResourceGameObjectGroup* pGOGroup = (ResourceGameObjectGroup*)ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
 	if (pGOGroup)
 	{
 		pGOEditor->AddGameObject(pGOGroup);
@@ -356,7 +356,7 @@ void TileResView::OnItemEdit()
 		pGOEditor->ShowPane(TRUE, FALSE, TRUE);
 
 		CString str = _listImages.GetItemText(_iCurSelectItem, 0);
-		ResourceGameObjectGroup* pGOGroup = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
+		ResourceGameObjectGroup* pGOGroup = (ResourceGameObjectGroup*)ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
 		if (pGOGroup)
 		{
 			ResourceGameObject* pGO = pGOGroup->GetGameObject((LPCTSTR)str);
@@ -373,7 +373,7 @@ void TileResView::OnItemRemove()
 	if (_iCurSelectItem != -1)
 	{
 		CString str = _listImages.GetItemText(_iCurSelectItem, 0);
-		ResourceGameObjectGroup* pGOGroup = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
+		ResourceGameObjectGroup* pGOGroup = (ResourceGameObjectGroup*)ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
 		if (pGOGroup)
 		{
 			if( pGOGroup->RemoveGameObject((LPCTSTR)str) )

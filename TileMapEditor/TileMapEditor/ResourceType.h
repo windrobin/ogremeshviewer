@@ -39,10 +39,11 @@ public:
 	/** 绘制编号为strID的子资源
 	*	@param pDC		绘制的设备
 	*	@param curTile	当前Tile的包围矩形
+	*	@param ptGrid	当前网格坐标
 	*	@param eGrid	当前网格类型
 	*	@param strID	子资源名
 	*/ 
-	virtual void			Draw(CDC* pDC, const CRect& curTile, EGridType eGrid, const Cactus::String& strID){}
+	virtual void			Draw(CDC* pDC, const CRect& curTile, const CPoint& ptGrid, EGridType eGrid, const Cactus::String& strID){}
 
 	//获取资源组名称
 	Cactus::String			GetResourceName(){ return _strName; }

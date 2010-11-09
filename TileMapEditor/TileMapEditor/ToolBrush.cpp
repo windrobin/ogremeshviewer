@@ -28,10 +28,13 @@ void ToolBrush::Draw(CDC* pDC)
 		return;
 
 	Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(_strResGroup);
+	if (!pRes)
+		pRes = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
+
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetMap()->GetPixelCoordRect(_ptGrid);
-		pRes->Draw(pDC, rc, ToolManager::getSingleton().GetMap()->GetType(), _strResID);
+		pRes->Draw(pDC, rc, _ptGrid, ToolManager::getSingleton().GetMap()->GetType(), _strResID);
 	}
 
 	ToolBase::Draw(pDC);
@@ -95,6 +98,9 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 
 	//»æÖÆÍÏ¶¯ÄÚÈÝ
 	Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(_strResGroup);
+	if (!pRes)
+		pRes = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
+
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetMap()->GetPixelCoordRect(_ptGrid);
