@@ -25,7 +25,7 @@ public:
 	virtual	bool			Load(){ return false; }
 
 	//创建用于ResouceListView需要的图像列表
-	virtual void			CreateImageList(CDC* pDC){}
+	virtual void			CreateImageList(CDC* pDC, bool bForceRecreate = false){}
 
 	/** 子资源是否有效
 	*	@param strName	子资源名

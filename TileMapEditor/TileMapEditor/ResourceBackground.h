@@ -11,7 +11,7 @@ public:
 	~ResourceBackground();
 
 	virtual bool		Load();
-	virtual void		CreateImageList(CDC* pDC);
+	virtual void		CreateImageList(CDC* pDC, bool bForceRecreate = false);
 	virtual void		Draw(CDC* pDC, const CRect& curTile, const Cactus::String& strID){}
 
 	static void			RegisterReflection();

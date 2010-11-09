@@ -20,6 +20,25 @@ bool ResourceGameObject::Load(const Cactus::String& strTile)
 	return ResourceManager::getSingleton().IsResourceTileIDValid(strTile, _ArtResID);
 }
 
+void ResourceGameObject::CalculateBaryCentric()
+{
+	_xBaryCentric = 0;
+	_yBaryCentric = 0;
+
+	if (_obstacles.size() == 0)
+		return;
+
+	for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
+	{
+		_xBaryCentric += it->x;
+		_yBaryCentric += it->y;
+	}
+
+	_xBaryCentric /= _obstacles.size();
+	_yBaryCentric /= _obstacles.size();
+}
+
+
 void ResourceGameObject::Save(XMLOutStream& xmlOut)
 {
 	xmlOut.NodeBegin("item");
@@ -86,10 +105,20 @@ void ResourceGameObjectGroup::OnPropertyChanged(const std::string& propName)
 {
 }
 
-void ResourceGameObjectGroup::CreateImageList(CDC* pDC)
+void ResourceGameObjectGroup::CreateImageList(CDC* pDC, bool bForceRecreate/* = false*/)
 {
 	if (_bHasImageList)
-		return;
+	{
+		if (bForceRecreate)
+		{
+			_captions.clear();
+			_imageList.DeleteImageList();
+		}
+		else
+		{
+			return;
+		}
+	}
 
 	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup(_strArtResKey);
 	if (pResTile)
@@ -200,4 +229,36 @@ void ResourceGameObjectGroup::Save(XMLOutStream& xmlOut)
 	}
 
 	xmlOut.NodeEnd("group");
+}
+
+bool ResourceGameObjectGroup::UpdateGameObject(ResourceGameObject* pGO)
+{
+	for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
+	{
+		if( *it != pGO && (*it)->_strName == pGO->_strName)
+		{
+			return false;
+		}
+	}
+
+	pGO->CalculateBaryCentric();
+
+	return true;
+}
+
+bool ResourceGameObjectGroup::AddGameObject(ResourceGameObject* pGO)
+{
+	for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
+	{
+		if( (*it)->_strName == pGO->_strName)
+		{
+			return false;
+		}
+	}
+
+	pGO->CalculateBaryCentric();
+
+	_ResGameObjects.push_back(pGO);
+
+	return true;
 }

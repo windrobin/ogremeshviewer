@@ -32,8 +32,9 @@ public:
 	TileResView();
 	virtual ~TileResView();
 
-	void			BuildImageAndInfoes(const Cactus::String& strResKey, EResourceType eType
-		, CImageList* pImage, const Cactus::StringVector& captions);
+	void		BuildImageAndInfoes(Resource* pResGroup);
+
+	void		ReBuildContent();
 
 protected:
 	DialogResDetail		_dialogBar;

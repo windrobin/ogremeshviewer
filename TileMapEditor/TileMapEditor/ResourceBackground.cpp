@@ -57,10 +57,23 @@ bool ResourceBackground::Load()
 	return false;
 }
 
-void ResourceBackground::CreateImageList(CDC* pDC)
+void ResourceBackground::CreateImageList(CDC* pDC, bool bForceRecreate/* = false*/)
 {
 	if (_bHasImageList)
-		return;
+	{
+		if (bForceRecreate)
+		{
+			_pBmp->DeleteObject();
+			delete _pBmp;
+
+			_captions.clear();
+			_imageList.DeleteImageList();
+		}
+		else
+		{
+			return;
+		}
+	}
 
 	BOOL b = _imageList.Create(_iIconSize, _iIconSize, ILC_COLOR32, 0, 4);
 
