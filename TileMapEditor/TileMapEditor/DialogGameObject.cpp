@@ -155,6 +155,7 @@ void CDialogGameObject::OnEnChangeEditGoTileCount()
 		UpdateData(FALSE);
 	}
 
+	_iHeightInTiles	= _iWidthInTiles;
 
 	CRect rcCenter	= GetPixelCoordRect(CPoint(_iWidthInTiles/2, _iWidthInTiles/2));
 	_ptSelected		= _ptOffset + rcCenter.CenterPoint();
