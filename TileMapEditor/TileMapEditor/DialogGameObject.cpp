@@ -20,9 +20,6 @@ CDialogGameObject::CDialogGameObject(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogGameObject::IDD, pParent)
 	, _strGOGroupName(_T(""))
 	, _strGOName(_T(""))
-	, _iTileW(64)
-	, _iTileH(64)
-	, _iTileCount(15)
 	, _strCenterOffset(_T(""))
 	, _strResArtGroup(_T(""))
 	, _iMode(0)
@@ -31,6 +28,9 @@ CDialogGameObject::CDialogGameObject(CWnd* pParent /*=NULL*/)
 	_ptSelected = CPoint(0, 0);
 	_pResGO		= 0;
 	_pGOGroup	= 0;
+
+	_iWidthInTiles	= 15;
+	_iHeightInTiles	= 15;
 }
 
 CDialogGameObject::~CDialogGameObject()
@@ -42,9 +42,9 @@ void CDialogGameObject::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_GO_GROUP, _strGOGroupName);
 	DDX_Text(pDX, IDC_EDIT_GO_OBJ_NAME, _strGOName);
-	DDX_Text(pDX, IDC_EDIT_GO_TILEW, _iTileW);
-	DDX_Text(pDX, IDC_EDIT_GO_TILEH, _iTileH);
-	DDX_Text(pDX, IDC_EDIT_GO_TILE_COUNT_X, _iTileCount);
+	DDX_Text(pDX, IDC_EDIT_GO_TILEW, _iUnitTileWidth);
+	DDX_Text(pDX, IDC_EDIT_GO_TILEH, _iUnitTileHeight);
+	DDX_Text(pDX, IDC_EDIT_GO_TILE_COUNT_X, _iWidthInTiles);
 	DDX_Text(pDX, IDC_EDIT_GO_CENTER_POS, _strCenterOffset);
 	DDX_Text(pDX, IDC_EDIT_GO_ARTGROUP, _strResArtGroup);
 	DDX_Control(pDX, IDC_COMBO_GO_ARTID, _comboArt);
@@ -149,14 +149,14 @@ void CDialogGameObject::OnEnChangeEditGoTileCount()
 
 	UpdateData(TRUE);
 
-	if (_iTileCount < 10)
+	if (_iWidthInTiles < 10)
 	{
-		_iTileCount = 10;
+		_iWidthInTiles = 10;
 		UpdateData(FALSE);
 	}
 
 
-	CRect rcCenter	= GetPixelCoordRect(CPoint(_iTileCount/2, _iTileCount/2));
+	CRect rcCenter	= GetPixelCoordRect(CPoint(_iWidthInTiles/2, _iWidthInTiles/2));
 	_ptSelected		= _ptOffset + rcCenter.CenterPoint();
 
 
@@ -244,7 +244,7 @@ void CDialogGameObject::AfterSetData(const Cactus::String& strResItem)
 
 	OnCbnSelchangeComboGoArtid();
 
-	CRect rcCenter = GetPixelCoordRect(CPoint(_iTileCount/2, _iTileCount/2));
+	CRect rcCenter = GetPixelCoordRect(CPoint(_iWidthInTiles/2, _iWidthInTiles/2));
 	if (_bAdd)
 	{
 		_ptSelected		= CPoint(0, 0);
@@ -254,120 +254,6 @@ void CDialogGameObject::AfterSetData(const Cactus::String& strResItem)
 	{
 		_ptSelected		= _ptOffset + rcCenter.CenterPoint();
 	}
-}
-
-bool CDialogGameObject::GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid)
-{
-	if (ptPixel.x > GetPixelWidth() || ptPixel.y > GetPixelHeight() || ptPixel.x < 0 || ptPixel.y < 0)
-	{
-		return false;
-	}
-
-	if (_iMapType == 0)
-	{
-		ptGrid.x	= ptPixel.x / _iTileW;
-		ptGrid.y	= ptPixel.y / _iTileH;
-
-		return true;
-	}
-
-	bool bInRegion = false;
-
-	int iMapW = GetPixelWidth();
-	int iMapH = GetPixelHeight();
-
-	int y = 0;
-	float k = 1.0f * iMapH / iMapW;
-	if (ptPixel.x <= iMapW/2)
-	{
-		if ( (ptPixel.y >= -k * ptPixel.x + iMapH/2) && (ptPixel.y <= k * ptPixel.x + iMapH/2) )
-			bInRegion = true;
-	}
-	else
-	{
-		if ( (ptPixel.y >= k * ptPixel.x - iMapH/2) && (ptPixel.y <= -k * ptPixel.x + 1.5 * iMapH) )
-			bInRegion = true;
-	}
-
-	if (bInRegion)
-	{
-		//¼ÆËãy
-		//y = kx + b;	b[-0.5H, 0.5H]
-		float b = 1.0f * -iMapH/2;
-		ptGrid.y = -1;
-		while(ptPixel.y > k * ptPixel.x + b)
-		{
-			b += _iTileH;
-			ptGrid.y++;
-		}
-
-		//¼ÆËãx
-		//y = -kx + b;	b[0.5H, 1.5H]
-		b = 1.0f * iMapH/2;
-		ptGrid.x = -1;
-		while(ptPixel.y > -k * ptPixel.x + b)
-		{
-			b += _iTileH;
-			ptGrid.x++;
-		}
-	}
-
-	return bInRegion;
-}
-
-CRect CDialogGameObject::GetPixelCoordRect(const CPoint& ptGrid)
-{
-	if (_iMapType == 0)
-	{
-		return CRect(CPoint(ptGrid.x * _iTileW, ptGrid.y * _iTileH), CSize(_iTileW, _iTileH));
-	}
-	else
-	{
-		int xOffset = (GetPixelWidth() - _iTileW)/2;
-
-		int xLeft	= xOffset + (ptGrid.x - ptGrid.y) * _iTileW / 2;
-		int yTop	= (ptGrid.x + ptGrid.y) * _iTileH / 2;
-
-		return CRect(CPoint(xLeft, yTop), CSize(_iTileW, _iTileH));
-	}
-}
-
-void CDialogGameObject::DrawGrid(CDC* pDC, CPoint ptGrid, COLORREF ref, bool bSolid)
-{
-	CRect rcPixel = GetPixelCoordRect(ptGrid);
-
-	CPen pen(PS_SOLID, 2, ref);
-
-	pDC->SelectStockObject(NULL_BRUSH);
-
-	CPen* pOldPen = pDC->SelectObject(&pen);
-
-
-	CRect rc = rcPixel;
-
-	if(bSolid)
-		rc.DeflateRect(2, 2, 2, 2);
-
-	if (_iMapType == 0)
-	{
-		rc.DeflateRect(1, 1, 0, 0);
-
-		pDC->Rectangle(rc);
-	}
-	else
-	{
-		rc.DeflateRect(1, 1, 1, 1);
-
-		CPoint pts[4];
-		pts[0] = CPoint(rc.left, rc.top + rc.Height()/2);
-		pts[1] = CPoint(rc.left + rc.Width()/2, rc.top);
-		pts[2] = CPoint(rc.right, rc.top + rc.Height()/2);
-		pts[3] = CPoint(rc.left + rc.Width()/2, rc.bottom);
-
-		pDC->Polygon(pts, 4);
-	}
-
-	pDC->SelectObject(pOldPen);
 }
 
 void CDialogGameObject::DrawEditingObject(CDC* pDC)
@@ -391,7 +277,7 @@ void CDialogGameObject::DrawEditingObject(CDC* pDC)
 		for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
 		{
 			CPoint pt = *it;
-			DrawGrid(pDC, CPoint(_iTileCount/2 + pt.x, _iTileCount/2 + pt.y), RGB(255, 0, 0), true);
+			DrawGrid(pDC, CPoint(_iWidthInTiles/2 + pt.x, _iWidthInTiles/2 + pt.y), RGB(255, 0, 0), true);
 		}
 	}
 }
@@ -421,7 +307,7 @@ void CDialogGameObject::MoveGameObject(CPoint ptOffset)
 
 void CDialogGameObject::UpdateCenterInfo()
 {
-	CRect rcCenter = GetPixelCoordRect(CPoint(_iTileCount/2, _iTileCount/2));
+	CRect rcCenter = GetPixelCoordRect(CPoint(_iWidthInTiles/2, _iWidthInTiles/2));
 
 	_ptOffset = _ptSelected - rcCenter.CenterPoint();
 	
@@ -436,7 +322,7 @@ bool CDialogGameObject::AddObstacle(CPoint ptPixel)
 	if( !GetGridCoord(ptPixel, ptGrid) )
 		return false;
 
-	CPoint ptOffset = ptGrid - CPoint(_iTileCount/2, _iTileCount/2);
+	CPoint ptOffset = ptGrid - CPoint(_iWidthInTiles/2, _iWidthInTiles/2);
 
 	bool bFound = false;
 	for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
@@ -462,7 +348,7 @@ bool CDialogGameObject::ClearObstacle(CPoint ptPixel)
 	if( !GetGridCoord(ptPixel, ptGrid) )
 		return false;
 
-	CPoint ptOffset = ptGrid - CPoint(_iTileCount/2, _iTileCount/2);
+	CPoint ptOffset = ptGrid - CPoint(_iWidthInTiles/2, _iWidthInTiles/2);
 
 	for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
 	{

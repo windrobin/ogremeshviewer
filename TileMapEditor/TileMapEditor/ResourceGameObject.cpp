@@ -65,20 +65,20 @@ ResourceGameObjectGroup::ResourceGameObjectGroup()
 {
 	_eResType	= eResTypeGameObject;
 	_szUnitTile	= CPoint(64, 64);
-	_iMapType	= 0;
+	_eGridType	= eRectangle;
 }
 
 ResourceGameObjectGroup::ResourceGameObjectGroup(const Cactus::String& strName
 												 , const Cactus::String& strArtGroup
 												 , CPoint szTile
-												 , int iMapType)
+												 , EGridType e)
 {
 	_eResType		= eResTypeGameObject;
 
 	_strName		= strName;
 	_strArtResKey	= strArtGroup;
 	_szUnitTile		= szTile;
-	_iMapType		= iMapType;
+	_eGridType		= e;
 }
 
 
@@ -178,7 +178,12 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const CPoint&
 		{
 			if( (*it)->_strName == strItemID )
 			{
-				pResTile->Draw(pDC, curTile, ptGrid, eGrid, (*it)->_ArtResID);
+				CPoint ptTopLeft = curTile.CenterPoint() + (*it)->_ptOffset;
+				CRect rcNew = CRect(ptTopLeft, CSize(0, 0));
+				pResTile->Draw(pDC, rcNew, ptGrid, eGridNone, (*it)->_ArtResID);
+
+				//TODO : »æÖÆ×èµ²ÐÅÏ¢
+
 				break;
 			}
 		}
@@ -194,7 +199,11 @@ CRect ResourceGameObjectGroup::GetResItemBoundingRect(const CRect& curTile, EGri
 		{
 			if( (*it)->_strName == strItemID )
 			{
-				return pResTile->GetResItemBoundingRect(curTile, eGrid, (*it)->_ArtResID);
+				CRect rcTile = pResTile->GetResItemBoundingRect(curTile, eGridNone, (*it)->_ArtResID);
+				rcTile.OffsetRect((*it)->_ptOffset);
+				rcTile.OffsetRect(_szUnitTile.x/2, _szUnitTile.y/2);
+
+				return rcTile;
 			}
 		}
 	}
@@ -220,7 +229,7 @@ void ResourceGameObjectGroup::Save(XMLOutStream& xmlOut)
 	xmlOut.NodeBegin("group");
 		xmlOut.AddAttribute("name", _strName);
 		xmlOut.AddAttribute("iconres", _strArtResKey);
-		xmlOut.AddAttribute("mapType", _iMapType);
+		xmlOut.AddAttribute("mapType", _eGridType);
 		xmlOut.AddAttribute("unitTileW", _szUnitTile.x);
 		xmlOut.AddAttribute("unitTileH", _szUnitTile.y);
 

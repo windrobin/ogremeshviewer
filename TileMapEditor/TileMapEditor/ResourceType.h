@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TileMapEditorTypes.h"
+#include "GridTypes.h"
 
 enum EResourceType
 {

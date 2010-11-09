@@ -43,7 +43,7 @@ int GameObjectEditor::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
 
-	_dlgPanel.Create(CDialogGameObject::IDD, this);
+	_dlgPanel.CDialog::Create(CDialogGameObject::IDD, this);
 
 	_pView = new GameObjectEditorView;
 	_pView->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | AFX_WS_DEFAULT_VIEW, rectDummy, this, M_VIEW_ID);
@@ -112,14 +112,14 @@ void GameObjectEditor::AddGameObject(ResourceGameObjectGroup* pGOGroup)
 
 	_dlgPanel._strGOGroupName	= pGOGroup->GetResourceName().c_str();
 	_dlgPanel._strGOName		= "NewName";
-	_dlgPanel._iTileW			= pGOGroup->_szUnitTile.x;
-	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
-	_dlgPanel._strResArtGroup		= pGOGroup->_strArtResKey.c_str();
-	_dlgPanel._iMapType			= pGOGroup->_iMapType;
+	_dlgPanel._iUnitTileWidth	= pGOGroup->_szUnitTile.x;
+	_dlgPanel._iUnitTileHeight	= pGOGroup->_szUnitTile.y;
+	_dlgPanel._strResArtGroup	= pGOGroup->_strArtResKey.c_str();
+	_dlgPanel._eGridType		= pGOGroup->_eGridType;
 	_dlgPanel._strCenterOffset	= "(n/a, n/a)";
 	_dlgPanel._obstacles.clear();
 
-	if (_dlgPanel._iMapType == 0)
+	if (_dlgPanel._eGridType == 0)
 		_dlgPanel._strMapType = "矩形";
 	else
 		_dlgPanel._strMapType = "菱形";
@@ -138,15 +138,15 @@ void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, Resourc
 
 	_dlgPanel._strGOGroupName	= pGOGroup->GetResourceName().c_str();
 	_dlgPanel._strGOName		= pGO->_strName.c_str();
-	_dlgPanel._iTileW			= pGOGroup->_szUnitTile.x;
-	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
+	_dlgPanel._iUnitTileWidth	= pGOGroup->_szUnitTile.x;
+	_dlgPanel._iUnitTileHeight	= pGOGroup->_szUnitTile.y;
 	_dlgPanel._strResArtGroup	= pGOGroup->_strArtResKey.c_str();
-	_dlgPanel._iMapType			= pGOGroup->_iMapType;
+	_dlgPanel._eGridType		= pGOGroup->_eGridType;
 	_dlgPanel._ptOffset			= pGO->_ptOffset;
 	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_ptOffset.x, pGO->_ptOffset.y);
 	_dlgPanel._obstacles		= pGO->_obstacles;
 
-	if (_dlgPanel._iMapType == 0)
+	if (_dlgPanel._eGridType == 0)
 		_dlgPanel._strMapType = "矩形";
 	else
 		_dlgPanel._strMapType = "菱形";

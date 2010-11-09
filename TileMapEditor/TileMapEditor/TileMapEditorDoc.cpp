@@ -139,7 +139,7 @@ void CTileMapEditorDoc::OnFileNew()
 	_theMap._iHeightInTiles		= dlg._iMapHeight;
 	_theMap._iUnitTileWidth		= dlg._iUnitTileWidth;
 	_theMap._iUnitTileHeight	= dlg._iUnitTileHeight;
-	_theMap._eMapType			= EGridType(dlg._iType);
+	_theMap._eGridType			= EGridType(dlg._iType);
 	_theMap._iRegionWidth		= dlg._iRegionW;
 	_theMap._iRegionHeight		= dlg._iRegionH;
 
