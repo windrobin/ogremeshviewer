@@ -17,8 +17,6 @@ using namespace Cactus;
 GameObjectEditor::GameObjectEditor()
 {
 	_pView		= 0;
-	_pResGO		= 0;
-	_pGOGroup	= 0;
 }
 
 GameObjectEditor::~GameObjectEditor()
@@ -68,7 +66,7 @@ void GameObjectEditor::OnSize(UINT nType, int cx, int cy)
 	GetClientRect(rectClient);
 
 	CRect rcDlg = rectClient;
-	rcDlg.bottom = 60;
+	rcDlg.bottom = 55;
 	_dlgPanel.MoveWindow(&rcDlg);
 
 	CRect rcView = rectClient;
@@ -108,9 +106,9 @@ void GameObjectEditor::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void GameObjectEditor::AddGameObject(ResourceGameObjectGroup* pGOGroup)
 {
-	_bAdd		= true;
-	_pResGO		= new ResourceGameObject;
-	_pGOGroup	= pGOGroup;
+	_dlgPanel._bAdd			= true;
+	_dlgPanel._pResGO		= new ResourceGameObject;
+	_dlgPanel._pGOGroup		= pGOGroup;
 
 	_dlgPanel._strGOGroupName	= pGOGroup->GetResourceName().c_str();
 	_dlgPanel._strGOName		= "NewName";
@@ -127,23 +125,24 @@ void GameObjectEditor::AddGameObject(ResourceGameObjectGroup* pGOGroup)
 		_dlgPanel._strMapType = "ÁâÐÎ";
 
 	_dlgPanel.UpdateData(FALSE);
-	_dlgPanel.EnumArtResItem("");
+	_dlgPanel.AfterSetData("");
 
 	_pView->Invalidate();
 }
 
 void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, ResourceGameObject* pGO)
 {
-	_bAdd		= false;
-	_pResGO		= pGO;
-	_pGOGroup	= pGOGroup;
+	_dlgPanel._bAdd			= false;
+	_dlgPanel._pResGO		= pGO;
+	_dlgPanel._pGOGroup		= pGOGroup;
 
 	_dlgPanel._strGOGroupName	= pGOGroup->GetResourceName().c_str();
 	_dlgPanel._strGOName		= pGO->_strName.c_str();
 	_dlgPanel._iTileW			= pGOGroup->_szUnitTile.x;
 	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
-	_dlgPanel._strResArtGroup		= pGOGroup->_strArtResKey.c_str();
+	_dlgPanel._strResArtGroup	= pGOGroup->_strArtResKey.c_str();
 	_dlgPanel._iMapType			= pGOGroup->_iMapType;
+	_dlgPanel._ptBaryCentric	= CPoint(pGO->_xBaryCentric, pGO->_yBaryCentric);
 	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_xBaryCentric, pGO->_yBaryCentric);
 	_dlgPanel._obstacles		= pGO->_obstacles;
 
@@ -153,7 +152,7 @@ void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, Resourc
 		_dlgPanel._strMapType = "ÁâÐÎ";
 
 	_dlgPanel.UpdateData(FALSE);
-	_dlgPanel.EnumArtResItem(pGO->_ArtResID);
+	_dlgPanel.AfterSetData(pGO->_ArtResID);
 
 	_pView->Invalidate();
 }

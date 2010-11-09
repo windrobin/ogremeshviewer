@@ -27,6 +27,8 @@ CDialogGameObject::CDialogGameObject(CWnd* pParent /*=NULL*/)
 	, _strMapType(_T(""))
 {
 	_ptSelected = CPoint(0, 0);
+	_pResGO		= 0;
+	_pGOGroup	= 0;
 }
 
 CDialogGameObject::~CDialogGameObject()
@@ -59,6 +61,7 @@ BEGIN_MESSAGE_MAP(CDialogGameObject, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO_GO_ARTID, &CDialogGameObject::OnCbnSelchangeComboGoArtid)
 	ON_BN_CLICKED(IDC_RADIO_GO_SET_OBSTACLE, &CDialogGameObject::OnBnClickedRadioGoSetObstacle)
 	ON_BN_CLICKED(IDC_RADIO_GO_CLEAR_OBSTACLE, &CDialogGameObject::OnBnClickedRadioGoClearObstacle)
+	ON_BN_CLICKED(IDC_RADIO_GO_SELECT, &CDialogGameObject::OnBnClickedRadioGoSelect)
 END_MESSAGE_MAP()
 
 
@@ -103,6 +106,11 @@ void CDialogGameObject::OnEnChangeEditGoTileCount()
 		UpdateData(FALSE);
 	}
 
+
+	CRect rcCenter	= GetPixelCoordRect(CPoint(_iTileCount/2, _iTileCount/2));
+	_ptSelected		= _ptBaryCentric + rcCenter.CenterPoint();
+
+
 	GameObjectEditorView* pView = GetGOView();
 
 	CSize sizeTotal;
@@ -131,19 +139,27 @@ void CDialogGameObject::OnCbnSelchangeComboGoArtid()
 	}
 }
 
+void CDialogGameObject::OnBnClickedRadioGoSelect()
+{
+	_iMode = 0;
+	GetGOTool()->SetCurToolMode(eToolModeSelect);
+}
+
 void CDialogGameObject::OnBnClickedRadioGoSetObstacle()
 {
 	_iMode = 1;
+	GetGOTool()->SetCurToolMode(eToolModeSetObstacle);
 }
 
 void CDialogGameObject::OnBnClickedRadioGoClearObstacle()
 {
 	_iMode = 2;
+	GetGOTool()->SetCurToolMode(eToolModeClearObstacle);
 }
 
 
 //----------------------------------------------------------------------------------------------------------
-void CDialogGameObject::EnumArtResItem(const Cactus::String& strResItem)
+void CDialogGameObject::AfterSetData(const Cactus::String& strResItem)
 {
 	_comboArt.ResetContent();
 
@@ -166,6 +182,17 @@ void CDialogGameObject::EnumArtResItem(const Cactus::String& strResItem)
 	}
 
 	OnCbnSelchangeComboGoArtid();
+
+	CRect rcCenter = GetPixelCoordRect(CPoint(_iTileCount/2, _iTileCount/2));
+	if (_bAdd)
+	{
+		_ptSelected		= CPoint(0, 0);
+		_ptBaryCentric	= _ptSelected - rcCenter.CenterPoint();
+	}
+	else
+	{
+		_ptSelected		= _ptBaryCentric + rcCenter.CenterPoint();
+	}
 }
 
 bool CDialogGameObject::GetGridCoord(const CPoint& ptPixel, CPoint& ptGrid)
@@ -244,6 +271,44 @@ CRect CDialogGameObject::GetPixelCoordRect(const CPoint& ptGrid)
 	}
 }
 
+void CDialogGameObject::DrawGrid(CDC* pDC, CPoint ptGrid, COLORREF ref, bool bSolid)
+{
+	CRect rcPixel = GetPixelCoordRect(ptGrid);
+
+	CPen pen(PS_SOLID, 2, ref);
+
+	pDC->SelectStockObject(NULL_BRUSH);
+
+	CPen* pOldPen = pDC->SelectObject(&pen);
+
+
+	CRect rc = rcPixel;
+
+	if(bSolid)
+		rc.DeflateRect(2, 2, 2, 2);
+
+	if (_iMapType == 0)
+	{
+		rc.DeflateRect(1, 1, 0, 0);
+
+		pDC->Rectangle(rc);
+	}
+	else
+	{
+		rc.DeflateRect(1, 1, 1, 1);
+
+		CPoint pts[4];
+		pts[0] = CPoint(rc.left, rc.top + rc.Height()/2);
+		pts[1] = CPoint(rc.left + rc.Width()/2, rc.top);
+		pts[2] = CPoint(rc.right, rc.top + rc.Height()/2);
+		pts[3] = CPoint(rc.left + rc.Width()/2, rc.bottom);
+
+		pDC->Polygon(pts, 4);
+	}
+
+	pDC->SelectObject(pOldPen);
+}
+
 void CDialogGameObject::DrawEditingObject(CDC* pDC)
 {
 	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strResArtGroup);
@@ -261,19 +326,21 @@ void CDialogGameObject::DrawEditingObject(CDC* pDC)
 			pResTile->Draw(pDC, rc, eGridNone, (LPCTSTR)strLabel);
 		}
 
-
-		// TODO : 绘制阻挡信息
-
+		// 绘制阻挡信息
+		for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
+		{
+			CPoint pt = *it;
+			DrawGrid(pDC, CPoint(_iTileCount/2 + pt.x, _iTileCount/2 + pt.y), RGB(255, 0, 0), true);
+		}
 	}
-
 }
 
 
-bool CDialogGameObject::HitTest(CPoint pt)
+bool CDialogGameObject::HitTest(CPoint ptPixel)
 {
 	CRect rc = CRect(_ptSelected, _szSelected);
 
-	return rc.PtInRect(pt) == TRUE;
+	return rc.PtInRect(ptPixel) == TRUE;
 }
 
 void CDialogGameObject::MoveGameObject(CPoint ptOffset)
@@ -295,9 +362,55 @@ void CDialogGameObject::UpdateCenterInfo()
 {
 	CRect rcCenter = GetPixelCoordRect(CPoint(_iTileCount/2, _iTileCount/2));
 
-	CPoint ptOffset = _ptSelected - rcCenter.CenterPoint();
+	_ptBaryCentric = _ptSelected - rcCenter.CenterPoint();
 	
-	_strCenterOffset.Format("(%d, %d)", ptOffset.x, ptOffset.y);
+	_strCenterOffset.Format("(%d, %d)", _ptBaryCentric.x, _ptBaryCentric.y);
 
 	UpdateData(FALSE);
+}
+
+bool CDialogGameObject::AddObstacle(CPoint ptPixel)
+{
+	CPoint ptGrid;
+	if( !GetGridCoord(ptPixel, ptGrid) )
+		return false;
+
+	CPoint ptOffset = ptGrid - CPoint(_iTileCount/2, _iTileCount/2);
+
+	bool bFound = false;
+	for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
+	{
+		if (it->x == ptOffset.x && it->y == ptOffset.y)
+		{
+			bFound = true;
+			break;
+		}
+	}
+
+	if (!bFound)
+	{
+		_obstacles.push_back(ptOffset);
+	}
+
+	return bFound;
+}
+
+bool CDialogGameObject::ClearObstacle(CPoint ptPixel)
+{
+	CPoint ptGrid;
+	if( !GetGridCoord(ptPixel, ptGrid) )
+		return false;
+
+	CPoint ptOffset = ptGrid - CPoint(_iTileCount/2, _iTileCount/2);
+
+	for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
+	{
+		if (it->x == ptOffset.x && it->y == ptOffset.y)
+		{
+			_obstacles.erase(it);
+			return true;
+		}
+	}
+
+	return false;
 }

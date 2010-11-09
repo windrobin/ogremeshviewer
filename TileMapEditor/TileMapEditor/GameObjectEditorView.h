@@ -17,6 +17,8 @@ public:
 
 	void	LogicInvalidate(CRect rc);
 
+	ToolGOEditor*	GetTool(){ return &_tool; }
+
 protected:
 	void	_DrawGrid(CDC* pDC);
 	void	_DrawCenterGrid(CDC* pDC);

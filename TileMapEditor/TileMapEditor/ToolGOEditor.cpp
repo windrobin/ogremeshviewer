@@ -38,35 +38,8 @@ void ToolGOEditor::Draw(CDC* pDC)
 {
 	if (_bInRegion && _bDrawCursor)
 	{
-		CPen pen(PS_SOLID, 2, _refCursor);
-
-		pDC->SelectStockObject(NULL_BRUSH);
-		CPen* pOldPen = pDC->SelectObject(&pen);
-
-		CRect rc = _rcTilePixel;
-
 		CDialogGameObject* pGODlg = GetGODlg();
-
-		if (pGODlg->_iMapType == 0)
-		{
-			rc.DeflateRect(1, 1, 0, 0);
-
-			pDC->Rectangle(rc);
-		}
-		else
-		{
-			rc.DeflateRect(1, 1, 1, 1);
-
-			CPoint pts[4];
-			pts[0] = CPoint(rc.left, rc.top + rc.Height()/2);
-			pts[1] = CPoint(rc.left + rc.Width()/2, rc.top);
-			pts[2] = CPoint(rc.right, rc.top + rc.Height()/2);
-			pts[3] = CPoint(rc.left + rc.Width()/2, rc.bottom);
-
-			pDC->Polygon(pts, 4);
-		}
-
-		pDC->SelectObject(pOldPen);
+		pGODlg->DrawGrid(pDC, _ptGrid, _refCursor, false);
 	}
 }
 
@@ -78,16 +51,35 @@ void ToolGOEditor::OnLButtonDown(UINT nFlags, CPoint point)
 
 	_bInRegion = ToolHitTest(point, _ptGrid, _rcTilePixel);
 
-	_bSelected = pGODlg->HitTest(point);
-	if (_bSelected)
+	if (_eCurToolMode == eToolModeSelect)
 	{
-		_ptStart = point;
+		_bSelected = pGODlg->HitTest(point);
+		if (_bSelected)
+		{
+			_ptStart = point;
+		}
+	}
+	else if (_eCurToolMode == eToolModeSetObstacle)
+	{
+		if( pGODlg->AddObstacle(point) )
+		{
+			GameObjectEditorView* pView = GetGOView();
+			pView->Invalidate();
+		}
+	}
+	else
+	{
+		if( pGODlg->ClearObstacle(point) )
+		{
+			GameObjectEditorView* pView = GetGOView();
+			pView->Invalidate();
+		}
 	}
 }
 
 void ToolGOEditor::OnLButtonUp(UINT nFlags, CPoint point)
 {
-
+	_bSelected = false;
 }
 
 void ToolGOEditor::OnMouseMove(UINT nFlags, CPoint point)
@@ -143,5 +135,18 @@ void ToolGOEditor::OnMouseMove(UINT nFlags, CPoint point)
 
 void ToolGOEditor::SetCurToolMode(EToolMode e)
 {
+	_eCurToolMode = e;
 
+	if (_eCurToolMode == eToolModeSelect)
+	{
+		_refCursor = RGB(231, 165, 25);
+	}
+	else if (_eCurToolMode == eToolModeSetObstacle)
+	{
+		_refCursor = RGB(255, 0, 0);
+	}
+	else
+	{
+		_refCursor = RGB(0, 192, 0);
+	}
 }
