@@ -184,13 +184,13 @@ void TileResView::OnClassAddMemberFunction()
 	AfxMessageBox(_T("添加成员函数..."));
 }
 
-void TileResView::BuildImageAndInfoes(const Cactus::String& strResKey, EResourceType eType, CImageList* pImage, const Cactus::StringVector& captions)
+void TileResView::BuildImageAndInfoes(Resource* pResGroup)
 {
 	_listImages.DeleteAllItems();
 
-	_iOldCheck	= -1;
-	_strResGroup	= strResKey;
-	_eType		= eType;
+	_iOldCheck		= -1;
+	_strResGroup	= pResGroup->GetResourceName();
+	_eType			= pResGroup->GetResourceType();
 
 	_dialogBar._strGroupName	= _strResGroup.c_str();
 	if (_eType == eResTypeArt)
@@ -206,11 +206,23 @@ void TileResView::BuildImageAndInfoes(const Cactus::String& strResKey, EResource
 	//Clear brush tool
 	ToolManager::getSingleton().SelectTool(eToolSelect);
 
-	_listImages.SetImageList(pImage, LVSIL_NORMAL);
+	_listImages.SetImageList(pResGroup->GetImageList(), LVSIL_NORMAL);
 
+	const Cactus::StringVector& captions = *pResGroup->GetCaptions();
 	for (size_t t = 0; t < captions.size(); ++t)
 	{
 		_listImages.InsertItem(t, captions[t].c_str(), t);
+	}
+}
+
+void TileResView::ReBuildContent()
+{
+	ResourceGameObjectGroup* pGOGroup = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
+	if (pGOGroup)
+	{
+		pGOGroup->CreateImageList(GetDC(), true);
+
+		BuildImageAndInfoes(pGOGroup);
 	}
 }
 

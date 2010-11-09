@@ -142,8 +142,8 @@ void GameObjectEditor::EditGameObject(ResourceGameObjectGroup* pGOGroup, Resourc
 	_dlgPanel._iTileH			= pGOGroup->_szUnitTile.y;
 	_dlgPanel._strResArtGroup	= pGOGroup->_strArtResKey.c_str();
 	_dlgPanel._iMapType			= pGOGroup->_iMapType;
-	_dlgPanel._ptBaryCentric	= CPoint(pGO->_xBaryCentric, pGO->_yBaryCentric);
-	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_xBaryCentric, pGO->_yBaryCentric);
+	_dlgPanel._ptOffset			= pGO->_ptOffset;
+	_dlgPanel._strCenterOffset.Format("(%d, %d)", pGO->_ptOffset.x, pGO->_ptOffset.y);
 	_dlgPanel._obstacles		= pGO->_obstacles;
 
 	if (_dlgPanel._iMapType == 0)

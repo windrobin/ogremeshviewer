@@ -8,6 +8,7 @@ class ResourceGameObject
 	friend class ResourceGameObject_xmlHandler;
 	friend class ResourceGameObjectGroup;
 	friend class GameObjectEditor;
+	friend class CDialogGameObject;
 public:
 	ResourceGameObject();
 	~ResourceGameObject();
@@ -15,6 +16,7 @@ public:
 	//加载对象
 	virtual bool		Load(const Cactus::String& strTile);
 	void				Save(Cactus::XMLOutStream& xmlOut);
+	void				CalculateBaryCentric();
 
 protected:
 	Cactus::String		_strName;		//名字
@@ -52,7 +54,7 @@ public:
 	~ResourceGameObjectGroup();
 
 	virtual bool			Load(){ return _ResGameObjects.size() != 0; }
-	virtual void			CreateImageList(CDC* pDC);
+	virtual void			CreateImageList(CDC* pDC, bool bForceRecreate = false);
 	virtual void			Draw(CDC* pDC, const CRect& curTile, EGridType eGrid, const Cactus::String& strItemID);
 	virtual CRect			GetResItemBoundingRect(const CRect& curTile, EGridType eGrid, const Cactus::String& strItemID);
 
@@ -62,6 +64,9 @@ public:
 	ResourceGameObject*		GetGameObject(const Cactus::String& strItemID);
 
 	void					Save(Cactus::XMLOutStream& xmlOut);
+
+	bool					UpdateGameObject(ResourceGameObject* pGO);
+	bool					AddGameObject(ResourceGameObject* pGO);
 
 protected:
 	typedef Cactus::list<ResourceGameObject*>::type		ResGameObjectListType;

@@ -78,10 +78,27 @@ bool ResourceTileFolder::Load()
 	return (_images.size() != 0);
 }
 
-void ResourceTileFolder::CreateImageList(CDC* pDC)
+void ResourceTileFolder::CreateImageList(CDC* pDC, bool bForceRecreate/* = false*/)
 {
 	if (_bHasImageList)
-		return;
+	{
+		if (bForceRecreate)
+		{
+			for(IDBitmapMapType::iterator it = _BitmapTiles.begin(); it != _BitmapTiles.end(); ++it)
+			{
+				it->second->DeleteObject();
+				delete it->second;
+			}
+			_BitmapTiles.clear();
+
+			_captions.clear();
+			_imageList.DeleteImageList();
+		}
+		else
+		{
+			return;
+		}
+	}
 
 	AfxGetMainWnd()->BeginWaitCursor();
 

@@ -7,8 +7,10 @@
 
 #include "ResourceManager.h"
 #include "ResourceTile.h"
+#include "ResourceGameObject.h"
 
 #include "GameObjectEditorObjects.h"
+#include "MainFrm.h"
 
 // CDialogGameObject dialog
 
@@ -82,22 +84,77 @@ BOOL CDialogGameObject::OnInitDialog()
 
 void CDialogGameObject::OnBnClickedButtonGoCurBrush()
 {
-	// TODO: Add your control notification handler code here
+	if (!_pResGO)
+		return;
+
 }
 
 void CDialogGameObject::OnBnClickedButtonGoOk()
 {
-	// TODO: Add your control notification handler code here
+	if (!_pResGO)
+		return;
+
+	UpdateData(TRUE);
+
+	CString strLabel;
+	_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
+
+	_pResGO->_strName	= _strGOName;
+	_pResGO->_ptOffset	= _ptOffset;
+	_pResGO->_obstacles	= _obstacles;
+	_pResGO->_ArtResID	= (LPCTSTR)strLabel;
+
+	bool bRet = false;
+	if (_bAdd)
+	{
+		bRet = _pGOGroup->AddGameObject(_pResGO);
+	}
+	else
+	{
+		bRet = _pGOGroup->UpdateGameObject(_pResGO);
+	}
+
+	if (bRet)
+	{
+		_bAdd = false;	//ÇÐ»»Îª±à¼­Ä£Ê½
+
+		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+		pMainFrame->GetTileResView()->ReBuildContent();
+	}
 }
 
 void CDialogGameObject::OnBnClickedButtonGoCancel()
 {
-	// TODO: Add your control notification handler code here
+	if (!_pResGO)
+		return;
+
+	if (_bAdd)
+		delete _pResGO;
+
+	_pResGO		= 0;
+	_pGOGroup	= 0;
+
+	_strGOGroupName		= "";	
+	_strGOName			= "";	
+	_strCenterOffset	= "";	
+	_strResArtGroup		= "";	
+	_comboArt.ResetContent();
+	_strMapType			= "";		
+	_comboAIType.ResetContent();
+	_obstacles.clear();
+
+	UpdateData(FALSE);
+	
+	GameObjectEditorView* pView = GetGOView();
+	pView->Invalidate();
 }
 
 
 void CDialogGameObject::OnEnChangeEditGoTileCount()
 {
+	if (!_pResGO)
+		return;
+
 	UpdateData(TRUE);
 
 	if (_iTileCount < 10)
@@ -108,7 +165,7 @@ void CDialogGameObject::OnEnChangeEditGoTileCount()
 
 
 	CRect rcCenter	= GetPixelCoordRect(CPoint(_iTileCount/2, _iTileCount/2));
-	_ptSelected		= _ptBaryCentric + rcCenter.CenterPoint();
+	_ptSelected		= _ptOffset + rcCenter.CenterPoint();
 
 
 	GameObjectEditorView* pView = GetGOView();
@@ -118,11 +175,14 @@ void CDialogGameObject::OnEnChangeEditGoTileCount()
 	sizeTotal.cy	= GetPixelHeight();
 	pView->SetScrollSizes(MM_TEXT, sizeTotal);
 
-	pView->Invalidate(TRUE);
+	pView->Invalidate();
 }
 
 void CDialogGameObject::OnCbnSelchangeComboGoArtid()
 {
+	if (!_pResGO)
+		return;
+
 	CString strLabel;
 	_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
 
@@ -141,18 +201,27 @@ void CDialogGameObject::OnCbnSelchangeComboGoArtid()
 
 void CDialogGameObject::OnBnClickedRadioGoSelect()
 {
+	if (!_pResGO)
+		return;
+
 	_iMode = 0;
 	GetGOTool()->SetCurToolMode(eToolModeSelect);
 }
 
 void CDialogGameObject::OnBnClickedRadioGoSetObstacle()
 {
+	if (!_pResGO)
+		return;
+
 	_iMode = 1;
 	GetGOTool()->SetCurToolMode(eToolModeSetObstacle);
 }
 
 void CDialogGameObject::OnBnClickedRadioGoClearObstacle()
 {
+	if (!_pResGO)
+		return;
+
 	_iMode = 2;
 	GetGOTool()->SetCurToolMode(eToolModeClearObstacle);
 }
@@ -187,11 +256,11 @@ void CDialogGameObject::AfterSetData(const Cactus::String& strResItem)
 	if (_bAdd)
 	{
 		_ptSelected		= CPoint(0, 0);
-		_ptBaryCentric	= _ptSelected - rcCenter.CenterPoint();
+		_ptOffset	= _ptSelected - rcCenter.CenterPoint();
 	}
 	else
 	{
-		_ptSelected		= _ptBaryCentric + rcCenter.CenterPoint();
+		_ptSelected		= _ptOffset + rcCenter.CenterPoint();
 	}
 }
 
@@ -362,9 +431,9 @@ void CDialogGameObject::UpdateCenterInfo()
 {
 	CRect rcCenter = GetPixelCoordRect(CPoint(_iTileCount/2, _iTileCount/2));
 
-	_ptBaryCentric = _ptSelected - rcCenter.CenterPoint();
+	_ptOffset = _ptSelected - rcCenter.CenterPoint();
 	
-	_strCenterOffset.Format("(%d, %d)", _ptBaryCentric.x, _ptBaryCentric.y);
+	_strCenterOffset.Format("(%d, %d)", _ptOffset.x, _ptOffset.y);
 
 	UpdateData(FALSE);
 }

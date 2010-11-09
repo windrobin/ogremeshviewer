@@ -84,7 +84,7 @@ public:
 	CString				_strMapType;		//地图模式名称
 	CComboBox			_comboAIType;		//AI类型
 	ObstacleListType	_obstacles;			//阻挡列表
-	CPoint				_ptBaryCentric;		//绘制左上角相对图像中心偏移
+	CPoint				_ptOffset;			//绘制左上角相对图像中心偏移
 
 	CPoint				_ptSelected;		//当前绘制的起点
 	CSize				_szSelected;		//当前绘制区域大小

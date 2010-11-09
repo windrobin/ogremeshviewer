@@ -46,10 +46,27 @@ bool ResourceTileSingleImage::Load()
 	return false;
 }
 
-void ResourceTileSingleImage::CreateImageList(CDC* pDC)
+void ResourceTileSingleImage::CreateImageList(CDC* pDC, bool bForceRecreate/* = false*/)
 {
 	if (_bHasImageList)
-		return;
+	{
+		if (bForceRecreate)
+		{
+			for(IDBitmapMapType::iterator it = _BitmapTiles.begin(); it != _BitmapTiles.end(); ++it)
+			{
+				it->second->DeleteObject();
+				delete it->second;
+			}
+			_BitmapTiles.clear();
+
+			_captions.clear();
+			_imageList.DeleteImageList();
+		}
+		else
+		{
+			return;
+		}
+	}
 
 	BOOL b = _imageList.Create(_iIconSize, _iIconSize, ILC_COLOR32, 0, 4);
 
