@@ -46,7 +46,7 @@ void GameObjectEditorView::OnDraw(CDC* pDC)
 	MemDC memDC(pDC);
 	memDC.FillSolidRect(rcClient, RGB(255, 255, 255));
 
-	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
+	ResourceGameObject* pGO = GetGODlg()->_pResGO;
 	if (pGO)
 	{
 		CDialogGameObject* pGODlg = GetGODlg();
@@ -88,7 +88,7 @@ void GameObjectEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 	CPoint ptLP = point;
 	ptLP.Offset( GetScrollPosition() );
 
-	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
+	ResourceGameObject* pGO = GetGODlg()->_pResGO;
 	if (pGO)
 	{
 		_tool.OnLButtonDown(nFlags, ptLP);
@@ -102,7 +102,7 @@ void GameObjectEditorView::OnLButtonUp(UINT nFlags, CPoint point)
 	CPoint ptLP = point;
 	ptLP.Offset( GetScrollPosition() );
 
-	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
+	ResourceGameObject* pGO = GetGODlg()->_pResGO;
 	if (pGO)
 	{
 		_tool.OnLButtonUp(nFlags, ptLP);
@@ -116,7 +116,7 @@ void GameObjectEditorView::OnMouseMove(UINT nFlags, CPoint point)
 	CPoint ptLP = point;
 	ptLP.Offset( GetScrollPosition() );
 
-	ResourceGameObject* pGO = GetGOEditor()->_pResGO;
+	ResourceGameObject* pGO = GetGODlg()->_pResGO;
 	if (pGO)
 	{
 		_tool.OnMouseMove(nFlags, ptLP);
@@ -194,35 +194,5 @@ void GameObjectEditorView::_DrawGrid(CDC* pDC)
 void GameObjectEditorView::_DrawCenterGrid(CDC* pDC)
 {
 	CDialogGameObject* pGODlg = GetGODlg();
-	CPoint ptCenter(pGODlg->_iTileCount/2, pGODlg->_iTileCount/2);
-	CRect rcPixel = pGODlg->GetPixelCoordRect(ptCenter);
-
-	CPen pen(PS_SOLID, 2, RGB(0, 0, 255));
-
-	pDC->SelectStockObject(NULL_BRUSH);
-	CPen* pOldPen = pDC->SelectObject(&pen);
-
-
-	CRect rc = rcPixel;
-
-	if (pGODlg->_iMapType == 0)
-	{
-		rc.DeflateRect(1, 1, 0, 0);
-
-		pDC->Rectangle(rc);
-	}
-	else
-	{
-		rc.DeflateRect(1, 1, 1, 1);
-
-		CPoint pts[4];
-		pts[0] = CPoint(rc.left, rc.top + rc.Height()/2);
-		pts[1] = CPoint(rc.left + rc.Width()/2, rc.top);
-		pts[2] = CPoint(rc.right, rc.top + rc.Height()/2);
-		pts[3] = CPoint(rc.left + rc.Width()/2, rc.bottom);
-
-		pDC->Polygon(pts, 4);
-	}
-
-	pDC->SelectObject(pOldPen);
+	pGODlg->DrawGrid(pDC, CPoint(pGODlg->_iTileCount/2, pGODlg->_iTileCount/2), RGB(0, 0, 255), false);
 }

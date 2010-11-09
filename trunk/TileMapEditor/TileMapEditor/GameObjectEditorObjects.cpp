@@ -20,5 +20,10 @@ extern "C"
 	{
 		return &GetGOEditor()->_dlgPanel;
 	}
+
+	ToolGOEditor*			GetGOTool()
+	{
+		return GetGOView()->GetTool();
+	}
 };
 
