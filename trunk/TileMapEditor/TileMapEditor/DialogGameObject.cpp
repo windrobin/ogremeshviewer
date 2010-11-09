@@ -56,7 +56,6 @@ void CDialogGameObject::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDialogGameObject, CDialog)
-	ON_BN_CLICKED(IDC_BUTTON_GO_CUR_BRUSH, &CDialogGameObject::OnBnClickedButtonGoCurBrush)
 	ON_BN_CLICKED(IDC_BUTTON_GO_OK, &CDialogGameObject::OnBnClickedButtonGoOk)
 	ON_BN_CLICKED(IDC_BUTTON_GO_CANCEL, &CDialogGameObject::OnBnClickedButtonGoCancel)
 	ON_EN_CHANGE(IDC_EDIT_GO_TILE_COUNT_X, &CDialogGameObject::OnEnChangeEditGoTileCount)
@@ -81,13 +80,6 @@ BOOL CDialogGameObject::OnInitDialog()
 }
 
 // CDialogGameObject message handlers
-
-void CDialogGameObject::OnBnClickedButtonGoCurBrush()
-{
-	if (!_pResGO)
-		return;
-
-}
 
 void CDialogGameObject::OnBnClickedButtonGoOk()
 {

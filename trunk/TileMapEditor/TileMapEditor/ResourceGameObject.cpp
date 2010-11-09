@@ -129,18 +129,23 @@ void ResourceGameObjectGroup::CreateImageList(CDC* pDC, bool bForceRecreate/* = 
 		//从ResourceTile资源复制一份
 		_imageList.Create(pImageList);
 
-		Cactus::StringVector* pCaps = pResTile->GetCaptions();
+		Cactus::StringVector Caps = *pResTile->GetCaptions();
 
 		size_t iIndex = 0;
 		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
 		{
-			if ((*it)->_ArtResID != (*pCaps)[iIndex])
+			if ((*it)->_ArtResID != Caps[iIndex])
 			{
-				for (size_t t = 0; t < (*pCaps).size(); ++t)	//找到引用的图片索引
+				for (size_t t = 0; t < Caps.size(); ++t)	//找到引用的图片索引
 				{
-					if( (*it)->_ArtResID == (*pCaps)[t] )
+					if( (*it)->_ArtResID == Caps[t] )
 					{
 						_imageList.Copy(iIndex, t, ILCF_SWAP);	//交换位置
+						
+						String strTmp	= Caps[iIndex];
+						Caps[iIndex]	= Caps[t];
+						Caps[t]			= strTmp;
+
 						break;
 					}
 				}
