@@ -89,7 +89,6 @@ public:
 	CPoint				_ptSelected;		//当前绘制的起点
 	CSize				_szSelected;		//当前绘制区域大小
 
-	afx_msg void OnBnClickedButtonGoCurBrush();
 	afx_msg void OnBnClickedButtonGoOk();
 	afx_msg void OnBnClickedButtonGoCancel();
 	afx_msg void OnEnChangeEditGoTileCount();
