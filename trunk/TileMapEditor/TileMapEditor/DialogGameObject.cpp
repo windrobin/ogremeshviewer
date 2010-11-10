@@ -262,16 +262,12 @@ void CDialogGameObject::DrawEditingObject(CDC* pDC)
 	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup((LPCTSTR)_strResArtGroup);
 	if (pResTile)
 	{
-		CRect rc;
-		rc.left = _ptSelected.x;
-		rc.top	= _ptSelected.y;
-
 		CString strLabel;
 		_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
 
 		if (strLabel.GetLength())
 		{
-			pResTile->Draw(pDC, rc, CPoint(0, 0), eGridNone, (LPCTSTR)strLabel);
+			pResTile->Draw(pDC, _ptSelected, (LPCTSTR)strLabel);
 		}
 
 		// »æÖÆ×èµ²ÐÅÏ¢

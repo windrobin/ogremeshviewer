@@ -118,12 +118,11 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 
 		if (pRes)
 		{
-			CPoint ptGrid	= CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y);
-			CRect rcPixel	= _pParentMap->GetPixelCoordRect(ptGrid);
-			pRes->Draw(pDC, rcPixel, ptGrid, _pParentMap->GetType(), pTile->_strResItemID);
+			pRes->Draw(pDC, _pParentMap, pTile->_ptGrid, pTile->_strResItemID);
 
 			if (pTile->_bSelected)
 			{
+				CRect rcPixel	= _pParentMap->GetPixelCoordRect(pTile->_ptGrid);
 				CRect rcDest = pRes->GetResItemBoundingRect(rcPixel, _pParentMap->GetType(), pTile->_strResItemID);
 				pDC->Rectangle(rcDest);
 			}
@@ -180,7 +179,7 @@ STile* MapLayer::TileHitTest(CPoint ptPixel, CPoint& ptGrid)
 		if (!pRes)
 			pRes = ResourceManager::getSingleton().GetResourceGameObjectGroup(pTile->_strResGroup);
 
-		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
+		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(pTile->_ptGrid);
 		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, _pParentMap->GetType(), pTile->_strResItemID);
 
 		if (rcDest.PtInRect(ptPixel))
@@ -219,7 +218,7 @@ void MapLayer::UpdateTileVisual(STile* pTile, bool bEnsureVisible/* = false*/)
 	{
 		//¸üÐÂ»æÖÆ
 		CTileMapEditorView* pMapView = (CTileMapEditorView*)pMainFrame->GetActiveView();
-		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(CPoint(pTile->_ptGrid.x, pTile->_ptGrid.y));
+		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(pTile->_ptGrid);
 
 		Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(pTile->_strResGroup);
 		if (!pRes)
@@ -261,8 +260,7 @@ bool MapLayer::MoveTile(STile* pTile, CPoint ptNewGrid)
 	STile tileOld = *pTile;
 
 	pTile->_regionID	= regionID;
-	pTile->_ptGrid.x		= ptNewGrid.x;
-	pTile->_ptGrid.y		= ptNewGrid.y;
+	pTile->_ptGrid		= ptNewGrid;
 
 	UpdateTileInfoInMapLayer(pTile, eTileOpUpdate);
 

@@ -153,7 +153,8 @@ void ResourceTileFolder::CreateImageList(CDC* pDC, bool bForceRecreate/* = false
 	AfxGetMainWnd()->EndWaitCursor();
 }
 
-void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const CPoint& ptGrid, EGridType eGrid, const Cactus::String& strID)
+
+void ResourceTileFolder::Draw(CDC* pDC, GridObject* pGridObject, const CPoint& ptGrid, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 
@@ -165,27 +166,44 @@ void ResourceTileFolder::Draw(CDC* pDC, const CRect& curTile, const CPoint& ptGr
 
 	CxImage* pImage = _images[strID];
 
-	if (eGrid == eGridNone)
+	CRect rcCurTile = pGridObject->GetPixelCoordRect(ptGrid);
+
+	if (pGridObject->GetType() == eGridNone)
 	{
 		//像素对齐
 
-		pImage->Draw(pDC->GetSafeHdc(), curTile.left, curTile.top);
+		pImage->Draw(pDC->GetSafeHdc(), rcCurTile.left, rcCurTile.top);
 	}
-	else if (eGrid == eRectangle)
+	else if (pGridObject->GetType() == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
 
-		pImage->Draw(pDC->GetSafeHdc(), curTile.left, curTile.top);
+		pImage->Draw(pDC->GetSafeHdc(), rcCurTile.left, rcCurTile.top);
 	}
 	else
 	{
 		//如果是菱形地图，按照图片中间顶端对齐
 
-		int startX = curTile.CenterPoint().x - pImage->GetWidth()/2;
-		int startY = curTile.top;
+		int startX = rcCurTile.CenterPoint().x - pImage->GetWidth()/2;
+		int startY = rcCurTile.top;
 
 		pImage->Draw(pDC->GetSafeHdc(), startX, startY);
 	}
+}
+
+void ResourceTileFolder::Draw(CDC* pDC, const CPoint& ptTopLeft, const Cactus::String& strID)
+{
+	CreateImageList(pDC);
+
+	if (_images.find(strID) == _images.end())
+	{
+		Log_Error("ResourceTileFolder::Draw, can not find Resource for " << strID);
+		return;
+	}
+
+	CxImage* pImage = _images[strID];
+
+	pImage->Draw(pDC->GetSafeHdc(), ptTopLeft.x, ptTopLeft.y);
 }
 
 CRect ResourceTileFolder::GetResItemBoundingRect(const CRect& curTile, EGridType eGrid, const Cactus::String& strID)

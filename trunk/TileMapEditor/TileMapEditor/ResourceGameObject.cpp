@@ -167,7 +167,8 @@ void ResourceGameObjectGroup::CreateImageList(CDC* pDC, bool bForceRecreate/* = 
 	_bHasImageList = true;
 }
 
-void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const CPoint& ptGrid, EGridType eGrid, const Cactus::String& strItemID)
+
+void ResourceGameObjectGroup::Draw(CDC* pDC, GridObject* pGridObject, const CPoint& ptGrid, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 
@@ -176,11 +177,12 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const CPoint&
 	{
 		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
 		{
-			if( (*it)->_strName == strItemID )
+			if( (*it)->_strName == strID )
 			{
-				CPoint ptTopLeft = curTile.CenterPoint() + (*it)->_ptOffset;
-				CRect rcNew = CRect(ptTopLeft, CSize(0, 0));
-				pResTile->Draw(pDC, rcNew, ptGrid, eGridNone, (*it)->_ArtResID);
+				CRect rcCurTile = pGridObject->GetPixelCoordRect(ptGrid);
+				CPoint ptTopLeft = rcCurTile.CenterPoint() + (*it)->_ptOffset;
+
+				pResTile->Draw(pDC, ptTopLeft, (*it)->_ArtResID);
 
 				//TODO : 绘制阻挡信息
 
@@ -188,6 +190,30 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, const CRect& curTile, const CPoint&
 			}
 		}
 	}
+}
+
+void ResourceGameObjectGroup::Draw(CDC* pDC, const CPoint& ptTopLeft, const Cactus::String& strID)
+{
+	CreateImageList(pDC);
+
+	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup(_strArtResKey);
+	if (pResTile)
+	{
+		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
+		{
+			if( (*it)->_strName == strID )
+			{
+				CPoint ptAdjust = ptTopLeft + (*it)->_ptOffset;
+
+				pResTile->Draw(pDC, ptAdjust, (*it)->_ArtResID);
+
+				//TODO : 绘制阻挡信息
+
+				break;
+			}
+		}
+	}
+
 }
 
 CRect ResourceGameObjectGroup::GetResItemBoundingRect(const CRect& curTile, EGridType eGrid, const Cactus::String& strItemID)

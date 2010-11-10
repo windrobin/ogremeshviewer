@@ -118,3 +118,13 @@ void ResourceBackground::CreateImageList(CDC* pDC, bool bForceRecreate/* = false
 
 	_bHasImageList = true;
 }
+
+void ResourceBackground::Draw(CDC* pDC, GridObject* pGridObject, const CPoint& ptGrid, const Cactus::String& strID)
+{
+
+}
+
+void ResourceBackground::Draw(CDC* pDC, const CPoint& ptTopLeft, const Cactus::String& strID)
+{
+
+}
