@@ -31,6 +31,8 @@ protected:
 	MapLayer*		_pSelectedLayer;
 	HTREEITEM		_hSelectedItem;
 
+	Map*			_pTheMap;
+
 	void FillClassView();
 
 // ÖØÐ´

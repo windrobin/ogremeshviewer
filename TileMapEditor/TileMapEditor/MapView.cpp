@@ -45,6 +45,7 @@ IMPLEMENT_SERIAL(CClassViewMenuButton, CMFCToolBarMenuButton, 1)
 
 MapView::MapView()
 : _pSelectedLayer(0)
+, _pTheMap(0)
 {
 }
 
@@ -116,7 +117,8 @@ void MapView::OnSize(UINT nType, int cx, int cy)
 
 void MapView::SetMapObject(Map* p)
 {
-	_TreeMapItem.SetItemData(_TreeMapItem.GetRootItem(), (DWORD_PTR)p);
+	//_TreeMapItem.SetItemData(_TreeMapItem.GetRootItem(), (DWORD_PTR)p);
+	_pTheMap = p;
 
 	for(Map::MapLayerListType::iterator it = p->_layers.begin(); it != p->_layers.end(); ++it)
 	{
@@ -293,15 +295,10 @@ void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 		DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
 		if (ptr)
 		{
-			MapBaseObject* pObject = (MapBaseObject*)ptr;
+			MapLayer* pLayer = (MapLayer*)ptr;
 
-			if (pObject->IsLayer())
-			{
-				MapLayer* pLayer = (MapLayer*)pObject;
-
-				if (pLayer->IsVisible())
-					ToolManager::getSingleton().GetMap()->SetCurLayer(pLayer);
-			}
+			if (pLayer->IsVisible())
+				ToolManager::getSingleton().GetMap()->SetCurLayer(pLayer);
 		}
 	}
 
@@ -315,20 +312,15 @@ void MapView::OnNMDblclkTree(NMHDR *pNMHDR, LRESULT *pResult)
 	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
 	if (ptr)
 	{
-		MapBaseObject* pObject = (MapBaseObject*)ptr;
+		MapLayer* pLayer = (MapLayer*)ptr;
 
-		if (pObject->IsLayer())
+		if (!pLayer->IsVisible())
 		{
-			MapLayer* pLayer = (MapLayer*)pObject;
-
-			if (!pLayer->IsVisible())
-			{
-				pLayer->SetVisible(true);
-				_TreeMapItem.SetCheck(hItem);
-			}
-
-			ToolManager::getSingleton().GetMap()->SetCurLayer(pLayer);
+			pLayer->SetVisible(true);
+			_TreeMapItem.SetCheck(hItem);
 		}
+
+		ToolManager::getSingleton().GetMap()->SetCurLayer(pLayer);
 	}
 
 	*pResult = 0;
@@ -368,15 +360,13 @@ void MapView::OnNMRclickTree(NMHDR *pNMHDR, LRESULT *pResult)
 	DWORD_PTR ptr = _TreeMapItem.GetItemData(hItem);
 	if (ptr)
 	{
-		MapBaseObject* pObject = (MapBaseObject*)ptr;
-
-		if (pObject->IsLayer())
 		{
-			_pSelectedLayer = (MapLayer*)pObject;
+			_pSelectedLayer = (MapLayer*)ptr;
 			_hSelectedItem	= hItem;
 			theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_LAYER_OP, point.x, point.y, this, TRUE);
 		}
-		else	// Brush
+		
+		// Brush
 		{
 
 		}
@@ -472,6 +462,12 @@ void MapView::OnProperties()
 
 		CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetMainWnd())->GetPropertyWnd(); 
 		pPropertyWnd->AddPropertyData(pObject, pObject->GetObjectName());
+		pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
+	}
+	else
+	{
+		CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetMainWnd())->GetPropertyWnd(); 
+		pPropertyWnd->AddPropertyData(_pTheMap, _pTheMap->GetObjectName());
 		pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
 	}
 }

@@ -237,7 +237,7 @@ void LayerView::AddTileInfo(STile* pTile)
 
 bool LayerView::UpdateTileInfo(STile* pTile)
 {
-	for (size_t t = 0; t < _listObjects.GetItemCount(); ++t)
+	for (int t = 0; t < _listObjects.GetItemCount(); ++t)
 	{
 		STile* pData = (STile*)_listObjects.GetItemData(t);
 		if (pTile == pData)
@@ -261,7 +261,7 @@ bool LayerView::UpdateTileInfo(STile* pTile)
 
 bool LayerView::RemoveTileInfo(STile* pTile)
 {
-	for (size_t t = 0; t < _listObjects.GetItemCount(); ++t)
+	for (int t = 0; t < _listObjects.GetItemCount(); ++t)
 	{
 		STile* pData = (STile*)_listObjects.GetItemData(t);
 		if (pTile == pData)

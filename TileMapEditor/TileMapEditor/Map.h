@@ -1,11 +1,11 @@
 #pragma once
 
-#include "MapBase.h"
+#include "GridTypes.h"
 
 class MapLayer;
 class MapBackground;
 
-class Map : public PropertySys::SupportRTTI<Map, MapBaseObject>
+class Map : public PropertySys::SupportRTTI<Map, GridObject>
 {
 	friend class Map_xmlHandler;
 	friend class CTileMapEditorView;

@@ -98,13 +98,13 @@ void MapThumbnailView::OnPaint()
 		if (fRatio1 > fRatio2)
 			_fRatio = fRatio2;
 
-		CRect rcDoc = CRect( CPoint( (rcClient.Width() - _fRatio * szDoc.cx)/2
-			, (rcClient.Height() - _fRatio * szDoc.cy)/2 )
-			, CSize( szDoc.cx * _fRatio, szDoc.cy * _fRatio )
+		CRect rcDoc = CRect( CPoint( int(rcClient.Width() - _fRatio * szDoc.cx)/2
+			, int(rcClient.Height() - _fRatio * szDoc.cy)/2 )
+			, CSize( int(szDoc.cx * _fRatio), int(szDoc.cy * _fRatio) )
 			);
 
-		_rcThumbView = CRect(CPoint(rcDoc.TopLeft().x + _fRatio * ptScroll.x, rcDoc.TopLeft().y + _fRatio * ptScroll.y)
-			, CSize(rcView.Width() * _fRatio, rcView.Height() * _fRatio)
+		_rcThumbView = CRect(CPoint( rcDoc.TopLeft().x + int(_fRatio * ptScroll.x), rcDoc.TopLeft().y + int(_fRatio * ptScroll.y) )
+			, CSize( int(rcView.Width() * _fRatio), int(rcView.Height() * _fRatio) )
 			);
 
 		_bEnableHoriz = rcDoc.Width() > _rcThumbView.Width();

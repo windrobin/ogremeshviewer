@@ -11,8 +11,7 @@ GridObject::GridObject()
 , _iUnitTileHeight(32)
 , _eGridType(eDiamond)
 {
-
-};
+}
 
 
 void GridObject::RegisterReflection()
@@ -21,10 +20,12 @@ void GridObject::RegisterReflection()
 
 	M_ReflectionInit(0);
 
-	pProp = M_RegisterPropertySimple(int, WidthInTiles, GridObject, Grid, "地图宽度.", BaseProperty::eDefault, _iWidthInTiles);
-	pProp = M_RegisterPropertySimple(int, HeightInTiles, GridObject, Grid, "地图高度.", BaseProperty::eDefault, _iHeightInTiles);
-	pProp = M_RegisterPropertySimple(int, UnitTileWidth, GridObject, Grid, "单位Tile的宽度，像素.", BaseProperty::eDefault, _iUnitTileWidth);
-	pProp = M_RegisterPropertySimple(int, UnitTileHeight, GridObject, Grid, "单位Tile的高度，像素.", BaseProperty::eDefault, _iUnitTileHeight);
+	pProp = M_RegisterPropertySimple(Cactus::String, Name, GridObject, Grid, "对象名字.", BaseProperty::eDefault, _strName);
+
+	pProp = M_RegisterPropertySimple(int, WidthInTiles, GridObject, Grid, "宽度方向网格数量.", BaseProperty::eDefault, _iWidthInTiles);
+	pProp = M_RegisterPropertySimple(int, HeightInTiles, GridObject, Grid, "高度方向网格数量.", BaseProperty::eDefault, _iHeightInTiles);
+	pProp = M_RegisterPropertySimple(int, UnitTileWidth, GridObject, Grid, "网格单位的像素宽度.", BaseProperty::eDefault, _iUnitTileWidth);
+	pProp = M_RegisterPropertySimple(int, UnitTileHeight, GridObject, Grid, "网格单位的像素高度.", BaseProperty::eDefault, _iUnitTileHeight);
 	
 	pProp = M_RegisterPropertySimple(int, GridType, GridObject, Grid, "网格类型.", BaseProperty::eDefault, _eGridType);
 	pProp->SetValueSpecify(eValueList, "0;1");
@@ -137,7 +138,7 @@ CRect GridObject::GetPixelCoordRect(const CPoint& ptGrid)
 	}
 }
 
-void GridObject::DrawGrid(CDC* pDC, CPoint ptGrid, COLORREF ref, bool bSolid)
+void GridObject::DrawGrid(CDC* pDC, CPoint ptGrid, COLORREF ref, int deflate)
 {
 	CRect rcPixel = GetPixelCoordRect(ptGrid);
 
@@ -147,11 +148,9 @@ void GridObject::DrawGrid(CDC* pDC, CPoint ptGrid, COLORREF ref, bool bSolid)
 
 	CPen* pOldPen = pDC->SelectObject(&pen);
 
-
 	CRect rc = rcPixel;
 
-	if(bSolid)
-		rc.DeflateRect(2, 2, 2, 2);
+	rc.DeflateRect(deflate, deflate, deflate, deflate);
 
 	if (_eGridType == 0)
 	{

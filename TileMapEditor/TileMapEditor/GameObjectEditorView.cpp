@@ -194,5 +194,5 @@ void GameObjectEditorView::_DrawGrid(CDC* pDC)
 void GameObjectEditorView::_DrawCenterGrid(CDC* pDC)
 {
 	CDialogGameObject* pGODlg = GetGODlg();
-	pGODlg->DrawGrid(pDC, CPoint(pGODlg->_iWidthInTiles/2, pGODlg->_iWidthInTiles/2), RGB(0, 0, 255), false);
+	pGODlg->DrawGrid(pDC, CPoint(pGODlg->_iWidthInTiles/2, pGODlg->_iWidthInTiles/2), RGB(0, 0, 255), 0);
 }
