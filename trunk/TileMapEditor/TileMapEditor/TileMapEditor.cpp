@@ -92,6 +92,15 @@ CTileMapEditorApp theApp;
 
 BOOL CTileMapEditorApp::InitInstance()
 {
+	setlocale(LC_CTYPE, "");
+
+	char buffer[MAX_PATH];
+	::GetModuleFileName(0, buffer, MAX_PATH);
+	std::string strModulePath = buffer;
+	strModulePath.erase(strModulePath.find_last_of('\\') + 1);
+	SetCurrentDirectory(strModulePath.c_str());
+
+
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
 	//则需要 InitCommonControlsEx()。否则，将无法创建窗口。
@@ -103,8 +112,6 @@ BOOL CTileMapEditorApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinAppEx::InitInstance();
-
-	setlocale(LC_CTYPE, "");
 
 #if _DEBUG
 	Mem_New Cactus::LogManager(Cactus::eLogLevelDebug, "TileMapEditor.log");
@@ -171,12 +178,6 @@ BOOL CTileMapEditorApp::InitInstance()
 	// 唯一的一个窗口已初始化，因此显示它并对其进行更新
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
-
-	char buffer[MAX_PATH];
-	::GetModuleFileName(0, buffer, MAX_PATH);
-	std::string strModulePath = buffer;
-	strModulePath.erase(strModulePath.find_last_of('\\') + 1);
-	SetCurrentDirectory(strModulePath.c_str());
 
 	// 仅当具有后缀时才调用 DragAcceptFiles
 	//  在 SDI 应用程序中，这应在 ProcessShellCommand 之后发生
