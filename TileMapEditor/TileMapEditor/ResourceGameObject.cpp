@@ -48,6 +48,7 @@ void ResourceGameObject::Save(XMLOutStream& xmlOut)
 		xmlOut.AddAttribute("yOffset", _ptOffset.y);
 		xmlOut.AddAttribute("xBarycentric", _xBaryCentric);
 		xmlOut.AddAttribute("yBarycentric", _yBaryCentric);
+		xmlOut.AddAttribute("AIType", _strAIType);
 
 		for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
 		{

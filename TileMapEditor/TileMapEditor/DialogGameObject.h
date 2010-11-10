@@ -24,7 +24,7 @@ public:
 	void			DrawEditingObject(CDC* pDC);
 
 	//添加/编辑后被触发
-	void			AfterSetData(const Cactus::String& strResItem);
+	void			AfterSetData();
 
 	//是否点击中编辑对象判断
 	bool			HitTest(CPoint ptPixel);

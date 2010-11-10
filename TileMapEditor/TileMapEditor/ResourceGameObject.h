@@ -24,6 +24,7 @@ protected:
 	CPoint				_ptOffset;		//对象定位在(xOffset, yOffset)，图像左上角离定位点的偏差，定位点所在的格子是(0, 0)
 	float				_xBaryCentric;	//所有阻挡点的均值
 	float				_yBaryCentric;
+	Cactus::String		_strAIType;		//AI类型
 
 	ObstacleListType	_obstacles;		//所有的阻挡点
 

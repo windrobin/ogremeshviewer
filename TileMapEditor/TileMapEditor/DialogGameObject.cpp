@@ -75,6 +75,8 @@ BOOL CDialogGameObject::OnInitDialog()
 
 	UpdateCenterInfo();
 
+	//TODO : ¼ÓÔØAITyps
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -91,10 +93,13 @@ void CDialogGameObject::OnBnClickedButtonGoOk()
 	CString strLabel;
 	_comboArt.GetLBText(_comboArt.GetCurSel(), strLabel);
 
-	_pResGO->_strName	= _strGOName;
-	_pResGO->_ptOffset	= _ptOffset;
-	_pResGO->_obstacles	= _obstacles;
-	_pResGO->_ArtResID	= (LPCTSTR)strLabel;
+	_pResGO->_strName		= _strGOName;
+	_pResGO->_ptOffset		= _ptOffset;
+	_pResGO->_obstacles		= _obstacles;
+	_pResGO->_ArtResID		= (LPCTSTR)strLabel;
+
+	_comboArt.GetLBText(_comboAIType.GetCurSel(), strLabel);
+	_pResGO->_strAIType		= (LPCTSTR)strLabel;
 
 	bool bRet = false;
 	if (_bAdd)
@@ -221,7 +226,7 @@ void CDialogGameObject::OnBnClickedRadioGoClearObstacle()
 
 
 //----------------------------------------------------------------------------------------------------------
-void CDialogGameObject::AfterSetData(const Cactus::String& strResItem)
+void CDialogGameObject::AfterSetData()
 {
 	_comboArt.ResetContent();
 
@@ -236,20 +241,28 @@ void CDialogGameObject::AfterSetData(const Cactus::String& strResItem)
 
 		if (vectorCaps->size())
 		{
-			if (strResItem.size())
-				_comboArt.SelectString(0, strResItem.c_str());
+			if (_pResGO->_ArtResID.size())
+				_comboArt.SelectString(0, _pResGO->_ArtResID.c_str());
 			else
 				_comboArt.SetCurSel(0);
 		}
 	}
-
 	OnCbnSelchangeComboGoArtid();
+
+
+
+	if (_pResGO->_strAIType.size())
+		_comboAIType.SelectString(0, _pResGO->_strAIType.c_str());
+	else
+		_comboAIType.SetCurSel(0);
+
+
 
 	CRect rcCenter = GetPixelCoordRect(CPoint(_iWidthInTiles/2, _iWidthInTiles/2));
 	if (_bAdd)
 	{
 		_ptSelected		= CPoint(0, 0);
-		_ptOffset	= _ptSelected - rcCenter.CenterPoint();
+		_ptOffset		= _ptSelected - rcCenter.CenterPoint();
 	}
 	else
 	{
