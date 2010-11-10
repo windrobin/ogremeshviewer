@@ -192,8 +192,8 @@ void MapThumbnailView::OnMouseMove(UINT nFlags, CPoint point)
 		if (!_bEnableHoriz && !_bEnableVert)
 			return;
 
-		ptOffset.x /= _fRatio;
-		ptOffset.y /= _fRatio;
+		ptOffset.x = LONG(ptOffset.x / _fRatio);
+		ptOffset.y = LONG(ptOffset.y / _fRatio);
 
 		CMainFrame* pMainFrame = DYNAMIC_DOWNCAST( CMainFrame, AfxGetMainWnd() );
 		if (!pMainFrame)

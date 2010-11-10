@@ -77,7 +77,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	BOOL bNameValid;
 	// 基于持久值设置视觉管理器和样式
 	OnApplicationLook(theApp.m_nAppLook);
 
@@ -92,6 +91,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	CString strTitlePane1;
 	CString strTitlePane2;
+	BOOL bNameValid;
 	bNameValid = strTitlePane1.LoadString(IDS_STATUS_PANE1);
 	ASSERT(bNameValid);
 	bNameValid = strTitlePane2.LoadString(IDS_STATUS_PANE2);
@@ -139,10 +139,23 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	_GameObjectEditor.EnableDocking(CBRS_ALIGN_BOTTOM);
 	DockPane(&m_wndOutput);
 	DockPane(&_GameObjectEditor);
-	_GameObjectEditor.ShowPane(FALSE, FALSE, FALSE);
 
 	return 0;
 }
+
+
+BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle , CWnd* pParentWnd , CCreateContext* pContext)
+{
+	BOOL bRet = CFrameWndEx::LoadFrame(nIDResource, dwDefaultStyle, pParentWnd, pContext);
+
+	if (bRet)
+	{
+		_GameObjectEditor.ShowPane(FALSE, FALSE, FALSE);
+	}
+
+	return bRet;
+}
+
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {

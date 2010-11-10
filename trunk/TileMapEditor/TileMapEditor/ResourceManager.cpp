@@ -161,6 +161,7 @@ public:
 			p->_ptOffset.y		= attributes.getValueAsInteger("yOffset");
 			p->_xBaryCentric	= attributes.getValueAsFloat("xBarycentric");
 			p->_yBaryCentric	= attributes.getValueAsFloat("yBarycentric");
+			p->_strAIType		= attributes.getValueAsString("AIType");
 		
 			if (p->Load(pGameObjectGroup->_strArtResKey))
 			{

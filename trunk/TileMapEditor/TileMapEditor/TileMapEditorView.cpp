@@ -141,6 +141,18 @@ void CTileMapEditorView::OnInitialUpdate()
 	sizeTotal.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
 	sizeTotal.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
 	SetScrollSizes(MM_TEXT, sizeTotal);
+
+	CRect rcClient;
+	GetClientRect(&rcClient);
+	
+	CPoint ptScroll = CPoint(sizeTotal.cx/2, sizeTotal.cy/2);
+	ptScroll.Offset(-rcClient.Size().cx/2, -rcClient.Size().cy/2);
+	if(ptScroll.x < 0)
+		ptScroll.x = 0;
+	if(ptScroll.y < 0)
+		ptScroll.y = 0;
+
+	ScrollToPosition(ptScroll);
 }
 
 void CTileMapEditorView::OnRButtonUp(UINT nFlags, CPoint point)
@@ -180,10 +192,12 @@ CTileMapEditorDoc* CTileMapEditorView::GetDocument() const // 非调试版本是内联的
 
 void CTileMapEditorView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 {
-	CSize sizeTotal;
-	sizeTotal.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
-	sizeTotal.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
-	SetScrollSizes(MM_TEXT, sizeTotal);
+	//CSize sizeTotal;
+	//sizeTotal.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
+	//sizeTotal.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
+	//SetScrollSizes(MM_TEXT, sizeTotal);
+
+	m_nMapMode = MM_TEXT;
 
 	CScrollView::OnPrepareDC(pDC, pInfo);
 }
