@@ -34,7 +34,7 @@ void ToolBrush::Draw(CDC* pDC)
 	if (pRes)
 	{
 		CRect rc = ToolManager::getSingleton().GetMap()->GetPixelCoordRect(_ptGrid);
-		pRes->Draw(pDC, rc, _ptGrid, ToolManager::getSingleton().GetMap()->GetType(), _strResID);
+		pRes->Draw(pDC, ToolManager::getSingleton().GetMap(), _ptGrid, _strResID);
 	}
 
 	//pDC->FillSolidRect(_rcOldSelected, RGB(128, 128, 128));

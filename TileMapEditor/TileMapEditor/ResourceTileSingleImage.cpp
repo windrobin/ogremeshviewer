@@ -130,7 +130,8 @@ void ResourceTileSingleImage::CreateImageList(CDC* pDC, bool bForceRecreate/* = 
 	_bHasImageList = true;
 }
 
-void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const CPoint& ptGrid, EGridType eGrid, const Cactus::String& strID)
+
+void ResourceTileSingleImage::Draw(CDC* pDC, GridObject* pGridObject, const CPoint& ptGrid, const Cactus::String& strID)
 {
 	CreateImageList(pDC);
 
@@ -144,39 +145,67 @@ void ResourceTileSingleImage::Draw(CDC* pDC, const CRect& curTile, const CPoint&
 
 	CDC memDC;
 	memDC.CreateCompatibleDC(pDC);
-	
+
 	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
 
 	BITMAP bmpInfo;
 	pBmp->GetBitmap(&bmpInfo);
 
-	if (eGrid == eGridNone)
+	CRect rcCurTile = pGridObject->GetPixelCoordRect(ptGrid);
+
+	if (pGridObject->GetType() == eGridNone)
 	{
 		//像素对齐
 
-		pDC->TransparentBlt(curTile.left, curTile.top, bmpInfo.bmWidth, bmpInfo.bmHeight
-			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255,255,255));
+		pDC->TransparentBlt(rcCurTile.left, rcCurTile.top, bmpInfo.bmWidth, bmpInfo.bmHeight
+			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255, 255, 255));
 	}
-	else if (eGrid == eRectangle)
+	else if (pGridObject->GetType() == eRectangle)
 	{
 		//如果是井形地图，按照图片左上角对齐
 
 		//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
-		pDC->TransparentBlt(curTile.left, curTile.top, bmpInfo.bmWidth, bmpInfo.bmHeight
-			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255,255,255));
+		pDC->TransparentBlt(rcCurTile.left, rcCurTile.top, bmpInfo.bmWidth, bmpInfo.bmHeight
+			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255, 255, 255));
 
 	}
 	else
 	{
 		//如果是菱形地图，按照图片中间顶端对齐
 
-		int startX = curTile.CenterPoint().x - bmpInfo.bmWidth/2;
-		int startY = curTile.CenterPoint().y - bmpInfo.bmHeight/2;
+		int startX = rcCurTile.CenterPoint().x - bmpInfo.bmWidth/2;
+		int startY = rcCurTile.CenterPoint().y - bmpInfo.bmHeight/2;
 
 		//pDC->BitBlt(posX, posY, _tileWidth, _tileHeight, &memDC, 0, 0, SRCCOPY);
 		pDC->TransparentBlt(startX, startY, bmpInfo.bmWidth, bmpInfo.bmHeight
-			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255,255,255));
+			, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255, 255, 255));
 	}
+	memDC.SelectObject(pOldBmp);
+}
+
+void ResourceTileSingleImage::Draw(CDC* pDC, const CPoint& ptTopLeft, const Cactus::String& strID)
+{
+	CreateImageList(pDC);
+
+	if (_BitmapTiles.find(strID) == _BitmapTiles.end())
+	{
+		Log_Error("ResourceTileSingleImage::Draw, can not find Resource for " << strID);
+		return;
+	}
+
+	CBitmap* pBmp = _BitmapTiles[strID];
+
+	CDC memDC;
+	memDC.CreateCompatibleDC(pDC);
+
+	CBitmap* pOldBmp = memDC.SelectObject(pBmp);
+
+	BITMAP bmpInfo;
+	pBmp->GetBitmap(&bmpInfo);
+
+	pDC->TransparentBlt(ptTopLeft.x, ptTopLeft.y, bmpInfo.bmWidth, bmpInfo.bmHeight
+		, &memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, RGB(255, 255, 255));
+
 	memDC.SelectObject(pOldBmp);
 }
 
