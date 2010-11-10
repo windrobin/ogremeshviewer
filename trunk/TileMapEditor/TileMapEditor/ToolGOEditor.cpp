@@ -39,7 +39,7 @@ void ToolGOEditor::Draw(CDC* pDC)
 	if (_bInRegion && _bDrawCursor)
 	{
 		CDialogGameObject* pGODlg = GetGODlg();
-		pGODlg->DrawGrid(pDC, _ptGrid, _refCursor, false);
+		pGODlg->DrawGrid(pDC, _ptGrid, _refCursor, 0);
 	}
 }
 

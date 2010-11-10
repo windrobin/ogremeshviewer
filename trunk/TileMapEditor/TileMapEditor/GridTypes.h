@@ -34,8 +34,10 @@ public:
 
 	EGridType		GetType(){ return _eGridType; }
 
+	Cactus::String	GetObjectName(){ return _strName; }
+
 	//绘制单位网格
-	void			DrawGrid(CDC* pDC, CPoint ptGrid, COLORREF ref, bool bSolid);
+	void			DrawGrid(CDC* pDC, CPoint ptGrid, COLORREF ref, int deflate);
 
 public:
 	int					_iWidthInTiles;			///宽度方向Tile数量
@@ -43,4 +45,7 @@ public:
 	int					_iUnitTileWidth;		///单位Tile宽度，像素
 	int					_iUnitTileHeight;		///单位Tile高度，像素
 	EGridType			_eGridType;				///网格类型，井字格还是菱形
+	Cactus::String		_strName;
 };
+
+typedef Cactus::vector<int>::type	IntVectorType;

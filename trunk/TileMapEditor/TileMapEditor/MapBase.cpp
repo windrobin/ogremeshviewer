@@ -11,7 +11,7 @@ void MapBaseObject::RegisterReflection()
 
 	M_ReflectionInit(0);
 
-	pProp = M_RegisterPropertySimple(Cactus::String, Name, MapBaseObject, Map, "对象名字.", BaseProperty::eDefault, _strName);
+	pProp = M_RegisterPropertySimple(Cactus::String, Name, MapBaseObject, MapBaseObject, "对象名字.", BaseProperty::eDefault, _strName);
 }
 
 void MapBaseObject::OnPropertyChanged(const std::string& propName)

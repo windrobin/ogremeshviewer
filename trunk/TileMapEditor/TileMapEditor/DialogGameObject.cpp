@@ -278,7 +278,7 @@ void CDialogGameObject::DrawEditingObject(CDC* pDC)
 		for (ObstacleListType::iterator it = _obstacles.begin(); it != _obstacles.end(); ++it)
 		{
 			CPoint pt = *it;
-			DrawGrid(pDC, CPoint(_iWidthInTiles/2 + pt.x, _iWidthInTiles/2 + pt.y), RGB(255, 0, 0), true);
+			DrawGrid(pDC, CPoint(_iWidthInTiles/2 + pt.x, _iWidthInTiles/2 + pt.y), RGB(255, 0, 0), 2);
 		}
 	}
 }

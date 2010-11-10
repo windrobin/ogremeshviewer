@@ -1,8 +1,6 @@
 #pragma once
 
-#include "GridTypes.h"
-
-class MapBaseObject : public PropertySys::SupportRTTI<MapBaseObject, GridObject>
+class MapBaseObject : public PropertySys::SupportRTTI<MapBaseObject, PropertySys::RTTIObject>
 {
 public:
 	MapBaseObject(){}
@@ -19,4 +17,3 @@ protected:
 	Cactus::String		_strName;
 };
 
-typedef Cactus::vector<int>::type	IntVectorType;

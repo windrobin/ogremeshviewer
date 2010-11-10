@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MapBase.h"
+#include "GridTypes.h"
 
 struct STile 
 {
