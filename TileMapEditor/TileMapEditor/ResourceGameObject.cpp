@@ -184,7 +184,16 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, GridObject* pGridObject, const CPoi
 
 				pResTile->Draw(pDC, ptTopLeft, (*it)->_ArtResID);
 
-				//TODO : 绘制阻挡信息
+				//绘制中心
+				pGridObject->DrawGrid(pDC, ptGrid, RGB(0, 0, 255), 0);
+
+				// 绘制阻挡信息
+				for (ObstacleListType::iterator itObstacle = (*it)->_obstacles.begin(); itObstacle != (*it)->_obstacles.end(); ++itObstacle)
+				{
+					CPoint pt = ptGrid;
+					pt.Offset(*itObstacle);
+					pGridObject->DrawGrid(pDC, pt, RGB(255, 0, 0), 2);
+				}
 
 				break;
 			}
@@ -194,26 +203,7 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, GridObject* pGridObject, const CPoi
 
 void ResourceGameObjectGroup::Draw(CDC* pDC, const CPoint& ptTopLeft, const Cactus::String& strID)
 {
-	CreateImageList(pDC);
-
-	ResourceTile* pResTile = ResourceManager::getSingleton().GetResourceTileGroup(_strArtResKey);
-	if (pResTile)
-	{
-		for (ResGameObjectListType::iterator it = _ResGameObjects.begin(); it != _ResGameObjects.end(); ++it)
-		{
-			if( (*it)->_strName == strID )
-			{
-				CPoint ptAdjust = ptTopLeft + (*it)->_ptOffset;
-
-				pResTile->Draw(pDC, ptAdjust, (*it)->_ArtResID);
-
-				//TODO : 绘制阻挡信息
-
-				break;
-			}
-		}
-	}
-
+	//不支持，对游戏对象无意义
 }
 
 CRect ResourceGameObjectGroup::GetResItemBoundingRect(const CRect& curTile, EGridType eGrid, const Cactus::String& strItemID)
@@ -228,6 +218,12 @@ CRect ResourceGameObjectGroup::GetResItemBoundingRect(const CRect& curTile, EGri
 				CRect rcTile = pResTile->GetResItemBoundingRect(curTile, eGridNone, (*it)->_ArtResID);
 				rcTile.OffsetRect((*it)->_ptOffset);
 				rcTile.OffsetRect(_szUnitTile.x/2, _szUnitTile.y/2);
+
+				//有阻挡的扩大范围
+				if ((*it)->_obstacles.size())
+				{
+					rcTile.InflateRect(_szUnitTile.x/2, _szUnitTile.y/2);
+				}
 
 				return rcTile;
 			}
