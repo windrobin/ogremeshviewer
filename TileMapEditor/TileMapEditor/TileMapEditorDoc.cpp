@@ -95,6 +95,9 @@ BOOL CTileMapEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		return FALSE;
 	}
 
+	ToolManager::getSingleton().OnNewMap(&_theMap);
+
+
 	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd());
 	pMainFrame->GetPropertyWnd()->Reset();
 
