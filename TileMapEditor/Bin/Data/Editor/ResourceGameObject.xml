@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="gb2312"?>
 <resoucegameobject >
-	<group name="monster" iconres="tile2" mapType="0" unitTileW="100" unitTileH="50" >
-		<item name="monster01" iconid="005" xOffset="0" yOffset="0" xBarycentric="0" yBarycentric="0" AIType="" />
-		<item name="monster02" iconid="006" xOffset="0" yOffset="0" xBarycentric="0" yBarycentric="0" AIType="" />
-		<item name="monster03" iconid="007" xOffset="0" yOffset="0" xBarycentric="0" yBarycentric="0" AIType="" />
+	<group name="monster" iconres="tile2" mapType="0" unitTileW="16" unitTileH="16" >
+		<item name="monster01" iconid="005" xOffset="-31" yOffset="-31" xBarycentric="0" yBarycentric="0" AIType="" />
+		<item name="monster02" iconid="006" xOffset="-35" yOffset="-34" xBarycentric="0" yBarycentric="0" AIType="" />
+		<item name="monster03" iconid="007" xOffset="-35" yOffset="-37" xBarycentric="0" yBarycentric="0" AIType="" />
 	</group>
 	<group name="newtype" iconres="castle" mapType="1" unitTileW="64" unitTileH="32" >
 		<item name="npc01" iconid="CSTL3NNW_0" xOffset="-174" yOffset="-348" xBarycentric="-2.5" yBarycentric="-2.5" AIType="" >
@@ -43,13 +43,9 @@
 			<obstacle x="4" y="-2" />
 		</item>
 	</group>
-	<group name="npc" iconres="tile2" mapType="0" unitTileW="100" unitTileH="50" >
-		<item name="npc01" iconid="000" xOffset="25" yOffset="16" xBarycentric="0" yBarycentric="0" AIType="" >
-			<obstacle x="0" y="0" />
-			<obstacle x="0" y="1" />
-			<obstacle x="0" y="-1" />
-		</item>
-		<item name="npc02" iconid="001" xOffset="0" yOffset="0" xBarycentric="0" yBarycentric="0" AIType="" />
-		<item name="npc03" iconid="002" xOffset="0" yOffset="0" xBarycentric="0" yBarycentric="0" AIType="" />
+	<group name="npc" iconres="tile2" mapType="0" unitTileW="16" unitTileH="16" >
+		<item name="npc01" iconid="000" xOffset="-33" yOffset="-37" xBarycentric="0" yBarycentric="0" AIType="" />
+		<item name="npc02" iconid="001" xOffset="-28" yOffset="-31" xBarycentric="0" yBarycentric="0" AIType="" />
+		<item name="npc03" iconid="002" xOffset="-29" yOffset="-35" xBarycentric="0" yBarycentric="0" AIType="" />
 	</group>
 </resoucegameobject>
