@@ -673,6 +673,14 @@
 			Name="Util"
 			>
 			<File
+				RelativePath=".\Clipboard.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Clipboard.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GString.cpp"
 				>
 			</File>
@@ -682,6 +690,14 @@
 			</File>
 			<File
 				RelativePath=".\MemDC.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XListBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XListBox.h"
 				>
 			</File>
 		</Filter>

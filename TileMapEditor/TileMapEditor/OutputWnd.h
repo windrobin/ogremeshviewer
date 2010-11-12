@@ -1,10 +1,9 @@
 
 #pragma once
 
-/////////////////////////////////////////////////////////////////////////////
-// COutputList ´°¿Ú
+#include "XListBox.h"
 
-class COutputList : public CListBox
+class COutputList : public CXListBox
 {
 // ¹¹Ôì
 public:

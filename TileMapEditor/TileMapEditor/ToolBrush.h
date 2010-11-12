@@ -17,6 +17,8 @@ public:
 	virtual void OnTurnOn();
 	virtual void OnTurnOff();
 
+	virtual void OnNewMap(Map* pMap);
+
 	void		SetResource(const Cactus::String& strRes, const Cactus::String& strID);
 
 
