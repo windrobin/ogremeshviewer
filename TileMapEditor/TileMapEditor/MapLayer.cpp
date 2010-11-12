@@ -171,7 +171,10 @@ STile* MapLayer::TileHitTest(CPoint ptPixel, CPoint& ptGrid)
 	}
 
 	IntVectorType IDs = _pParentMap->GetAdjacentRegions(regionID);
-	IDs.insert(IDs.begin(), regionID);
+	//IDs.insert(IDs.begin(), regionID);
+	IDs.push_back(regionID);
+
+	Cactus::list<STile*>::type	tilesList;
 
 	//再判断点击点是否在某个Tile的包围盒范围内；搜索当前Region和增加相邻Region
 	for (size_t k = 0; k < IDs.size(); ++k)
@@ -191,12 +194,17 @@ STile* MapLayer::TileHitTest(CPoint ptPixel, CPoint& ptGrid)
 
 			if (rcDest.PtInRect(ptPixel))
 			{
-				return pTile;
+				tilesList.push_back(pTile);
 			}
 		}
 	}
-	
+	//找出最上面的那个
+	if (tilesList.size() > 0)
+	{
+		tilesList.sort(STile_less);
 
+		return tilesList.back();
+	}
 
 	return 0;
 }
