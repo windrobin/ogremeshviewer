@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="gb2312"?>
+<tilemap version="1" name="" type="1" width="50" height="50" wUnitTile="64" hUnitTile="32" footnotes="" backgroundcolor="0" drawgrid="true" gridcolor="32768" regionW="10" regionH="10" curlayer="layer_xx" >
+	<layers >
+		<layer name="layer_xx" enable="true" visible="true" >
+			<tilegroup region="2" />
+			<tilegroup region="6" />
+			<tilegroup region="7" />
+			<tilegroup region="8" />
+			<tilegroup region="10" />
+			<tilegroup region="11" >
+				<tile posx="10" posy="20" resGroup="ground" resItemID="image 1" />
+			</tilegroup>
+			<tilegroup region="12" >
+				<tile posx="20" posy="20" resGroup="ground" resItemID="image 1" />
+			</tilegroup>
+			<tilegroup region="13" >
+				<tile posx="30" posy="20" resGroup="ground" resItemID="image 1" />
+			</tilegroup>
+			<tilegroup region="14" />
+			<tilegroup region="15" />
+			<tilegroup region="16" >
+				<tile posx="10" posy="30" resGroup="ground" resItemID="image 1" />
+			</tilegroup>
+			<tilegroup region="17" >
+				<tile posx="20" posy="30" resGroup="ground" resItemID="image 1" />
+			</tilegroup>
+			<tilegroup region="18" >
+				<tile posx="30" posy="30" resGroup="ground" resItemID="image 1" />
+			</tilegroup>
+			<tilegroup region="19" />
+			<tilegroup region="20" />
+			<tilegroup region="21" >
+				<tile posx="10" posy="40" resGroup="ground" resItemID="image 1" />
+			</tilegroup>
+			<tilegroup region="22" >
+				<tile posx="20" posy="40" resGroup="ground" resItemID="image 1" />
+			</tilegroup>
+			<tilegroup region="23" >
+				<tile posx="30" posy="40" resGroup="ground" resItemID="image 1" />
+			</tilegroup>
+			<tilegroup region="24" />
+		</layer>
+		<layer name="layer_building" enable="true" visible="true" >
+			<tilegroup region="7" />
+			<tilegroup region="11" />
+			<tilegroup region="12" />
+			<tilegroup region="13" />
+			<tilegroup region="15" />
+			<tilegroup region="16" />
+			<tilegroup region="17" >
+				<tile posx="29" posy="39" resGroup="newtype" resItemID="npc01" />
+			</tilegroup>
+			<tilegroup region="18" >
+				<tile posx="35" posy="35" resGroup="newtype" resItemID="NewName" />
+			</tilegroup>
+			<tilegroup region="19" />
+			<tilegroup region="21" />
+			<tilegroup region="22" />
+			<tilegroup region="23" />
+			<tilegroup region="24" />
+		</layer>
+	</layers>
+	<brush />
+</tilemap>
