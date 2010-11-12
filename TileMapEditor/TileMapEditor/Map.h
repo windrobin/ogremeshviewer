@@ -74,6 +74,9 @@ public:
 	*/
 	IntVectorType				GetAdjacentRegions(int ID);
 
+	virtual bool				IsDrawGOCenter(){ return _bDrawGOCenter; }
+	virtual bool				IsDrawObstacle(){ return _bDrawObstacle; }
+
 protected:
 	Cactus::String		_strFootnotes;			///地图备注
 	Cactus::String		_strCurLayerName;		///当前地层名字
@@ -89,6 +92,9 @@ protected:
 	COLORREF			_colGridColor;			///网格颜色
 	bool				_bDrawRegionGrid;		///是否绘制区域网格
 	COLORREF			_colRegionGridColor;	///区域网格颜色
+
+	bool				_bDrawGOCenter;			///是否绘游戏对象中心信息
+	bool				_bDrawObstacle;			///是否绘制阻挡信息
 
 	MapBackground*		_pMapBackground;		///背景图片，暂时不支持
 

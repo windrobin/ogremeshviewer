@@ -39,6 +39,9 @@ public:
 	//绘制单位网格
 	void			DrawGrid(CDC* pDC, CPoint ptGrid, COLORREF ref, int deflate);
 
+	virtual bool	IsDrawGOCenter(){ return true; }
+	virtual bool	IsDrawObstacle(){ return true; }
+
 public:
 	int					_iWidthInTiles;			///宽度方向Tile数量
 	int					_iHeightInTiles;		///高度方向Tile数量
