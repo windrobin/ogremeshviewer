@@ -365,7 +365,10 @@ void Map::Draw(CDC* pDC, const CRect& rcView)
 	}
 
 	//ªÊ÷∆MapLayer
-	IntVectorType Regions = GetIntersectRegions(rcView);
+	CRect rcDirty = rcView;
+	rcDirty.InflateRect(_iRegionWidth * _iUnitTileWidth, _iRegionHeight * _iUnitTileHeight);
+
+	IntVectorType Regions = GetIntersectRegions(rcDirty);
 	if (Regions.size() == 0)
 		return;
 

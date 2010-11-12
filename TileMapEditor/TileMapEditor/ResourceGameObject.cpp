@@ -274,6 +274,7 @@ bool ResourceGameObjectGroup::UpdateGameObject(ResourceGameObject* pGO)
 	{
 		if( *it != pGO && (*it)->_strName == pGO->_strName)
 		{
+			Log_Error("更新游戏对象失败，名字已经存在！");
 			return false;
 		}
 	}
@@ -289,6 +290,7 @@ bool ResourceGameObjectGroup::AddGameObject(ResourceGameObject* pGO)
 	{
 		if( (*it)->_strName == pGO->_strName)
 		{
+			Log_Error("添加游戏对象失败，名字已经存在！");
 			return false;
 		}
 	}
