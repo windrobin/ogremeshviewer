@@ -69,6 +69,11 @@ public:
 	*/
 	IntVectorType				GetIntersectRegions(const CRect& rcView);
 
+	/**获取当前区域的所有相邻区域
+	*	@param ID	当前区域
+	*/
+	IntVectorType				GetAdjacentRegions(int ID);
+
 protected:
 	Cactus::String		_strFootnotes;			///地图备注
 	Cactus::String		_strCurLayerName;		///当前地层名字
@@ -76,6 +81,8 @@ protected:
 
 	int					_iRegionWidth;			///Region宽度，一个Region宽高应该为显示窗口宽高的1/2
 	int					_iRegionHeight;			///Region高度，一个Region宽高应该为显示窗口宽高的1/2
+	int					_iWRegionCount;			///宽度方向Region数量
+	int					_iHRegionCount;			///高度方向Region数量
 
 	COLORREF			_colBKColor;			///背景颜色
 	bool				_bDrawGrid;				///是否绘制网格

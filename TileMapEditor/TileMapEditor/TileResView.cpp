@@ -8,6 +8,7 @@
 #include "ToolManager.h"
 #include "ToolBrush.h"
 #include "GameObjectEditor.h"
+#include "Map.h"
 
 #include "ResourceManager.h"
 #include "ResourceGameObject.h"
@@ -153,7 +154,7 @@ void TileResView::OnSize(UINT nType, int cx, int cy)
 	CRect rectClient;
 	GetClientRect(rectClient);
 
-	int cyTlb = 30;
+	int cyTlb = 50;
 
 	_dialogBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 
@@ -191,6 +192,7 @@ void TileResView::BuildImageAndInfoes(Resource* pResGroup)
 	_iOldCheck		= -1;
 	_strResGroup	= pResGroup->GetResourceName();
 	_eType			= pResGroup->GetResourceType();
+	_pCurResGroup	= pResGroup;
 
 	_dialogBar._strGroupName	= _strResGroup.c_str();
 	if (_eType == eResTypeArt)
@@ -201,6 +203,23 @@ void TileResView::BuildImageAndInfoes(Resource* pResGroup)
 	{
 		_dialogBar._strResType	= "游戏对象";
 	}
+
+	if( _pCurResGroup->GetResourceType() == eResTypeGameObject )
+	{
+		ResourceGameObjectGroup* pResGO = (ResourceGameObjectGroup *)_pCurResGroup;
+		if ( pResGO->GetGridType() == eRectangle)
+			_dialogBar._strGridType = "矩形";
+		else
+			_dialogBar._strGridType = "菱形";
+
+		_dialogBar._strGridSize.Format("(%d, %d)", pResGO->GetUnitTileSize().cx, pResGO->GetUnitTileSize().cy);
+	}
+	else
+	{
+		_dialogBar._strGridType = "N/A";
+		_dialogBar._strGridSize = "N/A";
+	}
+
 	_dialogBar.UpdateData(FALSE);
 
 	//Clear brush tool
@@ -250,6 +269,24 @@ void TileResView::OnItemChanged(NMHDR *pNMHDR, LRESULT *pResult)
 		) 
 	{ 
 		//TRACE("Item %d is checked\n", pNMLV->iItem);
+
+		Map* pMap = ToolManager::getSingleton().GetMap();
+
+		if( pMap && _pCurResGroup->GetResourceType() == eResTypeGameObject )
+		{
+			ResourceGameObjectGroup* pResGO = (ResourceGameObjectGroup *)_pCurResGroup;
+			if (pMap->_eGridType != pResGO->GetGridType() )
+			{
+				Log_Error("资源的网格类型 和 当前地图的网格类型 不匹配！");
+
+				_listImages.SetCheck(pNMLV->iItem, FALSE);
+				return;
+			}
+			else if( CSize(pMap->_iUnitTileWidth, pMap->_iUnitTileHeight) != pResGO->GetUnitTileSize() )
+			{
+				Log_Warn("资源的单位网格大小 和 当前地图的单位网格大小 不匹配！");
+			}
+		}
 
 		if (_iOldCheck != -1)
 		{

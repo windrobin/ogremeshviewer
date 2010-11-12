@@ -281,8 +281,9 @@ void CTileMapEditorView::OffsetScrollPos(CPoint pt)
 
 void CTileMapEditorView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	// TODO: Add your message handler code here and/or call default
 	//VK_ESCAPE VK_DELETE VK_SHIFT
+
+	ToolManager::getSingleton().GetCurrentTool()->OnKeyDown(nChar, nRepCnt, nFlags);
 
 	CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
 }

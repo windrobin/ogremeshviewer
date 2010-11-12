@@ -129,3 +129,32 @@ void ToolSelect::SelectTile(STile* pTile, bool bSelect/* = true*/)
 		pLayer->UpdateTileVisual(_pSelectedTile);
 	}
 }
+
+//VK_ESCAPE VK_DELETE VK_SHIFT
+void ToolSelect::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (nChar == VK_ESCAPE)
+	{
+		//DeSelect
+		if (_pSelectedTile)
+			SelectTile(_pSelectedTile, false);
+	}
+	else if (nChar == VK_DELETE)
+	{
+		if (!_pSelectedTile)
+			return;
+
+		//Delete
+		MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
+		if (!pLayer)
+			return;
+
+		if( pLayer->RemoveTile(_pSelectedTile->_ptGrid) )
+		{
+			_pSelectedTile = 0;
+
+			Log_Info("É¾³ýTile³É¹¦" );
+		}
+	}
+
+}

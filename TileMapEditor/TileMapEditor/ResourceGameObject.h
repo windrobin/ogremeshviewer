@@ -71,6 +71,9 @@ public:
 	bool					AddGameObject(ResourceGameObject* pGO);
 	bool					RemoveGameObject(const Cactus::String& strName);
 
+	EGridType				GetGridType(){ return _eGridType; }
+	CSize					GetUnitTileSize(){ return _szUnitTile; }
+
 protected:
 	typedef Cactus::list<ResourceGameObject*>::type		ResGameObjectListType;
 	ResGameObjectListType	_ResGameObjects;

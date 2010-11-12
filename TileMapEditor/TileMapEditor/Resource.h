@@ -130,11 +130,14 @@
 #define IDC_EDIT_RES_DETAIL_GROUPNAME2  1028
 #define IDC_BUTTON_GO_OK2               1028
 #define IDC_BUTTON_GO_CANCEL            1028
+#define IDC_EDIT_RES_GRIDTYPE           1028
 #define IDC_EDIT_TILEW                  1029
 #define IDC_EDIT_TILEH                  1030
 #define IDC_COMBO_ARTRES                1031
 #define IDC_EDIT_RES_DETAIL_RESTYPE     1032
 #define IDC_EDIT_GROUPNAME              1033
+#define IDC_EDIT_RES_DETAIL_RESTYPE2    1033
+#define IDC_EDIT_RES_GRIDSIZE           1033
 #define IDC_RADIO_MAPTYPE               1034
 #define IDC_RADIO_MAPTYPE2              1035
 #define IDC_SPIN                        1036

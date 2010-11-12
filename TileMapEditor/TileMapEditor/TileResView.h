@@ -26,6 +26,8 @@
 //	CFont	_font;
 //};
 
+class Resource;
+
 class TileResView : public CDockablePane
 {
 public:
@@ -43,6 +45,7 @@ protected:
 	int					_iCurSelectItem;
 	Cactus::String		_strResGroup;
 	EResourceType		_eType;
+	Resource*			_pCurResGroup;
 
 // ÖØÐ´
 public:
