@@ -1,5 +1,68 @@
 <?xml version="1.0" encoding="gb2312"?>
 <resoucegameobject >
+	<group name="House" iconres="HouseArt" mapType="1" unitTileW="64" unitTileH="32" >
+		<item name="NewName" iconid="HOUS1NNG_0" xOffset="-82" yOffset="-99" xBarycentric="-1" yBarycentric="-1" AIType="" >
+			<obstacle x="0" y="0" />
+			<obstacle x="-1" y="0" />
+			<obstacle x="-2" y="0" />
+			<obstacle x="-2" y="-1" />
+			<obstacle x="-2" y="-2" />
+			<obstacle x="-1" y="-2" />
+			<obstacle x="0" y="-2" />
+			<obstacle x="0" y="-1" />
+		</item>
+		<item name="NewName1" iconid="HOUS2NNE_0" xOffset="-93" yOffset="-166" xBarycentric="-1" yBarycentric="-1.5" AIType="" >
+			<obstacle x="-1" y="0" />
+			<obstacle x="0" y="0" />
+			<obstacle x="0" y="-1" />
+			<obstacle x="0" y="-2" />
+			<obstacle x="-2" y="0" />
+			<obstacle x="-2" y="-1" />
+			<obstacle x="-2" y="-2" />
+			<obstacle x="-2" y="-3" />
+			<obstacle x="-1" y="-3" />
+			<obstacle x="0" y="-3" />
+		</item>
+		<item name="NewName2" iconid="HOUS3NNE_0" xOffset="-111" yOffset="-170" xBarycentric="-1.66667" yBarycentric="-1.66667" AIType="" >
+			<obstacle x="-1" y="0" />
+			<obstacle x="-2" y="0" />
+			<obstacle x="-3" y="0" />
+			<obstacle x="-3" y="-1" />
+			<obstacle x="-3" y="-2" />
+			<obstacle x="-3" y="-3" />
+			<obstacle x="-2" y="-3" />
+			<obstacle x="-1" y="-3" />
+			<obstacle x="-1" y="-2" />
+			<obstacle x="0" y="-3" />
+			<obstacle x="0" y="-2" />
+			<obstacle x="-1" y="-1" />
+		</item>
+		<item name="NewName3" iconid="HOUS3NNW_2" xOffset="-105" yOffset="-155" xBarycentric="-1.88889" yBarycentric="-1.22222" AIType="" >
+			<obstacle x="-2" y="0" />
+			<obstacle x="-3" y="0" />
+			<obstacle x="-3" y="-1" />
+			<obstacle x="-2" y="-2" />
+			<obstacle x="-3" y="-2" />
+			<obstacle x="0" y="-2" />
+			<obstacle x="-1" y="-2" />
+			<obstacle x="-2" y="-1" />
+			<obstacle x="-1" y="-1" />
+		</item>
+	</group>
+	<group name="Tower" iconres="TowerArt" mapType="1" unitTileW="64" unitTileH="32" >
+		<item name="1" iconid="WCTW4NNW_0" xOffset="-50" yOffset="-208" xBarycentric="-0.5" yBarycentric="-0.5" AIType="" >
+			<obstacle x="0" y="0" />
+			<obstacle x="0" y="-1" />
+			<obstacle x="-1" y="-1" />
+			<obstacle x="-1" y="0" />
+		</item>
+		<item name="2" iconid="WCTW4NNX_0" xOffset="-46" yOffset="-242" xBarycentric="-0.5" yBarycentric="-0.5" AIType="" >
+			<obstacle x="-1" y="0" />
+			<obstacle x="-1" y="-1" />
+			<obstacle x="0" y="-1" />
+			<obstacle x="0" y="0" />
+		</item>
+	</group>
 	<group name="monster" iconres="tile2" mapType="0" unitTileW="16" unitTileH="16" >
 		<item name="monster01" iconid="005" xOffset="-31" yOffset="-31" xBarycentric="0" yBarycentric="0" AIType="" />
 		<item name="monster02" iconid="006" xOffset="-35" yOffset="-34" xBarycentric="0" yBarycentric="0" AIType="" />
