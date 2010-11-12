@@ -98,8 +98,11 @@ void CDialogGameObject::OnBnClickedButtonGoOk()
 	_pResGO->_obstacles		= _obstacles;
 	_pResGO->_ArtResID		= (LPCTSTR)strLabel;
 
-	_comboArt.GetLBText(_comboAIType.GetCurSel(), strLabel);
-	_pResGO->_strAIType		= (LPCTSTR)strLabel;
+	if (_comboAIType.GetCurSel() != -1)
+	{
+		_comboAIType.GetLBText(_comboAIType.GetCurSel(), strLabel);
+		_pResGO->_strAIType		= (LPCTSTR)strLabel;
+	}
 
 	bool bRet = false;
 	if (_bAdd)
