@@ -264,7 +264,7 @@ void CDialogGameObject::AfterSetData()
 	CRect rcCenter = GetPixelCoordRect(CPoint(_iWidthInTiles/2, _iWidthInTiles/2));
 	if (_bAdd)
 	{
-		_ptSelected		= CPoint(0, 0);
+		_ptSelected		= CPoint(_iUnitTileWidth * _iWidthInTiles/3, _iUnitTileHeight * _iWidthInTiles/3);
 		_ptOffset		= _ptSelected - rcCenter.CenterPoint();
 	}
 	else

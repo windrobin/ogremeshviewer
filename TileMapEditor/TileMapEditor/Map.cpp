@@ -184,6 +184,9 @@ void Map::RegisterReflection()
 
 void Map::OnPropertyChanged(const std::string& propName)
 {
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	CView* pView = pMainFrame->GetActiveView(); 
+	pView->Invalidate();
 }
 
 bool Map::Load(const Cactus::String& strPathName)
