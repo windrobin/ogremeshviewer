@@ -132,11 +132,8 @@ void CTileMapEditorView::GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptSc
 	}
 }
 
-
-void CTileMapEditorView::OnInitialUpdate()
+void CTileMapEditorView::UpdateDataSizeScroll()
 {
-	CScrollView::OnInitialUpdate();
-
 	CSize sizeTotal;
 	sizeTotal.cx	= GetDocument()->GetMap().GetPixelWidth() + M_Margin * 2;
 	sizeTotal.cy	= GetDocument()->GetMap().GetPixelHeight() + M_Margin * 2;
@@ -144,7 +141,7 @@ void CTileMapEditorView::OnInitialUpdate()
 
 	CRect rcClient;
 	GetClientRect(&rcClient);
-	
+
 	CPoint ptScroll = CPoint(sizeTotal.cx/2, sizeTotal.cy/2);
 	ptScroll.Offset(-rcClient.Size().cx/2, -rcClient.Size().cy/2);
 	if(ptScroll.x < 0)
@@ -153,6 +150,14 @@ void CTileMapEditorView::OnInitialUpdate()
 		ptScroll.y = 0;
 
 	ScrollToPosition(ptScroll);
+}
+
+
+void CTileMapEditorView::OnInitialUpdate()
+{
+	CScrollView::OnInitialUpdate();
+
+	UpdateDataSizeScroll();
 }
 
 void CTileMapEditorView::OnRButtonUp(UINT nFlags, CPoint point)

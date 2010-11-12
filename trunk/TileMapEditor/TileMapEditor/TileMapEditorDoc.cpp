@@ -9,6 +9,7 @@
 #include "DialogFileNew.h"
 #include "MainFrm.h"
 #include "MapView.h"
+#include "TileMapEditorView.h"
 
 #include "ToolManager.h"
 #include "MapLayer.h"
@@ -159,6 +160,9 @@ void CTileMapEditorDoc::OnFileNew()
 	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
 	pMainFrame->GetMapView()->Reset();
 	pMainFrame->GetPropertyWnd()->Reset();
-
 	pMainFrame->GetMapView()->SetMapObject(&_theMap);
+
+	CTileMapEditorView* pView = (CTileMapEditorView*)((CMainFrame*)AfxGetMainWnd())->GetActiveView();
+	pView->UpdateDataSizeScroll();
+
 }

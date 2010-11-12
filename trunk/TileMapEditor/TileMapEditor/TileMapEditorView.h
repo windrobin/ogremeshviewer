@@ -31,6 +31,8 @@ public:
 	void 	GetDrawingContent(CRect& rc, CSize& szDoc, CPoint& ptScroll);
 	void	OffsetScrollPos(CPoint pt);
 
+	void	UpdateDataSizeScroll();
+
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
