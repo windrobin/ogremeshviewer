@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="gb2312"?>
-<tilemap version="1" name="" type="1" width="50" height="50" wUnitTile="64" hUnitTile="32" footnotes="" backgroundcolor="0" drawgrid="true" gridcolor="32768" regionW="10" regionH="10" curlayer="layer_building" >
+<tilemap version="1" name="" type="1" width="50" height="50" wUnitTile="64" hUnitTile="32" footnotes="" backgroundcolor="0" drawgrid="false" gridcolor="32768" regionW="10" regionH="10" curlayer="layer_building" >
 	<layers >
 		<layer name="layer_xx" enable="true" visible="true" >
 			<tilegroup region="0" >
@@ -124,7 +124,7 @@
 			<tilegroup region="20" />
 			<tilegroup region="21" >
 				<tile posx="13" posy="40" resGroup="newtype" resItemID="NewName" />
-				<tile posx="19" posy="49" resGroup="Tower" resItemID="2" />
+				<tile posx="17" posy="48" resGroup="Tower" resItemID="2" />
 			</tilegroup>
 			<tilegroup region="22" />
 			<tilegroup region="23" >
