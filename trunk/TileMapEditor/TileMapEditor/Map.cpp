@@ -148,15 +148,14 @@ Map::Map()
 , _colGridColor(RGB(0, 128, 0))
 , _bDrawRegionGrid(true)
 , _colRegionGridColor(RGB(192, 192, 0))
+, _bDrawGOCenter(true)
+, _bDrawObstacle(true)
 {
 }
 
 Map::~Map()
 {
-	if (_pMapBackground)
-	{
-		delete _pMapBackground;
-	}
+	Reset();
 }
 
 void Map::RegisterReflection()
@@ -178,6 +177,9 @@ void Map::RegisterReflection()
 	pProp = M_RegisterPropertySimple(bool, DrawRegionGrid, Map, Map, "是否绘制区域网格.", BaseProperty::eDefault, _bDrawRegionGrid);
 	pProp = M_RegisterPropertySimple(int, RegionGridColor, Map, Map, "区域网格颜色.", BaseProperty::eDefault, _colRegionGridColor);
 	pProp->SetValueSpecify(eValueColor, "");
+
+	pProp = M_RegisterPropertySimple(bool, DrawGameObjectCenter, Map, Map, "是否绘制游戏对象中心网格.", BaseProperty::eDefault, _bDrawGOCenter);
+	pProp = M_RegisterPropertySimple(bool, DrawObstacle, Map, Map, "是否绘制障碍物网格.", BaseProperty::eDefault, _bDrawObstacle);
 }
 
 void Map::OnPropertyChanged(const std::string& propName)

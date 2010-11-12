@@ -186,9 +186,11 @@ void ResourceGameObjectGroup::Draw(CDC* pDC, GridObject* pGridObject, const CPoi
 				pResTile->Draw(pDC, ptTopLeft, (*it)->_ArtResID);
 
 				//绘制中心
-				pGridObject->DrawGrid(pDC, ptGrid, RGB(0, 0, 255), 0);
+				if(pGridObject->IsDrawGOCenter())
+					pGridObject->DrawGrid(pDC, ptGrid, RGB(0, 0, 255), 0);
 
 				// 绘制阻挡信息
+				if(pGridObject->IsDrawObstacle())
 				for (ObstacleListType::iterator itObstacle = (*it)->_obstacles.begin(); itObstacle != (*it)->_obstacles.end(); ++itObstacle)
 				{
 					CPoint pt = ptGrid;
