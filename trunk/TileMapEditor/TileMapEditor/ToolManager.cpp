@@ -55,7 +55,13 @@ ToolBase* ToolManager::GetCurrentTool()
 
 void ToolManager::OnNewMap(Map* pMap)
 {
-	_tools[_eCurToolType]->OnNewMap(_pCurMap);
+	for (TypToolMapType::iterator it = _tools.begin(); it != _tools.end(); ++it)
+	{
+		it->second->OnNewMap(_pCurMap);
+	}
+
+	SelectTool(eToolSelect);
+
 	_pCurMap = pMap;
 }
 

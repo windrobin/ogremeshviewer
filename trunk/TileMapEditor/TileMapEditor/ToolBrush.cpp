@@ -27,6 +27,9 @@ void ToolBrush::Draw(CDC* pDC)
 	if (!_bInRegion)
 		return;
 
+	if (_strResGroup.size() == 0)
+		return;
+
 	Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(_strResGroup);
 	if (!pRes)
 		pRes = ResourceManager::getSingleton().GetResourceGameObjectGroup(_strResGroup);
@@ -49,6 +52,9 @@ void ToolBrush::OnLButtonDown(UINT nFlags, CPoint point)
 	if (!_bInRegion)
 		return;
 
+	if (_strResGroup.size() == 0)
+		return;
+
 	MapLayer* pLayer = ToolManager::getSingleton().GetMap()->GetCurLayer();
 	if (!pLayer)
 		return;
@@ -68,6 +74,9 @@ void ToolBrush::OnLButtonUp(UINT nFlags, CPoint point)
 void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 {
 	ToolBase::OnMouseMove(nFlags, point);
+
+	if (_strResGroup.size() == 0)
+		return;
 
 	if (!_bInRegion)
 	{
@@ -149,5 +158,11 @@ void ToolBrush::OnTurnOff()
 void ToolBrush::SetResource(const Cactus::String& strRes, const Cactus::String& strID)
 {
 	_strResGroup	= strRes;
-	_strResID	= strID;
+	_strResID		= strID;
+}
+
+void ToolBrush::OnNewMap(Map* pMap)
+{
+	_strResGroup	= "";
+	_strResID		= "";
 }

@@ -5,6 +5,8 @@
 #include "Resource.h"
 #include "MainFrm.h"
 
+using namespace Cactus;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -46,7 +48,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	// 创建输出窗格:
-	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL;
+	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS;
 
 	if (!m_wndOutputLog.Create(dwStyle, rectDummy, &m_wndTabs, 2)
 		//|| !m_wndOutputDebug.Create(dwStyle, rectDummy, &m_wndTabs, 3)
@@ -116,7 +118,38 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 
 void COutputWnd::OnLogContent(const char* loggerName, Cactus::ELogLevel elevel, const char* content)
 {
-	m_wndOutputLog.AddString(content);
+	CString strTmp;
+
+	CXListBox::Color eText = CXListBox::Black;
+
+	if (elevel == eLogLevelDebug)
+	{
+		strTmp = "调试：";
+	}
+	else if (elevel == eLogLevelInfo)
+	{
+		strTmp = "信息：";
+		eText = CXListBox::Blue;
+	}
+	else if (elevel == eLogLevelWarn)
+	{
+		strTmp = "警告：";
+		eText = CXListBox::Yellow;
+	}
+	else if (elevel == eLogLevelError)
+	{
+		strTmp = "错误：";
+		eText = CXListBox::Red;
+	}
+	else if (elevel == eLogLevelFatal)
+	{
+		strTmp = "致命错误：";
+		eText = CXListBox::Red;
+	}
+	
+	strTmp += content;
+	m_wndOutputLog.AddLine(eText, CXListBox::White, strTmp);
+
 	m_wndOutputLog.SetCurSel(m_wndOutputLog.GetCount() - 1);
 }
 
