@@ -566,12 +566,60 @@ IntVectorType Map::GetIntersectRegions(const CRect& rcView)
 	return IDs;
 }
 
+IntVectorType Map::GetAdjacentRegions(int ID)
+{
+	IntVectorType ids;
+
+	int id = ID - _iWRegionCount - 1;
+	if (id >= 0)
+		ids.push_back(id);
+
+	id = ID - _iWRegionCount;
+	if (id >= 0)
+		ids.push_back(id);
+
+	id = ID - _iWRegionCount + 1;
+	if (id >= 0)
+		ids.push_back(id);
+
+
+
+
+	id = ID - 1;
+	if (id >= 0)
+		ids.push_back(id);
+
+	id = ID + 1;
+	if (id < _regions.size())
+		ids.push_back(id);
+
+
+
+	id = ID + _iWRegionCount - 1;
+	if (id < _regions.size())
+		ids.push_back(id);
+
+	id = ID + _iWRegionCount;
+	if (id < _regions.size())
+		ids.push_back(id);
+
+	id = ID + _iWRegionCount + 1;
+	if (id < _regions.size())
+		ids.push_back(id);
+
+	return ids;
+}
+
+
 void Map::CalculateRegionInfo()
 {
 	_regions.clear();
 
 	int W = (_iWidthInTiles + _iRegionWidth - 1)/ _iRegionWidth;
 	int H = (_iHeightInTiles + _iRegionHeight - 1)/ _iRegionHeight;
+
+	_iWRegionCount	= W;
+	_iWRegionCount	= H;
 
 	if (_eGridType == eRectangle)
 	{

@@ -12,6 +12,8 @@ public:
 	virtual void OnLButtonDown(UINT nFlags, CPoint point);
 	virtual void OnLButtonUp(UINT nFlags, CPoint point);
 	virtual void OnMouseMove(UINT nFlags, CPoint point);
+	virtual void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+
 	virtual void OnTurnOn();
 	virtual void OnTurnOff();
 

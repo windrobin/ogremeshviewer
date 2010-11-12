@@ -108,6 +108,12 @@ void ToolBase::OnMouseMove(UINT nFlags, CPoint point)
 }
 
 
+void ToolBase::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+
+}
+
+
 void ToolBase::OnTurnOn()
 {
 

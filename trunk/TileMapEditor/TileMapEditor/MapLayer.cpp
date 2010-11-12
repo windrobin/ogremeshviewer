@@ -169,24 +169,34 @@ STile* MapLayer::TileHitTest(CPoint ptPixel, CPoint& ptGrid)
 			return pTile;
 		}
 	}
-	
-	//再判断点击点是否在某个Tile的包围盒范围内；目前只搜索当前Region，以后可以增加相邻Region
-	for (size_t t = 0; t < tiles.size(); ++t)
+
+	IntVectorType IDs = _pParentMap->GetAdjacentRegions(regionID);
+	IDs.insert(IDs.begin(), regionID);
+
+	//再判断点击点是否在某个Tile的包围盒范围内；搜索当前Region和增加相邻Region
+	for (size_t k = 0; k < IDs.size(); ++k)
 	{
-		STile* pTile = tiles[t];
+		TileVectorType& tiles = _GroupTiles[IDs[k]];
 
-		Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(pTile->_strResGroup);
-		if (!pRes)
-			pRes = ResourceManager::getSingleton().GetResourceGameObjectGroup(pTile->_strResGroup);
-
-		CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(pTile->_ptGrid);
-		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, _pParentMap->GetType(), pTile->_strResItemID);
-
-		if (rcDest.PtInRect(ptPixel))
+		for (size_t t = 0; t < tiles.size(); ++t)
 		{
-			return pTile;
+			STile* pTile = tiles[t];
+
+			Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(pTile->_strResGroup);
+			if (!pRes)
+				pRes = ResourceManager::getSingleton().GetResourceGameObjectGroup(pTile->_strResGroup);
+
+			CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(pTile->_ptGrid);
+			CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, _pParentMap->GetType(), pTile->_strResItemID);
+
+			if (rcDest.PtInRect(ptPixel))
+			{
+				return pTile;
+			}
 		}
 	}
+	
+
 
 	return 0;
 }
@@ -343,6 +353,8 @@ bool MapLayer::RemoveTile(CPoint ptGrid)
 			tiles.erase(tiles.begin() + t);
 
 			UpdateTileInfoInMapLayer(pTile, eTileOpRemove);
+
+			UpdateTileVisual(pTile);
 
 			delete pTile;
 			bFound = true;

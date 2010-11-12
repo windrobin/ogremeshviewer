@@ -20,4 +20,6 @@ protected:
 public:
 	CString _strGroupName;
 	CString _strResType;
+	CString _strGridType;
+	CString _strGridSize;
 };

@@ -120,6 +120,15 @@ void ToolBrush::OnMouseMove(UINT nFlags, CPoint point)
 }
 
 
+//VK_ESCAPE
+void ToolBrush::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (nChar == VK_ESCAPE)
+	{
+		ToolManager::getSingleton().SelectTool(eToolSelect);
+	}
+}
+
 void ToolBrush::OnTurnOn()
 {
 	ToolBase::OnTurnOn();
