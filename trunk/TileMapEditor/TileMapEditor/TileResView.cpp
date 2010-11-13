@@ -245,6 +245,26 @@ void TileResView::ReBuildContent()
 	}
 }
 
+void TileResView::ClearContent()
+{
+	_listImages.DeleteAllItems();
+
+	_iOldCheck		= -1;
+	_strResGroup	= "";
+	_eType			= eResTypeArt;
+	_pCurResGroup	= 0;
+
+	_dialogBar._strGroupName	= "";
+	_dialogBar._strResType	= "N/A";
+	_dialogBar._strGridType = "N/A";
+	_dialogBar._strGridSize = "N/A";
+
+	_dialogBar.UpdateData(FALSE);
+
+	//Clear brush tool
+	ToolManager::getSingleton().SelectTool(eToolSelect);
+}
+
 
 void TileResView::OnContextMenu(CWnd* pWnd, CPoint point)
 {

@@ -384,6 +384,12 @@ bool ResourceManager::IsGameObjectGroupNameValid(const Cactus::String& strName)
 
 bool ResourceManager::AddGameObjectGroup(ResourceGameObjectGroup* p)
 {
+	if (_ResGameObjectGroups.find(p->_strName) != _ResGameObjectGroups.end())
+	{
+		Log_Error("资源组已存在！" << p->_strName);
+		return false;
+	}
+
 	_ResGameObjectGroups[p->_strName] = p;
 
 	return true;
@@ -392,7 +398,6 @@ bool ResourceManager::AddGameObjectGroup(ResourceGameObjectGroup* p)
 
 bool ResourceManager::RemoveGameObjectGroup(const Cactus::String& strName)
 {
-
 	ResGameObjectGroupMapType::iterator it = _ResGameObjectGroups.find(strName);
 	if(it != _ResGameObjectGroups.end())
 	{
@@ -401,6 +406,8 @@ bool ResourceManager::RemoveGameObjectGroup(const Cactus::String& strName)
 		
 		return true;
 	}
+
+	Log_Error("资源组不存在！" << strName);
 
 	return false;
 }

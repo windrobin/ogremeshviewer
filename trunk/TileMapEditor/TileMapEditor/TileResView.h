@@ -38,6 +38,8 @@ public:
 
 	void		ReBuildContent();
 
+	void		ClearContent();
+
 protected:
 	DialogResDetail		_dialogBar;
 	CListCtrl			_listImages;
