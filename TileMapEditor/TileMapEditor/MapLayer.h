@@ -62,6 +62,7 @@ public:
 	/**删除当前网格坐标的STile，并更新视图
 	*/
 	bool					RemoveTile(CPoint ptGrid);
+	bool					RemoveTile(STile* pTile);
 
 	/**获取当前网格坐标的STile信息
 	*/
