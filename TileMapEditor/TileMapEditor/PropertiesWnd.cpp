@@ -17,6 +17,7 @@ static char THIS_FILE[]=__FILE__;
 
 CPropertiesWnd::CPropertiesWnd()
 {
+	_pCurObject = 0;
 }
 
 CPropertiesWnd::~CPropertiesWnd()
@@ -279,6 +280,11 @@ void CPropertiesWnd::SetPropListFont()
 
 void CPropertiesWnd::AddPropertyData(PropertySys::RTTIObject* pObject, const Cactus::String& strCaption)
 {
+	if(_pCurObject == pObject)
+		return;
+
+	_pCurObject = pObject;
+
 	Reset();
 	_reflectiveUI.BuildUIForObject(0, pObject, strCaption.c_str());
 	m_wndPropList.ExpandAll();
@@ -287,6 +293,7 @@ void CPropertiesWnd::AddPropertyData(PropertySys::RTTIObject* pObject, const Cac
 
 void CPropertiesWnd::Reset()
 {
+	_pCurObject = 0;
 	m_wndPropList.RemoveAll();
 	_reflectiveUI.ResetGridPropertyMap();
 	m_wndPropList.ExpandAll();

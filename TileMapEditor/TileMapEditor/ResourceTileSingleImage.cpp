@@ -20,8 +20,8 @@ void ResourceTileSingleImage::RegisterReflection()
 
 	M_ReflectionInit(0);
 
-	pProp = M_RegisterPropertySimple(Cactus::String, ResourceName, ResourceTileSingleImage, Resource, "图像文件名.", BaseProperty::eDefault, _strImageName);
-	pProp->SetValueSpecify(eFilePathName, "");
+	pProp = M_RegisterPropertySimple(Cactus::String, ResourceName, ResourceTileSingleImage, Resource, "图像文件名.", BaseProperty::eReadOnly, _strImageName);
+	//pProp->SetValueSpecify(eFilePathName, "");
 
 	pProp = M_RegisterPropertySimple(int, ImageWidth, ResourceTileSingleImage, Resource, "图像宽度.", BaseProperty::eReadOnly, _imageWidth);
 	pProp = M_RegisterPropertySimple(int, ImageHeight, ResourceTileSingleImage, Resource, "图像高度.", BaseProperty::eReadOnly, _imageHeight);

@@ -128,6 +128,12 @@ void CReflectiveUI::AddPropertyToGrid(CMFCPropertyGridProperty* root, RTTIObject
 			);
 	}
 
+	if (!pGrid)
+		return;
+
+	if (pTypedProperty->IsReadOnly())
+		pGrid->AllowEdit(FALSE);
+
 	root->AddSubItem( pGrid );
 
 	CReflectiveUI::SPropertyObject PO(pProp, pObject);
@@ -137,7 +143,7 @@ void CReflectiveUI::AddPropertyToGrid(CMFCPropertyGridProperty* root, RTTIObject
 template<class T>
 void CReflectiveUI::AddPropertyToGrid_AsString(CMFCPropertyGridProperty* root, PropertySys::RTTIObject* pObject, PropertySys::BaseProperty* pProp)
 {
-	CMFCPropertyGridProperty* pGrid;
+	CMFCPropertyGridProperty* pGrid = 0;
 
 	TypedProperty<T>* pTypedProperty = (TypedProperty<T>*)pProp;
 	EValueSpecify e = pProp->GetValueSpecify();
@@ -179,6 +185,12 @@ void CReflectiveUI::AddPropertyToGrid_AsString(CMFCPropertyGridProperty* root, P
 			, pTypedProperty->GetDescription().c_str()
 			);
 	}
+
+	if (!pGrid)
+		return;
+
+	if (pTypedProperty->IsReadOnly())
+		pGrid->AllowEdit(FALSE);
 
 	root->AddSubItem( pGrid );
 

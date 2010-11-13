@@ -31,7 +31,7 @@ void ResourceBackground::RegisterReflection()
 	pProp = M_RegisterPropertySimple(Cactus::String, Name, ResourceBackground, Resource, "图像文件.", BaseProperty::eReadOnly, _strName);
 
 	pProp = M_RegisterPropertySimple(Cactus::String, ImagePathName, ResourceBackground, Resource, "图像文件.", BaseProperty::eReadOnly, _strImagePathName);
-	pProp->SetValueSpecify(eFilePathName, "");
+	//pProp->SetValueSpecify(eFilePathName, "");
 
 	pProp = M_RegisterPropertySimple(int, ImageWidth, ResourceBackground, Resource, "图像宽度.", BaseProperty::eReadOnly, _iWidth);
 	pProp = M_RegisterPropertySimple(int, ImageHeight, ResourceBackground, Resource, "图像高度.", BaseProperty::eReadOnly, _iHeight);

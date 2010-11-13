@@ -258,6 +258,11 @@ void ResourceTreeView::OnTvnSelchangedTreeDetails(NMHDR *pNMHDR, LRESULT *pResul
 
 		//insert image into TileResView
 		pTileResView->BuildImageAndInfoes(pRes);
+
+
+		CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetMainWnd())->GetPropertyWnd(); 
+		pPropertyWnd->AddPropertyData(pRes, pRes->GetResourceName());
+		pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
 	}
 
 	*pResult = 0;

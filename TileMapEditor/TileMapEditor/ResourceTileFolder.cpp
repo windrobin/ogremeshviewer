@@ -25,10 +25,10 @@ void ResourceTileFolder::RegisterReflection()
 
 	M_ReflectionInit(0);
 
-	pProp = M_RegisterPropertySimple(Cactus::String, FolderName, ResourceTileFolder, Resource, "图像目录名.", BaseProperty::eDefault, _strFolderName);
-	pProp->SetValueSpecify(eFilePathName, "");
+	pProp = M_RegisterPropertySimple(Cactus::String, FolderName, ResourceTileFolder, Resource, "图像目录名.", BaseProperty::eReadOnly, _strFolderName);
+	//pProp->SetValueSpecify(eFilePathName, "");
 
-	pProp = M_RegisterPropertySimple(Cactus::String, FileExt, ResourceTileFolder, Resource, "图像文件扩展名.", BaseProperty::eDefault, _strFileExt);
+	pProp = M_RegisterPropertySimple(Cactus::String, FileExt, ResourceTileFolder, Resource, "图像文件扩展名.", BaseProperty::eReadOnly, _strFileExt);
 }
 
 void ResourceTileFolder::OnPropertyChanged(const std::string& propName)
