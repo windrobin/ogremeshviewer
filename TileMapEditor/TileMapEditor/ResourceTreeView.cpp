@@ -332,10 +332,23 @@ void ResourceTreeView::OnUpdateCmdUI_GroupAdd(CCmdUI* pCmdUI)
 	pCmdUI->Enable(_pSelectedGroup || _hSelectedItem == _treeGameObjectRes);
 }
 
-
+#include "GameObjectEditorObjects.h"
 void ResourceTreeView::OnGameObjectGroupRemove()
 {
+	if (GetGODlg()->_pGOGroup == _pSelectedGroup)
+	{
+		Log_Error("资源正在使用！");
+		return;
+	}
 
+	CMainFrame* pMainFrame = DYNAMIC_DOWNCAST(CMainFrame, AfxGetMainWnd() );
+	TileResView* pTileResView = pMainFrame->GetTileResView();
+
+	if( ResourceManager::getSingleton().RemoveGameObjectGroup(_pSelectedGroup->GetResourceName()) )
+	{
+		pTileResView->ClearContent();
+		_ResourceTree.DeleteItem(_hSelectedItem);
+	}
 }
 void ResourceTreeView::OnUpdateCmdUI_GroupRemove(CCmdUI* pCmdUI)
 {
