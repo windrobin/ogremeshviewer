@@ -42,6 +42,9 @@ public:
 			_map._iRegionHeight			= attributes.getValueAsInteger("regionH");
 			_map._bDrawGOCenter			= attributes.getValueAsBool("DrawGOCenter");
 			_map._bDrawObstacle			= attributes.getValueAsBool("DrawObstacle");
+			_map._bDrawRegionGrid		= attributes.getValueAsBool("DrawRegionGrid");
+			_map._colRegionGridColor	= attributes.getValueAsInteger("regionGridcolor");
+			
 		}
 		else if ( currentElementMatch("tilemap/background/") )
 		{
@@ -243,6 +246,8 @@ void Map::Save(const Cactus::String& strPathName)
 		xmlOut.AddAttribute("regionH", _iRegionHeight);
 		xmlOut.AddAttribute("DrawGOCenter", _bDrawGOCenter);
 		xmlOut.AddAttribute("DrawObstacle", _bDrawObstacle);
+		xmlOut.AddAttribute("DrawObstacle", _bDrawRegionGrid);
+		xmlOut.AddAttribute("DrawObstacle", _colRegionGridColor);
 
 		if (_pCurLayer)
 			xmlOut.AddAttribute("curlayer", _pCurLayer->GetObjectName());
