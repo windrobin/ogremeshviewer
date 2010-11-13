@@ -116,16 +116,19 @@ void MapLayer::Draw(CDC* pDC, const IntVectorType& regions)
 		if (!pRes)
 			pRes = ResourceManager::getSingleton().GetResourceGameObjectGroup(pTile->_strResGroup);
 
-		if (pRes)
+		if (!pRes)
 		{
-			pRes->Draw(pDC, _pParentMap, pTile->_ptGrid, pTile->_strResItemID);
+			Log_Error("资源组 '" << pTile->_strResGroup << "' 不存在！");
+			continue;
+		}
 
-			if (pTile->_bSelected)
-			{
-				CRect rcPixel	= _pParentMap->GetPixelCoordRect(pTile->_ptGrid);
-				CRect rcDest = pRes->GetResItemBoundingRect(rcPixel, _pParentMap->GetType(), pTile->_strResItemID);
-				pDC->Rectangle(rcDest);
-			}
+		pRes->Draw(pDC, _pParentMap, pTile->_ptGrid, pTile->_strResItemID);
+
+		if (pTile->_bSelected)
+		{
+			CRect rcPixel	= _pParentMap->GetPixelCoordRect(pTile->_ptGrid);
+			CRect rcDest = pRes->GetResItemBoundingRect(rcPixel, _pParentMap->GetType(), pTile->_strResItemID);
+			pDC->Rectangle(rcDest);
 		}
 	}
 	pDC->SelectObject(pOldPen);
@@ -189,6 +192,12 @@ STile* MapLayer::TileHitTest(CPoint ptPixel, CPoint& ptGrid)
 			if (!pRes)
 				pRes = ResourceManager::getSingleton().GetResourceGameObjectGroup(pTile->_strResGroup);
 
+			if (!pRes)
+			{
+				Log_Error("资源组 '" << pTile->_strResGroup << "' 不存在！");
+				continue;
+			}
+
 			CRect rcPixelGrid = _pParentMap->GetPixelCoordRect(pTile->_ptGrid);
 			CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, _pParentMap->GetType(), pTile->_strResItemID);
 
@@ -241,6 +250,12 @@ void MapLayer::UpdateTileVisual(STile* pTile, bool bEnsureVisible/* = false*/)
 		Resource* pRes = ResourceManager::getSingleton().GetResourceArtGroup(pTile->_strResGroup);
 		if (!pRes)
 			pRes = ResourceManager::getSingleton().GetResourceGameObjectGroup(pTile->_strResGroup);
+
+		if (!pRes)
+		{
+			Log_Error("资源组 '" << pTile->_strResGroup << "' 不存在！");
+			return;
+		}
 
 		CRect rcDest = pRes->GetResItemBoundingRect(rcPixelGrid, _pParentMap->GetType(), pTile->_strResItemID);
 		pMapView->LogicInvalidate(rcDest);
