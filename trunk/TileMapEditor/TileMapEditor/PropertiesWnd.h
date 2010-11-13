@@ -43,6 +43,8 @@ protected:
 	CPropertyGrid			m_wndPropList;
 	CReflectiveUI			_reflectiveUI;
 
+	PropertySys::RTTIObject*	_pCurObject;
+
 // Implementation
 public:
 	virtual ~CPropertiesWnd();

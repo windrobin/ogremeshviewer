@@ -130,6 +130,10 @@ void MapView::SetMapObject(Map* p)
 
 		_TreeMapItem.Expand(_hLayerRoot, TVE_EXPAND);
 	}
+
+	CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetMainWnd())->GetPropertyWnd(); 
+	pPropertyWnd->AddPropertyData(_pTheMap, _pTheMap->GetObjectName());
+	pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
 }
 
 void MapView::FillClassView()
@@ -299,6 +303,21 @@ void MapView::OnNMClickedTreeDetails(NMHDR *pNMHDR, LRESULT *pResult)
 
 			if (pLayer->IsVisible())
 				ToolManager::getSingleton().GetMap()->SetCurLayer(pLayer);
+		}
+
+		if(ptr)
+		{
+			MapBaseObject* pObject = (MapBaseObject*)ptr;
+
+			CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetMainWnd())->GetPropertyWnd(); 
+			pPropertyWnd->AddPropertyData(pObject, pObject->GetObjectName());
+			pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
+		}
+		else
+		{
+			CPropertiesWnd* pPropertyWnd = ((CMainFrame*)AfxGetMainWnd())->GetPropertyWnd(); 
+			pPropertyWnd->AddPropertyData(_pTheMap, _pTheMap->GetObjectName());
+			pPropertyWnd->ShowPane(TRUE, FALSE, TRUE);
 		}
 	}
 

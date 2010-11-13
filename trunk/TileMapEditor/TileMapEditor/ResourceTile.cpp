@@ -28,8 +28,8 @@ void ResourceTile::RegisterReflection()
 
 	M_ReflectionInit(0);
 
-	pProp = M_RegisterPropertySimple(Cactus::String, ResourceName, ResourceTile, Resource, "资源的名称.", BaseProperty::eDefault, _strName);
-	pProp = M_RegisterPropertySimple(int, TileCount, ResourceTile, Resource, "tile数量.", BaseProperty::eDefault, _tilesCount);
+	pProp = M_RegisterPropertySimple(Cactus::String, ResourceName, ResourceTile, Resource, "资源的名称.", BaseProperty::eReadOnly, _strName);
+	pProp = M_RegisterPropertySimple(int, TileCount, ResourceTile, Resource, "tile数量.", BaseProperty::eReadOnly, _tilesCount);
 }
 
 void ResourceTile::OnPropertyChanged(const std::string& propName)
