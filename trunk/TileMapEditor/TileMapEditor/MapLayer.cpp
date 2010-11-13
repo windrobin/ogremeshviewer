@@ -356,6 +356,33 @@ bool MapLayer::AddOrUpdateTile(CPoint ptGrid, const Cactus::String& resGroup, co
 	return true;
 }
 
+bool MapLayer::RemoveTile(STile* pTile)
+{
+	for (RegionTileMapType::iterator it = _GroupTiles.begin(); it != _GroupTiles.end(); ++it)
+	{
+		TileVectorType& tiles = it->second;
+
+		for (size_t t = 0; t < tiles.size(); ++t)
+		{
+			if(tiles[t] == pTile)
+			{
+				tiles.erase(tiles.begin() + t);
+
+				UpdateTileInfoInMapLayer(pTile, eTileOpRemove);
+
+				UpdateTileVisual(pTile);
+
+				delete pTile;
+
+				return true;
+
+			}
+		}
+	}
+
+	return false;
+}
+
 bool MapLayer::RemoveTile(CPoint ptGrid)
 {
 	int regionID = _pParentMap->GetRegionID(ptGrid);
@@ -368,7 +395,7 @@ bool MapLayer::RemoveTile(CPoint ptGrid)
 		return false;
 
 	bool bFound = false;
-	for (size_t t = 0; t < tiles.size(); ++t)
+	for (size_t t = 0; t < tiles.size(); )
 	{
 		STile* pTile = tiles[t];
 		if(pTile->_ptGrid == ptGrid)
@@ -381,6 +408,10 @@ bool MapLayer::RemoveTile(CPoint ptGrid)
 
 			delete pTile;
 			bFound = true;
+		}
+		else
+		{
+			++t;
 		}
 	}
 

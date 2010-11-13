@@ -285,4 +285,18 @@ void LayerView::OnSelectSimilar()
 
 void LayerView::OnDeleteSelection()
 {
+	POSITION pos = _listObjects.GetFirstSelectedItemPosition();
+	if(pos != NULL)
+	{
+		int nItem = _listObjects.GetNextSelectedItem(pos);
+
+		STile* pData = (STile*)_listObjects.GetItemData(nItem);
+		if (pData)
+		{
+			_pLayer->RemoveTile(pData);
+			_listObjects.DeleteItem(nItem);
+
+			Log_Info("对象删除成功。");
+		}
+	}
 }
