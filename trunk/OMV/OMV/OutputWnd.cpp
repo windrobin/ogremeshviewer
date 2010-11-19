@@ -84,7 +84,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #endif
 
 	// Create output panes:
-	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL;
+	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS;
 
 	if (!m_wndOutputLog.Create(dwStyle, rectDummy, this, 2)
 		//|| !m_wndOutputDebug.Create(dwStyle, rectDummy, &m_wndTabs, 3)
@@ -154,7 +154,32 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 void COutputWnd::messageLogged( const Ogre::String& message, Ogre::LogMessageLevel lml, bool maskDebug, const Ogre::String &logName )
 {
 	OGRE_LOCK_AUTO_MUTEX
-	_delayMsgs.push_back(message);
+
+	CXListBox::Color eText = CXListBox::Black;
+	Ogre::String strTmp;
+	if(lml == Ogre::LML_TRIVIAL)
+	{
+		strTmp = "Trivial: ";
+		eText = CXListBox::Gray;
+	}
+	else if(lml == Ogre::LML_NORMAL)
+	{
+		strTmp = "Normal: ";
+		eText = CXListBox::Lime;
+	}
+	else if(lml == Ogre::LML_CRITICAL)
+	{
+		strTmp = "Critical: ";
+		eText = CXListBox::Red;
+	}
+
+	strTmp += message;
+
+	SDelayMsg msg;
+	msg._eColor	= eText;
+	msg._strMsg	= strTmp;
+
+	_delayMsgs.push_back(msg);
 }
 
 void COutputWnd::OnTimer(UINT_PTR nIDEvent)
@@ -166,7 +191,8 @@ void COutputWnd::OnTimer(UINT_PTR nIDEvent)
 		bool bAdd = false;
 		while(_delayMsgs.size() != 0)
 		{
-			m_wndOutputLog.AddString(_delayMsgs.front().c_str());
+			SDelayMsg msg = _delayMsgs.front();
+			m_wndOutputLog.AddLine(msg._eColor, CXListBox::Black, msg._strMsg.c_str());
 			_delayMsgs.pop_front();
 
 			bAdd = true;
