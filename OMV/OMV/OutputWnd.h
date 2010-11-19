@@ -35,7 +35,9 @@ like Office.
 /////////////////////////////////////////////////////////////////////////////
 // COutputList window
 
-class COutputList : public CListBox
+#include "XListBox.h"
+
+class COutputList : public CXListBox
 {
 // Construction
 public:
@@ -66,7 +68,13 @@ public:
 protected:
 	OGRE_AUTO_MUTEX
 
-	typedef Ogre::list<Ogre::String>::type	DelayMsgListType;
+	struct SDelayMsg
+	{
+		CXListBox::Color	_eColor;
+		Ogre::String		_strMsg;
+	};
+
+	typedef Ogre::list<SDelayMsg>::type	DelayMsgListType;
 	DelayMsgListType	_delayMsgs;
 
 	CFont m_Font;

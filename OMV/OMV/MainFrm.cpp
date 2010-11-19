@@ -323,26 +323,24 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	_MeshPanel.EnableDocking(/*CBRS_ALIGN_LEFT | */CBRS_ALIGN_RIGHT);
+	//Right
+	_ActorPanel.EnableDocking(CBRS_ALIGN_ANY);
+	_MeshPanel.EnableDocking(CBRS_ALIGN_ANY);
+	_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
+
 	DockPane(&_MeshPanel);
+	_wndProperties.DockToWindow(&_MeshPanel, CBRS_ALIGN_BOTTOM, CRect(0, 0, 200, 150));
+	_ActorPanel.DockToWindow(&_wndProperties, CBRS_ALIGN_BOTTOM, CRect(0, 0, 200, 150));
 
+	//CDockablePane* pTabbedBar = NULL;
+	//_ActorPanel.AttachToTabWnd(&_MeshPanel, DM_SHOW, FALSE, &pTabbedBar);
 
-	_ActorPanel.EnableDocking(CBRS_ALIGN_RIGHT);
-	DockPane(&_ActorPanel);
-	CDockablePane* pTabbedBar = NULL;
-	_ActorPanel.AttachToTabWnd(&_MeshPanel, DM_SHOW, FALSE, &pTabbedBar);
-
-
-	_wndProperties.EnableDocking(CBRS_ALIGN_RIGHT);
-	DockPane(&_wndProperties);
-	_wndProperties.AttachToTabWnd(&_MeshPanel, DM_SHOW, FALSE, &pTabbedBar);
-
-
+	//Left
 	_AnimationPanel.ShowWindow(SW_SHOW);
 	_AnimationPanel.EnableDocking(CBRS_ALIGN_LEFT/* | CBRS_ALIGN_RIGHT*/);
 	DockPane(&_AnimationPanel);
 	
-
+	//Bottom
 	_LogPanel.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
 	DockPane(&_LogPanel);
 
