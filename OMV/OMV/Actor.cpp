@@ -264,7 +264,7 @@ void Actor::_UpdateBoneVisualizer()
 
 			Vector3 vOffset = targetOrientation.UnitInverse() * vChild;
 			
-			Real xzScale = __min(1, fabs(vOffset.y) * 0.1);
+			Real xzScale	= __min(1, fabs(vOffset.y) * 0.1);
 			pTag->setScale(xzScale, fabs(vOffset.y), xzScale);
 		}
 		else
