@@ -1,0 +1,1 @@
+A viewer for Ogre mesh file. Runs on Microsoft Windows. Created with MFC, Ogre, programmed by zhk.tiger.
